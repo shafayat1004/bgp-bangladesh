@@ -104,32 +104,51 @@ All visualizations support:
 3. Replace `data/BD/viz_data.json` with the downloaded file
 4. Commit and push to GitHub
 
-### Python Method (Full Reprocessing)
+### Python Method (Recommended for Repo Updates)
+
+**One-Command Update** (fetches and processes everything):
 ```bash
-# 1. Fetch raw BGP routes (5-15 minutes, ~20MB output)
-python3 scripts/fetch_bgp_routes.py  # Creates data/BD/bgp_routes_raw.json
+# Update all data files (5-15 minutes total)
+python3 scripts/update_bgp_data.py
 
-# 2. Reprocess into 3-layer model (30-60 seconds)
-python3 scripts/reprocess_3layer.py  # Updates viz_data.json, asn_names.json, metadata.json
-
-# 3. Commit
+# Then commit the changes
 git add data/BD/*.json
 git commit -m "Update BGP data: $(date +%Y-%m-%d)"
 git push
 ```
 
-**Fetch script options:**
+**Script options:**
 ```bash
-python3 scripts/fetch_bgp_routes.py --country BD  # Default
-python3 scripts/fetch_bgp_routes.py --country IN --output data/IN/routes.json  # Custom country
+python3 scripts/update_bgp_data.py --country BD  # Default
+python3 scripts/update_bgp_data.py --country IN  # For other countries
 ```
 
-The Python method:
-- Fetches country info for all ASNs (with country flags)
-- Applies well-known ASN overrides for accurate country detection
-- Processes full 3-layer model with domestic and international edges
-- Generates statistics and rankings
-- Supports fetching raw data for other countries
+**What the script does:**
+- ✓ Fetches Bangladesh ASNs and prefixes from RIPEstat
+- ✓ Downloads BGP routes in parallel (5 concurrent batches, matching website)
+- ✓ Saves raw routes to `bgp_routes_raw.json` (~90MB)
+- ✓ Analyzes routes into 3-layer model (Local ISP → IIG → Outside)
+- ✓ Fetches ASN info in parallel (20 concurrent, matching website)
+- ✓ Applies country detection and well-known ASN overrides
+- ✓ Generates visualization data (`viz_data.json`)
+- ✓ Updates ASN names database (`asn_names.json`)
+- ✓ Creates metadata with timestamp and stats (`metadata.json`)
+
+**Alternative: Individual Scripts** (for debugging/development):
+```bash
+# Step 1: Fetch raw BGP routes only
+python3 scripts/fetch_bgp_routes.py  # Creates bgp_routes_raw.json
+
+# Step 2: Reprocess existing raw data
+python3 scripts/reprocess_3layer.py  # Updates viz_data.json, asn_names.json, metadata.json
+```
+
+**Why use the Python script?**
+- Same parallel fetching as the website (5 BGP batches, 20 ASN lookups)
+- Can be automated with cron for daily updates
+- Better for CI/CD pipelines
+- Saves raw routes for debugging/research
+- Consistent output format guaranteed
 
 ## Tech Stack
 
@@ -176,8 +195,9 @@ bgp-bangladesh/
 │           ├── hierarchical.js      # Layered view (zoomable)
 │           └── table.js             # Data table (sortable, filterable)
 ├── scripts/
-│   ├── fetch_bgp_routes.py          # Python: Fetch raw BGP routes from RIPEstat
-│   └── reprocess_3layer.py          # Python: raw BGP → 3-layer viz data
+│   ├── update_bgp_data.py           # Python: All-in-one data updater (fetch + process)
+│   ├── fetch_bgp_routes.py          # Python: Fetch raw BGP routes only (legacy)
+│   └── reprocess_3layer.py          # Python: Reprocess raw routes only (legacy)
 └── docs/
     ├── README.md                    # User guide
     ├── IMPLEMENTATION_NOTES.md      # Technical details

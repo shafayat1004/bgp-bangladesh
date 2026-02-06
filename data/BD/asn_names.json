@@ -6914,5 +6914,26 @@
     "holder": "PIPEXNETWORK-BD Pipex Network",
     "announced": true,
     "country": "BD"
+  },
+  "154461": {
+    "asn": "154461",
+    "name": "OSNETWORK-AS-AP MD AZIZUL HAKIM",
+    "holder": "OSNETWORK-AS-AP MD AZIZUL HAKIM",
+    "announced": true,
+    "country": "BD"
+  },
+  "62275": {
+    "asn": "62275",
+    "name": "NHM - NHM - S.R.L.",
+    "holder": "NHM - NHM - S.R.L.",
+    "announced": true,
+    "country": ""
+  },
+  "140991": {
+    "asn": "140991",
+    "name": "MAYAENTERPRISE-AS-AP Maya Enterprise",
+    "holder": "MAYAENTERPRISE-AS-AP Maya Enterprise",
+    "announced": true,
+    "country": "BD"
   }
 }

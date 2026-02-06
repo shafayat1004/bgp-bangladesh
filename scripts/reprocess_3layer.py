@@ -6,6 +6,11 @@ Reprocess raw BGP data into 3-layer model:
   Layer 3: Outside ASNs (international feeders)
 
 Also fetches country info for all ASNs from RIPEstat.
+
+NOTE: This is a legacy script. For a unified all-in-one updater, use:
+    python3 scripts/update_bgp_data.py
+
+This script requires bgp_routes_raw.json to already exist.
 """
 
 import json
@@ -18,6 +23,28 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 BASE = "https://stat.ripe.net/data"
 UA = {"User-Agent": "bgp-bangladesh-viz/1.0"}
+
+# Rate limiter (token bucket) matching the website's implementation
+class RateLimiter:
+    def __init__(self, requests_per_second=4):
+        self.tokens = requests_per_second
+        self.max_tokens = requests_per_second
+        self.refill_rate = requests_per_second
+        self.last_refill = time.time()
+    
+    def acquire(self):
+        now = time.time()
+        elapsed = now - self.last_refill
+        self.tokens = min(self.max_tokens, self.tokens + elapsed * self.refill_rate)
+        self.last_refill = now
+        
+        if self.tokens < 1:
+            wait_time = (1 - self.tokens) / self.refill_rate
+            time.sleep(wait_time)
+            self.tokens = 0
+            self.last_refill = time.time()
+        else:
+            self.tokens -= 1
 
 # ─────────────────────────────────────────────
 # Step 1: Load raw data
@@ -140,12 +167,16 @@ all_asns |= set(asn_names.keys())
 need_country = [a for a in all_asns if a not in asn_names or "country" not in asn_names.get(a, {})]
 print(f"\nFetching country info for {len(need_country)} ASNs...")
 
+# Initialize rate limiter (4 requests per second, matching website)
+rate_limiter = RateLimiter(requests_per_second=4)
+
 def fetch_asn_country(asn):
     """Fetch ASN overview and extract country from holder name or RIR data."""
     # Invalid region codes that should not be treated as countries
     INVALID_REGIONS = {"AP", "EU", "AS", "AF", "LA", "NA", "OC", "AN"}
     
     try:
+        rate_limiter.acquire()  # Rate limit API calls
         r = requests.get(f"{BASE}/as-overview/data.json",
                          params={"resource": f"AS{asn}"},
                          headers=UA, timeout=15)
@@ -231,10 +262,10 @@ print(f"  ASNs with country: {with_country}/{len(asn_names)}")
 
 print("\nBuilding 3-layer visualization data...")
 
-# Top edges for international (outside → iig)
-top_intl_edges = edge_intl.most_common(300)
-# Top edges for domestic (local_isp → iig)
-top_domestic_edges = edge_domestic.most_common(300)
+# Top edges for international (outside → iig) - matching website (increased from 300 to 1000)
+top_intl_edges = edge_intl.most_common(1000)
+# Top edges for domestic (local_isp → iig) - matching website (increased from 300 to 1000)
+top_domestic_edges = edge_domestic.most_common(1000)
 
 # Collect all nodes from top edges
 node_map = {}
