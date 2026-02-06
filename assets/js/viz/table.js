@@ -1,0 +1,251 @@
+/**
+ * Interactive Data Table
+ * Sortable, searchable, paginated table of ASN data.
+ */
+
+let currentData = null;
+let currentSort = { column: 'traffic', asc: false };
+let searchQuery = '';
+let currentPage = 0;
+let pageSize = 50;
+let showEdges = false;
+
+export function init(containerId) {
+  const container = document.getElementById(containerId);
+  if (container) container.innerHTML = '<div id="table-container"></div>';
+}
+
+export function loadData(data) {
+  currentData = data;
+  currentPage = 0;
+  render();
+}
+
+function render() {
+  if (!currentData) return;
+  const container = document.getElementById('table-container');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="table-toolbar">
+      <input type="text" id="table-search" placeholder="Search ASN or name..." class="table-search" value="${searchQuery}">
+      <div class="table-toolbar-right">
+        <button class="btn btn-small ${!showEdges ? 'btn-active' : ''}" id="table-show-nodes">Nodes</button>
+        <button class="btn btn-small ${showEdges ? 'btn-active' : ''}" id="table-show-edges">Edges</button>
+        <select id="table-page-size" class="table-select">
+          <option value="25" ${pageSize === 25 ? 'selected' : ''}>25 rows</option>
+          <option value="50" ${pageSize === 50 ? 'selected' : ''}>50 rows</option>
+          <option value="100" ${pageSize === 100 ? 'selected' : ''}>100 rows</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <div class="table-footer" id="table-footer"></div>
+  `;
+
+  // Event listeners
+  document.getElementById('table-search').addEventListener('input', (e) => {
+    searchQuery = e.target.value.toLowerCase();
+    currentPage = 0;
+    renderTable();
+  });
+
+  document.getElementById('table-show-nodes').addEventListener('click', () => { showEdges = false; currentPage = 0; render(); });
+  document.getElementById('table-show-edges').addEventListener('click', () => { showEdges = true; currentPage = 0; render(); });
+
+  document.getElementById('table-page-size').addEventListener('change', (e) => {
+    pageSize = parseInt(e.target.value);
+    currentPage = 0;
+    renderTable();
+  });
+
+  renderTable();
+}
+
+function renderTable() {
+  if (showEdges) {
+    renderEdgesTable();
+  } else {
+    renderNodesTable();
+  }
+}
+
+function renderNodesTable() {
+  const thead = document.getElementById('table-head');
+  const tbody = document.getElementById('table-body');
+  const footer = document.getElementById('table-footer');
+
+  const columns = [
+    { key: 'rank', label: 'Rank', numeric: true },
+    { key: 'asn', label: 'ASN', numeric: false },
+    { key: 'name', label: 'Company', numeric: false },
+    { key: 'type', label: 'Type', numeric: false },
+    { key: 'traffic', label: 'Routes', numeric: true },
+    { key: 'percentage', label: 'Share %', numeric: true },
+  ];
+
+  // Header
+  thead.innerHTML = '<tr>' + columns.map(c => {
+    const arrow = currentSort.column === c.key ? (currentSort.asc ? ' &#9650;' : ' &#9660;') : '';
+    return `<th data-col="${c.key}" class="sortable">${c.label}${arrow}</th>`;
+  }).join('') + '</tr>';
+
+  thead.querySelectorAll('th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.col;
+      if (currentSort.column === col) {
+        currentSort.asc = !currentSort.asc;
+      } else {
+        currentSort.column = col;
+        currentSort.asc = false;
+      }
+      currentPage = 0;
+      renderTable();
+    });
+  });
+
+  // Filter and sort data
+  let rows = currentData.nodes.slice();
+  if (searchQuery) {
+    rows = rows.filter(n =>
+      n.asn.includes(searchQuery) ||
+      (n.name || '').toLowerCase().includes(searchQuery) ||
+      (n.description || '').toLowerCase().includes(searchQuery)
+    );
+  }
+
+  const col = columns.find(c => c.key === currentSort.column);
+  rows.sort((a, b) => {
+    let va = a[currentSort.column] ?? '';
+    let vb = b[currentSort.column] ?? '';
+    if (col?.numeric) { va = Number(va) || 0; vb = Number(vb) || 0; }
+    else { va = String(va).toLowerCase(); vb = String(vb).toLowerCase(); }
+    if (va < vb) return currentSort.asc ? -1 : 1;
+    if (va > vb) return currentSort.asc ? 1 : -1;
+    return 0;
+  });
+
+  // Pagination
+  const totalPages = Math.ceil(rows.length / pageSize);
+  const pageRows = rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+
+  tbody.innerHTML = pageRows.map(n => `
+    <tr data-asn="${n.asn}">
+      <td>${n.rank || '-'}</td>
+      <td>AS${n.asn}</td>
+      <td>${n.name || '-'}</td>
+      <td><span class="type-badge type-${n.type}">${n.type === 'inside' ? 'Inside BD' : 'Outside BD'}</span></td>
+      <td class="num">${(n.traffic || 0).toLocaleString()}</td>
+      <td class="num">${(n.percentage || 0).toFixed(2)}%</td>
+    </tr>
+  `).join('');
+
+  // Footer with pagination
+  footer.innerHTML = `
+    <span>Showing ${currentPage * pageSize + 1}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length}</span>
+    <div class="table-pagination">
+      <button class="btn btn-small" id="page-prev" ${currentPage === 0 ? 'disabled' : ''}>Prev</button>
+      <span>Page ${currentPage + 1} of ${totalPages}</span>
+      <button class="btn btn-small" id="page-next" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>Next</button>
+    </div>
+  `;
+
+  document.getElementById('page-prev')?.addEventListener('click', () => { if (currentPage > 0) { currentPage--; renderTable(); } });
+  document.getElementById('page-next')?.addEventListener('click', () => { if (currentPage < totalPages - 1) { currentPage++; renderTable(); } });
+}
+
+function renderEdgesTable() {
+  const thead = document.getElementById('table-head');
+  const tbody = document.getElementById('table-body');
+  const footer = document.getElementById('table-footer');
+
+  const nodeMap = {};
+  currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
+
+  const columns = [
+    { key: 'source', label: 'Source ASN', numeric: false },
+    { key: 'source_name', label: 'Source Name', numeric: false },
+    { key: 'target', label: 'Target ASN', numeric: false },
+    { key: 'target_name', label: 'Target Name', numeric: false },
+    { key: 'count', label: 'Route Count', numeric: true },
+  ];
+
+  thead.innerHTML = '<tr>' + columns.map(c => {
+    const arrow = currentSort.column === c.key ? (currentSort.asc ? ' &#9650;' : ' &#9660;') : '';
+    return `<th data-col="${c.key}" class="sortable">${c.label}${arrow}</th>`;
+  }).join('') + '</tr>';
+
+  thead.querySelectorAll('th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.col;
+      if (currentSort.column === col) currentSort.asc = !currentSort.asc;
+      else { currentSort.column = col; currentSort.asc = false; }
+      currentPage = 0;
+      renderTable();
+    });
+  });
+
+  let rows = currentData.edges.map(e => ({
+    source: e.source?.asn || e.source,
+    target: e.target?.asn || e.target,
+    count: e.count,
+    source_name: nodeMap[e.source?.asn || e.source]?.name || '',
+    target_name: nodeMap[e.target?.asn || e.target]?.name || '',
+  }));
+
+  if (searchQuery) {
+    rows = rows.filter(r =>
+      r.source.includes(searchQuery) || r.target.includes(searchQuery) ||
+      r.source_name.toLowerCase().includes(searchQuery) || r.target_name.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  const col = columns.find(c => c.key === currentSort.column);
+  rows.sort((a, b) => {
+    let va = a[currentSort.column] ?? '';
+    let vb = b[currentSort.column] ?? '';
+    if (col?.numeric) { va = Number(va) || 0; vb = Number(vb) || 0; }
+    else { va = String(va).toLowerCase(); vb = String(vb).toLowerCase(); }
+    if (va < vb) return currentSort.asc ? -1 : 1;
+    if (va > vb) return currentSort.asc ? 1 : -1;
+    return 0;
+  });
+
+  const totalPages = Math.ceil(rows.length / pageSize);
+  const pageRows = rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+
+  tbody.innerHTML = pageRows.map(r => `
+    <tr>
+      <td>AS${r.source}</td>
+      <td>${r.source_name || '-'}</td>
+      <td>AS${r.target}</td>
+      <td>${r.target_name || '-'}</td>
+      <td class="num">${r.count.toLocaleString()}</td>
+    </tr>
+  `).join('');
+
+  footer.innerHTML = `
+    <span>Showing ${currentPage * pageSize + 1}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length}</span>
+    <div class="table-pagination">
+      <button class="btn btn-small" id="page-prev" ${currentPage === 0 ? 'disabled' : ''}>Prev</button>
+      <span>Page ${currentPage + 1} of ${totalPages}</span>
+      <button class="btn btn-small" id="page-next" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>Next</button>
+    </div>
+  `;
+
+  document.getElementById('page-prev')?.addEventListener('click', () => { if (currentPage > 0) { currentPage--; renderTable(); } });
+  document.getElementById('page-next')?.addEventListener('click', () => { if (currentPage < totalPages - 1) { currentPage++; renderTable(); } });
+}
+
+export function destroy() {
+  const container = document.getElementById('viz-panel');
+  if (container) container.innerHTML = '';
+}
+
+export function highlightASN() {}
+export function updateFilter() {}

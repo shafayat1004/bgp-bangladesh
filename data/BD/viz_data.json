@@ -1,0 +1,8098 @@
+{
+  "nodes": [
+    {
+      "asn": "9498",
+      "type": "outside",
+      "name": "BBIL-AP BHARTI Airtel Ltd.",
+      "description": "BBIL-AP BHARTI Airtel Ltd.",
+      "country": "AP",
+      "announced": true,
+      "traffic": 147017,
+      "rank": 1,
+      "percentage": 33.008525093681726
+    },
+    {
+      "asn": "58717",
+      "type": "iig",
+      "name": "SUMMITCOMMUNICATIONS-BD Summit Communications Ltd",
+      "description": "SUMMITCOMMUNICATIONS-BD Summit Communications Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 213724,
+      "rank": 1,
+      "percentage": 47.985702450206674
+    },
+    {
+      "asn": "6939",
+      "type": "outside",
+      "name": "HURRICANE - Hurricane Electric LLC",
+      "description": "HURRICANE - Hurricane Electric LLC",
+      "country": "US",
+      "announced": true,
+      "traffic": 123313,
+      "rank": 2,
+      "percentage": 27.686459762321196
+    },
+    {
+      "asn": "58682",
+      "type": "iig",
+      "name": "LEVEL3-BD Level3 Carrier Ltd.",
+      "description": "LEVEL3-BD Level3 Carrier Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 77079,
+      "rank": 3,
+      "percentage": 17.305917721732143
+    },
+    {
+      "asn": "10075",
+      "type": "iig",
+      "name": "FGL-AS-BD Fiber@Home Global Limited",
+      "description": "FGL-AS-BD Fiber@Home Global Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 78199,
+      "rank": 2,
+      "percentage": 17.557382165333383
+    },
+    {
+      "asn": "139009",
+      "type": "iig",
+      "name": "WSCL-AS-AP Windstream Communication Limited",
+      "description": "WSCL-AS-AP Windstream Communication Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 44982,
+      "rank": 5,
+      "percentage": 10.099440716134813
+    },
+    {
+      "asn": "58453",
+      "type": "outside",
+      "name": "CMI-INT-HK China Mobile International Limited",
+      "description": "CMI-INT-HK China Mobile International Limited",
+      "country": "HK",
+      "announced": true,
+      "traffic": 19359,
+      "rank": 4,
+      "percentage": 4.346518003282509
+    },
+    {
+      "asn": "9002",
+      "type": "outside",
+      "name": "RETN-AS - RETN Limited",
+      "description": "RETN-AS - RETN Limited",
+      "country": "AS",
+      "announced": true,
+      "traffic": 26984,
+      "rank": 3,
+      "percentage": 6.0584969161927384
+    },
+    {
+      "asn": "58715",
+      "type": "iig",
+      "name": "EARTHTELECOMMUNICATION-AS EARTH TELECOMMUNICATION Pvt LTD.",
+      "description": "EARTHTELECOMMUNICATION-AS EARTH TELECOMMUNICATION Pvt LTD.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 47338,
+      "rank": 4,
+      "percentage": 10.628414134995992
+    },
+    {
+      "asn": "132602",
+      "type": "iig",
+      "name": "BANGLADESH-AS-AP Bangladesh Submarine Cable Company Limited BSCCL",
+      "description": "BANGLADESH-AS-AP Bangladesh Submarine Cable Company Limited BSCCL",
+      "country": "BD",
+      "announced": true,
+      "traffic": 28610,
+      "rank": 8,
+      "percentage": 6.4235694030638255
+    },
+    {
+      "asn": "17494",
+      "type": "iig",
+      "name": "BTTB-AS-AP Telecom Operator & Internet Service Provider as well",
+      "description": "BTTB-AS-AP Telecom Operator & Internet Service Provider as well",
+      "country": "BD",
+      "announced": true,
+      "traffic": 34141,
+      "rank": 6,
+      "percentage": 7.6653996151695925
+    },
+    {
+      "asn": "64049",
+      "type": "outside",
+      "name": "RJIPL-SG Reliance Jio Infocomm Pte Ltd Singapore",
+      "description": "RJIPL-SG Reliance Jio Infocomm Pte Ltd Singapore",
+      "country": "SG",
+      "announced": true,
+      "traffic": 15170,
+      "rank": 8,
+      "percentage": 3.4059960798489413
+    },
+    {
+      "asn": "132884",
+      "type": "iig",
+      "name": "SUMMIT-BD Summit Communications Limited",
+      "description": "SUMMIT-BD Summit Communications Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 14156,
+      "rank": 10,
+      "percentage": 3.1783309496599617
+    },
+    {
+      "asn": "2914",
+      "type": "outside",
+      "name": "NTT-DATA-2914 - NTT America",
+      "description": "NTT-DATA-2914 - NTT America",
+      "country": "US",
+      "announced": true,
+      "traffic": 15417,
+      "rank": 7,
+      "percentage": 3.4614529705360013
+    },
+    {
+      "asn": "141731",
+      "type": "iig",
+      "name": "MAXHUBLTD-AS-AP Max Hub Limited",
+      "description": "MAXHUBLTD-AS-AP Max Hub Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 10468,
+      "rank": 11,
+      "percentage": 2.3502944603730205
+    },
+    {
+      "asn": "139901",
+      "type": "iig",
+      "name": "APPLE1-AS-AP Apple Communication Ltd.",
+      "description": "APPLE1-AS-AP Apple Communication Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 32165,
+      "rank": 7,
+      "percentage": 7.221744489673118
+    },
+    {
+      "asn": "58655",
+      "type": "iig",
+      "name": "SKYTEL6-BD SkyTel Communications Limited",
+      "description": "SKYTEL6-BD SkyTel Communications Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 7824,
+      "rank": 14,
+      "percentage": 1.7566587560143783
+    },
+    {
+      "asn": "150178",
+      "type": "iig",
+      "name": "EXABYTELTD-AS-AP EXABYTE LTD",
+      "description": "EXABYTELTD-AS-AP EXABYTE LTD",
+      "country": "BD",
+      "announced": true,
+      "traffic": 14669,
+      "rank": 9,
+      "percentage": 3.2935106457023156
+    },
+    {
+      "asn": "152144",
+      "type": "outside",
+      "name": "LAPL-AS-AP LIGHTSTORM ASIA PTE. LTD.",
+      "description": "LAPL-AS-AP LIGHTSTORM ASIA PTE. LTD.",
+      "country": "AP",
+      "announced": true,
+      "traffic": 6050,
+      "rank": 9,
+      "percentage": 1.3583570390959854
+    },
+    {
+      "asn": "174",
+      "type": "outside",
+      "name": "COGENT-174 - Cogent Communications",
+      "description": "COGENT-174 - Cogent Communications",
+      "country": "US",
+      "announced": true,
+      "traffic": 15577,
+      "rank": 6,
+      "percentage": 3.4973764624790356
+    },
+    {
+      "asn": "6453",
+      "type": "outside",
+      "name": "AS6453 - TATA COMMUNICATIONS AMERICA INC",
+      "description": "AS6453 - TATA COMMUNICATIONS AMERICA INC",
+      "country": "",
+      "announced": true,
+      "traffic": 16487,
+      "rank": 5,
+      "percentage": 3.701691322905043
+    },
+    {
+      "asn": "58945",
+      "type": "iig",
+      "name": "VCL-AS-AP Virgo Communication Ltd",
+      "description": "VCL-AS-AP Virgo Communication Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 10375,
+      "rank": 12,
+      "percentage": 2.329413930681132
+    },
+    {
+      "asn": "149765",
+      "type": "iig",
+      "name": "CORONET3-AS-AP Coronet Corporation Limited",
+      "description": "CORONET3-AS-AP Coronet Corporation Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 7651,
+      "rank": 15,
+      "percentage": 1.7178164803509728
+    },
+    {
+      "asn": "60068",
+      "type": "outside",
+      "name": "CDN77 - Datacamp Limited",
+      "description": "CDN77 - Datacamp Limited",
+      "country": "",
+      "announced": true,
+      "traffic": 4575,
+      "rank": 11,
+      "percentage": 1.0271873477461377
+    },
+    {
+      "asn": "132817",
+      "type": "iig",
+      "name": "DZCRD-AS-AP DZCRD Networks Ltd",
+      "description": "DZCRD-AS-AP DZCRD Networks Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 6231,
+      "rank": 16,
+      "percentage": 1.3989954893565428
+    },
+    {
+      "asn": "3491",
+      "type": "outside",
+      "name": "CONSOLE-CONNECT-ASN - PCCW Global",
+      "description": "CONSOLE-CONNECT-ASN - PCCW Global",
+      "country": "US",
+      "announced": true,
+      "traffic": 4969,
+      "rank": 10,
+      "percentage": 1.1156489466558597
+    },
+    {
+      "asn": "9583",
+      "type": "outside",
+      "name": "SIFY-AS-IN Sify Limited",
+      "description": "SIFY-AS-IN Sify Limited",
+      "country": "IN",
+      "announced": true,
+      "traffic": 4039,
+      "rank": 13,
+      "percentage": 0.9068436497369726
+    },
+    {
+      "asn": "150748",
+      "type": "iig",
+      "name": "GMTL-AS-AP Gmax",
+      "description": "GMTL-AS-AP Gmax",
+      "country": "BD",
+      "announced": true,
+      "traffic": 8060,
+      "roles": [
+        "iig",
+        "local-isp"
+      ],
+      "rank": 13,
+      "percentage": 1.809645906630354
+    },
+    {
+      "asn": "5511",
+      "type": "outside",
+      "name": "OPENTRANSIT - Orange S.A.",
+      "description": "OPENTRANSIT - Orange S.A.",
+      "country": "FR",
+      "announced": true,
+      "traffic": 2947,
+      "rank": 14,
+      "percentage": 0.6616658172257635
+    },
+    {
+      "asn": "24482",
+      "type": "outside",
+      "name": "SGGS-AS-AP SG.GS",
+      "description": "SGGS-AS-AP SG.GS",
+      "country": "AP",
+      "announced": true,
+      "traffic": 4218,
+      "rank": 12,
+      "percentage": 0.9470330563482423
+    },
+    {
+      "asn": "137491",
+      "type": "iig",
+      "name": "PEEREX-NET-AS-AP PEEREX NETWORKS LTD.IIG",
+      "description": "PEEREX-NET-AS-AP PEEREX NETWORKS LTD.IIG",
+      "country": "BD",
+      "announced": true,
+      "traffic": 4275,
+      "rank": 19,
+      "percentage": 0.9598308003529484
+    },
+    {
+      "asn": "20473",
+      "type": "outside",
+      "name": "AS-VULTR - The Constant Company",
+      "description": "AS-VULTR - The Constant Company",
+      "country": "US",
+      "announced": true,
+      "traffic": 1656,
+      "rank": 18,
+      "percentage": 0.37180814161040526
+    },
+    {
+      "asn": "132267",
+      "type": "iig",
+      "name": "NOVOCOM-BD NovoCom Limited",
+      "description": "NOVOCOM-BD NovoCom Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 4989,
+      "rank": 18,
+      "percentage": 1.120139383148739
+    },
+    {
+      "asn": "59378",
+      "type": "iig",
+      "name": "AIG-BD ADN International Gateway Limited",
+      "description": "AIG-BD ADN International Gateway Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 5305,
+      "rank": 17,
+      "percentage": 1.1910882797362319
+    },
+    {
+      "asn": "6762",
+      "type": "outside",
+      "name": "SEABONE-NET - TELECOM ITALIA SPARKLE S.p.A.",
+      "description": "SEABONE-NET - TELECOM ITALIA SPARKLE S.p.A.",
+      "country": "IT",
+      "announced": true,
+      "traffic": 2679,
+      "rank": 15,
+      "percentage": 0.601493968221181
+    },
+    {
+      "asn": "17806",
+      "type": "iig",
+      "name": "MANGOTELESERVICE-AS-BD Tire-1 IP Transit Provider of Bangladesh",
+      "description": "MANGOTELESERVICE-AS-BD Tire-1 IP Transit Provider of Bangladesh",
+      "country": "BD",
+      "announced": true,
+      "traffic": 3674,
+      "rank": 21,
+      "percentage": 0.8248931837419257
+    },
+    {
+      "asn": "149994",
+      "type": "iig",
+      "name": "RCL-AS-AP Rego Communications Ltd",
+      "description": "RCL-AS-AP Rego Communications Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 3935,
+      "roles": [
+        "iig",
+        "local-isp"
+      ],
+      "rank": 20,
+      "percentage": 0.8834933799740003
+    },
+    {
+      "asn": "7473",
+      "type": "outside",
+      "name": "SINGTEL-AS-AP Singapore Telecommunications Ltd",
+      "description": "SINGTEL-AS-AP Singapore Telecommunications Ltd",
+      "country": "AP",
+      "announced": true,
+      "traffic": 2534,
+      "rank": 16,
+      "percentage": 0.5689383036478061
+    },
+    {
+      "asn": "23764",
+      "type": "outside",
+      "name": "CTGNET CTGNet",
+      "description": "CTGNET CTGNet",
+      "country": "",
+      "announced": true,
+      "traffic": 900,
+      "rank": 25,
+      "percentage": 0.20206964217956808
+    },
+    {
+      "asn": "3223",
+      "type": "outside",
+      "name": "VOXILITY - Voxility LLP",
+      "description": "VOXILITY - Voxility LLP",
+      "country": "",
+      "announced": true,
+      "traffic": 1829,
+      "rank": 17,
+      "percentage": 0.4106504172738111
+    },
+    {
+      "asn": "25091",
+      "type": "outside",
+      "name": "IP-MAX - IP-Max SA",
+      "description": "IP-MAX - IP-Max SA",
+      "country": "",
+      "announced": true,
+      "traffic": 1180,
+      "rank": 21,
+      "percentage": 0.26493575307987816
+    },
+    {
+      "asn": "136557",
+      "type": "outside",
+      "name": "HOST-AS-AP Host Universal Pty Ltd",
+      "description": "HOST-AS-AP Host Universal Pty Ltd",
+      "country": "AP",
+      "announced": true,
+      "traffic": 689,
+      "rank": 33,
+      "percentage": 0.15469553717969156
+    },
+    {
+      "asn": "147181",
+      "type": "iig",
+      "name": "FLAREZENLTD-AS-AP Flarezen Ltd.",
+      "description": "FLAREZENLTD-AS-AP Flarezen Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1427,
+      "roles": [
+        "iig",
+        "local-isp"
+      ],
+      "rank": 22,
+      "percentage": 0.3203926437669374
+    },
+    {
+      "asn": "45282",
+      "type": "iig",
+      "name": "MIRTELECOM-AS-AP Mir Telecom",
+      "description": "MIRTELECOM-AS-AP Mir Telecom",
+      "country": "BD",
+      "announced": true,
+      "traffic": 654,
+      "rank": 24,
+      "percentage": 0.1468372733171528
+    },
+    {
+      "asn": "58952",
+      "type": "outside",
+      "name": "FRONTIIRCOLTD-MM Frontiir Co. Ltd",
+      "description": "FRONTIIRCOLTD-MM Frontiir Co. Ltd",
+      "country": "MM",
+      "announced": true,
+      "traffic": 971,
+      "rank": 23,
+      "percentage": 0.21801069172928955
+    },
+    {
+      "asn": "12779",
+      "type": "outside",
+      "name": "ITGATE - IT.Gate S.p.A.",
+      "description": "ITGATE - IT.Gate S.p.A.",
+      "country": "",
+      "announced": true,
+      "traffic": 954,
+      "rank": 24,
+      "percentage": 0.21419382071034215
+    },
+    {
+      "asn": "151624",
+      "type": "iig",
+      "name": "BD-LINK-AS-AP BD Link Communication Ltd",
+      "description": "BD-LINK-AS-AP BD Link Communication Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 575,
+      "rank": 25,
+      "percentage": 0.1291000491702796
+    },
+    {
+      "asn": "35280",
+      "type": "outside",
+      "name": "F5 - F5 Networks SARL",
+      "description": "F5 - F5 Networks SARL",
+      "country": "",
+      "announced": true,
+      "traffic": 1483,
+      "rank": 19,
+      "percentage": 0.3329658659469994
+    },
+    {
+      "asn": "14907",
+      "type": "outside",
+      "name": "WIKIMEDIA - Wikimedia Foundation Inc.",
+      "description": "WIKIMEDIA - Wikimedia Foundation Inc.",
+      "country": "",
+      "announced": true,
+      "traffic": 526,
+      "rank": 37,
+      "percentage": 0.11809847976272535
+    },
+    {
+      "asn": "49544",
+      "type": "outside",
+      "name": "I3DNET - i3D.net B.V",
+      "description": "I3DNET - i3D.net B.V",
+      "country": "",
+      "announced": true,
+      "traffic": 1366,
+      "rank": 20,
+      "percentage": 0.30669681246365554
+    },
+    {
+      "asn": "35625",
+      "type": "outside",
+      "name": "EUROFIBER-FRANCE - Eurofiber France SAS",
+      "description": "EUROFIBER-FRANCE - Eurofiber France SAS",
+      "country": "",
+      "announced": true,
+      "traffic": 485,
+      "rank": 41,
+      "percentage": 0.10889308495232279
+    },
+    {
+      "asn": "38001",
+      "type": "outside",
+      "name": "NEWMEDIAEXPRESS-AS-AP NewMedia Express Pte Ltd",
+      "description": "NEWMEDIAEXPRESS-AS-AP NewMedia Express Pte Ltd",
+      "country": "AP",
+      "announced": true,
+      "traffic": 851,
+      "rank": 29,
+      "percentage": 0.1910680727720138
+    },
+    {
+      "asn": "5405",
+      "type": "outside",
+      "name": "INTERDOTLINK - Inter.link GmbH",
+      "description": "INTERDOTLINK - Inter.link GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 628,
+      "rank": 35,
+      "percentage": 0.14099970587640973
+    },
+    {
+      "asn": "133210",
+      "type": "outside",
+      "name": "ENTECHNOLOGIES-AS-AP EN Technologies Pte Ltd",
+      "description": "ENTECHNOLOGIES-AS-AP EN Technologies Pte Ltd",
+      "country": "AP",
+      "announced": true,
+      "traffic": 839,
+      "rank": 30,
+      "percentage": 0.1883738108762862
+    },
+    {
+      "asn": "1828",
+      "type": "outside",
+      "name": "UNITAS - Unitas Global",
+      "description": "UNITAS - Unitas Global",
+      "country": "",
+      "announced": true,
+      "traffic": 859,
+      "rank": 27,
+      "percentage": 0.19286424736916552
+    },
+    {
+      "asn": "17639",
+      "type": "outside",
+      "name": "CONVERGE-AS Converge ICT Solutions Inc.",
+      "description": "CONVERGE-AS Converge ICT Solutions Inc.",
+      "country": "AS",
+      "announced": true,
+      "traffic": 877,
+      "rank": 26,
+      "percentage": 0.1969056402127569
+    },
+    {
+      "asn": "18106",
+      "type": "outside",
+      "name": "VIEWQWEST-SG-AP Viewqwest Pte Ltd",
+      "description": "VIEWQWEST-SG-AP Viewqwest Pte Ltd",
+      "country": "AP",
+      "announced": true,
+      "traffic": 859,
+      "rank": 28,
+      "percentage": 0.19286424736916552
+    },
+    {
+      "asn": "6057",
+      "type": "outside",
+      "name": "Administracion Nacional de Telecomunicaciones",
+      "description": "Administracion Nacional de Telecomunicaciones",
+      "country": "",
+      "announced": true,
+      "traffic": 608,
+      "rank": 36,
+      "percentage": 0.13650926938353045
+    },
+    {
+      "asn": "8220",
+      "type": "outside",
+      "name": "COLT - COLT Technology Services Group Limited",
+      "description": "COLT - COLT Technology Services Group Limited",
+      "country": "",
+      "announced": true,
+      "traffic": 383,
+      "rank": 44,
+      "percentage": 0.08599185883863841
+    },
+    {
+      "asn": "26042",
+      "type": "outside",
+      "name": "FIBERSTATE - FiberState",
+      "description": "FIBERSTATE - FiberState",
+      "country": "",
+      "announced": true,
+      "traffic": 362,
+      "rank": 48,
+      "percentage": 0.08127690052111516
+    },
+    {
+      "asn": "154112",
+      "type": "iig",
+      "name": "NEXELOGYLTD-AS-AP Nexelogy Ltd.",
+      "description": "NEXELOGYLTD-AS-AP Nexelogy Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 362,
+      "rank": 26,
+      "percentage": 0.08127690052111516
+    },
+    {
+      "asn": "23470",
+      "type": "outside",
+      "name": "RELIABLESITE - ReliableSite.Net LLC",
+      "description": "RELIABLESITE - ReliableSite.Net LLC",
+      "country": "",
+      "announced": true,
+      "traffic": 359,
+      "rank": 49,
+      "percentage": 0.08060333504718326
+    },
+    {
+      "asn": "153377",
+      "type": "iig",
+      "name": "ETL-AS-AP Extent Technologies Limited",
+      "description": "ETL-AS-AP Extent Technologies Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1061,
+      "roles": [
+        "iig",
+        "local-isp"
+      ],
+      "rank": 23,
+      "percentage": 0.23821765594724634
+    },
+    {
+      "asn": "149659",
+      "type": "iig",
+      "name": "CHALDALLIMITED-AS-AP Chaldal Limited",
+      "description": "CHALDALLIMITED-AS-AP Chaldal Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 341,
+      "rank": 27,
+      "percentage": 0.0765619422035919
+    },
+    {
+      "asn": "132341",
+      "type": "iig",
+      "name": "DIGICON-IGW-BD Digicon Telecommunication Ltd",
+      "description": "DIGICON-IGW-BD Digicon Telecommunication Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 337,
+      "rank": 28,
+      "percentage": 0.07566385490501604
+    },
+    {
+      "asn": "401106",
+      "type": "outside",
+      "name": "TECHIES365 - Techies365",
+      "description": "TECHIES365 - Techies365",
+      "country": "",
+      "announced": true,
+      "traffic": 337,
+      "rank": 50,
+      "percentage": 0.07566385490501604
+    },
+    {
+      "asn": "152726",
+      "type": "iig",
+      "name": "DREAMENGINEERING-AS-AP Dream Engineering",
+      "description": "DREAMENGINEERING-AS-AP Dream Engineering",
+      "country": "BD",
+      "announced": true,
+      "traffic": 337,
+      "rank": 29,
+      "percentage": 0.07566385490501604
+    },
+    {
+      "asn": "58684",
+      "type": "iig",
+      "name": "UIL-NET-BD Unique Infoway Limited",
+      "description": "UIL-NET-BD Unique Infoway Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 327,
+      "rank": 30,
+      "percentage": 0.0734186366585764
+    },
+    {
+      "asn": "6461",
+      "type": "outside",
+      "name": "ZAYO-6461 - Zayo Bandwidth",
+      "description": "ZAYO-6461 - Zayo Bandwidth",
+      "country": "US",
+      "announced": true,
+      "traffic": 320,
+      "rank": 52,
+      "percentage": 0.07184698388606864
+    },
+    {
+      "asn": "34019",
+      "type": "outside",
+      "name": "HIVANE - Hivane Association",
+      "description": "HIVANE - Hivane Association",
+      "country": "",
+      "announced": true,
+      "traffic": 657,
+      "rank": 34,
+      "percentage": 0.14751083879108468
+    },
+    {
+      "asn": "59796",
+      "type": "outside",
+      "name": "STORMWALL-AS - StormWall s.r.o.",
+      "description": "STORMWALL-AS - StormWall s.r.o.",
+      "country": "AS",
+      "announced": true,
+      "traffic": 309,
+      "rank": 54,
+      "percentage": 0.06937724381498503
+    },
+    {
+      "asn": "36236",
+      "type": "outside",
+      "name": "NETACTUATE - NetActuate",
+      "description": "NETACTUATE - NetActuate",
+      "country": "",
+      "announced": true,
+      "traffic": 732,
+      "rank": 31,
+      "percentage": 0.16434997563938203
+    },
+    {
+      "asn": "8529",
+      "type": "outside",
+      "name": "OMANTEL-AS - Zain Omantel International FZ-LLC",
+      "description": "OMANTEL-AS - Zain Omantel International FZ-LLC",
+      "country": "AS",
+      "announced": true,
+      "traffic": 702,
+      "rank": 32,
+      "percentage": 0.15761432090006308
+    },
+    {
+      "asn": "199524",
+      "type": "outside",
+      "name": "GCORE - G-Core Labs S.A.",
+      "description": "GCORE - G-Core Labs S.A.",
+      "country": "",
+      "announced": true,
+      "traffic": 1109,
+      "rank": 22,
+      "percentage": 0.24899470353015665
+    },
+    {
+      "asn": "4608",
+      "type": "outside",
+      "name": "APNIC-SERVICES Asia Pacific Network Information Centre",
+      "description": "APNIC-SERVICES Asia Pacific Network Information Centre",
+      "country": "",
+      "announced": true,
+      "traffic": 262,
+      "rank": 59,
+      "percentage": 0.058824718056718704
+    },
+    {
+      "asn": "137409",
+      "type": "outside",
+      "name": "GSLNETWORKS-AS-AP GSL Networks Pty LTD",
+      "description": "GSLNETWORKS-AS-AP GSL Networks Pty LTD",
+      "country": "AP",
+      "announced": true,
+      "traffic": 248,
+      "rank": 64,
+      "percentage": 0.05568141251170319
+    },
+    {
+      "asn": "45896",
+      "type": "outside",
+      "name": "MOBIFONEGLOBAL-AS-VN Mobifone Global JSC",
+      "description": "MOBIFONEGLOBAL-AS-VN Mobifone Global JSC",
+      "country": "VN",
+      "announced": true,
+      "traffic": 412,
+      "rank": 43,
+      "percentage": 0.09250299175331339
+    },
+    {
+      "asn": "142271",
+      "type": "outside",
+      "name": "DOUBLESQUARE-AS-AP EWS DS Networks Inc",
+      "description": "DOUBLESQUARE-AS-AP EWS DS Networks Inc",
+      "country": "AP",
+      "announced": true,
+      "traffic": 413,
+      "rank": 42,
+      "percentage": 0.09272751357795735
+    },
+    {
+      "asn": "14840",
+      "type": "outside",
+      "name": "BR.Digital Telecom",
+      "description": "BR.Digital Telecom",
+      "country": "",
+      "announced": true,
+      "traffic": 491,
+      "rank": 40,
+      "percentage": 0.11024021590018658
+    },
+    {
+      "asn": "47147",
+      "type": "outside",
+      "name": "AS-ANX - Anexia Cloud Solutions GmbH",
+      "description": "AS-ANX - Anexia Cloud Solutions GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 521,
+      "rank": 38,
+      "percentage": 0.11697587063950551
+    },
+    {
+      "asn": "8298",
+      "type": "outside",
+      "name": "IPNG - IPng Networks GmbH",
+      "description": "IPNG - IPng Networks GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 499,
+      "rank": 39,
+      "percentage": 0.1120363904973383
+    },
+    {
+      "asn": "1103",
+      "type": "outside",
+      "name": "SURFNET-NL - SURF B.V.",
+      "description": "SURFNET-NL - SURF B.V.",
+      "country": "NL",
+      "announced": true,
+      "traffic": 379,
+      "rank": 45,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "8218",
+      "type": "outside",
+      "name": "NEO-ASN - Zayo Infrastructure France SA",
+      "description": "NEO-ASN - Zayo Infrastructure France SA",
+      "country": "",
+      "announced": true,
+      "traffic": 155,
+      "rank": 67,
+      "percentage": 0.0348008828198145
+    },
+    {
+      "asn": "45489",
+      "type": "outside",
+      "name": "SLT-GLOBAL Sri Lanka Telecom PLC",
+      "description": "SLT-GLOBAL Sri Lanka Telecom PLC",
+      "country": "",
+      "announced": true,
+      "traffic": 368,
+      "rank": 46,
+      "percentage": 0.08262403146897894
+    },
+    {
+      "asn": "15547",
+      "type": "outside",
+      "name": "NETPLUS - netplus.ch SA",
+      "description": "NETPLUS - netplus.ch SA",
+      "country": "",
+      "announced": true,
+      "traffic": 308,
+      "rank": 55,
+      "percentage": 0.06915272199034107
+    },
+    {
+      "asn": "50628",
+      "type": "outside",
+      "name": "LEONIX-TELECOM - Leonix Telecom SAS",
+      "description": "LEONIX-TELECOM - Leonix Telecom SAS",
+      "country": "",
+      "announced": true,
+      "traffic": 148,
+      "rank": 70,
+      "percentage": 0.03322923004730675
+    },
+    {
+      "asn": "47692",
+      "type": "outside",
+      "name": "NESSUS - Nessus GmbH",
+      "description": "NESSUS - Nessus GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 308,
+      "rank": 56,
+      "percentage": 0.06915272199034107
+    },
+    {
+      "asn": "51184",
+      "type": "outside",
+      "name": "FONIRA - Fonira Telekom GmbH",
+      "description": "FONIRA - Fonira Telekom GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 366,
+      "rank": 47,
+      "percentage": 0.08217498781969101
+    },
+    {
+      "asn": "38008",
+      "type": "outside",
+      "name": "APERTURE-AS-AP Aperture Science Limited",
+      "description": "APERTURE-AS-AP Aperture Science Limited",
+      "country": "AP",
+      "announced": true,
+      "traffic": 148,
+      "rank": 71,
+      "percentage": 0.03322923004730675
+    },
+    {
+      "asn": "31027",
+      "type": "outside",
+      "name": "GLOBALCONNECT-AS31027 - GlobalConnect A/S",
+      "description": "GLOBALCONNECT-AS31027 - GlobalConnect A/S",
+      "country": "",
+      "announced": true,
+      "traffic": 310,
+      "rank": 53,
+      "percentage": 0.069601765639629
+    },
+    {
+      "asn": "135709",
+      "type": "outside",
+      "name": "LTCIN-AS-IN Lightstorm Telecom Connectivity Private Limited",
+      "description": "LTCIN-AS-IN Lightstorm Telecom Connectivity Private Limited",
+      "country": "IN",
+      "announced": true,
+      "traffic": 256,
+      "rank": 61,
+      "percentage": 0.05747758710885492
+    },
+    {
+      "asn": "51185",
+      "type": "outside",
+      "name": "MAINSTREAMING-AS - MainStreaming SpA",
+      "description": "MAINSTREAMING-AS - MainStreaming SpA",
+      "country": "AS",
+      "announced": true,
+      "traffic": 220,
+      "rank": 65,
+      "percentage": 0.04939480142167219
+    },
+    {
+      "asn": "61292",
+      "type": "outside",
+      "name": "BLXGRP - Blix Group AS",
+      "description": "BLXGRP - Blix Group AS",
+      "country": "",
+      "announced": true,
+      "traffic": 134,
+      "rank": 74,
+      "percentage": 0.030085924502291243
+    },
+    {
+      "asn": "34549",
+      "type": "outside",
+      "name": "MEER-AS - meerfarbig GmbH & Co. KG",
+      "description": "MEER-AS - meerfarbig GmbH & Co. KG",
+      "country": "AS",
+      "announced": true,
+      "traffic": 278,
+      "rank": 58,
+      "percentage": 0.06241706725102214
+    },
+    {
+      "asn": "142289",
+      "type": "outside",
+      "name": "ROXONIC-AS-AP Roxonic Systems",
+      "description": "ROXONIC-AS-AP Roxonic Systems",
+      "country": "AP",
+      "announced": true,
+      "traffic": 257,
+      "rank": 60,
+      "percentage": 0.05770210893349888
+    },
+    {
+      "asn": "48362",
+      "type": "outside",
+      "name": "TKSWF-AS - Stadtwerke Feldkirch",
+      "description": "TKSWF-AS - Stadtwerke Feldkirch",
+      "country": "AS",
+      "announced": true,
+      "traffic": 204,
+      "rank": 66,
+      "percentage": 0.04580245222736876
+    },
+    {
+      "asn": "8758",
+      "type": "outside",
+      "name": "IWAY - Iway AG",
+      "description": "IWAY - Iway AG",
+      "country": "",
+      "announced": true,
+      "traffic": 329,
+      "rank": 51,
+      "percentage": 0.07386768030786432
+    },
+    {
+      "asn": "50763",
+      "type": "outside",
+      "name": "MCKAYCOM - Robert McKay",
+      "description": "MCKAYCOM - Robert McKay",
+      "country": "",
+      "announced": true,
+      "traffic": 124,
+      "rank": 75,
+      "percentage": 0.027840706255851597
+    },
+    {
+      "asn": "47734",
+      "type": "outside",
+      "name": "TELECOM-IT-SOLUTIONS-AS - Telecom IT Solutions SRL",
+      "description": "TELECOM-IT-SOLUTIONS-AS - Telecom IT Solutions SRL",
+      "country": "AS",
+      "announced": true,
+      "traffic": 298,
+      "rank": 57,
+      "percentage": 0.06690750374390142
+    },
+    {
+      "asn": "58665",
+      "type": "iig",
+      "name": "BAN-TEL-BD Bangla Tel Ltd",
+      "description": "BAN-TEL-BD Bangla Tel Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 122,
+      "rank": 31,
+      "percentage": 0.027391662606563668
+    },
+    {
+      "asn": "33891",
+      "type": "outside",
+      "name": "CORE-BACKBONE - Core-Backbone GmbH",
+      "description": "CORE-BACKBONE - Core-Backbone GmbH",
+      "country": "",
+      "announced": false,
+      "traffic": 109,
+      "rank": 76,
+      "percentage": 0.02447287888619213
+    },
+    {
+      "asn": "134734",
+      "type": "iig",
+      "name": "VELOCITYNETWORKS-AS-AP Velocity Networks Limited",
+      "description": "VELOCITYNETWORKS-AS-AP Velocity Networks Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 106,
+      "rank": 32,
+      "percentage": 0.02379931341226024
+    },
+    {
+      "asn": "1299",
+      "type": "outside",
+      "name": "TWELVE99 - Arelion Sweden AB",
+      "description": "TWELVE99 - Arelion Sweden AB",
+      "country": "SE",
+      "announced": true,
+      "traffic": 106,
+      "rank": 77,
+      "percentage": 0.02379931341226024
+    },
+    {
+      "asn": "35710",
+      "type": "outside",
+      "name": "WEBERCLOUD - weber.digital GmbH",
+      "description": "WEBERCLOUD - weber.digital GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 250,
+      "rank": 62,
+      "percentage": 0.05613045616099113
+    },
+    {
+      "asn": "25160",
+      "type": "outside",
+      "name": "VORBOSS - Vorboss Limited",
+      "description": "VORBOSS - Vorboss Limited",
+      "country": "",
+      "announced": true,
+      "traffic": 250,
+      "rank": 63,
+      "percentage": 0.05613045616099113
+    },
+    {
+      "asn": "17557",
+      "type": "outside",
+      "name": "PKTELECOM-AS-PK Pakistan Telecommunication Company Limited",
+      "description": "PKTELECOM-AS-PK Pakistan Telecommunication Company Limited",
+      "country": "PK",
+      "announced": true,
+      "traffic": 85,
+      "rank": 78,
+      "percentage": 0.019084355094736983
+    },
+    {
+      "asn": "20485",
+      "type": "outside",
+      "name": "TRANSTELECOM - Joint Stock Company TransTeleCom",
+      "description": "TRANSTELECOM - Joint Stock Company TransTeleCom",
+      "country": "",
+      "announced": true,
+      "traffic": 83,
+      "rank": 79,
+      "percentage": 0.018635311445449054
+    },
+    {
+      "asn": "25152",
+      "type": "outside",
+      "name": "K-ROOT-SERVER - Reseaux IP Europeens Network Coordination Centre (RIPE NCC)",
+      "description": "K-ROOT-SERVER - Reseaux IP Europeens Network Coordination Centre (RIPE NCC)",
+      "country": "",
+      "announced": true,
+      "traffic": 83,
+      "rank": 80,
+      "percentage": 0.018635311445449054
+    },
+    {
+      "asn": "37721",
+      "type": "outside",
+      "name": "Virtual-Technologies-Solutions-SA",
+      "description": "Virtual-Technologies-Solutions-SA",
+      "country": "SA",
+      "announced": true,
+      "traffic": 81,
+      "rank": 81,
+      "percentage": 0.018186267796161126
+    },
+    {
+      "asn": "34927",
+      "type": "outside",
+      "name": "IFOG-GMBH - iFog GmbH",
+      "description": "IFOG-GMBH - iFog GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 79,
+      "rank": 82,
+      "percentage": 0.017737224146873197
+    },
+    {
+      "asn": "3303",
+      "type": "outside",
+      "name": "SWISSCOM - Swisscom (Schweiz) AG",
+      "description": "SWISSCOM - Swisscom (Schweiz) AG",
+      "country": "",
+      "announced": true,
+      "traffic": 79,
+      "rank": 83,
+      "percentage": 0.017737224146873197
+    },
+    {
+      "asn": "29075",
+      "type": "outside",
+      "name": "IELO - IELO-LIAZO SERVICES SAS",
+      "description": "IELO - IELO-LIAZO SERVICES SAS",
+      "country": "",
+      "announced": true,
+      "traffic": 77,
+      "rank": 84,
+      "percentage": 0.01728818049758527
+    },
+    {
+      "asn": "60171",
+      "type": "outside",
+      "name": "AFRIX-AS - AFR-IX TELECOM S.A.",
+      "description": "AFRIX-AS - AFR-IX TELECOM S.A.",
+      "country": "AS",
+      "announced": true,
+      "traffic": 77,
+      "rank": 85,
+      "percentage": 0.01728818049758527
+    },
+    {
+      "asn": "39351",
+      "type": "outside",
+      "name": "ESAB-AS - 31173 Services AB",
+      "description": "ESAB-AS - 31173 Services AB",
+      "country": "AS",
+      "announced": true,
+      "traffic": 150,
+      "rank": 68,
+      "percentage": 0.03367827369659467
+    },
+    {
+      "asn": "2027",
+      "type": "outside",
+      "name": "MILKYWAN - MilkyWan Association",
+      "description": "MILKYWAN - MilkyWan Association",
+      "country": "",
+      "announced": true,
+      "traffic": 76,
+      "rank": 86,
+      "percentage": 0.017063658672941306
+    },
+    {
+      "asn": "34177",
+      "type": "outside",
+      "name": "CELESTE-AS - CELESTE SAS",
+      "description": "CELESTE-AS - CELESTE SAS",
+      "country": "AS",
+      "announced": true,
+      "traffic": 150,
+      "rank": 69,
+      "percentage": 0.03367827369659467
+    },
+    {
+      "asn": "56987",
+      "type": "outside",
+      "name": "AS-ABACLOUDA - ABACLOUDA SAS",
+      "description": "AS-ABACLOUDA - ABACLOUDA SAS",
+      "country": "",
+      "announced": true,
+      "traffic": 76,
+      "rank": 87,
+      "percentage": 0.017063658672941306
+    },
+    {
+      "asn": "52320",
+      "type": "outside",
+      "name": "GlobeNet Cabos Submarinos Colombia",
+      "description": "GlobeNet Cabos Submarinos Colombia",
+      "country": "",
+      "announced": true,
+      "traffic": 75,
+      "rank": 88,
+      "percentage": 0.016839136848297336
+    },
+    {
+      "asn": "6424",
+      "type": "outside",
+      "name": "EDGOO - EDGOO NETWORKS UNIPESSOAL LDA",
+      "description": "EDGOO - EDGOO NETWORKS UNIPESSOAL LDA",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 89,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "42541",
+      "type": "outside",
+      "name": "FIBERBY - Fiberby ApS",
+      "description": "FIBERBY - Fiberby ApS",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 90,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "199938",
+      "type": "outside",
+      "name": "NETZWERGE - Netzwerge GmbH",
+      "description": "NETZWERGE - Netzwerge GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 91,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "559",
+      "type": "outside",
+      "name": "SWITCH",
+      "description": "SWITCH",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 92,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "20932",
+      "type": "outside",
+      "name": "SIG-ST - Services Industriels de Geneve",
+      "description": "SIG-ST - Services Industriels de Geneve",
+      "country": "ST",
+      "announced": true,
+      "traffic": 74,
+      "rank": 93,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "31510",
+      "type": "outside",
+      "name": "IKB-AS - Innsbrucker Kommunalbetriebe AG",
+      "description": "IKB-AS - Innsbrucker Kommunalbetriebe AG",
+      "country": "AS",
+      "announced": true,
+      "traffic": 74,
+      "rank": 94,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "553",
+      "type": "outside",
+      "name": "BELWUE - Universitaet Stuttgart",
+      "description": "BELWUE - Universitaet Stuttgart",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 95,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "48919",
+      "type": "outside",
+      "name": "UA-CITY-AS - UACITY Ltd.",
+      "description": "UA-CITY-AS - UACITY Ltd.",
+      "country": "AS",
+      "announced": true,
+      "traffic": 74,
+      "rank": 96,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "34288",
+      "type": "outside",
+      "name": "AS34288 - Kantonsschule Zug",
+      "description": "AS34288 - Kantonsschule Zug",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 97,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "25220",
+      "type": "outside",
+      "name": "GLOBALNOC-AS - equada network GmbH",
+      "description": "GLOBALNOC-AS - equada network GmbH",
+      "country": "AS",
+      "announced": true,
+      "traffic": 141,
+      "rank": 73,
+      "percentage": 0.031657577274798995
+    },
+    {
+      "asn": "205112",
+      "type": "outside",
+      "name": "PHILUNET - PHILUNET GmbH",
+      "description": "PHILUNET - PHILUNET GmbH",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 98,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "64475",
+      "type": "outside",
+      "name": "FREIFUNK-FRANKFURT - Freifunk Frankfurt am Main e.V.",
+      "description": "FREIFUNK-FRANKFURT - Freifunk Frankfurt am Main e.V.",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 99,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "58057",
+      "type": "outside",
+      "name": "SECUREBIT - Securebit AG",
+      "description": "SECUREBIT - Securebit AG",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 100,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "58299",
+      "type": "outside",
+      "name": "OPENFACTORY-AS - Openfactory GmbH",
+      "description": "OPENFACTORY-AS - Openfactory GmbH",
+      "country": "AS",
+      "announced": true,
+      "traffic": 144,
+      "rank": 72,
+      "percentage": 0.03233114274873089
+    },
+    {
+      "asn": "209823",
+      "type": "outside",
+      "name": "ENKI-AS - Enki Multimedia EURL",
+      "description": "ENKI-AS - Enki Multimedia EURL",
+      "country": "AS",
+      "announced": true,
+      "traffic": 74,
+      "rank": 101,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "58308",
+      "type": "outside",
+      "name": "CUSAE-AS - Cusae SAS",
+      "description": "CUSAE-AS - Cusae SAS",
+      "country": "AS",
+      "announced": true,
+      "traffic": 74,
+      "rank": 102,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "35360",
+      "type": "outside",
+      "name": "GARGUNET - Frederic Gargula",
+      "description": "GARGUNET - Frederic Gargula",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 103,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "35600",
+      "type": "outside",
+      "name": "ASN-VEDEGE - Vedege SAS",
+      "description": "ASN-VEDEGE - Vedege SAS",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 104,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "61573",
+      "type": "outside",
+      "name": "IP TELECOM",
+      "description": "IP TELECOM",
+      "country": "",
+      "announced": true,
+      "traffic": 74,
+      "rank": 105,
+      "percentage": 0.016614615023653374
+    },
+    {
+      "asn": "212024",
+      "type": "outside",
+      "name": "RISSON - Marc Schmitt",
+      "description": "RISSON - Marc Schmitt",
+      "country": "",
+      "announced": true,
+      "traffic": 73,
+      "rank": 106,
+      "percentage": 0.01639009319900941
+    },
+    {
+      "asn": "1764",
+      "type": "outside",
+      "name": "NEXTLAYER-AS - Next Layer Telekommunikationsdienstleistungs- und Beratungs GmbH",
+      "description": "NEXTLAYER-AS - Next Layer Telekommunikationsdienstleistungs- und Beratungs GmbH",
+      "country": "AS",
+      "announced": true,
+      "traffic": 73,
+      "rank": 107,
+      "percentage": 0.01639009319900941
+    },
+    {
+      "asn": "6758",
+      "type": "outside",
+      "name": "AS6758 - Monaco Telecom S.A.",
+      "description": "AS6758 - Monaco Telecom S.A.",
+      "country": "",
+      "announced": true,
+      "traffic": 73,
+      "rank": 108,
+      "percentage": 0.01639009319900941
+    },
+    {
+      "asn": "44097",
+      "type": "outside",
+      "name": "AUTONOMOUS-CLOSET - CLEMENT CAVADORE",
+      "description": "AUTONOMOUS-CLOSET - CLEMENT CAVADORE",
+      "country": "",
+      "announced": true,
+      "traffic": 73,
+      "rank": 109,
+      "percentage": 0.01639009319900941
+    },
+    {
+      "asn": "29140",
+      "type": "outside",
+      "name": "HOSTSERVER-AS - Hostserver GmbH",
+      "description": "HOSTSERVER-AS - Hostserver GmbH",
+      "country": "AS",
+      "announced": true,
+      "traffic": 69,
+      "rank": 110,
+      "percentage": 0.01549200590043355
+    },
+    {
+      "asn": "134732",
+      "type": "local-isp",
+      "name": "DOTINTERNET-AS-AP Dot Internet",
+      "description": "DOTINTERNET-AS-AP Dot Internet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 2812,
+      "rank": 4,
+      "percentage": 0.6313553708988282
+    },
+    {
+      "asn": "63996",
+      "type": "local-isp",
+      "name": "MNL-AS-AP Mazeda Networks Limited",
+      "description": "MNL-AS-AP Mazeda Networks Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 2797,
+      "rank": 5,
+      "percentage": 0.6279875435291687
+    },
+    {
+      "asn": "38067",
+      "type": "local-isp",
+      "name": "RADIANT Radiant Communications Limited",
+      "description": "RADIANT Radiant Communications Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 2359,
+      "rank": 7,
+      "percentage": 0.5296469843351124
+    },
+    {
+      "asn": "38203",
+      "type": "local-isp",
+      "name": "ADNTELECOMLTD-BD ADN Telecom Ltd.",
+      "description": "ADNTELECOMLTD-BD ADN Telecom Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 4082,
+      "rank": 1,
+      "percentage": 0.9164980881966631
+    },
+    {
+      "asn": "23688",
+      "type": "local-isp",
+      "name": "LINK3-TECH-AS-BD-AP Link3 Technologies Ltd.",
+      "description": "LINK3-TECH-AS-BD-AP Link3 Technologies Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 2067,
+      "rank": 10,
+      "percentage": 0.4640866115390747
+    },
+    {
+      "asn": "63969",
+      "type": "local-isp",
+      "name": "RACEONLINE-BD Race Online Limited",
+      "description": "RACEONLINE-BD Race Online Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1954,
+      "rank": 11,
+      "percentage": 0.4387156453543066
+    },
+    {
+      "asn": "24432",
+      "type": "local-isp",
+      "name": "AXIATA-ROBI-AS-AP TM International Bangladesh Ltd.Internet service Provider",
+      "description": "AXIATA-ROBI-AS-AP TM International Bangladesh Ltd.Internet service Provider",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1877,
+      "rank": 12,
+      "percentage": 0.42142746485672145
+    },
+    {
+      "asn": "59362",
+      "type": "local-isp",
+      "name": "KSNETWORK-AS-AP KS Network Limited",
+      "description": "KSNETWORK-AS-AP KS Network Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 2816,
+      "rank": 3,
+      "percentage": 0.6322534581974041
+    },
+    {
+      "asn": "135310",
+      "type": "local-isp",
+      "name": "INSPIREBROADBAND-AS-AP Inspire Broadband",
+      "description": "INSPIREBROADBAND-AS-AP Inspire Broadband",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1805,
+      "rank": 14,
+      "percentage": 0.405261893482356
+    },
+    {
+      "asn": "59340",
+      "type": "local-isp",
+      "name": "MSHELPLINE-BD Help Line",
+      "description": "MSHELPLINE-BD Help Line",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1766,
+      "rank": 15,
+      "percentage": 0.39650554232124136
+    },
+    {
+      "asn": "38592",
+      "type": "local-isp",
+      "name": "CTGONLINE-AS-AP Chittagong Online Limited AS38592 AP",
+      "description": "CTGONLINE-AS-AP Chittagong Online Limited AS38592 AP",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1639,
+      "rank": 20,
+      "percentage": 0.36799127059145786
+    },
+    {
+      "asn": "9230",
+      "type": "local-isp",
+      "name": "BOL-BD-AP Bangladesh Online Ltd.",
+      "description": "BOL-BD-AP Bangladesh Online Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 2493,
+      "rank": 6,
+      "percentage": 0.5597329088374036
+    },
+    {
+      "asn": "137967",
+      "type": "local-isp",
+      "name": "DIGICON-ISP-AS Digicon Telecommunication Ltd",
+      "description": "DIGICON-ISP-AS Digicon Telecommunication Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1502,
+      "rank": 22,
+      "percentage": 0.33723178061523473
+    },
+    {
+      "asn": "134371",
+      "type": "local-isp",
+      "name": "CIRCLENETWORK-BD CIRCLE NETWORK BANGLADESH",
+      "description": "CIRCLENETWORK-BD CIRCLE NETWORK BANGLADESH",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1484,
+      "rank": 23,
+      "percentage": 0.33319038777164334
+    },
+    {
+      "asn": "152698",
+      "type": "local-isp",
+      "name": "ZORN-AS-AP Zorn Technologies",
+      "description": "ZORN-AS-AP Zorn Technologies",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1471,
+      "rank": 24,
+      "percentage": 0.3302716040512718
+    },
+    {
+      "asn": "45766",
+      "type": "local-isp",
+      "name": "TRIANGLESERVICES Triangle Services Limited.",
+      "description": "TRIANGLESERVICES Triangle Services Limited.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 3411,
+      "rank": 2,
+      "percentage": 0.765843943860563
+    },
+    {
+      "asn": "24342",
+      "type": "local-isp",
+      "name": "BRAC-BDMAIL-AS-BD BRACNet Limited",
+      "description": "BRAC-BDMAIL-AS-BD BRACNet Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1465,
+      "rank": 25,
+      "percentage": 0.328924473103408
+    },
+    {
+      "asn": "23923",
+      "type": "local-isp",
+      "name": "AGNI-AS Agni Systems Limited",
+      "description": "AGNI-AS Agni Systems Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1824,
+      "rank": 13,
+      "percentage": 0.4095278081505913
+    },
+    {
+      "asn": "63967",
+      "type": "local-isp",
+      "name": "BTRAC-AS-AP Bangla Trac Communications Ltd ISP and Cloud Services",
+      "description": "BTRAC-AS-AP Bangla Trac Communications Ltd ISP and Cloud Services",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1426,
+      "rank": 26,
+      "percentage": 0.3201681219422934
+    },
+    {
+      "asn": "138640",
+      "type": "local-isp",
+      "name": "HELLOTECHLIMITED-AS-AP HelloTech Limited",
+      "description": "HELLOTECHLIMITED-AS-AP HelloTech Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1401,
+      "rank": 27,
+      "percentage": 0.3145550763261943
+    },
+    {
+      "asn": "38031",
+      "type": "local-isp",
+      "name": "OPTIMAX-BD-AS-AP OptiMax Communication Ltd.",
+      "description": "OPTIMAX-BD-AS-AP OptiMax Communication Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1396,
+      "rank": 28,
+      "percentage": 0.31343246720297446
+    },
+    {
+      "asn": "136176",
+      "type": "local-isp",
+      "name": "CYBER-SOLUTIONS-AS-AP Cyber Solutions",
+      "description": "CYBER-SOLUTIONS-AS-AP Cyber Solutions",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1396,
+      "rank": 29,
+      "percentage": 0.31343246720297446
+    },
+    {
+      "asn": "153038",
+      "type": "local-isp",
+      "name": "BUSINESSZONELIMITED-AS-BD Business Zone Limited",
+      "description": "BUSINESSZONELIMITED-AS-BD Business Zone Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1389,
+      "rank": 31,
+      "percentage": 0.31186081443046676
+    },
+    {
+      "asn": "139325",
+      "type": "local-isp",
+      "name": "IQTEL-AS-AP IQ-TEL",
+      "description": "IQTEL-AS-AP IQ-TEL",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1384,
+      "rank": 32,
+      "percentage": 0.3107382053072469
+    },
+    {
+      "asn": "139735",
+      "type": "local-isp",
+      "name": "PACEIT1-AS-AP PACE IT",
+      "description": "PACEIT1-AS-AP PACE IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1342,
+      "rank": 34,
+      "percentage": 0.3013082886722004
+    },
+    {
+      "asn": "133938",
+      "type": "local-isp",
+      "name": "XEON-BD Xeon",
+      "description": "XEON-BD Xeon",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1711,
+      "rank": 17,
+      "percentage": 0.3841568419658233
+    },
+    {
+      "asn": "58656",
+      "type": "local-isp",
+      "name": "BDHUB-BD bdHUB Limited",
+      "description": "BDHUB-BD bdHUB Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1254,
+      "rank": 36,
+      "percentage": 0.2815503681035315
+    },
+    {
+      "asn": "55406",
+      "type": "local-isp",
+      "name": "HRCTECH-01-AS-AP 26 Shyamoli",
+      "description": "HRCTECH-01-AS-AP 26 Shyamoli",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1209,
+      "rank": 38,
+      "percentage": 0.2714468859945531
+    },
+    {
+      "asn": "23956",
+      "type": "local-isp",
+      "name": "AMBERIT-BD-AS AmberIT Limited",
+      "description": "AMBERIT-BD-AS AmberIT Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1692,
+      "rank": 18,
+      "percentage": 0.379890927297588
+    },
+    {
+      "asn": "133954",
+      "type": "local-isp",
+      "name": "EXORDONLINE-BD Exord Online",
+      "description": "EXORDONLINE-BD Exord Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 2158,
+      "rank": 9,
+      "percentage": 0.4845180975816754
+    },
+    {
+      "asn": "137385",
+      "type": "local-isp",
+      "name": "SADDAMHOSSAIN-AS-AP Saddam Hossain ta Asian Network",
+      "description": "SADDAMHOSSAIN-AS-AP Saddam Hossain ta Asian Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1125,
+      "rank": 42,
+      "percentage": 0.2525870527244601
+    },
+    {
+      "asn": "139786",
+      "type": "local-isp",
+      "name": "RAINBOW-AS-AP Rainbow Network",
+      "description": "RAINBOW-AS-AP Rainbow Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1125,
+      "rank": 43,
+      "percentage": 0.2525870527244601
+    },
+    {
+      "asn": "135076",
+      "type": "local-isp",
+      "name": "INFOCOMLIMITED-AS-AP INFOCOM LIMITED",
+      "description": "INFOCOMLIMITED-AS-AP INFOCOM LIMITED",
+      "country": "BD",
+      "announced": true,
+      "traffic": 2178,
+      "rank": 8,
+      "percentage": 0.4890085340745547
+    },
+    {
+      "asn": "139808",
+      "type": "local-isp",
+      "name": "SONYCYBERNET-AS-AP Sony Cyber Net",
+      "description": "SONYCYBERNET-AS-AP Sony Cyber Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1082,
+      "rank": 46,
+      "percentage": 0.24293261426476961
+    },
+    {
+      "asn": "63914",
+      "type": "local-isp",
+      "name": "STEL-BD SB TEL ENTERPRISES LIMITED",
+      "description": "STEL-BD SB TEL ENTERPRISES LIMITED",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1080,
+      "rank": 47,
+      "percentage": 0.24248357061548168
+    },
+    {
+      "asn": "138621",
+      "type": "local-isp",
+      "name": "CITY-NET-COM-AS-AP City Net Communication",
+      "description": "CITY-NET-COM-AS-AP City Net Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1080,
+      "rank": 48,
+      "percentage": 0.24248357061548168
+    },
+    {
+      "asn": "58616",
+      "type": "local-isp",
+      "name": "EQUITEL-BD Equitel Communication Ltd",
+      "description": "EQUITEL-BD Equitel Communication Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1073,
+      "rank": 49,
+      "percentage": 0.24091191784297392
+    },
+    {
+      "asn": "140054",
+      "type": "local-isp",
+      "name": "FBN-AS-AP Friends BroadBand Network",
+      "description": "FBN-AS-AP Friends BroadBand Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1073,
+      "rank": 50,
+      "percentage": 0.24091191784297392
+    },
+    {
+      "asn": "137023",
+      "type": "local-isp",
+      "name": "ASIAN-AS-AP ASIAN CITY ONLINE BD LTD.",
+      "description": "ASIAN-AS-AP ASIAN CITY ONLINE BD LTD.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1067,
+      "rank": 51,
+      "percentage": 0.23956478689511015
+    },
+    {
+      "asn": "63932",
+      "type": "local-isp",
+      "name": "BCC-BD Bangladesh Computer Council",
+      "description": "BCC-BD Bangladesh Computer Council",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1641,
+      "rank": 19,
+      "percentage": 0.36844031424074575
+    },
+    {
+      "asn": "138551",
+      "type": "local-isp",
+      "name": "SKYINFOONLINE-AS-AP Skyinfo Online",
+      "description": "SKYINFOONLINE-AS-AP Skyinfo Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1066,
+      "rank": 52,
+      "percentage": 0.23934026507046618
+    },
+    {
+      "asn": "134480",
+      "type": "local-isp",
+      "name": "SUNLITNETWORK-AS-AP Sunlit Network",
+      "description": "SUNLITNETWORK-AS-AP Sunlit Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1051,
+      "rank": 53,
+      "percentage": 0.23597243770080673
+    },
+    {
+      "asn": "136451",
+      "type": "local-isp",
+      "name": "NNC-AS-AP Nur Network Communication",
+      "description": "NNC-AS-AP Nur Network Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1051,
+      "rank": 54,
+      "percentage": 0.23597243770080673
+    },
+    {
+      "asn": "132092",
+      "type": "local-isp",
+      "name": "ITBASE-AS-AP Mir Mosharrof Hossain ta IT Base",
+      "description": "ITBASE-AS-AP Mir Mosharrof Hossain ta IT Base",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1044,
+      "rank": 55,
+      "percentage": 0.23440078492829894
+    },
+    {
+      "asn": "59249",
+      "type": "local-isp",
+      "name": "MOFNET-BD Mowna Optical Fiber Network",
+      "description": "MOFNET-BD Mowna Optical Fiber Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1725,
+      "rank": 16,
+      "percentage": 0.3873001475108388
+    },
+    {
+      "asn": "17471",
+      "type": "local-isp",
+      "name": "CYBERNET-BD-AS Grameen Cybernet Ltd. Bangladesh. AS for local peering and transit. Dhaka",
+      "description": "CYBERNET-BD-AS Grameen Cybernet Ltd. Bangladesh. AS for local peering and transit. Dhaka",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1024,
+      "rank": 58,
+      "percentage": 0.2299103484354197
+    },
+    {
+      "asn": "135055",
+      "type": "local-isp",
+      "name": "RAFINESATELITE-AS-AP Rafiqul Islam Rassel ta Rafine Satelite",
+      "description": "RAFINESATELITE-AS-AP Rafiqul Islam Rassel ta Rafine Satelite",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1018,
+      "rank": 59,
+      "percentage": 0.22856321748755587
+    },
+    {
+      "asn": "147314",
+      "type": "local-isp",
+      "name": "ICL-AS-AP IP Communications Limited",
+      "description": "ICL-AS-AP IP Communications Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1014,
+      "rank": 60,
+      "percentage": 0.22766513018898002
+    },
+    {
+      "asn": "136396",
+      "type": "local-isp",
+      "name": "HOSTOMEGA-AS-AP HOSTOMEGA",
+      "description": "HOSTOMEGA-AS-AP HOSTOMEGA",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1012,
+      "rank": 61,
+      "percentage": 0.22721608653969208
+    },
+    {
+      "asn": "136224",
+      "type": "local-isp",
+      "name": "CITYONLINELTD-AS-AP City Online Ltd.",
+      "description": "CITYONLINELTD-AS-AP City Online Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1010,
+      "rank": 62,
+      "percentage": 0.22676704289040414
+    },
+    {
+      "asn": "141385",
+      "type": "local-isp",
+      "name": "INET1-AS-AP iNet",
+      "description": "INET1-AS-AP iNet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1008,
+      "rank": 63,
+      "percentage": 0.22631799924111626
+    },
+    {
+      "asn": "138505",
+      "type": "local-isp",
+      "name": "DNS-AS-AP DNS",
+      "description": "DNS-AS-AP DNS",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1396,
+      "rank": 30,
+      "percentage": 0.31343246720297446
+    },
+    {
+      "asn": "132365",
+      "type": "local-isp",
+      "name": "BANGLADESHAGRICULTURALUNIVERSITY-AS-AP Bangladesh Agricultural University BAU",
+      "description": "BANGLADESHAGRICULTURALUNIVERSITY-AS-AP Bangladesh Agricultural University BAU",
+      "country": "BD",
+      "announced": true,
+      "traffic": 988,
+      "rank": 64,
+      "percentage": 0.22182756274823695
+    },
+    {
+      "asn": "141988",
+      "type": "local-isp",
+      "name": "OPTIMUS-AS-AP Optimus Technologies",
+      "description": "OPTIMUS-AS-AP Optimus Technologies",
+      "country": "BD",
+      "announced": true,
+      "traffic": 973,
+      "rank": 66,
+      "percentage": 0.2184597353785775
+    },
+    {
+      "asn": "134204",
+      "type": "local-isp",
+      "name": "BUSINESSNETWORK-AS-AP Business Network",
+      "description": "BUSINESSNETWORK-AS-AP Business Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 967,
+      "rank": 67,
+      "percentage": 0.21711260443071367
+    },
+    {
+      "asn": "141194",
+      "type": "local-isp",
+      "name": "BNS-AS-AP Bandhu Network System",
+      "description": "BNS-AS-AP Bandhu Network System",
+      "country": "BD",
+      "announced": true,
+      "traffic": 964,
+      "rank": 68,
+      "percentage": 0.21643903895678182
+    },
+    {
+      "asn": "153610",
+      "type": "local-isp",
+      "name": "TENBYTELIMITED-AS-AP Tenbyte Limited",
+      "description": "TENBYTELIMITED-AS-AP Tenbyte Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 942,
+      "rank": 69,
+      "percentage": 0.21149955881461457
+    },
+    {
+      "asn": "150696",
+      "type": "local-isp",
+      "name": "MS7-AS-AP Ms Online",
+      "description": "MS7-AS-AP Ms Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 924,
+      "rank": 70,
+      "percentage": 0.2074581659710232
+    },
+    {
+      "asn": "38026",
+      "type": "local-isp",
+      "name": "MNBL-TRANSIT-AS-AP MetroNet Bangladesh Limited",
+      "description": "MNBL-TRANSIT-AS-AP MetroNet Bangladesh Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 856,
+      "rank": 71,
+      "percentage": 0.1921906818952336
+    },
+    {
+      "asn": "17469",
+      "type": "local-isp",
+      "name": "ACCESSTEL-AS-AP Access Telecom BD Ltd.",
+      "description": "ACCESSTEL-AS-AP Access Telecom BD Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1240,
+      "rank": 37,
+      "percentage": 0.278407062558516
+    },
+    {
+      "asn": "45925",
+      "type": "local-isp",
+      "name": "TELETALK-BD ASN For Teletalk Bangladesh Ltd.",
+      "description": "TELETALK-BD ASN For Teletalk Bangladesh Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 824,
+      "rank": 72,
+      "percentage": 0.18500598350662678
+    },
+    {
+      "asn": "63961",
+      "type": "local-isp",
+      "name": "BDREN-UGC-AS-AP Bangladesh Research and Education Network BdREN",
+      "description": "BDREN-UGC-AS-AP Bangladesh Research and Education Network BdREN",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1520,
+      "rank": 21,
+      "percentage": 0.341273173458826
+    },
+    {
+      "asn": "38712",
+      "type": "local-isp",
+      "name": "TELNET-AS-BD-AP Telnet Communication Limited Network and Transit Service Provider. Having Nationwide MPLS Network For Internet and Data Connectivity Through Telnets Own Network Infrastructure",
+      "description": "TELNET-AS-BD-AP Telnet Communication Limited Network and Transit Service Provider. Having Nationwide MPLS Network For Internet and Data Connectivity Through Telnets Own Network Infrastructure",
+      "country": "BD",
+      "announced": true,
+      "traffic": 811,
+      "rank": 73,
+      "percentage": 0.18208719978625523
+    },
+    {
+      "asn": "58736",
+      "type": "local-isp",
+      "name": "DFLL-BD Dhaka Fiber Link Ltd.",
+      "description": "DFLL-BD Dhaka Fiber Link Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 768,
+      "rank": 74,
+      "percentage": 0.17243276132656477
+    },
+    {
+      "asn": "138362",
+      "type": "local-isp",
+      "name": "PLEXUSCLOUD-AS-AP Md. Mobarak Hossain",
+      "description": "PLEXUSCLOUD-AS-AP Md. Mobarak Hossain",
+      "country": "BD",
+      "announced": true,
+      "traffic": 766,
+      "rank": 75,
+      "percentage": 0.17198371767727683
+    },
+    {
+      "asn": "9441",
+      "type": "local-isp",
+      "name": "NEXT-BD Next Online Limited.",
+      "description": "NEXT-BD Next Online Limited.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 765,
+      "rank": 76,
+      "percentage": 0.17175919585263286
+    },
+    {
+      "asn": "138191",
+      "type": "local-isp",
+      "name": "WEBLINKLTD-AS-AP Weblink Communications Ltd",
+      "description": "WEBLINKLTD-AS-AP Weblink Communications Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 764,
+      "rank": 77,
+      "percentage": 0.1715346740279889
+    },
+    {
+      "asn": "131464",
+      "type": "local-isp",
+      "name": "DJBL-AS-AP Digi Jadoo Broadband Ltd",
+      "description": "DJBL-AS-AP Digi Jadoo Broadband Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1150,
+      "rank": 40,
+      "percentage": 0.2582000983405592
+    },
+    {
+      "asn": "149060",
+      "type": "local-isp",
+      "name": "SQUARENET-AS-AP SQUARE NET",
+      "description": "SQUARENET-AS-AP SQUARE NET",
+      "country": "BD",
+      "announced": true,
+      "traffic": 753,
+      "rank": 79,
+      "percentage": 0.16906493395690528
+    },
+    {
+      "asn": "142054",
+      "type": "local-isp",
+      "name": "TECHCITYCOMMUNICATIONS-AS-AP TECH CITY COMMUNICATIONS",
+      "description": "TECHCITYCOMMUNICATIONS-AS-AP TECH CITY COMMUNICATIONS",
+      "country": "BD",
+      "announced": true,
+      "traffic": 751,
+      "rank": 81,
+      "percentage": 0.16861589030761737
+    },
+    {
+      "asn": "153696",
+      "type": "local-isp",
+      "name": "STUDENT6-AS-AP Student Net",
+      "description": "STUDENT6-AS-AP Student Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 751,
+      "rank": 82,
+      "percentage": 0.16861589030761737
+    },
+    {
+      "asn": "150434",
+      "type": "local-isp",
+      "name": "SIGNATURE1-AS-AP Signature International",
+      "description": "SIGNATURE1-AS-AP Signature International",
+      "country": "BD",
+      "announced": true,
+      "traffic": 749,
+      "rank": 83,
+      "percentage": 0.16816684665832943
+    },
+    {
+      "asn": "134712",
+      "type": "local-isp",
+      "name": "PIPEXNETWORK-BD Pipex Network",
+      "description": "PIPEXNETWORK-BD Pipex Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 749,
+      "rank": 84,
+      "percentage": 0.16816684665832943
+    },
+    {
+      "asn": "23991",
+      "type": "local-isp",
+      "name": "RANKS-AS-BD Ranks ITT Ltd.",
+      "description": "RANKS-AS-BD Ranks ITT Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 748,
+      "rank": 85,
+      "percentage": 0.16794232483368546
+    },
+    {
+      "asn": "9832",
+      "type": "local-isp",
+      "name": "ISN-AS-AP ISN",
+      "description": "ISN-AS-AP ISN",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1120,
+      "rank": 44,
+      "percentage": 0.25146444360124026
+    },
+    {
+      "asn": "150429",
+      "type": "local-isp",
+      "name": "FURIOUSINTERNET-AS-AP Furious Internet",
+      "description": "FURIOUSINTERNET-AS-AP Furious Internet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 742,
+      "rank": 86,
+      "percentage": 0.16659519388582167
+    },
+    {
+      "asn": "142153",
+      "type": "local-isp",
+      "name": "ABNETWORK-AS-AP AB NETWORK",
+      "description": "ABNETWORK-AS-AP AB NETWORK",
+      "country": "BD",
+      "announced": true,
+      "traffic": 741,
+      "rank": 87,
+      "percentage": 0.1663706720611777
+    },
+    {
+      "asn": "152479",
+      "type": "local-isp",
+      "name": "DSACL-AS-AP DELTA SOFTWARE AND COMMUNICATION LIMITED",
+      "description": "DSACL-AS-AP DELTA SOFTWARE AND COMMUNICATION LIMITED",
+      "country": "BD",
+      "announced": true,
+      "traffic": 741,
+      "rank": 88,
+      "percentage": 0.1663706720611777
+    },
+    {
+      "asn": "24323",
+      "type": "local-isp",
+      "name": "AAMRA-NETWORKS-AS-AP aamra networks limited",
+      "description": "AAMRA-NETWORKS-AS-AP aamra networks limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1345,
+      "rank": 33,
+      "percentage": 0.30198185414613227
+    },
+    {
+      "asn": "142006",
+      "type": "local-isp",
+      "name": "GLOBAL5-AS-AP Global ICT Network",
+      "description": "GLOBAL5-AS-AP Global ICT Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 740,
+      "rank": 89,
+      "percentage": 0.16614615023653373
+    },
+    {
+      "asn": "135410",
+      "type": "local-isp",
+      "name": "VSAS-AS-AP Voltz System and Solutions",
+      "description": "VSAS-AS-AP Voltz System and Solutions",
+      "country": "BD",
+      "announced": true,
+      "traffic": 740,
+      "rank": 90,
+      "percentage": 0.16614615023653373
+    },
+    {
+      "asn": "139870",
+      "type": "local-isp",
+      "name": "BCJL-AS-AP BlueNet Communication JV Ltd.",
+      "description": "BCJL-AS-AP BlueNet Communication JV Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 740,
+      "rank": 91,
+      "percentage": 0.16614615023653373
+    },
+    {
+      "asn": "55492",
+      "type": "local-isp",
+      "name": "DFN-BD Dhaka Fiber Net Limited",
+      "description": "DFN-BD Dhaka Fiber Net Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 738,
+      "rank": 92,
+      "percentage": 0.16569710658724582
+    },
+    {
+      "asn": "136141",
+      "type": "local-isp",
+      "name": "SKTRADERS-AS-AP Mohammad Kamrul Hasan ta SK Traders",
+      "description": "SKTRADERS-AS-AP Mohammad Kamrul Hasan ta SK Traders",
+      "country": "BD",
+      "announced": true,
+      "traffic": 737,
+      "rank": 93,
+      "percentage": 0.16547258476260185
+    },
+    {
+      "asn": "138623",
+      "type": "local-isp",
+      "name": "WINERCOMMUNICATION-AS-AP Winer Communication",
+      "description": "WINERCOMMUNICATION-AS-AP Winer Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 734,
+      "rank": 94,
+      "percentage": 0.16479901928866994
+    },
+    {
+      "asn": "149491",
+      "type": "local-isp",
+      "name": "RIGHTNET-AS-AP Right Net",
+      "description": "RIGHTNET-AS-AP Right Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 732,
+      "rank": 95,
+      "percentage": 0.16434997563938203
+    },
+    {
+      "asn": "141745",
+      "type": "local-isp",
+      "name": "MOGHBAZARDOTNET-AS-AP Moghbazar Dot Net",
+      "description": "MOGHBAZARDOTNET-AS-AP Moghbazar Dot Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 731,
+      "rank": 96,
+      "percentage": 0.16412545381473806
+    },
+    {
+      "asn": "142192",
+      "type": "local-isp",
+      "name": "RRRLNET-AS-AP RRRL NET",
+      "description": "RRRLNET-AS-AP RRRL NET",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1158,
+      "rank": 39,
+      "percentage": 0.2599962729377109
+    },
+    {
+      "asn": "136214",
+      "type": "local-isp",
+      "name": "CREATIVAIT-AS-AP Creativa IT Mymensingh Bangladesh",
+      "description": "CREATIVAIT-AS-AP Creativa IT Mymensingh Bangladesh",
+      "country": "BD",
+      "announced": true,
+      "traffic": 729,
+      "rank": 97,
+      "percentage": 0.16367641016545015
+    },
+    {
+      "asn": "147180",
+      "type": "local-isp",
+      "name": "LRINTERNATIONAL-AS-AP LR International",
+      "description": "LRINTERNATIONAL-AS-AP LR International",
+      "country": "BD",
+      "announced": true,
+      "traffic": 727,
+      "rank": 98,
+      "percentage": 0.1632273665161622
+    },
+    {
+      "asn": "132298",
+      "type": "local-isp",
+      "name": "ADCL-AS-AP Antaranga Dot Com Ltd",
+      "description": "ADCL-AS-AP Antaranga Dot Com Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 727,
+      "rank": 99,
+      "percentage": 0.1632273665161622
+    },
+    {
+      "asn": "141231",
+      "type": "local-isp",
+      "name": "FREEDOM1-AS-AP Freedom Online",
+      "description": "FREEDOM1-AS-AP Freedom Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 726,
+      "rank": 100,
+      "percentage": 0.16300284469151824
+    },
+    {
+      "asn": "136419",
+      "type": "local-isp",
+      "name": "SKYLINKNET-AS-AP Sky Link Net",
+      "description": "SKYLINKNET-AS-AP Sky Link Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 723,
+      "rank": 101,
+      "percentage": 0.16232927921758636
+    },
+    {
+      "asn": "152648",
+      "type": "local-isp",
+      "name": "SPARKIT-AS-AP Spark IT",
+      "description": "SPARKIT-AS-AP Spark IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 722,
+      "rank": 102,
+      "percentage": 0.1621047573929424
+    },
+    {
+      "asn": "136262",
+      "type": "local-isp",
+      "name": "ASIAPACIFICCOMMUNICATIONLIMITED-AS-AP Asia Pacific Communication Limited",
+      "description": "ASIAPACIFICCOMMUNICATIONLIMITED-AS-AP Asia Pacific Communication Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 721,
+      "rank": 103,
+      "percentage": 0.16188023556829842
+    },
+    {
+      "asn": "150735",
+      "type": "local-isp",
+      "name": "KURIGRAMISP-AS-AP Kurigram I.S.P",
+      "description": "KURIGRAMISP-AS-AP Kurigram I.S.P",
+      "country": "BD",
+      "announced": true,
+      "traffic": 720,
+      "rank": 104,
+      "percentage": 0.16165571374365445
+    },
+    {
+      "asn": "149432",
+      "type": "local-isp",
+      "name": "COMMANDERNET-AS-AP Commander Net",
+      "description": "COMMANDERNET-AS-AP Commander Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 720,
+      "rank": 105,
+      "percentage": 0.16165571374365445
+    },
+    {
+      "asn": "139245",
+      "type": "local-isp",
+      "name": "ISP-3TECHNOLOGY-AS-AP 3Technology",
+      "description": "ISP-3TECHNOLOGY-AS-AP 3Technology",
+      "country": "BD",
+      "announced": true,
+      "traffic": 718,
+      "rank": 106,
+      "percentage": 0.1612066700943665
+    },
+    {
+      "asn": "7565",
+      "type": "local-isp",
+      "name": "BDCOM-BD Rangs Nilu Square",
+      "description": "BDCOM-BD Rangs Nilu Square",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1133,
+      "rank": 41,
+      "percentage": 0.2543832273216118
+    },
+    {
+      "asn": "135131",
+      "type": "local-isp",
+      "name": "BROTHERSONLINE-AS-AP BROTHERS ONLINE",
+      "description": "BROTHERSONLINE-AS-AP BROTHERS ONLINE",
+      "country": "BD",
+      "announced": true,
+      "traffic": 717,
+      "rank": 107,
+      "percentage": 0.16098214826972254
+    },
+    {
+      "asn": "139026",
+      "type": "local-isp",
+      "name": "SHADHINOTA2-AS-AP Shadhinota Net",
+      "description": "SHADHINOTA2-AS-AP Shadhinota Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 717,
+      "rank": 108,
+      "percentage": 0.16098214826972254
+    },
+    {
+      "asn": "139622",
+      "type": "local-isp",
+      "name": "QUETELBD-AS-AP QUE TEL",
+      "description": "QUETELBD-AS-AP QUE TEL",
+      "country": "BD",
+      "announced": true,
+      "traffic": 715,
+      "rank": 109,
+      "percentage": 0.16053310462043463
+    },
+    {
+      "asn": "137515",
+      "type": "local-isp",
+      "name": "FRC-AP Md. Raisul Islam",
+      "description": "FRC-AP Md. Raisul Islam",
+      "country": "BD",
+      "announced": true,
+      "traffic": 713,
+      "rank": 110,
+      "percentage": 0.1600840609711467
+    },
+    {
+      "asn": "56054",
+      "type": "local-isp",
+      "name": "ICON-INFOTECH-BD Icon Infotech Limited",
+      "description": "ICON-INFOTECH-BD Icon Infotech Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 713,
+      "rank": 111,
+      "percentage": 0.1600840609711467
+    },
+    {
+      "asn": "150385",
+      "type": "local-isp",
+      "name": "HKN-AS-AP Haider Khandakar Network",
+      "description": "HKN-AS-AP Haider Khandakar Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 712,
+      "rank": 112,
+      "percentage": 0.15985953914650275
+    },
+    {
+      "asn": "136014",
+      "type": "local-isp",
+      "name": "SSONLINE-AS-AP SS Online",
+      "description": "SSONLINE-AS-AP SS Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 712,
+      "rank": 113,
+      "percentage": 0.15985953914650275
+    },
+    {
+      "asn": "138171",
+      "type": "local-isp",
+      "name": "EVILLAGE-AS-AP E-Village",
+      "description": "EVILLAGE-AS-AP E-Village",
+      "country": "BD",
+      "announced": true,
+      "traffic": 712,
+      "rank": 114,
+      "percentage": 0.15985953914650275
+    },
+    {
+      "asn": "139033",
+      "type": "local-isp",
+      "name": "VIS-AS-AP Voglu Internet Service",
+      "description": "VIS-AS-AP Voglu Internet Service",
+      "country": "BD",
+      "announced": true,
+      "traffic": 712,
+      "rank": 115,
+      "percentage": 0.15985953914650275
+    },
+    {
+      "asn": "141726",
+      "type": "local-isp",
+      "name": "STAR5-AS-AP Star Online",
+      "description": "STAR5-AS-AP Star Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 712,
+      "rank": 116,
+      "percentage": 0.15985953914650275
+    },
+    {
+      "asn": "58923",
+      "type": "local-isp",
+      "name": "INTERCLOUDLTD-AS-AP InterCloud ltd",
+      "description": "INTERCLOUDLTD-AS-AP InterCloud ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 711,
+      "rank": 117,
+      "percentage": 0.15963501732185878
+    },
+    {
+      "asn": "149478",
+      "type": "local-isp",
+      "name": "ROCKET-AS-AP Rocket Internet Service",
+      "description": "ROCKET-AS-AP Rocket Internet Service",
+      "country": "BD",
+      "announced": true,
+      "traffic": 711,
+      "rank": 118,
+      "percentage": 0.15963501732185878
+    },
+    {
+      "asn": "137038",
+      "type": "local-isp",
+      "name": "ZUBAIRITEXPERT-AS-AP MD ZUBAIR ISLAM ta ZUBAIR IT EXPERT",
+      "description": "ZUBAIRITEXPERT-AS-AP MD ZUBAIR ISLAM ta ZUBAIR IT EXPERT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 711,
+      "rank": 119,
+      "percentage": 0.15963501732185878
+    },
+    {
+      "asn": "139335",
+      "type": "local-isp",
+      "name": "SREEJON-AS-AP Sreejon Online.Com",
+      "description": "SREEJON-AS-AP Sreejon Online.Com",
+      "country": "BD",
+      "announced": true,
+      "traffic": 711,
+      "rank": 120,
+      "percentage": 0.15963501732185878
+    },
+    {
+      "asn": "141184",
+      "type": "local-isp",
+      "name": "INNC-AS-AP I NOX NET COMMUNICATION",
+      "description": "INNC-AS-AP I NOX NET COMMUNICATION",
+      "country": "BD",
+      "announced": true,
+      "traffic": 711,
+      "rank": 121,
+      "percentage": 0.15963501732185878
+    },
+    {
+      "asn": "151969",
+      "type": "local-isp",
+      "name": "MEDIACOM-AS-AP MediaCom",
+      "description": "MEDIACOM-AS-AP MediaCom",
+      "country": "BD",
+      "announced": true,
+      "traffic": 710,
+      "rank": 122,
+      "percentage": 0.1594104954972148
+    },
+    {
+      "asn": "150156",
+      "type": "local-isp",
+      "name": "M99IT-AS-AP 99IT",
+      "description": "M99IT-AS-AP 99IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 710,
+      "rank": 123,
+      "percentage": 0.1594104954972148
+    },
+    {
+      "asn": "151318",
+      "type": "local-isp",
+      "name": "TALORAONLINE-AS-AP TALORA ONLINE",
+      "description": "TALORAONLINE-AS-AP TALORA ONLINE",
+      "country": "BD",
+      "announced": true,
+      "traffic": 710,
+      "rank": 124,
+      "percentage": 0.1594104954972148
+    },
+    {
+      "asn": "140664",
+      "type": "local-isp",
+      "name": "COGENTBROADBANDKHL-AS-AP Cogent Broadband",
+      "description": "COGENTBROADBANDKHL-AS-AP Cogent Broadband",
+      "country": "BD",
+      "announced": true,
+      "traffic": 710,
+      "rank": 125,
+      "percentage": 0.1594104954972148
+    },
+    {
+      "asn": "141375",
+      "type": "local-isp",
+      "name": "CIL-AS-AP Central Internet Link",
+      "description": "CIL-AS-AP Central Internet Link",
+      "country": "BD",
+      "announced": true,
+      "traffic": 710,
+      "rank": 126,
+      "percentage": 0.1594104954972148
+    },
+    {
+      "asn": "147022",
+      "type": "local-isp",
+      "name": "SBI-AS-AP Shamibag Broadband Internet",
+      "description": "SBI-AS-AP Shamibag Broadband Internet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 710,
+      "rank": 127,
+      "percentage": 0.1594104954972148
+    },
+    {
+      "asn": "149001",
+      "type": "local-isp",
+      "name": "SHAFI-AS-AP Shafi Enterprise",
+      "description": "SHAFI-AS-AP Shafi Enterprise",
+      "country": "BD",
+      "announced": true,
+      "traffic": 710,
+      "rank": 128,
+      "percentage": 0.1594104954972148
+    },
+    {
+      "asn": "151781",
+      "type": "local-isp",
+      "name": "RABBITINTERNET-AS-AP Rabbit Internet",
+      "description": "RABBITINTERNET-AS-AP Rabbit Internet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 709,
+      "rank": 129,
+      "percentage": 0.15918597367257084
+    },
+    {
+      "asn": "141433",
+      "type": "local-isp",
+      "name": "NIS-AS-AP Netcom Internet Service",
+      "description": "NIS-AS-AP Netcom Internet Service",
+      "country": "BD",
+      "announced": true,
+      "traffic": 709,
+      "rank": 130,
+      "percentage": 0.15918597367257084
+    },
+    {
+      "asn": "147009",
+      "type": "local-isp",
+      "name": "ADINANET-AS-AP Adina Net",
+      "description": "ADINANET-AS-AP Adina Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 709,
+      "rank": 131,
+      "percentage": 0.15918597367257084
+    },
+    {
+      "asn": "138917",
+      "type": "local-isp",
+      "name": "JUPITER2-AS-AP JUPITER ONLINE SERVICES",
+      "description": "JUPITER2-AS-AP JUPITER ONLINE SERVICES",
+      "country": "BD",
+      "announced": true,
+      "traffic": 708,
+      "rank": 132,
+      "percentage": 0.15896145184792687
+    },
+    {
+      "asn": "152585",
+      "type": "local-isp",
+      "name": "SBFIBERLINK-AS-AP SB Fiber Link",
+      "description": "SBFIBERLINK-AS-AP SB Fiber Link",
+      "country": "BD",
+      "announced": true,
+      "traffic": 708,
+      "rank": 133,
+      "percentage": 0.15896145184792687
+    },
+    {
+      "asn": "58688",
+      "type": "local-isp",
+      "name": "RADIANT RADIANT COMMUNICATIONS LTD IIG",
+      "description": "RADIANT RADIANT COMMUNICATIONS LTD IIG",
+      "country": "BD",
+      "announced": true,
+      "traffic": 707,
+      "rank": 134,
+      "percentage": 0.15873693002328293
+    },
+    {
+      "asn": "137843",
+      "type": "local-isp",
+      "name": "INTERSTELLAR-AS-AP INTERSTELLAR",
+      "description": "INTERSTELLAR-AS-AP INTERSTELLAR",
+      "country": "BD",
+      "announced": true,
+      "traffic": 707,
+      "rank": 135,
+      "percentage": 0.15873693002328293
+    },
+    {
+      "asn": "150123",
+      "type": "local-isp",
+      "name": "MSSNB-AS-AP MS S.N.B. NET",
+      "description": "MSSNB-AS-AP MS S.N.B. NET",
+      "country": "BD",
+      "announced": true,
+      "traffic": 707,
+      "rank": 136,
+      "percentage": 0.15873693002328293
+    },
+    {
+      "asn": "150316",
+      "type": "local-isp",
+      "name": "PRNETWORK-AS-AP PR Network",
+      "description": "PRNETWORK-AS-AP PR Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 706,
+      "rank": 137,
+      "percentage": 0.15851240819863896
+    },
+    {
+      "asn": "149451",
+      "type": "local-isp",
+      "name": "UNIQUEONLINE-AS-AP Unique Online",
+      "description": "UNIQUEONLINE-AS-AP Unique Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 706,
+      "rank": 138,
+      "percentage": 0.15851240819863896
+    },
+    {
+      "asn": "24122",
+      "type": "local-isp",
+      "name": "BDCOM-BD-AS-AP BDCOM Online Limited",
+      "description": "BDCOM-BD-AS-AP BDCOM Online Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 704,
+      "rank": 139,
+      "percentage": 0.15806336454935102
+    },
+    {
+      "asn": "153688",
+      "type": "local-isp",
+      "name": "NNO-AS-AP Ninja Network online",
+      "description": "NNO-AS-AP Ninja Network online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 704,
+      "rank": 140,
+      "percentage": 0.15806336454935102
+    },
+    {
+      "asn": "140923",
+      "type": "local-isp",
+      "name": "GLOBALLINK-AS-AP Global Link",
+      "description": "GLOBALLINK-AS-AP Global Link",
+      "country": "BD",
+      "announced": true,
+      "traffic": 703,
+      "rank": 141,
+      "percentage": 0.15783884272470705
+    },
+    {
+      "asn": "139230",
+      "type": "local-isp",
+      "name": "HAMS-AS-AP HAMS Garments Ltd",
+      "description": "HAMS-AS-AP HAMS Garments Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 700,
+      "rank": 142,
+      "percentage": 0.15716527725077514
+    },
+    {
+      "asn": "134113",
+      "type": "local-isp",
+      "name": "MCN-BD Kazi Sazzad Hossain TA Millennium Computers & Networking",
+      "description": "MCN-BD Kazi Sazzad Hossain TA Millennium Computers & Networking",
+      "country": "BD",
+      "announced": true,
+      "traffic": 698,
+      "rank": 143,
+      "percentage": 0.15671623360148723
+    },
+    {
+      "asn": "136156",
+      "type": "local-isp",
+      "name": "FNFONLINE-AS-AP MD Rehanur Rahman ta MS FNF Online",
+      "description": "FNFONLINE-AS-AP MD Rehanur Rahman ta MS FNF Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 698,
+      "rank": 144,
+      "percentage": 0.15671623360148723
+    },
+    {
+      "asn": "139927",
+      "type": "local-isp",
+      "name": "GALAXYNET-AS-AP Galaxy Net",
+      "description": "GALAXYNET-AS-AP Galaxy Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 697,
+      "rank": 145,
+      "percentage": 0.15649171177684326
+    },
+    {
+      "asn": "133191",
+      "type": "local-isp",
+      "name": "SSF-AS-AP Special Security Force SSF",
+      "description": "SSF-AS-AP Special Security Force SSF",
+      "country": "BD",
+      "announced": true,
+      "traffic": 696,
+      "rank": 146,
+      "percentage": 0.1562671899521993
+    },
+    {
+      "asn": "139915",
+      "type": "local-isp",
+      "name": "ASHANET-AS-AP Ashanet bd",
+      "description": "ASHANET-AS-AP Ashanet bd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 696,
+      "rank": 147,
+      "percentage": 0.1562671899521993
+    },
+    {
+      "asn": "141456",
+      "type": "local-isp",
+      "name": "BONDHON-AS-AP Bondhon Communication",
+      "description": "BONDHON-AS-AP Bondhon Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 695,
+      "rank": 148,
+      "percentage": 0.15604266812755532
+    },
+    {
+      "asn": "58768",
+      "type": "local-isp",
+      "name": "DAFFODILNET-BD Daffodil Online Ltd.",
+      "description": "DAFFODILNET-BD Daffodil Online Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 694,
+      "rank": 149,
+      "percentage": 0.15581814630291138
+    },
+    {
+      "asn": "131686",
+      "type": "local-isp",
+      "name": "CCN-AS-AP MD. Khurshid Alom ta Computer Complex Network",
+      "description": "CCN-AS-AP MD. Khurshid Alom ta Computer Complex Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 692,
+      "rank": 150,
+      "percentage": 0.15536910265362344
+    },
+    {
+      "asn": "150458",
+      "type": "local-isp",
+      "name": "ONIONNETZONE-AS-AP Onion Net Zone",
+      "description": "ONIONNETZONE-AS-AP Onion Net Zone",
+      "country": "BD",
+      "announced": true,
+      "traffic": 689,
+      "rank": 151,
+      "percentage": 0.15469553717969156
+    },
+    {
+      "asn": "134146",
+      "type": "local-isp",
+      "name": "SAMONLINE-AS-AP SAM ONLINE",
+      "description": "SAMONLINE-AS-AP SAM ONLINE",
+      "country": "BD",
+      "announced": true,
+      "traffic": 684,
+      "rank": 152,
+      "percentage": 0.15357292805647174
+    },
+    {
+      "asn": "153385",
+      "type": "local-isp",
+      "name": "PICO-AS-AP Pico Public Cloud Limited",
+      "description": "PICO-AS-AP Pico Public Cloud Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 684,
+      "rank": 153,
+      "percentage": 0.15357292805647174
+    },
+    {
+      "asn": "38744",
+      "type": "local-isp",
+      "name": "AONB-AS-AP AlwaysOn Network Bangladesh Ltd",
+      "description": "AONB-AS-AP AlwaysOn Network Bangladesh Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 682,
+      "rank": 154,
+      "percentage": 0.1531238844071838
+    },
+    {
+      "asn": "153523",
+      "type": "local-isp",
+      "name": "UHB-AS-AP Ummah Host",
+      "description": "UHB-AS-AP Ummah Host",
+      "country": "BD",
+      "announced": true,
+      "traffic": 681,
+      "rank": 155,
+      "percentage": 0.15289936258253983
+    },
+    {
+      "asn": "149306",
+      "type": "local-isp",
+      "name": "KHILGAON2-AS-AP Khilgaon Dot Net",
+      "description": "KHILGAON2-AS-AP Khilgaon Dot Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 679,
+      "rank": 156,
+      "percentage": 0.1524503189332519
+    },
+    {
+      "asn": "58890",
+      "type": "local-isp",
+      "name": "INFOLINK1-BD InfoLink",
+      "description": "INFOLINK1-BD InfoLink",
+      "country": "BD",
+      "announced": true,
+      "traffic": 676,
+      "rank": 157,
+      "percentage": 0.15177675345932
+    },
+    {
+      "asn": "139016",
+      "type": "local-isp",
+      "name": "EXONHOST-AS-AP EXONHOST",
+      "description": "EXONHOST-AS-AP EXONHOST",
+      "country": "BD",
+      "announced": true,
+      "traffic": 675,
+      "rank": 158,
+      "percentage": 0.15155223163467604
+    },
+    {
+      "asn": "139667",
+      "type": "local-isp",
+      "name": "ETN-AS-AP Ether Techonology Network",
+      "description": "ETN-AS-AP Ether Techonology Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 670,
+      "rank": 159,
+      "percentage": 0.15042962251145622
+    },
+    {
+      "asn": "136009",
+      "type": "local-isp",
+      "name": "SPEEDNET-AS-AP SpeedNet",
+      "description": "SPEEDNET-AS-AP SpeedNet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 669,
+      "rank": 160,
+      "percentage": 0.15020510068681225
+    },
+    {
+      "asn": "132306",
+      "type": "local-isp",
+      "name": "MOS5TEL-BD MOS 5 TEL LIMITED",
+      "description": "MOS5TEL-BD MOS 5 TEL LIMITED",
+      "country": "BD",
+      "announced": true,
+      "traffic": 664,
+      "rank": 161,
+      "percentage": 0.14908249156359243
+    },
+    {
+      "asn": "136563",
+      "type": "local-isp",
+      "name": "IRANETCYBERCAFE-AS-AP Iranet Cyber Cafe",
+      "description": "IRANETCYBERCAFE-AS-AP Iranet Cyber Cafe",
+      "country": "BD",
+      "announced": true,
+      "traffic": 660,
+      "rank": 162,
+      "percentage": 0.14818440426501658
+    },
+    {
+      "asn": "149829",
+      "type": "local-isp",
+      "name": "WIDE-AS-AP Wide Communications",
+      "description": "WIDE-AS-AP Wide Communications",
+      "country": "BD",
+      "announced": true,
+      "traffic": 655,
+      "rank": 163,
+      "percentage": 0.14706179514179676
+    },
+    {
+      "asn": "153556",
+      "type": "local-isp",
+      "name": "ZCN-AS-AP Z-Computer & Networks",
+      "description": "ZCN-AS-AP Z-Computer & Networks",
+      "country": "BD",
+      "announced": true,
+      "traffic": 654,
+      "rank": 164,
+      "percentage": 0.1468372733171528
+    },
+    {
+      "asn": "134968",
+      "type": "local-isp",
+      "name": "MAYACYBERWORLD-AS-AP Mizanur Rahman ta Maya Cyber World",
+      "description": "MAYACYBERWORLD-AS-AP Mizanur Rahman ta Maya Cyber World",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1117,
+      "rank": 45,
+      "percentage": 0.2507908781273084
+    },
+    {
+      "asn": "137416",
+      "type": "local-isp",
+      "name": "NETPARK-AS-AP Netpark Communication",
+      "description": "NETPARK-AS-AP Netpark Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 650,
+      "rank": 165,
+      "percentage": 0.14593918601857694
+    },
+    {
+      "asn": "150001",
+      "type": "local-isp",
+      "name": "SFNL-AS-AP Sixty Four Networks Limited.",
+      "description": "SFNL-AS-AP Sixty Four Networks Limited.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 635,
+      "rank": 166,
+      "percentage": 0.14257135864891746
+    },
+    {
+      "asn": "140093",
+      "type": "local-isp",
+      "name": "VIRTUAL-AS-AP Virtual Communications",
+      "description": "VIRTUAL-AS-AP Virtual Communications",
+      "country": "BD",
+      "announced": true,
+      "traffic": 634,
+      "rank": 167,
+      "percentage": 0.14234683682427351
+    },
+    {
+      "asn": "139872",
+      "type": "local-isp",
+      "name": "RAPIDNET-AS-AP Rapid Technology",
+      "description": "RAPIDNET-AS-AP Rapid Technology",
+      "country": "BD",
+      "announced": true,
+      "traffic": 616,
+      "rank": 168,
+      "percentage": 0.13830544398068215
+    },
+    {
+      "asn": "24556",
+      "type": "local-isp",
+      "name": "BIJOY-BD-AS-AP Bijoy Online Ltd. Multihome Internet Service Provider",
+      "description": "BIJOY-BD-AS-AP Bijoy Online Ltd. Multihome Internet Service Provider",
+      "country": "BD",
+      "announced": true,
+      "traffic": 598,
+      "rank": 169,
+      "percentage": 0.13426405113709078
+    },
+    {
+      "asn": "133610",
+      "type": "local-isp",
+      "name": "BRAC-AS ASN of BRAC",
+      "description": "BRAC-AS ASN of BRAC",
+      "country": "BD",
+      "announced": true,
+      "traffic": 590,
+      "rank": 170,
+      "percentage": 0.13246787653993908
+    },
+    {
+      "asn": "142571",
+      "type": "local-isp",
+      "name": "CBPB-AS-AP Citizens Bank PLC",
+      "description": "CBPB-AS-AP Citizens Bank PLC",
+      "country": "BD",
+      "announced": true,
+      "traffic": 590,
+      "rank": 171,
+      "percentage": 0.13246787653993908
+    },
+    {
+      "asn": "150180",
+      "type": "local-isp",
+      "name": "AFRENIT-AS-AP AFREN IT",
+      "description": "AFRENIT-AS-AP AFREN IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 586,
+      "rank": 172,
+      "percentage": 0.13156978924136323
+    },
+    {
+      "asn": "139781",
+      "type": "local-isp",
+      "name": "TOUHEDNET-AS-AP TOUHED NET",
+      "description": "TOUHEDNET-AS-AP TOUHED NET",
+      "country": "BD",
+      "announced": true,
+      "traffic": 583,
+      "rank": 173,
+      "percentage": 0.13089622376743132
+    },
+    {
+      "asn": "136004",
+      "type": "local-isp",
+      "name": "RU-AC-AS-AP University of Rajshahi",
+      "description": "RU-AC-AS-AP University of Rajshahi",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1044,
+      "rank": 56,
+      "percentage": 0.23440078492829894
+    },
+    {
+      "asn": "59242",
+      "type": "local-isp",
+      "name": "TBL-AS-AP Tullow Bangladesh Ltd. A wholly owned member of KrisEnergy Group",
+      "description": "TBL-AS-AP Tullow Bangladesh Ltd. A wholly owned member of KrisEnergy Group",
+      "country": "BD",
+      "announced": true,
+      "traffic": 568,
+      "rank": 174,
+      "percentage": 0.12752839639777186
+    },
+    {
+      "asn": "133547",
+      "type": "local-isp",
+      "name": "BITNET-AS-AP Bit Net Technology",
+      "description": "BITNET-AS-AP Bit Net Technology",
+      "country": "BD",
+      "announced": true,
+      "traffic": 975,
+      "rank": 65,
+      "percentage": 0.21890877902786537
+    },
+    {
+      "asn": "137889",
+      "type": "local-isp",
+      "name": "GITI-AS-AP GENIUS IT",
+      "description": "GITI-AS-AP GENIUS IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 563,
+      "rank": 175,
+      "percentage": 0.126405787274552
+    },
+    {
+      "asn": "63980",
+      "type": "local-isp",
+      "name": "MFI-AS-AP Minara Firoz Infotech",
+      "description": "MFI-AS-AP Minara Firoz Infotech",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1036,
+      "rank": 57,
+      "percentage": 0.2326046103311472
+    },
+    {
+      "asn": "137015",
+      "type": "local-isp",
+      "name": "STARNETWORKBD-AS-AP Star Network",
+      "description": "STARNETWORKBD-AS-AP Star Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 538,
+      "rank": 176,
+      "percentage": 0.12079274165845291
+    },
+    {
+      "asn": "138382",
+      "type": "local-isp",
+      "name": "BRUR-AS-AP Begum Rokeya University",
+      "description": "BRUR-AS-AP Begum Rokeya University",
+      "country": "BD",
+      "announced": true,
+      "traffic": 536,
+      "rank": 177,
+      "percentage": 0.12034369800916497
+    },
+    {
+      "asn": "137033",
+      "type": "local-isp",
+      "name": "RSMNETWORK-AS-AP RSM Network",
+      "description": "RSMNETWORK-AS-AP RSM Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 535,
+      "rank": 178,
+      "percentage": 0.120119176184521
+    },
+    {
+      "asn": "58629",
+      "type": "local-isp",
+      "name": "GFCL-BD Global Fair Communications Ltd.",
+      "description": "GFCL-BD Global Fair Communications Ltd.",
+      "country": "BD",
+      "announced": true,
+      "traffic": 519,
+      "rank": 179,
+      "percentage": 0.11652682699021757
+    },
+    {
+      "asn": "138043",
+      "type": "local-isp",
+      "name": "T2-AS-AP T Network",
+      "description": "T2-AS-AP T Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 507,
+      "rank": 180,
+      "percentage": 0.11383256509449001
+    },
+    {
+      "asn": "136266",
+      "type": "local-isp",
+      "name": "AUTOMATIONSYSTEM-AS-AP Mohammad Abu Nayem TA Automation System",
+      "description": "AUTOMATIONSYSTEM-AS-AP Mohammad Abu Nayem TA Automation System",
+      "country": "BD",
+      "announced": true,
+      "traffic": 504,
+      "rank": 181,
+      "percentage": 0.11315899962055813
+    },
+    {
+      "asn": "150348",
+      "type": "local-isp",
+      "name": "NCNBROADBAND-AS-AP NCN Broadband",
+      "description": "NCNBROADBAND-AS-AP NCN Broadband",
+      "country": "BD",
+      "announced": true,
+      "traffic": 500,
+      "rank": 182,
+      "percentage": 0.11226091232198226
+    },
+    {
+      "asn": "138601",
+      "type": "local-isp",
+      "name": "COLOASIA-AS-AP Coloasia Limited",
+      "description": "COLOASIA-AS-AP Coloasia Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 1313,
+      "rank": 35,
+      "percentage": 0.2947971557575254
+    },
+    {
+      "asn": "133325",
+      "type": "local-isp",
+      "name": "GENFIVETECHNOLOGY-AS-AP Genfive Technology",
+      "description": "GENFIVETECHNOLOGY-AS-AP Genfive Technology",
+      "country": "BD",
+      "announced": true,
+      "traffic": 498,
+      "rank": 183,
+      "percentage": 0.11181186867269433
+    },
+    {
+      "asn": "139668",
+      "type": "local-isp",
+      "name": "CEFALO-AS-AP Cefalo Bangladesh Ltd",
+      "description": "CEFALO-AS-AP Cefalo Bangladesh Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 490,
+      "rank": 184,
+      "percentage": 0.11001569407554261
+    },
+    {
+      "asn": "58947",
+      "type": "local-isp",
+      "name": "SOFTWARE-AS-AP Software Shop Limited",
+      "description": "SOFTWARE-AS-AP Software Shop Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 488,
+      "rank": 185,
+      "percentage": 0.10956665042625467
+    },
+    {
+      "asn": "132159",
+      "type": "local-isp",
+      "name": "NCON-AS-AP Noor Communication Online Network",
+      "description": "NCON-AS-AP Noor Communication Online Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 483,
+      "rank": 186,
+      "percentage": 0.10844404130303485
+    },
+    {
+      "asn": "154109",
+      "type": "local-isp",
+      "name": "HOSTINGOXYGEN-AS-AP Hosting Oxygen",
+      "description": "HOSTINGOXYGEN-AS-AP Hosting Oxygen",
+      "country": "BD",
+      "announced": true,
+      "traffic": 482,
+      "rank": 187,
+      "percentage": 0.10821951947839091
+    },
+    {
+      "asn": "138600",
+      "type": "local-isp",
+      "name": "ABI-AS-AP Achiever Broadband Internet",
+      "description": "ABI-AS-AP Achiever Broadband Internet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 456,
+      "rank": 188,
+      "percentage": 0.10238195203764783
+    },
+    {
+      "asn": "58935",
+      "type": "local-isp",
+      "name": "LANKABANGLA-BD LankaBangla Information System Limited",
+      "description": "LANKABANGLA-BD LankaBangla Information System Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 448,
+      "rank": 189,
+      "percentage": 0.10058577744049611
+    },
+    {
+      "asn": "139904",
+      "type": "local-isp",
+      "name": "KTL-AS-AP Kloud Technologies Limited",
+      "description": "KTL-AS-AP Kloud Technologies Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 445,
+      "rank": 190,
+      "percentage": 0.0999122119665642
+    },
+    {
+      "asn": "63963",
+      "type": "local-isp",
+      "name": "GOAL-BD Gateway Online Access Limited",
+      "description": "GOAL-BD Gateway Online Access Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 438,
+      "rank": 191,
+      "percentage": 0.09834055919405646
+    },
+    {
+      "asn": "38493",
+      "type": "local-isp",
+      "name": "ROYALGREENINCBD-TRANSIT-AS-AP Royal Green Communication Limited",
+      "description": "ROYALGREENINCBD-TRANSIT-AS-AP Royal Green Communication Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 436,
+      "rank": 192,
+      "percentage": 0.09789151554476852
+    },
+    {
+      "asn": "135597",
+      "type": "local-isp",
+      "name": "GBN-AS-AP Gaibandha Broadband Network",
+      "description": "GBN-AS-AP Gaibandha Broadband Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 430,
+      "rank": 193,
+      "percentage": 0.09654438459690474
+    },
+    {
+      "asn": "131243",
+      "type": "local-isp",
+      "name": "F-AS-AP F N S",
+      "description": "F-AS-AP F N S",
+      "country": "BD",
+      "announced": true,
+      "traffic": 426,
+      "rank": 194,
+      "percentage": 0.09564629729832888
+    },
+    {
+      "asn": "131183",
+      "type": "local-isp",
+      "name": "EPNET-AS-AP Empowering Net epnet",
+      "description": "EPNET-AS-AP Empowering Net epnet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 425,
+      "rank": 195,
+      "percentage": 0.09542177547368492
+    },
+    {
+      "asn": "147017",
+      "type": "local-isp",
+      "name": "NETTWOHOMEBD-AS-AP Net Two Home",
+      "description": "NETTWOHOMEBD-AS-AP Net Two Home",
+      "country": "BD",
+      "announced": true,
+      "traffic": 419,
+      "rank": 196,
+      "percentage": 0.09407464452582112
+    },
+    {
+      "asn": "140612",
+      "type": "local-isp",
+      "name": "DESHCOMMUNICATIONS-AS-AP DESH COMMUNICATIONS",
+      "description": "DESHCOMMUNICATIONS-AS-AP DESH COMMUNICATIONS",
+      "country": "BD",
+      "announced": true,
+      "traffic": 418,
+      "rank": 197,
+      "percentage": 0.09385012270117717
+    },
+    {
+      "asn": "141991",
+      "type": "local-isp",
+      "name": "BENAPOLENET-AS-AP Benapole Net",
+      "description": "BENAPOLENET-AS-AP Benapole Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 411,
+      "rank": 198,
+      "percentage": 0.09227846992866942
+    },
+    {
+      "asn": "142168",
+      "type": "local-isp",
+      "name": "RACE-AS-AP RACE IT",
+      "description": "RACE-AS-AP RACE IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 409,
+      "rank": 199,
+      "percentage": 0.09182942627938148
+    },
+    {
+      "asn": "141773",
+      "type": "local-isp",
+      "name": "BDCCL-AS-AP Bangladesh Data Center Company Limited",
+      "description": "BDCCL-AS-AP Bangladesh Data Center Company Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 406,
+      "rank": 200,
+      "percentage": 0.09115586080544959
+    },
+    {
+      "asn": "137519",
+      "type": "local-isp",
+      "name": "HPL-AS-AP Healthcare Pharmaceuticals Ltd",
+      "description": "HPL-AS-AP Healthcare Pharmaceuticals Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 405,
+      "rank": 201,
+      "percentage": 0.09093133898080563
+    },
+    {
+      "asn": "139064",
+      "type": "local-isp",
+      "name": "RONY-AS-AP RONY ONLINE COMMUNICATION",
+      "description": "RONY-AS-AP RONY ONLINE COMMUNICATION",
+      "country": "BD",
+      "announced": true,
+      "traffic": 396,
+      "rank": 202,
+      "percentage": 0.08891064255900995
+    },
+    {
+      "asn": "132806",
+      "type": "local-isp",
+      "name": "KUET-AS-AP Khulna University of Engineering & Technology",
+      "description": "KUET-AS-AP Khulna University of Engineering & Technology",
+      "country": "BD",
+      "announced": true,
+      "traffic": 394,
+      "rank": 203,
+      "percentage": 0.08846159890972202
+    },
+    {
+      "asn": "140669",
+      "type": "local-isp",
+      "name": "BESTCOMMUNICATION-AS-AP Best Communication",
+      "description": "BESTCOMMUNICATION-AS-AP Best Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 394,
+      "rank": 204,
+      "percentage": 0.08846159890972202
+    },
+    {
+      "asn": "135125",
+      "type": "local-isp",
+      "name": "TALMURI-AS-AP Emdadul Huq Khan ta Talmuri Computer System",
+      "description": "TALMURI-AS-AP Emdadul Huq Khan ta Talmuri Computer System",
+      "country": "BD",
+      "announced": true,
+      "traffic": 385,
+      "rank": 205,
+      "percentage": 0.08644090248792634
+    },
+    {
+      "asn": "58445",
+      "type": "local-isp",
+      "name": "DBBL-BD Dutch-Bangla Bank Limited",
+      "description": "DBBL-BD Dutch-Bangla Bank Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 385,
+      "rank": 206,
+      "percentage": 0.08644090248792634
+    },
+    {
+      "asn": "149162",
+      "type": "local-isp",
+      "name": "FIBER1-AS-AP Fiber Link",
+      "description": "FIBER1-AS-AP Fiber Link",
+      "country": "BD",
+      "announced": true,
+      "traffic": 385,
+      "rank": 207,
+      "percentage": 0.08644090248792634
+    },
+    {
+      "asn": "138701",
+      "type": "local-isp",
+      "name": "GREENZONEONLINE-AS-AP Green Zone Online",
+      "description": "GREENZONEONLINE-AS-AP Green Zone Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 383,
+      "rank": 208,
+      "percentage": 0.08599185883863841
+    },
+    {
+      "asn": "141436",
+      "type": "local-isp",
+      "name": "NET1-AS-AP MS Net Connect",
+      "description": "NET1-AS-AP MS Net Connect",
+      "country": "BD",
+      "announced": true,
+      "traffic": 383,
+      "rank": 209,
+      "percentage": 0.08599185883863841
+    },
+    {
+      "asn": "136482",
+      "type": "local-isp",
+      "name": "BOTTOLACYBERNET-AS-AP Bottola Cyber Net",
+      "description": "BOTTOLACYBERNET-AS-AP Bottola Cyber Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 383,
+      "rank": 210,
+      "percentage": 0.08599185883863841
+    },
+    {
+      "asn": "137543",
+      "type": "local-isp",
+      "name": "NEWBANGLASPEED-AS-AP Mohammad Yousuf",
+      "description": "NEWBANGLASPEED-AS-AP Mohammad Yousuf",
+      "country": "BD",
+      "announced": true,
+      "traffic": 382,
+      "rank": 211,
+      "percentage": 0.08576733701399444
+    },
+    {
+      "asn": "139473",
+      "type": "local-isp",
+      "name": "SHEBATEL-AS-AP Shebatel Network Ltd",
+      "description": "SHEBATEL-AS-AP Shebatel Network Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 382,
+      "rank": 212,
+      "percentage": 0.08576733701399444
+    },
+    {
+      "asn": "139674",
+      "type": "local-isp",
+      "name": "SIL-AS-AP Square InformatiX Ltd",
+      "description": "SIL-AS-AP Square InformatiX Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 382,
+      "rank": 213,
+      "percentage": 0.08576733701399444
+    },
+    {
+      "asn": "136435",
+      "type": "local-isp",
+      "name": "ELITE-BD ELITE COMMUNICATION",
+      "description": "ELITE-BD ELITE COMMUNICATION",
+      "country": "BD",
+      "announced": true,
+      "traffic": 381,
+      "rank": 214,
+      "percentage": 0.08554281518935047
+    },
+    {
+      "asn": "154258",
+      "type": "local-isp",
+      "name": "TACKYON1-AS-AP Tackyon Limited",
+      "description": "TACKYON1-AS-AP Tackyon Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 380,
+      "rank": 215,
+      "percentage": 0.0853182933647065
+    },
+    {
+      "asn": "133477",
+      "type": "local-isp",
+      "name": "BANGLADESHPOLICE-AS-AP Bangladesh Police",
+      "description": "BANGLADESHPOLICE-AS-AP Bangladesh Police",
+      "country": "BD",
+      "announced": true,
+      "traffic": 380,
+      "rank": 216,
+      "percentage": 0.0853182933647065
+    },
+    {
+      "asn": "139924",
+      "type": "local-isp",
+      "name": "PIPEXCOMMUNICATION-AS-AP Pipex Communication",
+      "description": "PIPEXCOMMUNICATION-AS-AP Pipex Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 380,
+      "rank": 217,
+      "percentage": 0.0853182933647065
+    },
+    {
+      "asn": "141038",
+      "type": "local-isp",
+      "name": "CHAUDDAGRAM-AS-AP Chauddagram Broadband",
+      "description": "CHAUDDAGRAM-AS-AP Chauddagram Broadband",
+      "country": "BD",
+      "announced": true,
+      "traffic": 380,
+      "rank": 218,
+      "percentage": 0.0853182933647065
+    },
+    {
+      "asn": "149832",
+      "type": "local-isp",
+      "name": "TIMESCOMMUNICATION-AS-AP Times Communication",
+      "description": "TIMESCOMMUNICATION-AS-AP Times Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 380,
+      "rank": 219,
+      "percentage": 0.0853182933647065
+    },
+    {
+      "asn": "136429",
+      "type": "local-isp",
+      "name": "BASNETWORK-AS-AP BAS Network",
+      "description": "BASNETWORK-AS-AP BAS Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 752,
+      "rank": 80,
+      "percentage": 0.1688404121322613
+    },
+    {
+      "asn": "137572",
+      "type": "local-isp",
+      "name": "AFTABNAGAR-AS-AP AFTAB NAGAR ONLINE SERVICE ANOS",
+      "description": "AFTABNAGAR-AS-AP AFTAB NAGAR ONLINE SERVICE ANOS",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 220,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "138437",
+      "type": "local-isp",
+      "name": "GENERAL-COMMUNICATION-AS-AP General Communication",
+      "description": "GENERAL-COMMUNICATION-AS-AP General Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 221,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "139236",
+      "type": "local-isp",
+      "name": "BDLGED-AS-AP Local Government Engineering Department LGED",
+      "description": "BDLGED-AS-AP Local Government Engineering Department LGED",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 222,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "139652",
+      "type": "local-isp",
+      "name": "FUSIONNET-AS-AP Fusion Net Ltd",
+      "description": "FUSIONNET-AS-AP Fusion Net Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 223,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "135378",
+      "type": "local-isp",
+      "name": "TADL-AS-AP Trust Axiata Digital Limited",
+      "description": "TADL-AS-AP Trust Axiata Digital Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 224,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "147294",
+      "type": "local-isp",
+      "name": "BCT-AS-AP Bismillah Computer & Technology",
+      "description": "BCT-AS-AP Bismillah Computer & Technology",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 225,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "149293",
+      "type": "local-isp",
+      "name": "TUHINAHMED-AS-AP A2Z Network",
+      "description": "TUHINAHMED-AS-AP A2Z Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 226,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "149777",
+      "type": "local-isp",
+      "name": "STAR6-AS-AP Star Online",
+      "description": "STAR6-AS-AP Star Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 227,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "154377",
+      "type": "local-isp",
+      "name": "BROTHERSONLINEBD-AS-AP Brothers Online",
+      "description": "BROTHERSONLINEBD-AS-AP Brothers Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 228,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "38313",
+      "type": "local-isp",
+      "name": "FUSIONNET-AS-AP Fusion Net Ltd",
+      "description": "FUSIONNET-AS-AP Fusion Net Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 229,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "152139",
+      "type": "local-isp",
+      "name": "RRCOMMUNICATION-AS-AP RR Communication",
+      "description": "RRCOMMUNICATION-AS-AP RR Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 230,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "138022",
+      "type": "local-isp",
+      "name": "ROWSHANARA-AS-AP Mohammad Mohiuddin",
+      "description": "ROWSHANARA-AS-AP Mohammad Mohiuddin",
+      "country": "BD",
+      "announced": true,
+      "traffic": 379,
+      "rank": 231,
+      "percentage": 0.08509377154006255
+    },
+    {
+      "asn": "136598",
+      "type": "local-isp",
+      "name": "HTL-AS-AP HN Telecom Limited",
+      "description": "HTL-AS-AP HN Telecom Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 755,
+      "rank": 78,
+      "percentage": 0.16951397760619322
+    },
+    {
+      "asn": "131304",
+      "type": "local-isp",
+      "name": "FTL-AS-AP FIBER TECHNOLOGY LIMITED",
+      "description": "FTL-AS-AP FIBER TECHNOLOGY LIMITED",
+      "country": "BD",
+      "announced": true,
+      "traffic": 378,
+      "rank": 232,
+      "percentage": 0.08486924971541858
+    },
+    {
+      "asn": "152732",
+      "type": "local-isp",
+      "name": "RAZIBCOMMUNICATION-AS-AP Razib Communication",
+      "description": "RAZIBCOMMUNICATION-AS-AP Razib Communication",
+      "country": "BD",
+      "announced": true,
+      "traffic": 378,
+      "rank": 233,
+      "percentage": 0.08486924971541858
+    },
+    {
+      "asn": "152125",
+      "type": "local-isp",
+      "name": "NRSENTERPRISE-AS-AP NRS ENTERPRISE",
+      "description": "NRSENTERPRISE-AS-AP NRS ENTERPRISE",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 234,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "150699",
+      "type": "local-isp",
+      "name": "INAAYAITSOLUTIONS-AS-AP INAAYA IT SOLUTIONS",
+      "description": "INAAYAITSOLUTIONS-AS-AP INAAYA IT SOLUTIONS",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 235,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "132438",
+      "type": "local-isp",
+      "name": "APONIT-AS-AP Evan Ahmed Bhuiyan ta APON IT",
+      "description": "APONIT-AS-AP Evan Ahmed Bhuiyan ta APON IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 236,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "151050",
+      "type": "local-isp",
+      "name": "KFL-AS-AP KHULNA FIBER LINK",
+      "description": "KFL-AS-AP KHULNA FIBER LINK",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 237,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "140228",
+      "type": "local-isp",
+      "name": "RDL-AS-AP Red Data Pvt. Limited",
+      "description": "RDL-AS-AP Red Data Pvt. Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 238,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "134505",
+      "type": "local-isp",
+      "name": "IDEAL2-AS-AP Ideal Communication Network",
+      "description": "IDEAL2-AS-AP Ideal Communication Network",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 239,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "148974",
+      "type": "local-isp",
+      "name": "GEEKY-AS-AP Geeky Cloud",
+      "description": "GEEKY-AS-AP Geeky Cloud",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 240,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "150682",
+      "type": "local-isp",
+      "name": "JBL-AS-AP Janata Bank Limited",
+      "description": "JBL-AS-AP Janata Bank Limited",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 241,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "151369",
+      "type": "local-isp",
+      "name": "KV21DOTONLINE-AS-AP KV21 DOT ONLINE",
+      "description": "KV21DOTONLINE-AS-AP KV21 DOT ONLINE",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 242,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "9288",
+      "type": "local-isp",
+      "name": "DBTECHNOLOGIES-AS-AP Akhtaruzzaman ta DB Technologies",
+      "description": "DBTECHNOLOGIES-AS-AP Akhtaruzzaman ta DB Technologies",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 243,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "142287",
+      "type": "local-isp",
+      "name": "AMBN-AS-AP A2Z Media Brodband Net",
+      "description": "AMBN-AS-AP A2Z Media Brodband Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 377,
+      "rank": 244,
+      "percentage": 0.08464472789077462
+    },
+    {
+      "asn": "134806",
+      "type": "local-isp",
+      "name": "SKYVIEWONLINE-AS-AP Skyview Online Ltd",
+      "description": "SKYVIEWONLINE-AS-AP Skyview Online Ltd",
+      "country": "BD",
+      "announced": true,
+      "traffic": 376,
+      "rank": 245,
+      "percentage": 0.08442020606613065
+    },
+    {
+      "asn": "139792",
+      "type": "local-isp",
+      "name": "BROWSERWORLDIT-AS-AP Browser World IT",
+      "description": "BROWSERWORLDIT-AS-AP Browser World IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 376,
+      "rank": 246,
+      "percentage": 0.08442020606613065
+    },
+    {
+      "asn": "134837",
+      "type": "local-isp",
+      "name": "DHAKAINTERNET-AS-AP Dhaka Internet",
+      "description": "DHAKAINTERNET-AS-AP Dhaka Internet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 376,
+      "rank": 247,
+      "percentage": 0.08442020606613065
+    },
+    {
+      "asn": "150459",
+      "type": "local-isp",
+      "name": "SBO-AS-AP South Bangla Online",
+      "description": "SBO-AS-AP South Bangla Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 375,
+      "rank": 248,
+      "percentage": 0.0841956842414867
+    },
+    {
+      "asn": "135578",
+      "type": "local-isp",
+      "name": "DIT-AS-AP Muhammad Nasir ta Dhaka Information Technology",
+      "description": "DIT-AS-AP Muhammad Nasir ta Dhaka Information Technology",
+      "country": "BD",
+      "announced": true,
+      "traffic": 375,
+      "rank": 249,
+      "percentage": 0.0841956842414867
+    },
+    {
+      "asn": "154418",
+      "type": "local-isp",
+      "name": "MSBDCLOUD-AS-AP MS. BD Cloud",
+      "description": "MSBDCLOUD-AS-AP MS. BD Cloud",
+      "country": "BD",
+      "announced": true,
+      "traffic": 375,
+      "rank": 250,
+      "percentage": 0.0841956842414867
+    },
+    {
+      "asn": "138383",
+      "type": "local-isp",
+      "name": "ACNB-AS-AP Moustafa Ferdous",
+      "description": "ACNB-AS-AP Moustafa Ferdous",
+      "country": "BD",
+      "announced": true,
+      "traffic": 375,
+      "rank": 251,
+      "percentage": 0.0841956842414867
+    },
+    {
+      "asn": "137943",
+      "type": "local-isp",
+      "name": "LNISP-AS-AP LIVENET. INTERNET SERVICE PROVIDER",
+      "description": "LNISP-AS-AP LIVENET. INTERNET SERVICE PROVIDER",
+      "country": "BD",
+      "announced": true,
+      "traffic": 374,
+      "rank": 252,
+      "percentage": 0.08397116241684273
+    },
+    {
+      "asn": "153634",
+      "type": "local-isp",
+      "name": "CODENEXT-AS-AP CodeNext IT Solution",
+      "description": "CODENEXT-AS-AP CodeNext IT Solution",
+      "country": "BD",
+      "announced": true,
+      "traffic": 374,
+      "rank": 253,
+      "percentage": 0.08397116241684273
+    },
+    {
+      "asn": "138336",
+      "type": "local-isp",
+      "name": "POTATO POTATO",
+      "description": "POTATO POTATO",
+      "country": "BD",
+      "announced": true,
+      "traffic": 374,
+      "rank": 254,
+      "percentage": 0.08397116241684273
+    },
+    {
+      "asn": "132489",
+      "type": "local-isp",
+      "name": "EXTREMENET-AS-AP Muminul Hasan ta Extreme Net",
+      "description": "EXTREMENET-AS-AP Muminul Hasan ta Extreme Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 373,
+      "rank": 255,
+      "percentage": 0.08374664059219877
+    },
+    {
+      "asn": "154295",
+      "type": "local-isp",
+      "name": "IT3-AS-AP IT Link",
+      "description": "IT3-AS-AP IT Link",
+      "country": "BD",
+      "announced": true,
+      "traffic": 373,
+      "rank": 256,
+      "percentage": 0.08374664059219877
+    },
+    {
+      "asn": "137541",
+      "type": "local-isp",
+      "name": "ROYALNET-AS-AP Royalnet",
+      "description": "ROYALNET-AS-AP Royalnet",
+      "country": "BD",
+      "announced": true,
+      "traffic": 372,
+      "rank": 257,
+      "percentage": 0.0835221187675548
+    },
+    {
+      "asn": "142060",
+      "type": "local-isp",
+      "name": "UTTARAONLINEBD-AS-AP Uttara Online",
+      "description": "UTTARAONLINEBD-AS-AP Uttara Online",
+      "country": "BD",
+      "announced": true,
+      "traffic": 372,
+      "rank": 258,
+      "percentage": 0.0835221187675548
+    },
+    {
+      "asn": "139053",
+      "type": "local-isp",
+      "name": "JHONGKARIT1-AS-AP Jhongkar IT",
+      "description": "JHONGKARIT1-AS-AP Jhongkar IT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 372,
+      "rank": 259,
+      "percentage": 0.0835221187675548
+    },
+    {
+      "asn": "149433",
+      "type": "local-isp",
+      "name": "FM-AS-AP FM Networks",
+      "description": "FM-AS-AP FM Networks",
+      "country": "BD",
+      "announced": true,
+      "traffic": 371,
+      "rank": 260,
+      "percentage": 0.08329759694291083
+    },
+    {
+      "asn": "135517",
+      "type": "local-isp",
+      "name": "PANDORA-TECHNOLOGY-AS-AP Pandora Technology",
+      "description": "PANDORA-TECHNOLOGY-AS-AP Pandora Technology",
+      "country": "BD",
+      "announced": true,
+      "traffic": 371,
+      "rank": 261,
+      "percentage": 0.08329759694291083
+    },
+    {
+      "asn": "137554",
+      "type": "local-isp",
+      "name": "DREAMNET-AS-AP Dream.Net",
+      "description": "DREAMNET-AS-AP Dream.Net",
+      "country": "BD",
+      "announced": true,
+      "traffic": 371,
+      "rank": 262,
+      "percentage": 0.08329759694291083
+    },
+    {
+      "asn": "137553",
+      "type": "local-isp",
+      "name": "GLOBALCOM-AS-AP GLOBAL COMMUNICATION",
+      "description": "GLOBALCOM-AS-AP GLOBAL COMMUNICATION",
+      "country": "BD",
+      "announced": true,
+      "traffic": 371,
+      "rank": 263,
+      "percentage": 0.08329759694291083
+    },
+    {
+      "asn": "135071",
+      "type": "local-isp",
+      "name": "VIDEOELEPHANT-AS-AP VIDEO ELEPHANT",
+      "description": "VIDEOELEPHANT-AS-AP VIDEO ELEPHANT",
+      "country": "BD",
+      "announced": true,
+      "traffic": 371,
+      "rank": 264,
+      "percentage": 0.08329759694291083
+    }
+  ],
+  "edges": [
+    {
+      "source": "9498",
+      "target": "58717",
+      "count": 37995,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "58717",
+      "count": 37168,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "58682",
+      "count": 30551,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "10075",
+      "count": 27437,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "139009",
+      "count": 19189,
+      "type": "international"
+    },
+    {
+      "source": "58453",
+      "target": "58717",
+      "count": 15356,
+      "type": "international"
+    },
+    {
+      "source": "9002",
+      "target": "58717",
+      "count": 13995,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "58715",
+      "count": 13903,
+      "type": "international"
+    },
+    {
+      "source": "9002",
+      "target": "132602",
+      "count": 12324,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "17494",
+      "count": 12040,
+      "type": "international"
+    },
+    {
+      "source": "64049",
+      "target": "10075",
+      "count": 11075,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "132884",
+      "count": 10238,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "58682",
+      "count": 10166,
+      "type": "international"
+    },
+    {
+      "source": "2914",
+      "target": "58717",
+      "count": 7909,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "141731",
+      "count": 7392,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "139901",
+      "count": 7339,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "139009",
+      "count": 7142,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "58655",
+      "count": 6709,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "139901",
+      "count": 6583,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "150178",
+      "count": 6512,
+      "type": "international"
+    },
+    {
+      "source": "152144",
+      "target": "10075",
+      "count": 6050,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "58717",
+      "count": 5259,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "58717",
+      "count": 5196,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "58945",
+      "count": 5078,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "149765",
+      "count": 5023,
+      "type": "international"
+    },
+    {
+      "source": "60068",
+      "target": "132817",
+      "count": 4575,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "58715",
+      "count": 4308,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "10075",
+      "count": 3697,
+      "type": "international"
+    },
+    {
+      "source": "3491",
+      "target": "132602",
+      "count": 3519,
+      "type": "international"
+    },
+    {
+      "source": "9583",
+      "target": "150748",
+      "count": 3056,
+      "type": "international"
+    },
+    {
+      "source": "5511",
+      "target": "132602",
+      "count": 2461,
+      "type": "international"
+    },
+    {
+      "source": "24482",
+      "target": "58717",
+      "count": 2378,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "17494",
+      "count": 2324,
+      "type": "international"
+    },
+    {
+      "source": "64049",
+      "target": "150178",
+      "count": 2296,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "10075",
+      "count": 2269,
+      "type": "international"
+    },
+    {
+      "source": "2914",
+      "target": "17494",
+      "count": 2144,
+      "type": "international"
+    },
+    {
+      "source": "2914",
+      "target": "150178",
+      "count": 2038,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "137491",
+      "count": 1841,
+      "type": "international"
+    },
+    {
+      "source": "64049",
+      "target": "58715",
+      "count": 1799,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "58682",
+      "count": 1796,
+      "type": "international"
+    },
+    {
+      "source": "20473",
+      "target": "132817",
+      "count": 1656,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "139009",
+      "count": 1618,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "132267",
+      "count": 1551,
+      "type": "international"
+    },
+    {
+      "source": "58453",
+      "target": "59378",
+      "count": 1503,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "132884",
+      "count": 1481,
+      "type": "international"
+    },
+    {
+      "source": "6762",
+      "target": "17494",
+      "count": 1456,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "137491",
+      "count": 1402,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "132267",
+      "count": 1366,
+      "type": "international"
+    },
+    {
+      "source": "3491",
+      "target": "17494",
+      "count": 1328,
+      "type": "international"
+    },
+    {
+      "source": "2914",
+      "target": "132602",
+      "count": 1319,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "132602",
+      "count": 1314,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "17806",
+      "count": 1260,
+      "type": "international"
+    },
+    {
+      "source": "6762",
+      "target": "58717",
+      "count": 1223,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "149994",
+      "count": 1209,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "150178",
+      "count": 1175,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "58945",
+      "count": 1078,
+      "type": "international"
+    },
+    {
+      "source": "7473",
+      "target": "58717",
+      "count": 1044,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "137491",
+      "count": 1032,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "139009",
+      "count": 990,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "17494",
+      "count": 966,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "58945",
+      "count": 957,
+      "type": "international"
+    },
+    {
+      "source": "23764",
+      "target": "139009",
+      "count": 900,
+      "type": "international"
+    },
+    {
+      "source": "58453",
+      "target": "139009",
+      "count": 891,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "139901",
+      "count": 884,
+      "type": "international"
+    },
+    {
+      "source": "3223",
+      "target": "58717",
+      "count": 830,
+      "type": "international"
+    },
+    {
+      "source": "7473",
+      "target": "59378",
+      "count": 793,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "150748",
+      "count": 782,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "17806",
+      "count": 755,
+      "type": "international"
+    },
+    {
+      "source": "25091",
+      "target": "58717",
+      "count": 721,
+      "type": "international"
+    },
+    {
+      "source": "174",
+      "target": "58715",
+      "count": 697,
+      "type": "international"
+    },
+    {
+      "source": "7473",
+      "target": "132267",
+      "count": 697,
+      "type": "international"
+    },
+    {
+      "source": "136557",
+      "target": "147181",
+      "count": 689,
+      "type": "international"
+    },
+    {
+      "source": "2914",
+      "target": "58682",
+      "count": 684,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "17494",
+      "count": 676,
+      "type": "international"
+    },
+    {
+      "source": "3223",
+      "target": "149994",
+      "count": 670,
+      "type": "international"
+    },
+    {
+      "source": "9583",
+      "target": "17806",
+      "count": 661,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "45282",
+      "count": 654,
+      "type": "international"
+    },
+    {
+      "source": "58952",
+      "target": "58717",
+      "count": 653,
+      "type": "international"
+    },
+    {
+      "source": "12779",
+      "target": "58717",
+      "count": 606,
+      "type": "international"
+    },
+    {
+      "source": "9002",
+      "target": "58715",
+      "count": 585,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "151624",
+      "count": 575,
+      "type": "international"
+    },
+    {
+      "source": "2914",
+      "target": "150748",
+      "count": 565,
+      "type": "international"
+    },
+    {
+      "source": "58453",
+      "target": "139901",
+      "count": 549,
+      "type": "international"
+    },
+    {
+      "source": "35280",
+      "target": "58717",
+      "count": 526,
+      "type": "international"
+    },
+    {
+      "source": "14907",
+      "target": "58717",
+      "count": 526,
+      "type": "international"
+    },
+    {
+      "source": "24482",
+      "target": "17494",
+      "count": 517,
+      "type": "international"
+    },
+    {
+      "source": "49544",
+      "target": "58717",
+      "count": 515,
+      "type": "international"
+    },
+    {
+      "source": "5511",
+      "target": "59378",
+      "count": 486,
+      "type": "international"
+    },
+    {
+      "source": "35625",
+      "target": "58717",
+      "count": 485,
+      "type": "international"
+    },
+    {
+      "source": "9498",
+      "target": "150748",
+      "count": 480,
+      "type": "international"
+    },
+    {
+      "source": "58453",
+      "target": "58715",
+      "count": 435,
+      "type": "international"
+    },
+    {
+      "source": "38001",
+      "target": "58717",
+      "count": 431,
+      "type": "international"
+    },
+    {
+      "source": "2914",
+      "target": "17806",
+      "count": 423,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "150178",
+      "count": 416,
+      "type": "international"
+    },
+    {
+      "source": "24482",
+      "target": "139901",
+      "count": 414,
+      "type": "international"
+    },
+    {
+      "source": "5405",
+      "target": "58717",
+      "count": 410,
+      "type": "international"
+    },
+    {
+      "source": "133210",
+      "target": "58717",
+      "count": 404,
+      "type": "international"
+    },
+    {
+      "source": "1828",
+      "target": "58717",
+      "count": 403,
+      "type": "international"
+    },
+    {
+      "source": "17639",
+      "target": "58717",
+      "count": 399,
+      "type": "international"
+    },
+    {
+      "source": "18106",
+      "target": "58717",
+      "count": 390,
+      "type": "international"
+    },
+    {
+      "source": "6057",
+      "target": "58717",
+      "count": 390,
+      "type": "international"
+    },
+    {
+      "source": "8220",
+      "target": "58717",
+      "count": 383,
+      "type": "international"
+    },
+    {
+      "source": "26042",
+      "target": "154112",
+      "count": 362,
+      "type": "international"
+    },
+    {
+      "source": "23470",
+      "target": "153377",
+      "count": 359,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "149659",
+      "count": 341,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "132341",
+      "count": 337,
+      "type": "international"
+    },
+    {
+      "source": "401106",
+      "target": "152726",
+      "count": 337,
+      "type": "international"
+    },
+    {
+      "source": "2914",
+      "target": "139901",
+      "count": 335,
+      "type": "international"
+    },
+    {
+      "source": "3223",
+      "target": "58715",
+      "count": 329,
+      "type": "international"
+    },
+    {
+      "source": "24482",
+      "target": "58715",
+      "count": 327,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "58684",
+      "count": 327,
+      "type": "international"
+    },
+    {
+      "source": "6453",
+      "target": "139901",
+      "count": 324,
+      "type": "international"
+    },
+    {
+      "source": "9583",
+      "target": "58717",
+      "count": 322,
+      "type": "international"
+    },
+    {
+      "source": "6461",
+      "target": "17494",
+      "count": 320,
+      "type": "international"
+    },
+    {
+      "source": "58453",
+      "target": "132602",
+      "count": 318,
+      "type": "international"
+    },
+    {
+      "source": "34019",
+      "target": "58715",
+      "count": 310,
+      "type": "international"
+    },
+    {
+      "source": "59796",
+      "target": "58717",
+      "count": 309,
+      "type": "international"
+    },
+    {
+      "source": "58453",
+      "target": "58655",
+      "count": 307,
+      "type": "international"
+    },
+    {
+      "source": "36236",
+      "target": "58717",
+      "count": 302,
+      "type": "international"
+    },
+    {
+      "source": "8529",
+      "target": "58717",
+      "count": 275,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "150748",
+      "count": 273,
+      "type": "international"
+    },
+    {
+      "source": "199524",
+      "target": "58717",
+      "count": 266,
+      "type": "international"
+    },
+    {
+      "source": "4608",
+      "target": "58717",
+      "count": 262,
+      "type": "international"
+    },
+    {
+      "source": "35280",
+      "target": "58715",
+      "count": 254,
+      "type": "international"
+    },
+    {
+      "source": "137409",
+      "target": "58717",
+      "count": 248,
+      "type": "international"
+    },
+    {
+      "source": "45896",
+      "target": "58717",
+      "count": 246,
+      "type": "international"
+    },
+    {
+      "source": "142271",
+      "target": "58717",
+      "count": 246,
+      "type": "international"
+    },
+    {
+      "source": "14840",
+      "target": "58715",
+      "count": 240,
+      "type": "international"
+    },
+    {
+      "source": "12779",
+      "target": "58715",
+      "count": 237,
+      "type": "international"
+    },
+    {
+      "source": "25091",
+      "target": "58715",
+      "count": 234,
+      "type": "international"
+    },
+    {
+      "source": "47147",
+      "target": "58715",
+      "count": 232,
+      "type": "international"
+    },
+    {
+      "source": "49544",
+      "target": "58715",
+      "count": 217,
+      "type": "international"
+    },
+    {
+      "source": "199524",
+      "target": "58715",
+      "count": 217,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "59378",
+      "count": 213,
+      "type": "international"
+    },
+    {
+      "source": "34019",
+      "target": "58717",
+      "count": 206,
+      "type": "international"
+    },
+    {
+      "source": "24482",
+      "target": "132602",
+      "count": 196,
+      "type": "international"
+    },
+    {
+      "source": "8529",
+      "target": "10075",
+      "count": 194,
+      "type": "international"
+    },
+    {
+      "source": "8298",
+      "target": "17494",
+      "count": 188,
+      "type": "international"
+    },
+    {
+      "source": "18106",
+      "target": "132602",
+      "count": 187,
+      "type": "international"
+    },
+    {
+      "source": "1103",
+      "target": "17494",
+      "count": 175,
+      "type": "international"
+    },
+    {
+      "source": "8529",
+      "target": "58715",
+      "count": 166,
+      "type": "international"
+    },
+    {
+      "source": "199524",
+      "target": "139901",
+      "count": 163,
+      "type": "international"
+    },
+    {
+      "source": "58952",
+      "target": "10075",
+      "count": 160,
+      "type": "international"
+    },
+    {
+      "source": "199524",
+      "target": "132602",
+      "count": 159,
+      "type": "international"
+    },
+    {
+      "source": "8218",
+      "target": "58715",
+      "count": 155,
+      "type": "international"
+    },
+    {
+      "source": "45489",
+      "target": "58717",
+      "count": 154,
+      "type": "international"
+    },
+    {
+      "source": "15547",
+      "target": "58715",
+      "count": 151,
+      "type": "international"
+    },
+    {
+      "source": "8298",
+      "target": "58715",
+      "count": 151,
+      "type": "international"
+    },
+    {
+      "source": "47147",
+      "target": "58717",
+      "count": 149,
+      "type": "international"
+    },
+    {
+      "source": "50628",
+      "target": "58715",
+      "count": 148,
+      "type": "international"
+    },
+    {
+      "source": "47692",
+      "target": "58715",
+      "count": 148,
+      "type": "international"
+    },
+    {
+      "source": "51184",
+      "target": "58715",
+      "count": 148,
+      "type": "international"
+    },
+    {
+      "source": "6057",
+      "target": "58715",
+      "count": 148,
+      "type": "international"
+    },
+    {
+      "source": "38008",
+      "target": "58715",
+      "count": 148,
+      "type": "international"
+    },
+    {
+      "source": "31027",
+      "target": "58715",
+      "count": 148,
+      "type": "international"
+    },
+    {
+      "source": "5405",
+      "target": "58715",
+      "count": 147,
+      "type": "international"
+    },
+    {
+      "source": "24482",
+      "target": "10075",
+      "count": 146,
+      "type": "international"
+    },
+    {
+      "source": "135709",
+      "target": "10075",
+      "count": 142,
+      "type": "international"
+    },
+    {
+      "source": "34019",
+      "target": "139901",
+      "count": 141,
+      "type": "international"
+    },
+    {
+      "source": "47147",
+      "target": "139901",
+      "count": 140,
+      "type": "international"
+    },
+    {
+      "source": "14840",
+      "target": "58717",
+      "count": 140,
+      "type": "international"
+    },
+    {
+      "source": "36236",
+      "target": "10075",
+      "count": 140,
+      "type": "international"
+    },
+    {
+      "source": "51185",
+      "target": "58717",
+      "count": 140,
+      "type": "international"
+    },
+    {
+      "source": "61292",
+      "target": "58717",
+      "count": 134,
+      "type": "international"
+    },
+    {
+      "source": "49544",
+      "target": "132602",
+      "count": 133,
+      "type": "international"
+    },
+    {
+      "source": "35280",
+      "target": "10075",
+      "count": 132,
+      "type": "international"
+    },
+    {
+      "source": "51184",
+      "target": "139901",
+      "count": 130,
+      "type": "international"
+    },
+    {
+      "source": "35280",
+      "target": "17494",
+      "count": 129,
+      "type": "international"
+    },
+    {
+      "source": "34549",
+      "target": "58715",
+      "count": 129,
+      "type": "international"
+    },
+    {
+      "source": "24482",
+      "target": "58682",
+      "count": 129,
+      "type": "international"
+    },
+    {
+      "source": "142289",
+      "target": "10075",
+      "count": 129,
+      "type": "international"
+    },
+    {
+      "source": "48362",
+      "target": "58717",
+      "count": 128,
+      "type": "international"
+    },
+    {
+      "source": "142289",
+      "target": "58682",
+      "count": 128,
+      "type": "international"
+    },
+    {
+      "source": "36236",
+      "target": "58682",
+      "count": 128,
+      "type": "international"
+    },
+    {
+      "source": "8758",
+      "target": "58717",
+      "count": 126,
+      "type": "international"
+    },
+    {
+      "source": "133210",
+      "target": "132602",
+      "count": 126,
+      "type": "international"
+    },
+    {
+      "source": "38001",
+      "target": "132602",
+      "count": 125,
+      "type": "international"
+    },
+    {
+      "source": "50763",
+      "target": "17494",
+      "count": 124,
+      "type": "international"
+    },
+    {
+      "source": "47734",
+      "target": "58715",
+      "count": 124,
+      "type": "international"
+    },
+    {
+      "source": "45489",
+      "target": "10075",
+      "count": 123,
+      "type": "international"
+    },
+    {
+      "source": "3491",
+      "target": "58665",
+      "count": 122,
+      "type": "international"
+    },
+    {
+      "source": "35280",
+      "target": "58682",
+      "count": 120,
+      "type": "international"
+    },
+    {
+      "source": "25091",
+      "target": "139901",
+      "count": 118,
+      "type": "international"
+    },
+    {
+      "source": "35280",
+      "target": "139901",
+      "count": 118,
+      "type": "international"
+    },
+    {
+      "source": "38001",
+      "target": "58682",
+      "count": 116,
+      "type": "international"
+    },
+    {
+      "source": "49544",
+      "target": "139901",
+      "count": 115,
+      "type": "international"
+    },
+    {
+      "source": "17639",
+      "target": "132602",
+      "count": 114,
+      "type": "international"
+    },
+    {
+      "source": "135709",
+      "target": "59378",
+      "count": 114,
+      "type": "international"
+    },
+    {
+      "source": "1103",
+      "target": "58715",
+      "count": 112,
+      "type": "international"
+    },
+    {
+      "source": "24482",
+      "target": "139009",
+      "count": 111,
+      "type": "international"
+    },
+    {
+      "source": "12779",
+      "target": "139901",
+      "count": 111,
+      "type": "international"
+    },
+    {
+      "source": "18106",
+      "target": "58682",
+      "count": 111,
+      "type": "international"
+    },
+    {
+      "source": "14840",
+      "target": "139901",
+      "count": 111,
+      "type": "international"
+    },
+    {
+      "source": "33891",
+      "target": "17494",
+      "count": 109,
+      "type": "international"
+    },
+    {
+      "source": "49544",
+      "target": "139009",
+      "count": 109,
+      "type": "international"
+    },
+    {
+      "source": "133210",
+      "target": "139009",
+      "count": 109,
+      "type": "international"
+    },
+    {
+      "source": "199524",
+      "target": "139009",
+      "count": 108,
+      "type": "international"
+    },
+    {
+      "source": "199524",
+      "target": "58682",
+      "count": 108,
+      "type": "international"
+    },
+    {
+      "source": "25091",
+      "target": "17494",
+      "count": 107,
+      "type": "international"
+    },
+    {
+      "source": "8758",
+      "target": "58715",
+      "count": 106,
+      "type": "international"
+    },
+    {
+      "source": "35280",
+      "target": "139009",
+      "count": 106,
+      "type": "international"
+    },
+    {
+      "source": "6939",
+      "target": "134734",
+      "count": 106,
+      "type": "international"
+    },
+    {
+      "source": "1299",
+      "target": "17494",
+      "count": 106,
+      "type": "international"
+    },
+    {
+      "source": "35710",
+      "target": "58715",
+      "count": 104,
+      "type": "international"
+    },
+    {
+      "source": "47734",
+      "target": "58717",
+      "count": 104,
+      "type": "international"
+    },
+    {
+      "source": "18106",
+      "target": "10075",
+      "count": 104,
+      "type": "international"
+    },
+    {
+      "source": "133210",
+      "target": "10075",
+      "count": 104,
+      "type": "international"
+    },
+    {
+      "source": "17639",
+      "target": "139009",
+      "count": 100,
+      "type": "international"
+    },
+    {
+      "source": "17639",
+      "target": "10075",
+      "count": 100,
+      "type": "international"
+    },
+    {
+      "source": "1828",
+      "target": "132602",
+      "count": 100,
+      "type": "international"
+    },
+    {
+      "source": "49544",
+      "target": "10075",
+      "count": 100,
+      "type": "international"
+    },
+    {
+      "source": "1828",
+      "target": "139009",
+      "count": 98,
+      "type": "international"
+    },
+    {
+      "source": "35280",
+      "target": "132602",
+      "count": 98,
+      "type": "international"
+    },
+    {
+      "source": "8758",
+      "target": "139901",
+      "count": 97,
+      "type": "international"
+    },
+    {
+      "source": "49544",
+      "target": "58682",
+      "count": 96,
+      "type": "international"
+    },
+    {
+      "source": "133210",
+      "target": "58682",
+      "count": 96,
+      "type": "international"
+    },
+    {
+      "source": "17639",
+      "target": "58682",
+      "count": 93,
+      "type": "international"
+    },
+    {
+      "source": "1103",
+      "target": "139901",
+      "count": 92,
+      "type": "international"
+    },
+    {
+      "source": "38001",
+      "target": "10075",
+      "count": 92,
+      "type": "international"
+    },
+    {
+      "source": "25160",
+      "target": "58715",
+      "count": 92,
+      "type": "international"
+    },
+    {
+      "source": "45489",
+      "target": "58682",
+      "count": 91,
+      "type": "international"
+    },
+    {
+      "source": "1828",
+      "target": "58682",
+      "count": 88,
+      "type": "international"
+    },
+    {
+      "source": "47692",
+      "target": "58717",
+      "count": 88,
+      "type": "international"
+    },
+    {
+      "source": "51184",
+      "target": "58717",
+      "count": 88,
+      "type": "international"
+    },
+    {
+      "source": "199524",
+      "target": "10075",
+      "count": 88,
+      "type": "international"
+    },
+    {
+      "source": "45896",
+      "target": "132602",
+      "count": 88,
+      "type": "international"
+    },
+    {
+      "source": "142271",
+      "target": "132602",
+      "count": 88,
+      "type": "international"
+    },
+    {
+      "source": "36236",
+      "target": "139009",
+      "count": 88,
+      "type": "international"
+    },
+    {
+      "source": "31027",
+      "target": "58717",
+      "count": 88,
+      "type": "international"
+    },
+    {
+      "source": "38001",
+      "target": "139009",
+      "count": 87,
+      "type": "international"
+    },
+    {
+      "source": "1828",
+      "target": "10075",
+      "count": 87,
+      "type": "international"
+    },
+    {
+      "source": "15547",
+      "target": "58717",
+      "count": 87,
+      "type": "international"
+    },
+    {
+      "source": "17557",
+      "target": "58717",
+      "count": 85,
+      "type": "international"
+    },
+    {
+      "source": "20485",
+      "target": "58715",
+      "count": 83,
+      "type": "international"
+    },
+    {
+      "source": "1828",
+      "target": "58715",
+      "count": 83,
+      "type": "international"
+    },
+    {
+      "source": "25152",
+      "target": "58715",
+      "count": 83,
+      "type": "international"
+    },
+    {
+      "source": "8298",
+      "target": "139901",
+      "count": 83,
+      "type": "international"
+    },
+    {
+      "source": "58952",
+      "target": "132602",
+      "count": 82,
+      "type": "international"
+    },
+    {
+      "source": "37721",
+      "target": "17494",
+      "count": 81,
+      "type": "international"
+    },
+    {
+      "source": "49544",
+      "target": "17494",
+      "count": 81,
+      "type": "international"
+    },
+    {
+      "source": "9002",
+      "target": "58682",
+      "count": 80,
+      "type": "international"
+    },
+    {
+      "source": "51185",
+      "target": "58715",
+      "count": 80,
+      "type": "international"
+    },
+    {
+      "source": "34549",
+      "target": "139901",
+      "count": 79,
+      "type": "international"
+    },
+    {
+      "source": "25160",
+      "target": "58717",
+      "count": 79,
+      "type": "international"
+    },
+    {
+      "source": "25160",
+      "target": "139901",
+      "count": 79,
+      "type": "international"
+    },
+    {
+      "source": "34927",
+      "target": "58717",
+      "count": 79,
+      "type": "international"
+    },
+    {
+      "source": "142271",
+      "target": "139009",
+      "count": 79,
+      "type": "international"
+    },
+    {
+      "source": "3303",
+      "target": "139901",
+      "count": 79,
+      "type": "international"
+    },
+    {
+      "source": "45896",
+      "target": "139009",
+      "count": 78,
+      "type": "international"
+    },
+    {
+      "source": "8298",
+      "target": "58717",
+      "count": 77,
+      "type": "international"
+    },
+    {
+      "source": "29075",
+      "target": "58715",
+      "count": 77,
+      "type": "international"
+    },
+    {
+      "source": "60171",
+      "target": "58715",
+      "count": 77,
+      "type": "international"
+    },
+    {
+      "source": "48362",
+      "target": "58715",
+      "count": 76,
+      "type": "international"
+    },
+    {
+      "source": "39351",
+      "target": "58715",
+      "count": 76,
+      "type": "international"
+    },
+    {
+      "source": "35710",
+      "target": "139901",
+      "count": 76,
+      "type": "international"
+    },
+    {
+      "source": "2027",
+      "target": "58715",
+      "count": 76,
+      "type": "international"
+    },
+    {
+      "source": "34177",
+      "target": "58715",
+      "count": 76,
+      "type": "international"
+    },
+    {
+      "source": "56987",
+      "target": "58715",
+      "count": 76,
+      "type": "international"
+    },
+    {
+      "source": "58952",
+      "target": "139009",
+      "count": 76,
+      "type": "international"
+    },
+    {
+      "source": "52320",
+      "target": "58715",
+      "count": 75,
+      "type": "international"
+    },
+    {
+      "source": "6424",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "42541",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "199938",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "39351",
+      "target": "58717",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "559",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "20932",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "34177",
+      "target": "58717",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "31510",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "553",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "48919",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "34288",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "25220",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "205112",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "64475",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "58057",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "58299",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "209823",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "58308",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "35360",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "35600",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "61573",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "36236",
+      "target": "58715",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "31027",
+      "target": "139901",
+      "count": 74,
+      "type": "international"
+    },
+    {
+      "source": "212024",
+      "target": "58715",
+      "count": 73,
+      "type": "international"
+    },
+    {
+      "source": "1764",
+      "target": "58715",
+      "count": 73,
+      "type": "international"
+    },
+    {
+      "source": "6758",
+      "target": "58715",
+      "count": 73,
+      "type": "international"
+    },
+    {
+      "source": "44097",
+      "target": "58715",
+      "count": 73,
+      "type": "international"
+    },
+    {
+      "source": "47692",
+      "target": "139901",
+      "count": 72,
+      "type": "international"
+    },
+    {
+      "source": "17639",
+      "target": "58715",
+      "count": 71,
+      "type": "international"
+    },
+    {
+      "source": "5405",
+      "target": "139901",
+      "count": 71,
+      "type": "international"
+    },
+    {
+      "source": "34549",
+      "target": "17494",
+      "count": 70,
+      "type": "international"
+    },
+    {
+      "source": "15547",
+      "target": "139901",
+      "count": 70,
+      "type": "international"
+    },
+    {
+      "source": "35710",
+      "target": "58717",
+      "count": 70,
+      "type": "international"
+    },
+    {
+      "source": "58299",
+      "target": "139901",
+      "count": 70,
+      "type": "international"
+    },
+    {
+      "source": "47734",
+      "target": "139901",
+      "count": 70,
+      "type": "international"
+    },
+    {
+      "source": "6057",
+      "target": "139901",
+      "count": 70,
+      "type": "international"
+    },
+    {
+      "source": "29140",
+      "target": "58715",
+      "count": 69,
+      "type": "international"
+    },
+    {
+      "source": "8529",
+      "target": "139901",
+      "count": 67,
+      "type": "international"
+    },
+    {
+      "source": "25220",
+      "target": "139901",
+      "count": 67,
+      "type": "international"
+    },
+    {
+      "source": "18106",
+      "target": "139901",
+      "count": 67,
+      "type": "international"
+    },
+    {
+      "source": "134732",
+      "target": "58682",
+      "count": 2812,
+      "type": "domestic"
+    },
+    {
+      "source": "63996",
+      "target": "58717",
+      "count": 2797,
+      "type": "domestic"
+    },
+    {
+      "source": "38067",
+      "target": "17494",
+      "count": 2359,
+      "type": "domestic"
+    },
+    {
+      "source": "38203",
+      "target": "59378",
+      "count": 2196,
+      "type": "domestic"
+    },
+    {
+      "source": "23688",
+      "target": "58717",
+      "count": 2067,
+      "type": "domestic"
+    },
+    {
+      "source": "63969",
+      "target": "58715",
+      "count": 1954,
+      "type": "domestic"
+    },
+    {
+      "source": "24432",
+      "target": "58682",
+      "count": 1877,
+      "type": "domestic"
+    },
+    {
+      "source": "59362",
+      "target": "141731",
+      "count": 1810,
+      "type": "domestic"
+    },
+    {
+      "source": "135310",
+      "target": "58717",
+      "count": 1805,
+      "type": "domestic"
+    },
+    {
+      "source": "59340",
+      "target": "58717",
+      "count": 1766,
+      "type": "domestic"
+    },
+    {
+      "source": "38592",
+      "target": "58717",
+      "count": 1639,
+      "type": "domestic"
+    },
+    {
+      "source": "9230",
+      "target": "139901",
+      "count": 1613,
+      "type": "domestic"
+    },
+    {
+      "source": "137967",
+      "target": "139901",
+      "count": 1502,
+      "type": "domestic"
+    },
+    {
+      "source": "134371",
+      "target": "139009",
+      "count": 1484,
+      "type": "domestic"
+    },
+    {
+      "source": "152698",
+      "target": "58715",
+      "count": 1471,
+      "type": "domestic"
+    },
+    {
+      "source": "45766",
+      "target": "58717",
+      "count": 1466,
+      "type": "domestic"
+    },
+    {
+      "source": "24342",
+      "target": "139901",
+      "count": 1465,
+      "type": "domestic"
+    },
+    {
+      "source": "23923",
+      "target": "139901",
+      "count": 1450,
+      "type": "domestic"
+    },
+    {
+      "source": "63967",
+      "target": "10075",
+      "count": 1426,
+      "type": "domestic"
+    },
+    {
+      "source": "138640",
+      "target": "149765",
+      "count": 1401,
+      "type": "domestic"
+    },
+    {
+      "source": "38031",
+      "target": "58717",
+      "count": 1396,
+      "type": "domestic"
+    },
+    {
+      "source": "136176",
+      "target": "58717",
+      "count": 1396,
+      "type": "domestic"
+    },
+    {
+      "source": "153038",
+      "target": "58717",
+      "count": 1389,
+      "type": "domestic"
+    },
+    {
+      "source": "139325",
+      "target": "10075",
+      "count": 1384,
+      "type": "domestic"
+    },
+    {
+      "source": "139735",
+      "target": "139009",
+      "count": 1342,
+      "type": "domestic"
+    },
+    {
+      "source": "133938",
+      "target": "58715",
+      "count": 1275,
+      "type": "domestic"
+    },
+    {
+      "source": "58656",
+      "target": "10075",
+      "count": 1254,
+      "type": "domestic"
+    },
+    {
+      "source": "55406",
+      "target": "58682",
+      "count": 1209,
+      "type": "domestic"
+    },
+    {
+      "source": "23956",
+      "target": "58682",
+      "count": 1171,
+      "type": "domestic"
+    },
+    {
+      "source": "133954",
+      "target": "58717",
+      "count": 1150,
+      "type": "domestic"
+    },
+    {
+      "source": "137385",
+      "target": "58682",
+      "count": 1125,
+      "type": "domestic"
+    },
+    {
+      "source": "139786",
+      "target": "58682",
+      "count": 1125,
+      "type": "domestic"
+    },
+    {
+      "source": "135076",
+      "target": "58945",
+      "count": 1122,
+      "type": "domestic"
+    },
+    {
+      "source": "139808",
+      "target": "58717",
+      "count": 1082,
+      "type": "domestic"
+    },
+    {
+      "source": "63914",
+      "target": "132602",
+      "count": 1080,
+      "type": "domestic"
+    },
+    {
+      "source": "138621",
+      "target": "58717",
+      "count": 1080,
+      "type": "domestic"
+    },
+    {
+      "source": "45766",
+      "target": "10075",
+      "count": 1078,
+      "type": "domestic"
+    },
+    {
+      "source": "58616",
+      "target": "10075",
+      "count": 1073,
+      "type": "domestic"
+    },
+    {
+      "source": "140054",
+      "target": "139009",
+      "count": 1073,
+      "type": "domestic"
+    },
+    {
+      "source": "137023",
+      "target": "58717",
+      "count": 1067,
+      "type": "domestic"
+    },
+    {
+      "source": "63932",
+      "target": "17494",
+      "count": 1066,
+      "type": "domestic"
+    },
+    {
+      "source": "138551",
+      "target": "58717",
+      "count": 1066,
+      "type": "domestic"
+    },
+    {
+      "source": "134480",
+      "target": "58717",
+      "count": 1051,
+      "type": "domestic"
+    },
+    {
+      "source": "136451",
+      "target": "58717",
+      "count": 1051,
+      "type": "domestic"
+    },
+    {
+      "source": "132092",
+      "target": "58717",
+      "count": 1044,
+      "type": "domestic"
+    },
+    {
+      "source": "59249",
+      "target": "58717",
+      "count": 1029,
+      "type": "domestic"
+    },
+    {
+      "source": "17471",
+      "target": "58717",
+      "count": 1024,
+      "type": "domestic"
+    },
+    {
+      "source": "135055",
+      "target": "10075",
+      "count": 1018,
+      "type": "domestic"
+    },
+    {
+      "source": "147314",
+      "target": "58945",
+      "count": 1014,
+      "type": "domestic"
+    },
+    {
+      "source": "136396",
+      "target": "58682",
+      "count": 1012,
+      "type": "domestic"
+    },
+    {
+      "source": "136224",
+      "target": "58717",
+      "count": 1010,
+      "type": "domestic"
+    },
+    {
+      "source": "133954",
+      "target": "10075",
+      "count": 1008,
+      "type": "domestic"
+    },
+    {
+      "source": "141385",
+      "target": "10075",
+      "count": 1008,
+      "type": "domestic"
+    },
+    {
+      "source": "59362",
+      "target": "58717",
+      "count": 1006,
+      "type": "domestic"
+    },
+    {
+      "source": "138505",
+      "target": "17494",
+      "count": 993,
+      "type": "domestic"
+    },
+    {
+      "source": "132365",
+      "target": "132602",
+      "count": 988,
+      "type": "domestic"
+    },
+    {
+      "source": "141988",
+      "target": "58717",
+      "count": 973,
+      "type": "domestic"
+    },
+    {
+      "source": "134204",
+      "target": "10075",
+      "count": 967,
+      "type": "domestic"
+    },
+    {
+      "source": "141194",
+      "target": "139009",
+      "count": 964,
+      "type": "domestic"
+    },
+    {
+      "source": "153610",
+      "target": "58682",
+      "count": 942,
+      "type": "domestic"
+    },
+    {
+      "source": "150696",
+      "target": "58717",
+      "count": 924,
+      "type": "domestic"
+    },
+    {
+      "source": "45766",
+      "target": "149994",
+      "count": 867,
+      "type": "domestic"
+    },
+    {
+      "source": "38026",
+      "target": "58682",
+      "count": 856,
+      "type": "domestic"
+    },
+    {
+      "source": "17469",
+      "target": "58715",
+      "count": 839,
+      "type": "domestic"
+    },
+    {
+      "source": "45925",
+      "target": "17494",
+      "count": 824,
+      "type": "domestic"
+    },
+    {
+      "source": "63961",
+      "target": "17494",
+      "count": 822,
+      "type": "domestic"
+    },
+    {
+      "source": "38712",
+      "target": "58682",
+      "count": 811,
+      "type": "domestic"
+    },
+    {
+      "source": "38203",
+      "target": "132884",
+      "count": 806,
+      "type": "domestic"
+    },
+    {
+      "source": "58736",
+      "target": "10075",
+      "count": 768,
+      "type": "domestic"
+    },
+    {
+      "source": "138362",
+      "target": "58682",
+      "count": 766,
+      "type": "domestic"
+    },
+    {
+      "source": "9441",
+      "target": "58682",
+      "count": 765,
+      "type": "domestic"
+    },
+    {
+      "source": "138191",
+      "target": "58682",
+      "count": 764,
+      "type": "domestic"
+    },
+    {
+      "source": "131464",
+      "target": "10075",
+      "count": 762,
+      "type": "domestic"
+    },
+    {
+      "source": "149060",
+      "target": "58682",
+      "count": 753,
+      "type": "domestic"
+    },
+    {
+      "source": "142054",
+      "target": "58682",
+      "count": 751,
+      "type": "domestic"
+    },
+    {
+      "source": "153696",
+      "target": "58682",
+      "count": 751,
+      "type": "domestic"
+    },
+    {
+      "source": "150434",
+      "target": "58682",
+      "count": 749,
+      "type": "domestic"
+    },
+    {
+      "source": "134712",
+      "target": "58682",
+      "count": 749,
+      "type": "domestic"
+    },
+    {
+      "source": "23991",
+      "target": "58715",
+      "count": 748,
+      "type": "domestic"
+    },
+    {
+      "source": "9832",
+      "target": "58682",
+      "count": 744,
+      "type": "domestic"
+    },
+    {
+      "source": "150429",
+      "target": "58715",
+      "count": 742,
+      "type": "domestic"
+    },
+    {
+      "source": "142153",
+      "target": "58682",
+      "count": 741,
+      "type": "domestic"
+    },
+    {
+      "source": "152479",
+      "target": "139009",
+      "count": 741,
+      "type": "domestic"
+    },
+    {
+      "source": "24323",
+      "target": "58682",
+      "count": 740,
+      "type": "domestic"
+    },
+    {
+      "source": "142006",
+      "target": "58715",
+      "count": 740,
+      "type": "domestic"
+    },
+    {
+      "source": "135410",
+      "target": "58715",
+      "count": 740,
+      "type": "domestic"
+    },
+    {
+      "source": "139870",
+      "target": "58717",
+      "count": 740,
+      "type": "domestic"
+    },
+    {
+      "source": "55492",
+      "target": "150178",
+      "count": 738,
+      "type": "domestic"
+    },
+    {
+      "source": "147181",
+      "target": "58717",
+      "count": 738,
+      "type": "domestic"
+    },
+    {
+      "source": "136141",
+      "target": "58717",
+      "count": 737,
+      "type": "domestic"
+    },
+    {
+      "source": "138623",
+      "target": "58715",
+      "count": 734,
+      "type": "domestic"
+    },
+    {
+      "source": "149491",
+      "target": "58715",
+      "count": 732,
+      "type": "domestic"
+    },
+    {
+      "source": "141745",
+      "target": "58682",
+      "count": 731,
+      "type": "domestic"
+    },
+    {
+      "source": "142192",
+      "target": "10075",
+      "count": 730,
+      "type": "domestic"
+    },
+    {
+      "source": "136214",
+      "target": "149765",
+      "count": 729,
+      "type": "domestic"
+    },
+    {
+      "source": "147180",
+      "target": "58715",
+      "count": 727,
+      "type": "domestic"
+    },
+    {
+      "source": "132298",
+      "target": "10075",
+      "count": 727,
+      "type": "domestic"
+    },
+    {
+      "source": "141231",
+      "target": "139901",
+      "count": 726,
+      "type": "domestic"
+    },
+    {
+      "source": "136419",
+      "target": "10075",
+      "count": 723,
+      "type": "domestic"
+    },
+    {
+      "source": "152648",
+      "target": "139901",
+      "count": 722,
+      "type": "domestic"
+    },
+    {
+      "source": "136262",
+      "target": "10075",
+      "count": 721,
+      "type": "domestic"
+    },
+    {
+      "source": "150735",
+      "target": "139009",
+      "count": 720,
+      "type": "domestic"
+    },
+    {
+      "source": "149432",
+      "target": "139009",
+      "count": 720,
+      "type": "domestic"
+    },
+    {
+      "source": "139245",
+      "target": "58717",
+      "count": 718,
+      "type": "domestic"
+    },
+    {
+      "source": "7565",
+      "target": "10075",
+      "count": 718,
+      "type": "domestic"
+    },
+    {
+      "source": "135131",
+      "target": "58717",
+      "count": 717,
+      "type": "domestic"
+    },
+    {
+      "source": "139026",
+      "target": "58717",
+      "count": 717,
+      "type": "domestic"
+    },
+    {
+      "source": "139622",
+      "target": "58717",
+      "count": 715,
+      "type": "domestic"
+    },
+    {
+      "source": "137515",
+      "target": "58717",
+      "count": 713,
+      "type": "domestic"
+    },
+    {
+      "source": "56054",
+      "target": "58717",
+      "count": 713,
+      "type": "domestic"
+    },
+    {
+      "source": "150385",
+      "target": "58717",
+      "count": 712,
+      "type": "domestic"
+    },
+    {
+      "source": "136014",
+      "target": "58717",
+      "count": 712,
+      "type": "domestic"
+    },
+    {
+      "source": "138171",
+      "target": "58717",
+      "count": 712,
+      "type": "domestic"
+    },
+    {
+      "source": "139033",
+      "target": "10075",
+      "count": 712,
+      "type": "domestic"
+    },
+    {
+      "source": "141726",
+      "target": "58717",
+      "count": 712,
+      "type": "domestic"
+    },
+    {
+      "source": "58923",
+      "target": "132267",
+      "count": 711,
+      "type": "domestic"
+    },
+    {
+      "source": "149478",
+      "target": "58717",
+      "count": 711,
+      "type": "domestic"
+    },
+    {
+      "source": "137038",
+      "target": "58717",
+      "count": 711,
+      "type": "domestic"
+    },
+    {
+      "source": "139335",
+      "target": "58717",
+      "count": 711,
+      "type": "domestic"
+    },
+    {
+      "source": "141184",
+      "target": "58717",
+      "count": 711,
+      "type": "domestic"
+    },
+    {
+      "source": "151969",
+      "target": "58717",
+      "count": 710,
+      "type": "domestic"
+    },
+    {
+      "source": "150156",
+      "target": "58715",
+      "count": 710,
+      "type": "domestic"
+    },
+    {
+      "source": "151318",
+      "target": "58717",
+      "count": 710,
+      "type": "domestic"
+    },
+    {
+      "source": "140664",
+      "target": "58717",
+      "count": 710,
+      "type": "domestic"
+    },
+    {
+      "source": "141375",
+      "target": "58717",
+      "count": 710,
+      "type": "domestic"
+    },
+    {
+      "source": "147022",
+      "target": "58717",
+      "count": 710,
+      "type": "domestic"
+    },
+    {
+      "source": "149001",
+      "target": "58717",
+      "count": 710,
+      "type": "domestic"
+    },
+    {
+      "source": "151781",
+      "target": "58717",
+      "count": 709,
+      "type": "domestic"
+    },
+    {
+      "source": "141433",
+      "target": "58717",
+      "count": 709,
+      "type": "domestic"
+    },
+    {
+      "source": "147009",
+      "target": "58717",
+      "count": 709,
+      "type": "domestic"
+    },
+    {
+      "source": "138917",
+      "target": "150178",
+      "count": 708,
+      "type": "domestic"
+    },
+    {
+      "source": "152585",
+      "target": "139009",
+      "count": 708,
+      "type": "domestic"
+    },
+    {
+      "source": "58688",
+      "target": "17494",
+      "count": 707,
+      "type": "domestic"
+    },
+    {
+      "source": "137843",
+      "target": "58717",
+      "count": 707,
+      "type": "domestic"
+    },
+    {
+      "source": "150123",
+      "target": "10075",
+      "count": 707,
+      "type": "domestic"
+    },
+    {
+      "source": "150316",
+      "target": "58717",
+      "count": 706,
+      "type": "domestic"
+    },
+    {
+      "source": "149451",
+      "target": "58717",
+      "count": 706,
+      "type": "domestic"
+    },
+    {
+      "source": "24122",
+      "target": "10075",
+      "count": 704,
+      "type": "domestic"
+    },
+    {
+      "source": "153688",
+      "target": "139009",
+      "count": 704,
+      "type": "domestic"
+    },
+    {
+      "source": "140923",
+      "target": "58717",
+      "count": 703,
+      "type": "domestic"
+    },
+    {
+      "source": "153377",
+      "target": "139901",
+      "count": 702,
+      "type": "domestic"
+    },
+    {
+      "source": "139230",
+      "target": "58717",
+      "count": 700,
+      "type": "domestic"
+    },
+    {
+      "source": "63961",
+      "target": "132602",
+      "count": 698,
+      "type": "domestic"
+    },
+    {
+      "source": "134113",
+      "target": "58717",
+      "count": 698,
+      "type": "domestic"
+    },
+    {
+      "source": "136156",
+      "target": "58717",
+      "count": 698,
+      "type": "domestic"
+    },
+    {
+      "source": "139927",
+      "target": "58717",
+      "count": 697,
+      "type": "domestic"
+    },
+    {
+      "source": "133191",
+      "target": "17494",
+      "count": 696,
+      "type": "domestic"
+    },
+    {
+      "source": "139915",
+      "target": "139009",
+      "count": 696,
+      "type": "domestic"
+    },
+    {
+      "source": "59249",
+      "target": "17494",
+      "count": 696,
+      "type": "domestic"
+    },
+    {
+      "source": "141456",
+      "target": "139009",
+      "count": 695,
+      "type": "domestic"
+    },
+    {
+      "source": "58768",
+      "target": "58717",
+      "count": 694,
+      "type": "domestic"
+    },
+    {
+      "source": "131686",
+      "target": "58717",
+      "count": 692,
+      "type": "domestic"
+    },
+    {
+      "source": "150458",
+      "target": "150748",
+      "count": 689,
+      "type": "domestic"
+    },
+    {
+      "source": "134146",
+      "target": "58717",
+      "count": 684,
+      "type": "domestic"
+    },
+    {
+      "source": "153385",
+      "target": "10075",
+      "count": 684,
+      "type": "domestic"
+    },
+    {
+      "source": "38744",
+      "target": "58717",
+      "count": 682,
+      "type": "domestic"
+    },
+    {
+      "source": "153523",
+      "target": "58717",
+      "count": 681,
+      "type": "domestic"
+    },
+    {
+      "source": "149306",
+      "target": "10075",
+      "count": 679,
+      "type": "domestic"
+    },
+    {
+      "source": "135076",
+      "target": "10075",
+      "count": 679,
+      "type": "domestic"
+    },
+    {
+      "source": "58890",
+      "target": "132602",
+      "count": 676,
+      "type": "domestic"
+    },
+    {
+      "source": "139016",
+      "target": "58717",
+      "count": 675,
+      "type": "domestic"
+    },
+    {
+      "source": "139667",
+      "target": "149994",
+      "count": 670,
+      "type": "domestic"
+    },
+    {
+      "source": "136009",
+      "target": "58717",
+      "count": 669,
+      "type": "domestic"
+    },
+    {
+      "source": "132306",
+      "target": "132267",
+      "count": 664,
+      "type": "domestic"
+    },
+    {
+      "source": "136563",
+      "target": "10075",
+      "count": 660,
+      "type": "domestic"
+    },
+    {
+      "source": "149829",
+      "target": "10075",
+      "count": 655,
+      "type": "domestic"
+    },
+    {
+      "source": "153556",
+      "target": "10075",
+      "count": 654,
+      "type": "domestic"
+    },
+    {
+      "source": "134968",
+      "target": "58682",
+      "count": 653,
+      "type": "domestic"
+    },
+    {
+      "source": "137416",
+      "target": "141731",
+      "count": 650,
+      "type": "domestic"
+    },
+    {
+      "source": "150001",
+      "target": "139009",
+      "count": 635,
+      "type": "domestic"
+    },
+    {
+      "source": "140093",
+      "target": "58682",
+      "count": 634,
+      "type": "domestic"
+    },
+    {
+      "source": "139872",
+      "target": "141731",
+      "count": 616,
+      "type": "domestic"
+    },
+    {
+      "source": "24323",
+      "target": "139009",
+      "count": 605,
+      "type": "domestic"
+    },
+    {
+      "source": "24556",
+      "target": "58717",
+      "count": 598,
+      "type": "domestic"
+    },
+    {
+      "source": "133610",
+      "target": "58717",
+      "count": 590,
+      "type": "domestic"
+    },
+    {
+      "source": "142571",
+      "target": "58717",
+      "count": 590,
+      "type": "domestic"
+    },
+    {
+      "source": "150180",
+      "target": "58717",
+      "count": 586,
+      "type": "domestic"
+    },
+    {
+      "source": "139781",
+      "target": "139009",
+      "count": 583,
+      "type": "domestic"
+    },
+    {
+      "source": "38203",
+      "target": "10075",
+      "count": 582,
+      "type": "domestic"
+    },
+    {
+      "source": "63932",
+      "target": "17806",
+      "count": 575,
+      "type": "domestic"
+    },
+    {
+      "source": "136004",
+      "target": "17494",
+      "count": 573,
+      "type": "domestic"
+    },
+    {
+      "source": "59242",
+      "target": "10075",
+      "count": 568,
+      "type": "domestic"
+    },
+    {
+      "source": "133547",
+      "target": "17494",
+      "count": 566,
+      "type": "domestic"
+    },
+    {
+      "source": "137889",
+      "target": "139901",
+      "count": 563,
+      "type": "domestic"
+    },
+    {
+      "source": "63980",
+      "target": "10075",
+      "count": 556,
+      "type": "domestic"
+    },
+    {
+      "source": "137015",
+      "target": "139009",
+      "count": 538,
+      "type": "domestic"
+    },
+    {
+      "source": "138382",
+      "target": "17494",
+      "count": 536,
+      "type": "domestic"
+    },
+    {
+      "source": "137033",
+      "target": "58715",
+      "count": 535,
+      "type": "domestic"
+    },
+    {
+      "source": "23956",
+      "target": "139009",
+      "count": 521,
+      "type": "domestic"
+    },
+    {
+      "source": "58629",
+      "target": "10075",
+      "count": 519,
+      "type": "domestic"
+    },
+    {
+      "source": "149994",
+      "target": "10075",
+      "count": 519,
+      "type": "domestic"
+    },
+    {
+      "source": "138043",
+      "target": "58717",
+      "count": 507,
+      "type": "domestic"
+    },
+    {
+      "source": "150748",
+      "target": "17494",
+      "count": 506,
+      "type": "domestic"
+    },
+    {
+      "source": "136266",
+      "target": "58717",
+      "count": 504,
+      "type": "domestic"
+    },
+    {
+      "source": "150348",
+      "target": "150748",
+      "count": 500,
+      "type": "domestic"
+    },
+    {
+      "source": "138601",
+      "target": "58717",
+      "count": 500,
+      "type": "domestic"
+    },
+    {
+      "source": "133325",
+      "target": "149765",
+      "count": 498,
+      "type": "domestic"
+    },
+    {
+      "source": "38203",
+      "target": "58717",
+      "count": 498,
+      "type": "domestic"
+    },
+    {
+      "source": "139668",
+      "target": "58717",
+      "count": 490,
+      "type": "domestic"
+    },
+    {
+      "source": "58947",
+      "target": "58715",
+      "count": 488,
+      "type": "domestic"
+    },
+    {
+      "source": "132159",
+      "target": "58715",
+      "count": 483,
+      "type": "domestic"
+    },
+    {
+      "source": "154109",
+      "target": "58717",
+      "count": 482,
+      "type": "domestic"
+    },
+    {
+      "source": "63980",
+      "target": "17494",
+      "count": 480,
+      "type": "domestic"
+    },
+    {
+      "source": "136004",
+      "target": "132602",
+      "count": 471,
+      "type": "domestic"
+    },
+    {
+      "source": "134968",
+      "target": "58717",
+      "count": 464,
+      "type": "domestic"
+    },
+    {
+      "source": "138600",
+      "target": "58717",
+      "count": 456,
+      "type": "domestic"
+    },
+    {
+      "source": "58935",
+      "target": "58682",
+      "count": 448,
+      "type": "domestic"
+    },
+    {
+      "source": "9230",
+      "target": "58717",
+      "count": 446,
+      "type": "domestic"
+    },
+    {
+      "source": "139904",
+      "target": "58717",
+      "count": 445,
+      "type": "domestic"
+    },
+    {
+      "source": "63963",
+      "target": "132884",
+      "count": 438,
+      "type": "domestic"
+    },
+    {
+      "source": "133938",
+      "target": "58682",
+      "count": 436,
+      "type": "domestic"
+    },
+    {
+      "source": "38493",
+      "target": "58717",
+      "count": 436,
+      "type": "domestic"
+    },
+    {
+      "source": "9230",
+      "target": "58655",
+      "count": 434,
+      "type": "domestic"
+    },
+    {
+      "source": "135597",
+      "target": "58717",
+      "count": 430,
+      "type": "domestic"
+    },
+    {
+      "source": "142192",
+      "target": "132884",
+      "count": 428,
+      "type": "domestic"
+    },
+    {
+      "source": "131243",
+      "target": "58717",
+      "count": 426,
+      "type": "domestic"
+    },
+    {
+      "source": "131183",
+      "target": "150748",
+      "count": 425,
+      "type": "domestic"
+    },
+    {
+      "source": "147017",
+      "target": "132602",
+      "count": 419,
+      "type": "domestic"
+    },
+    {
+      "source": "140612",
+      "target": "139901",
+      "count": 418,
+      "type": "domestic"
+    },
+    {
+      "source": "7565",
+      "target": "58717",
+      "count": 415,
+      "type": "domestic"
+    },
+    {
+      "source": "138601",
+      "target": "150178",
+      "count": 412,
+      "type": "domestic"
+    },
+    {
+      "source": "141991",
+      "target": "58717",
+      "count": 411,
+      "type": "domestic"
+    },
+    {
+      "source": "133547",
+      "target": "150748",
+      "count": 409,
+      "type": "domestic"
+    },
+    {
+      "source": "142168",
+      "target": "10075",
+      "count": 409,
+      "type": "domestic"
+    },
+    {
+      "source": "141773",
+      "target": "58682",
+      "count": 406,
+      "type": "domestic"
+    },
+    {
+      "source": "137519",
+      "target": "10075",
+      "count": 405,
+      "type": "domestic"
+    },
+    {
+      "source": "138505",
+      "target": "58717",
+      "count": 403,
+      "type": "domestic"
+    },
+    {
+      "source": "138601",
+      "target": "10075",
+      "count": 401,
+      "type": "domestic"
+    },
+    {
+      "source": "17469",
+      "target": "58717",
+      "count": 401,
+      "type": "domestic"
+    },
+    {
+      "source": "139064",
+      "target": "58717",
+      "count": 396,
+      "type": "domestic"
+    },
+    {
+      "source": "132806",
+      "target": "132602",
+      "count": 394,
+      "type": "domestic"
+    },
+    {
+      "source": "140669",
+      "target": "58715",
+      "count": 394,
+      "type": "domestic"
+    },
+    {
+      "source": "131464",
+      "target": "132884",
+      "count": 388,
+      "type": "domestic"
+    },
+    {
+      "source": "135125",
+      "target": "132602",
+      "count": 385,
+      "type": "domestic"
+    },
+    {
+      "source": "58445",
+      "target": "58717",
+      "count": 385,
+      "type": "domestic"
+    },
+    {
+      "source": "149162",
+      "target": "58682",
+      "count": 385,
+      "type": "domestic"
+    },
+    {
+      "source": "138701",
+      "target": "58682",
+      "count": 383,
+      "type": "domestic"
+    },
+    {
+      "source": "141436",
+      "target": "58682",
+      "count": 383,
+      "type": "domestic"
+    },
+    {
+      "source": "136482",
+      "target": "58682",
+      "count": 383,
+      "type": "domestic"
+    },
+    {
+      "source": "137543",
+      "target": "58682",
+      "count": 382,
+      "type": "domestic"
+    },
+    {
+      "source": "139473",
+      "target": "58682",
+      "count": 382,
+      "type": "domestic"
+    },
+    {
+      "source": "139674",
+      "target": "58682",
+      "count": 382,
+      "type": "domestic"
+    },
+    {
+      "source": "136435",
+      "target": "58682",
+      "count": 381,
+      "type": "domestic"
+    },
+    {
+      "source": "154258",
+      "target": "139901",
+      "count": 380,
+      "type": "domestic"
+    },
+    {
+      "source": "133477",
+      "target": "58945",
+      "count": 380,
+      "type": "domestic"
+    },
+    {
+      "source": "139924",
+      "target": "58682",
+      "count": 380,
+      "type": "domestic"
+    },
+    {
+      "source": "141038",
+      "target": "58682",
+      "count": 380,
+      "type": "domestic"
+    },
+    {
+      "source": "149832",
+      "target": "139901",
+      "count": 380,
+      "type": "domestic"
+    },
+    {
+      "source": "136429",
+      "target": "58682",
+      "count": 380,
+      "type": "domestic"
+    },
+    {
+      "source": "137572",
+      "target": "58682",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "138437",
+      "target": "58715",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "139236",
+      "target": "139901",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "139652",
+      "target": "58682",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "135378",
+      "target": "58682",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "147294",
+      "target": "58682",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "149293",
+      "target": "58715",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "149777",
+      "target": "58682",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "154377",
+      "target": "58715",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "38313",
+      "target": "58682",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "152139",
+      "target": "58715",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "138022",
+      "target": "58717",
+      "count": 379,
+      "type": "domestic"
+    },
+    {
+      "source": "136598",
+      "target": "139901",
+      "count": 378,
+      "type": "domestic"
+    },
+    {
+      "source": "131304",
+      "target": "58682",
+      "count": 378,
+      "type": "domestic"
+    },
+    {
+      "source": "152732",
+      "target": "58717",
+      "count": 378,
+      "type": "domestic"
+    },
+    {
+      "source": "152125",
+      "target": "58715",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "150699",
+      "target": "139901",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "132438",
+      "target": "132884",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "136598",
+      "target": "58715",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "151050",
+      "target": "139901",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "140228",
+      "target": "58682",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "134505",
+      "target": "58717",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "148974",
+      "target": "139901",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "150682",
+      "target": "139901",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "151369",
+      "target": "58715",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "135076",
+      "target": "58715",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "9288",
+      "target": "58715",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "142287",
+      "target": "58717",
+      "count": 377,
+      "type": "domestic"
+    },
+    {
+      "source": "134806",
+      "target": "17494",
+      "count": 376,
+      "type": "domestic"
+    },
+    {
+      "source": "139792",
+      "target": "58715",
+      "count": 376,
+      "type": "domestic"
+    },
+    {
+      "source": "134837",
+      "target": "58682",
+      "count": 376,
+      "type": "domestic"
+    },
+    {
+      "source": "9832",
+      "target": "132602",
+      "count": 376,
+      "type": "domestic"
+    },
+    {
+      "source": "150459",
+      "target": "139901",
+      "count": 375,
+      "type": "domestic"
+    },
+    {
+      "source": "135578",
+      "target": "58715",
+      "count": 375,
+      "type": "domestic"
+    },
+    {
+      "source": "154418",
+      "target": "58715",
+      "count": 375,
+      "type": "domestic"
+    },
+    {
+      "source": "138383",
+      "target": "150748",
+      "count": 375,
+      "type": "domestic"
+    },
+    {
+      "source": "23923",
+      "target": "58655",
+      "count": 374,
+      "type": "domestic"
+    },
+    {
+      "source": "137943",
+      "target": "139009",
+      "count": 374,
+      "type": "domestic"
+    },
+    {
+      "source": "153634",
+      "target": "139901",
+      "count": 374,
+      "type": "domestic"
+    },
+    {
+      "source": "138336",
+      "target": "150178",
+      "count": 374,
+      "type": "domestic"
+    },
+    {
+      "source": "132489",
+      "target": "58945",
+      "count": 373,
+      "type": "domestic"
+    },
+    {
+      "source": "154295",
+      "target": "58945",
+      "count": 373,
+      "type": "domestic"
+    },
+    {
+      "source": "137541",
+      "target": "139901",
+      "count": 372,
+      "type": "domestic"
+    },
+    {
+      "source": "142060",
+      "target": "132602",
+      "count": 372,
+      "type": "domestic"
+    },
+    {
+      "source": "139053",
+      "target": "10075",
+      "count": 372,
+      "type": "domestic"
+    },
+    {
+      "source": "136429",
+      "target": "58717",
+      "count": 372,
+      "type": "domestic"
+    },
+    {
+      "source": "149433",
+      "target": "58682",
+      "count": 371,
+      "type": "domestic"
+    },
+    {
+      "source": "135517",
+      "target": "58717",
+      "count": 371,
+      "type": "domestic"
+    },
+    {
+      "source": "137554",
+      "target": "58717",
+      "count": 371,
+      "type": "domestic"
+    },
+    {
+      "source": "137553",
+      "target": "58717",
+      "count": 371,
+      "type": "domestic"
+    },
+    {
+      "source": "135071",
+      "target": "58717",
+      "count": 371,
+      "type": "domestic"
+    }
+  ],
+  "stats": {
+    "total_outside": 110,
+    "total_iig": 32,
+    "total_local_isp": 264,
+    "total_edges": 600,
+    "total_intl_edges": 300,
+    "total_domestic_edges": 300,
+    "total_traffic": 445391,
+    "valid_observations": 459000
+  }
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BGP Bangladesh - Internet Path Visualization</title>
+  <meta name="description" content="Interactive visualization of Bangladesh's internet connectivity paths via BGP routing. See how local ISPs connect to the global internet.">
+  <meta property="og:title" content="BGP Bangladesh - Internet Path Visualization">
+  <meta property="og:description" content="Explore Bangladesh's BGP routing paths and internet bottlenecks interactively.">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div id="sidebar-header">
+        <h1>BGP Bangladesh</h1>
+        <div id="data-source-label">Loading...</div>
+      </div>
+      <div id="sidebar-content">
+        <!-- Stats -->
+        <div id="stats-container"></div>
+
+        <!-- Controls -->
+        <div class="controls-section">
+          <div class="btn-group">
+            <button class="btn" id="btn-fetch-live">Fetch Live Data</button>
+            <button class="btn btn-outline" id="btn-revert-static">Static Data</button>
+          </div>
+          <div class="btn-group" style="margin-top: 8px;">
+            <button class="btn btn-outline btn-small" id="btn-reset-view">Reset View</button>
+            <button class="btn btn-outline btn-small" id="btn-toggle-labels">Labels</button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="controls-section">
+          <div class="control-group">
+            <label>Min Traffic: <span class="filter-value" id="filter-min-traffic-label">0</span></label>
+            <input type="range" id="filter-min-traffic" min="0" max="40000" value="0" step="500">
+          </div>
+          <div class="control-group">
+            <label>Node Size</label>
+            <input type="range" id="filter-node-size" min="5" max="30" value="15" step="1">
+          </div>
+        </div>
+
+        <!-- Export -->
+        <div class="controls-section">
+          <div class="sidebar-section-title" style="color: var(--text-muted);">Export Data</div>
+          <div class="btn-group">
+            <button class="btn btn-outline btn-small" id="btn-export-nodes">Nodes CSV</button>
+            <button class="btn btn-outline btn-small" id="btn-export-edges">Edges CSV</button>
+            <button class="btn btn-outline btn-small" id="btn-export-json">JSON</button>
+          </div>
+        </div>
+
+        <!-- Inside ASN list -->
+        <div class="sidebar-section-title inside">Inside BD (Gateways)</div>
+        <div id="inside-list"></div>
+
+        <!-- Outside ASN list -->
+        <div class="sidebar-section-title outside">Outside BD (Feeders)</div>
+        <div id="outside-list"></div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <div id="main">
+      <!-- Top bar -->
+      <div id="top-bar">
+        <div style="font-size:14px; font-weight:600; color: var(--accent);">Bangladesh Internet Path Visualization</div>
+      </div>
+
+      <!-- Tab navigation -->
+      <nav id="tab-nav">
+        <button class="tab-btn active" data-tab="force-graph">Network Graph</button>
+        <button class="tab-btn" data-tab="sankey">Traffic Flow</button>
+        <button class="tab-btn" data-tab="treemap">Market Share</button>
+        <button class="tab-btn" data-tab="chord">Chord Diagram</button>
+        <button class="tab-btn" data-tab="hierarchical">Layered View</button>
+        <button class="tab-btn" data-tab="table">Data Table</button>
+      </nav>
+
+      <!-- Visualization panel -->
+      <div id="viz-panel"></div>
+
+      <!-- Footer -->
+      <div id="app-footer">
+        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a></span>
+        <span><a href="#" id="btn-show-intro">About this project</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared tooltip -->
+  <div class="tooltip" id="tooltip" style="display: none;"></div>
+
+  <!-- Main script -->
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
