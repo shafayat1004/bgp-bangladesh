@@ -94,6 +94,7 @@ All visualizations support:
 - **Hover**: See detailed tooltip with country, traffic, percentage
 - **Filter**: Use the sidebar slider to show/hide low-traffic routes
 - **Search**: Type an ASN number or company name to find it instantly
+- **Export**: Download CSV/JSON of processed data, or raw BGP routes (~20MB, available after live fetch)
 
 ## Updating Static Data
 
@@ -105,10 +106,10 @@ All visualizations support:
 
 ### Python Method (Full Reprocessing)
 ```bash
-# 1. Fetch raw BGP routes (one-time, slow)
-python3 scripts/fetch_bgp_routes.py  # Creates bgp_routes_raw.json
+# 1. Fetch raw BGP routes (5-15 minutes, ~20MB output)
+python3 scripts/fetch_bgp_routes.py  # Creates data/BD/bgp_routes_raw.json
 
-# 2. Reprocess into 3-layer model (fast)
+# 2. Reprocess into 3-layer model (30-60 seconds)
 python3 scripts/reprocess_3layer.py  # Updates viz_data.json, asn_names.json, metadata.json
 
 # 3. Commit
@@ -117,11 +118,18 @@ git commit -m "Update BGP data: $(date +%Y-%m-%d)"
 git push
 ```
 
+**Fetch script options:**
+```bash
+python3 scripts/fetch_bgp_routes.py --country BD  # Default
+python3 scripts/fetch_bgp_routes.py --country IN --output data/IN/routes.json  # Custom country
+```
+
 The Python method:
 - Fetches country info for all ASNs (with country flags)
 - Applies well-known ASN overrides for accurate country detection
 - Processes full 3-layer model with domestic and international edges
 - Generates statistics and rankings
+- Supports fetching raw data for other countries
 
 ## Tech Stack
 
@@ -168,6 +176,7 @@ bgp-bangladesh/
 │           ├── hierarchical.js      # Layered view (zoomable)
 │           └── table.js             # Data table (sortable, filterable)
 ├── scripts/
+│   ├── fetch_bgp_routes.py          # Python: Fetch raw BGP routes from RIPEstat
 │   └── reprocess_3layer.py          # Python: raw BGP → 3-layer viz data
 └── docs/
     ├── README.md                    # User guide
