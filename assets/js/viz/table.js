@@ -243,5 +243,15 @@ function renderEdgesTable() {
 }
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
-export function highlightASN() {}
-export function updateFilter() {}
+export function highlightASN(asn) {
+  // Set search query to the ASN and re-render to filter the table
+  searchQuery = asn;
+  currentPage = 0;
+  const searchEl = document.getElementById('table-search');
+  if (searchEl) searchEl.value = asn;
+  render();
+}
+export function updateFilter(val) { 
+  currentOptions.minTraffic = val; 
+  render(); 
+}

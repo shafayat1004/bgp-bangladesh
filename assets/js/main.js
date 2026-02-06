@@ -85,9 +85,9 @@ function onDataLoaded() {
     if (mod?.highlightASN) mod.highlightASN(asn);
   });
   
-  // Load with default filter to reduce density
+  // Load with user's saved filter preference
   const prefs = loadPreferences();
-  const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 1000;
+  const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 0;
   switchTab(activeTab, { minTraffic: defaultMinTraffic });
 }
 
@@ -114,7 +114,7 @@ function switchTab(tabId, options = {}) {
     mod.init('viz-panel');
     const prefs = loadPreferences();
     const loadOptions = {
-      minTraffic: options.minTraffic !== undefined ? options.minTraffic : prefs.minTraffic || 1000,
+      minTraffic: options.minTraffic !== undefined ? options.minTraffic : (prefs.minTraffic !== undefined ? prefs.minTraffic : 0),
       nodeSize: prefs.nodeSize || 15,
       ...options
     };
@@ -219,7 +219,7 @@ function setupFilters() {
 
   // Set default minimum traffic to reduce density
   if (trafficSlider) {
-    const defaultMin = prefs.minTraffic !== undefined ? prefs.minTraffic : 1000;
+    const defaultMin = prefs.minTraffic !== undefined ? prefs.minTraffic : 0;
     trafficSlider.value = defaultMin;
     if (trafficLabel) trafficLabel.textContent = defaultMin.toLocaleString();
     

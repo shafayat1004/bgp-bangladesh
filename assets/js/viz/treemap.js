@@ -97,6 +97,8 @@ function renderTreemap(containerId, type) {
     .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
   cell.append('rect')
+    .attr('class', 'treemap-rect')
+    .attr('data-asn', d => d.data.asn)
     .attr('width', d => d.x1 - d.x0).attr('height', d => d.y1 - d.y0)
     .attr('fill', d => colorScale(d.data.traffic))
     .attr('stroke', '#0a0e27').attr('stroke-width', 1).attr('rx', 2)
@@ -152,5 +154,24 @@ function renderTreemap(containerId, type) {
 }
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
-export function highlightASN() {}
-export function updateFilter() { render(); }
+export function highlightASN(asn) {
+  // Dim all cells, highlight the matching one
+  d3.selectAll('.treemap-rect').attr('opacity', 0.2).attr('stroke', '#0a0e27').attr('stroke-width', 1);
+  d3.selectAll(`.treemap-rect[data-asn="${asn}"]`).attr('opacity', 1).attr('stroke', '#fff').attr('stroke-width', 3);
+  // Scroll into view if needed
+  const el = document.querySelector(`.treemap-rect[data-asn="${asn}"]`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Click to clear
+  const container = document.getElementById('treemap-container');
+  if (container) {
+    const handler = () => {
+      d3.selectAll('.treemap-rect').attr('opacity', 1).attr('stroke', '#0a0e27').attr('stroke-width', 1);
+      container.removeEventListener('click', handler);
+    };
+    container.addEventListener('click', handler);
+  }
+}
+export function updateFilter(val) { 
+  currentOptions.minTraffic = val; 
+  render(); 
+}

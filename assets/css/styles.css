@@ -194,6 +194,14 @@ body {
 .sidebar-section-title.inside { color: var(--green); }
 .sidebar-section-title.outside { color: var(--red); }
 
+/* Scrollable ASN lists */
+#local-isp-list, #iig-list, #outside-list {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+}
+
 .asn-item {
   background: var(--bg-card);
   padding: 6px 8px;

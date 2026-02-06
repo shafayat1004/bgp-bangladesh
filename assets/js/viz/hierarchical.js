@@ -129,6 +129,7 @@ function render() {
       const color = edge.type === 'domestic' ? '#4dabf7' : '#4fc3f7';
 
     g.append('path')
+      .attr('class', 'hier-link').attr('data-source', src).attr('data-target', tgt)
       .attr('d', `M${srcPos.x},${srcPos.y - boxH / 2} C${srcPos.x},${(srcPos.y + tgtPos.y) / 2} ${tgtPos.x},${(srcPos.y + tgtPos.y) / 2} ${tgtPos.x},${tgtPos.y + boxH / 2}`)
       .attr('fill', 'none').attr('stroke', color).attr('stroke-opacity', opacity).attr('stroke-width', strokeW)
       .on('mouseover', function (event) {
@@ -147,7 +148,8 @@ function render() {
     const n = nodeMap[asn];
     if (!n) continue;
     const color = TYPE_COLORS[pos.type];
-    const group = g.append('g').attr('transform', `translate(${pos.x - boxW / 2},${pos.y - boxH / 2})`).attr('cursor', 'pointer');
+    const group = g.append('g').attr('class', 'hier-node').attr('data-asn', asn)
+      .attr('transform', `translate(${pos.x - boxW / 2},${pos.y - boxH / 2})`).attr('cursor', 'pointer');
 
     group.append('rect').attr('width', boxW).attr('height', boxH)
       .attr('fill', color + '25').attr('stroke', color).attr('stroke-width', 1.5).attr('rx', 4);
@@ -180,5 +182,36 @@ function render() {
 }
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
-export function highlightASN() {}
-export function updateFilter() { render(); }
+export function highlightASN(asn) {
+  const svg = d3.select('#hier-svg');
+  // Dim everything
+  svg.selectAll('.hier-node').attr('opacity', 0.15);
+  svg.selectAll('.hier-link').attr('stroke-opacity', 0.02);
+  // Highlight matching node
+  svg.selectAll(`.hier-node[data-asn="${asn}"]`).attr('opacity', 1);
+  // Highlight connected links and their partner nodes
+  svg.selectAll('.hier-link').each(function() {
+    const link = d3.select(this);
+    const src = link.attr('data-source');
+    const tgt = link.attr('data-target');
+    if (src === asn || tgt === asn) {
+      link.attr('stroke-opacity', 0.8).attr('stroke-width', parseFloat(link.attr('stroke-width')) + 2);
+      const other = src === asn ? tgt : src;
+      svg.selectAll(`.hier-node[data-asn="${other}"]`).attr('opacity', 1);
+    }
+  });
+  // Click to clear
+  svg.on('click.highlight', () => {
+    svg.selectAll('.hier-node').attr('opacity', 1);
+    svg.selectAll('.hier-link').each(function() {
+      // Reset to original opacity (stored as data or recalculate)
+      d3.select(this).attr('stroke-opacity', null); // Will trigger re-render on next filter change
+    });
+    render(); // Simplest: just re-render to restore original state
+    svg.on('click.highlight', null);
+  });
+}
+export function updateFilter(val) { 
+  currentOptions.minTraffic = val; 
+  render(); 
+}

@@ -51,9 +51,14 @@ function render() {
   const svg = d3.select('#sankey-svg').attr('width', width).attr('height', height);
   svg.selectAll('*').remove();
 
+  // Add zoom/pan support
+  const zoom = d3.zoom()
+    .scaleExtent([0.3, 3])
+    .on('zoom', (event) => g.attr('transform', event.transform));
+  svg.call(zoom);
+
   const margin = { top: 30, right: 30, bottom: 30, left: 30 };
   const w = width - margin.left - margin.right;
-  const h = height - margin.top - margin.bottom;
   const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
   const nodeMap = {};
@@ -99,25 +104,31 @@ function render() {
   // Column positions
   const nodeWidth = 18;
   const columns = hasLocalISP && localISPASNs.length > 0
-    ? [{ asns: outsideSorted, x: 0, color: '#ef5350', label: 'Outside' },
-       { asns: iigSorted, x: w / 2 - nodeWidth / 2, color: '#66bb6a', label: 'IIGs' },
-       { asns: ispSorted, x: w - nodeWidth, color: '#42a5f5', label: 'Local ISPs' }]
-    : [{ asns: outsideSorted, x: 0, color: '#ef5350', label: 'Outside' },
-       { asns: iigSorted, x: w - nodeWidth, color: '#66bb6a', label: 'Inside BD' }];
+    ? [{ asns: outsideSorted, x: 0, color: TYPE_COLORS.outside, label: 'Outside' },
+       { asns: iigSorted, x: w / 2 - nodeWidth / 2, color: TYPE_COLORS.iig, label: 'IIGs' },
+       { asns: ispSorted, x: w - nodeWidth, color: TYPE_COLORS['local-isp'], label: 'Local ISPs' }]
+    : [{ asns: outsideSorted, x: 0, color: TYPE_COLORS.outside, label: 'Outside' },
+       { asns: iigSorted, x: w - nodeWidth, color: TYPE_COLORS.iig, label: 'Inside BD' }];
 
   // Layout nodes in each column
   const positions = {};
   const totalTraffic = allEdges.reduce((s, e) => s + e.count, 0) || 1;
 
+  // Calculate dynamic height based on number of nodes
+  const maxNodes = Math.max(...columns.map(c => c.asns.length));
+  const minNodeHeight = 8; // Minimum height per node
+  const padding = 4;
+  const neededHeight = maxNodes * (minNodeHeight + padding);
+  const h = Math.max(height - margin.top - margin.bottom, neededHeight);
+
   columns.forEach(col => {
     const colTotal = col.asns.reduce((s, a) => s + a.total, 0) || 1;
-    const padding = 6;
     const available = h - (col.asns.length - 1) * padding;
     let y = 0;
 
     col.asns.forEach(({ asn, total }) => {
       const fraction = total / colTotal;
-      const nodeH = Math.max(3, fraction * available);
+      const nodeH = Math.max(minNodeHeight, fraction * available);
       positions[`${asn}_${col.label}`] = { x: col.x, y, h: nodeH, asn, color: col.color };
       y += nodeH + padding;
     });
@@ -152,6 +163,8 @@ function render() {
       const y1 = tgtPos.y + tgtOff + bandW / 2;
 
       linkGroup.append('path')
+        .attr('class', 'sankey-link')
+        .attr('data-source', src).attr('data-target', tgt)
         .attr('d', `M${x0},${y0} C${(x0 + x1) / 2},${y0} ${(x0 + x1) / 2},${y1} ${x1},${y1}`)
         .attr('fill', 'none')
         .attr('stroke', color)
@@ -174,6 +187,15 @@ function render() {
   drawEdges(intlEdges, 'Outside', columns.length > 2 ? 'IIGs' : 'Inside BD', '#4fc3f7');
   if (domEdges.length > 0) drawEdges(domEdges, 'Local ISPs', 'IIGs', '#4dabf7');
 
+  // Add zoom hint
+  g.append('text')
+    .attr('x', w / 2)
+    .attr('y', h + 25)
+    .attr('text-anchor', 'middle')
+    .attr('fill', '#666')
+    .attr('font-size', '11px')
+    .text('Scroll to zoom • Drag to pan');
+
   // Draw nodes and labels
   columns.forEach(col => {
     // Column label
@@ -186,7 +208,8 @@ function render() {
       if (!pos) return;
       const node = nodeMap[asn];
 
-      g.append('rect').attr('x', pos.x).attr('y', pos.y)
+      g.append('rect').attr('class', 'sankey-node').attr('data-asn', asn)
+        .attr('x', pos.x).attr('y', pos.y)
         .attr('width', nodeWidth).attr('height', pos.h)
         .attr('fill', col.color).attr('rx', 2);
 
@@ -194,7 +217,8 @@ function render() {
         const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
         const textX = col.x === 0 ? col.x + nodeWidth + 5 : col.x - 5;
         const anchor = col.x === 0 ? 'start' : 'end';
-        g.append('text').attr('x', textX).attr('y', pos.y + pos.h / 2).attr('dy', '0.35em')
+        g.append('text').attr('class', 'sankey-label').attr('data-asn', asn)
+          .attr('x', textX).attr('y', pos.y + pos.h / 2).attr('dy', '0.35em')
           .attr('text-anchor', anchor).attr('fill', '#ddd').attr('font-size', '9px')
           .text(`${flag}${node?.name || `AS${asn}`}`);
       }
@@ -203,5 +227,33 @@ function render() {
 }
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
-export function highlightASN() {}
-export function updateFilter() { render(); }
+export function highlightASN(asn) {
+  if (!currentData) return;
+  const svg = d3.select('#sankey-svg');
+  // Dim everything first
+  svg.selectAll('.sankey-node').attr('opacity', 0.15);
+  svg.selectAll('.sankey-label').attr('opacity', 0.15);
+  svg.selectAll('.sankey-link').attr('stroke-opacity', 0.05);
+  // Highlight the matching node
+  svg.selectAll(`.sankey-node[data-asn="${asn}"]`).attr('opacity', 1).attr('stroke', '#fff').attr('stroke-width', 2);
+  svg.selectAll(`.sankey-label[data-asn="${asn}"]`).attr('opacity', 1).attr('fill', '#fff').attr('font-weight', 'bold');
+  // Highlight connected links and their target/source nodes
+  svg.selectAll(`.sankey-link[data-source="${asn}"], .sankey-link[data-target="${asn}"]`).each(function() {
+    const link = d3.select(this);
+    link.attr('stroke-opacity', 0.7).attr('stroke-width', parseFloat(link.attr('stroke-width')) + 1);
+    const other = link.attr('data-source') === asn ? link.attr('data-target') : link.attr('data-source');
+    svg.selectAll(`.sankey-node[data-asn="${other}"]`).attr('opacity', 1);
+    svg.selectAll(`.sankey-label[data-asn="${other}"]`).attr('opacity', 1);
+  });
+  // Click anywhere to clear
+  svg.on('click.highlight', () => {
+    svg.selectAll('.sankey-node').attr('opacity', 1).attr('stroke', null).attr('stroke-width', null);
+    svg.selectAll('.sankey-label').attr('opacity', 1).attr('fill', '#ddd').attr('font-weight', null);
+    svg.selectAll('.sankey-link').attr('stroke-opacity', 0.35);
+    svg.on('click.highlight', null);
+  });
+}
+export function updateFilter(val) { 
+  currentOptions.minTraffic = val; 
+  render(); 
+}

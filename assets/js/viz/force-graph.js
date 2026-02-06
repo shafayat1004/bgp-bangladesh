@@ -25,6 +25,7 @@ let highlightedNode = null;
 let currentNodeSize = 15;
 let currentData = null;
 let minTraffic = 0;
+let renderedEdges = [];  // Track which edges are actually rendered
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -35,7 +36,7 @@ export function init(containerId) {
 
 export function loadData(data, options = {}) {
   currentData = data;
-  minTraffic = options.minTraffic !== undefined ? options.minTraffic : 1000; // Default 1000 to reduce density
+  minTraffic = options.minTraffic !== undefined ? options.minTraffic : 0;
   currentNodeSize = options.nodeSize || 15;
   showLabels = options.showLabels !== false;
 
@@ -157,9 +158,9 @@ export function loadData(data, options = {}) {
 function render() {
   if (!currentData || !g) return;
 
-  const filteredEdges = currentData.edges.filter(e => e.count >= minTraffic);
+  renderedEdges = currentData.edges.filter(e => e.count >= minTraffic);
   const usedNodes = new Set();
-  filteredEdges.forEach(e => {
+  renderedEdges.forEach(e => {
     usedNodes.add(e.source?.asn || e.source);
     usedNodes.add(e.target?.asn || e.target);
   });
@@ -169,7 +170,7 @@ function render() {
 
   // Links - color by type
   links = g.append('g').selectAll('path')
-    .data(filteredEdges)
+    .data(renderedEdges)
     .enter().append('path')
     .attr('class', 'link')
     .attr('stroke', d => d.type === 'domestic' ? '#42a5f5' : '#4fc3f7')
@@ -208,7 +209,7 @@ function render() {
     .on('click', highlightNodeHandler);
 
   simulation.nodes(filteredNodes).on('tick', ticked);
-  simulation.force('link').links(filteredEdges);
+  simulation.force('link').links(renderedEdges);
   simulation.alpha(1).restart();
 }
 
@@ -276,7 +277,8 @@ function highlightNodeHandler(event, d) {
   highlightedNode = d.asn;
   const connectedNodes = new Set([d.asn]);
   const connectedEdges = new Set();
-  currentData.edges.forEach(e => {
+  // Only highlight connections that are actually rendered (respects filter)
+  renderedEdges.forEach(e => {
     const src = e.source?.asn || e.source;
     const tgt = e.target?.asn || e.target;
     if (src === d.asn || tgt === d.asn) { connectedEdges.add(e); connectedNodes.add(src); connectedNodes.add(tgt); }

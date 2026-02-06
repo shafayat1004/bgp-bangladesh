@@ -25,6 +25,9 @@ function moveTooltipSmart(event) {
 const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
 let currentData = null;
 let currentOptions = {};
+let chordASNList = [];
+let chordIndexMap = {};
+let chordRibbons = null;
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -60,8 +63,10 @@ function render() {
     .sort((a, b) => b.count - a.count);
   const asnSet = new Set();
   filteredEdges.forEach(e => { asnSet.add(e.source?.asn || e.source); asnSet.add(e.target?.asn || e.target); });
-  const asnList = [...asnSet];
-  const indexMap = {};
+  chordASNList = [...asnSet];
+  const asnList = chordASNList;
+  chordIndexMap = {};
+  const indexMap = chordIndexMap;
   asnList.forEach((asn, i) => { indexMap[asn] = i; });
   const n = asnList.length;
   const matrix = Array.from({ length: n }, () => new Array(n).fill(0));
@@ -81,7 +86,9 @@ function render() {
   const ribbon = d3.ribbon().radius(innerRadius);
 
   // Arcs
-  g.append('g').selectAll('path').data(chords.groups).enter().append('path')
+  const arcs = g.append('g').selectAll('path').data(chords.groups).enter().append('path')
+    .attr('class', 'chord-arc')
+    .attr('data-asn', d => asnList[d.index])
     .attr('d', arc)
     .attr('fill', d => TYPE_COLORS[nodeMap[asnList[d.index]]?.type] || '#888')
     .attr('stroke', '#0a0e27')
@@ -89,10 +96,10 @@ function render() {
       const asn = asnList[d.index]; const node = nodeMap[asn];
       const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
       d3.select('#tooltip').html(`<div class="tooltip-title">${flag}${node?.name || `AS${asn}`}</div><div class="tooltip-row"><span class="tooltip-label">Traffic:</span><span class="tooltip-value">${(node?.traffic || 0).toLocaleString()}</span></div>`).style('display', 'block');
-      ribbons.attr('opacity', r => (r.source.index === d.index || r.target.index === d.index) ? 0.8 : 0.08);
+      chordRibbons.attr('opacity', r => (r.source.index === d.index || r.target.index === d.index) ? 0.8 : 0.08);
     })
     .on('mousemove', moveTooltipSmart)
-    .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); ribbons.attr('opacity', 0.45); });
+    .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); chordRibbons.attr('opacity', 0.45); });
 
   // Labels with flags
   g.append('g').selectAll('text').data(chords.groups).enter().append('text')
@@ -109,7 +116,7 @@ function render() {
     });
 
   // Ribbons
-  const ribbons = g.append('g').selectAll('path').data(chords).enter().append('path')
+  chordRibbons = g.append('g').selectAll('path').data(chords).enter().append('path')
     .attr('d', ribbon)
     .attr('fill', d => (TYPE_COLORS[nodeMap[asnList[d.source.index]]?.type] || '#888') + '55')
     .attr('stroke', '#4fc3f722').attr('opacity', 0.45)
@@ -125,5 +132,32 @@ function render() {
 }
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
-export function highlightASN() {}
-export function updateFilter() { render(); }
+export function highlightASN(asn) {
+  const idx = chordIndexMap[asn];
+  if (idx === undefined || !chordRibbons) return;
+  const svg = d3.select('#chord-svg');
+  // Dim all arcs and ribbons
+  svg.selectAll('.chord-arc').attr('opacity', 0.15);
+  chordRibbons.attr('opacity', 0.05);
+  // Highlight matching arc
+  svg.selectAll(`.chord-arc[data-asn="${asn}"]`).attr('opacity', 1).attr('stroke', '#fff').attr('stroke-width', 2);
+  // Highlight connected ribbons and their partner arcs
+  chordRibbons.each(function(d) {
+    if (d.source.index === idx || d.target.index === idx) {
+      d3.select(this).attr('opacity', 0.8);
+      const otherIdx = d.source.index === idx ? d.target.index : d.source.index;
+      const otherASN = chordASNList[otherIdx];
+      svg.selectAll(`.chord-arc[data-asn="${otherASN}"]`).attr('opacity', 1);
+    }
+  });
+  // Click to clear
+  svg.on('click.highlight', () => {
+    svg.selectAll('.chord-arc').attr('opacity', 1).attr('stroke', '#0a0e27').attr('stroke-width', 1);
+    chordRibbons.attr('opacity', 0.45);
+    svg.on('click.highlight', null);
+  });
+}
+export function updateFilter(val) { 
+  currentOptions.minTraffic = val; 
+  render(); 
+}
