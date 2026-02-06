@@ -333,7 +333,7 @@ export class RIPEStatClient {
       });
     }
 
-    // Process batches in parallel waves
+    // Process batches in parallel waves with real-time progress updates
     for (let i = 0; i < batches.length; i += concurrency) {
       if (this.abortController.signal.aborted) break;
 
@@ -362,39 +362,53 @@ export class RIPEStatClient {
           });
 
           const routes = data.data?.bgp_state || [];
-          return { success: true, routes };
+          
+          // Update progress immediately when this batch completes
+          allRoutes.push(...routes);
+          completed++;
+          
+          const elapsed = (Date.now() - startTime) / 1000;
+          const avgPerBatch = elapsed / (completed + failed);
+          const remaining = (totalBatches - completed - failed) * avgPerBatch;
+          
+          if (onProgress) {
+            onProgress({
+              step: 2, totalSteps: 4,
+              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${concurrency} parallel)...`,
+              progress: (completed + failed) / totalBatches,
+              completed, failed, total: totalBatches,
+              eta: Math.ceil(remaining),
+            });
+          }
+          
+          return { success: true };
         } catch (err) {
           if (err.name === 'AbortError') throw err;
           console.warn(`Batch ${batchNum} permanently failed:`, err.message);
-          return { success: false, routes: [] };
+          
+          // Update progress immediately when this batch fails
+          failed++;
+          
+          const elapsed = (Date.now() - startTime) / 1000;
+          const avgPerBatch = elapsed / (completed + failed);
+          const remaining = (totalBatches - completed - failed) * avgPerBatch;
+          
+          if (onProgress) {
+            onProgress({
+              step: 2, totalSteps: 4,
+              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${concurrency} parallel)...`,
+              progress: (completed + failed) / totalBatches,
+              completed, failed, total: totalBatches,
+              eta: Math.ceil(remaining),
+            });
+          }
+          
+          return { success: false };
         }
       });
 
-      const results = await Promise.all(promises);
-
-      // Collect results
-      for (const result of results) {
-        if (result.success) {
-          allRoutes.push(...result.routes);
-          completed++;
-        } else {
-          failed++;
-        }
-      }
-
-      const elapsed = (Date.now() - startTime) / 1000;
-      const avgPerBatch = elapsed / (completed + failed);
-      const remaining = (totalBatches - completed - failed) * avgPerBatch;
-
-      if (onProgress) {
-        onProgress({
-          step: 2, totalSteps: 4,
-          message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${concurrency} parallel)...`,
-          progress: (completed + failed) / totalBatches,
-          completed, failed, total: totalBatches,
-          eta: Math.ceil(remaining),
-        });
-      }
+      // Wait for all promises in this wave to complete (but progress updates happen individually)
+      await Promise.all(promises);
     }
 
     if (onProgress) {
