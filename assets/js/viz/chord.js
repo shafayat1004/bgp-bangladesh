@@ -43,7 +43,7 @@ export function loadData(data, options = {}) {
 function render() {
   if (!currentData) return;
   const options = currentOptions;
-  const minTraffic = options.minTraffic !== undefined ? options.minTraffic : 500;
+  const minTraffic = options.minTraffic !== undefined ? options.minTraffic : 100;
   const maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
   
   const container = document.getElementById('viz-panel');

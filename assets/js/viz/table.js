@@ -92,7 +92,7 @@ function renderNodesTable() {
     });
   });
 
-  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 500;
+  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 100;
   const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
   let rows = currentData.nodes.filter(n => n.traffic >= minTraffic && n.traffic <= maxTraffic);
   
@@ -178,7 +178,7 @@ function renderEdgesTable() {
     });
   });
 
-  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 500;
+  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 100;
   const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
   let rows = currentData.edges
     .filter(e => e.count >= minTraffic && e.count <= maxTraffic)

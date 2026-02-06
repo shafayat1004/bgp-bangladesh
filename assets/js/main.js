@@ -88,7 +88,7 @@ function onDataLoaded() {
   
   // Load with user's saved filter preference
   const prefs = loadPreferences();
-  const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 500;
+  const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 100;
   const defaultMaxTraffic = prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity;
   switchTab(activeTab, { minTraffic: defaultMinTraffic, maxTraffic: defaultMaxTraffic });
 }
@@ -116,7 +116,7 @@ function switchTab(tabId, options = {}) {
     mod.init('viz-panel');
     const prefs = loadPreferences();
     const loadOptions = {
-      minTraffic: options.minTraffic !== undefined ? options.minTraffic : (prefs.minTraffic !== undefined ? prefs.minTraffic : 500),
+      minTraffic: options.minTraffic !== undefined ? options.minTraffic : (prefs.minTraffic !== undefined ? prefs.minTraffic : 100),
       maxTraffic: options.maxTraffic !== undefined ? options.maxTraffic : (prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity),
       nodeSize: prefs.nodeSize || 15,
       ...options
@@ -206,7 +206,7 @@ async function detectMyASN() {
         const mod = vizModules[activeTab];
         if (mod?.highlightASN) mod.highlightASN(result.asn);
       } else {
-        showToast('info', `Your ASN (AS${result.asn}) is not in the top 300 connections shown. Your traffic likely routes through one of the ${currentData.stats.total_iig} IIGs displayed (green nodes).`, 10000);
+        showToast('info', `Your ASN (AS${result.asn}) is not in the visible data. Your traffic likely routes through one of the ${currentData.stats.total_iig} IIGs displayed (green nodes). Try lowering the Min Traffic filter to 0 to see smaller ISPs.`, 10000);
       }
     }
   } catch (err) {
@@ -233,7 +233,7 @@ function setupFilters() {
 
   // Min traffic filter
   if (minTrafficSlider) {
-    const defaultMin = prefs.minTraffic !== undefined ? prefs.minTraffic : 500;
+    const defaultMin = prefs.minTraffic !== undefined ? prefs.minTraffic : 100;
     minTrafficSlider.value = defaultMin;
     if (minTrafficLabel) minTrafficLabel.textContent = defaultMin.toLocaleString();
     

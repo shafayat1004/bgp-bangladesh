@@ -97,10 +97,10 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
  * @param {number} topEdges - Number of top edges per type to include
  * @returns {{ nodes, edges, stats }}
  */
-export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges = 300) {
+export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges = 1000) {
   const { outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, validObservations } = analysis;
 
-  // Sort and take top N edges per type
+  // Sort and take top N edges per type (increased from 300 to 1000 to capture more small ISPs)
   const sortedIntl = [...edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, topEdges);
   const sortedDomestic = [...edgeDomestic.entries()].sort((a, b) => b[1] - a[1]).slice(0, topEdges);
 

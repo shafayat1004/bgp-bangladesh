@@ -25,7 +25,7 @@
         <div class="controls-section my-asn-section">
           <button class="btn btn-my-asn" id="btn-my-asn">What's My ASN?</button>
           <div id="my-asn-result"></div>
-          <div class="my-asn-note">Note: Only top 300 connections per type are shown. Small ISPs may not appear in the visualization.</div>
+          <div class="my-asn-note">Note: Default filter shows routes with 500+ traffic. Lower the "Min Traffic" slider to 0 to see smaller ISPs.</div>
         </div>
 
         <!-- Stats -->
@@ -54,8 +54,8 @@
         <!-- Filters -->
         <div class="controls-section">
           <div class="control-group">
-            <label>Min Traffic: <span class="filter-value" id="filter-min-traffic-label">500</span></label>
-            <input type="range" id="filter-min-traffic" min="0" max="40000" value="500" step="500">
+            <label>Min Traffic: <span class="filter-value" id="filter-min-traffic-label">100</span></label>
+            <input type="range" id="filter-min-traffic" min="0" max="40000" value="100" step="100">
           </div>
           <div class="control-group">
             <label>Max Traffic: <span class="filter-value" id="filter-max-traffic-label">∞</span></label>

@@ -24,7 +24,7 @@ let showLabels = true;
 let highlightedNode = null;
 let currentNodeSize = 15;
 let currentData = null;
-let minTraffic = 500;
+let minTraffic = 100;
 let maxTraffic = Infinity;
 let renderedEdges = [];  // Track which edges are actually rendered
 
@@ -37,7 +37,7 @@ export function init(containerId) {
 
 export function loadData(data, options = {}) {
   currentData = data;
-  minTraffic = options.minTraffic !== undefined ? options.minTraffic : 500;
+  minTraffic = options.minTraffic !== undefined ? options.minTraffic : 100;
   maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
   currentNodeSize = options.nodeSize || 15;
   showLabels = options.showLabels !== false;
