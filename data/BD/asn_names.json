@@ -186,14 +186,14 @@
     "name": "BBIL-AP BHARTI Airtel Ltd.",
     "holder": "BBIL-AP BHARTI Airtel Ltd.",
     "announced": true,
-    "country": "AP"
+    "country": "IN"
   },
   "9002": {
     "asn": "9002",
     "name": "RETN-AS - RETN Limited",
     "holder": "RETN-AS - RETN Limited",
     "announced": true,
-    "country": "AS"
+    "country": "EU"
   },
   "6762": {
     "asn": "6762",
@@ -6731,7 +6731,7 @@
     "name": "VOCUS-BACKBONE-AS Vocus Connect International Backbone",
     "holder": "VOCUS-BACKBONE-AS Vocus Connect International Backbone",
     "announced": true,
-    "country": "AS"
+    "country": "AU"
   },
   "149453": {
     "asn": "149453",

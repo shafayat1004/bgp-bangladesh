@@ -293,16 +293,25 @@ async function fetchLiveData() {
     // Step 2: BGP routes
     const routes = await ripeClient.fetchBGPRoutes(prefixes, (p) => updateProgress(p));
 
-    // Step 3: ASN names (for all unique ASNs in paths)
-    const allASNs = new Set();
-    routes.forEach(rt => {
-      (rt.path || []).forEach(a => allASNs.add(String(a)));
-    });
-    const asnInfo = await ripeClient.fetchASNInfo([...allASNs].slice(0, 500), countryASNs, (p) => updateProgress(p));
-
-    // Step 4: Process into 3-layer model
-    updateProgress({ step: 4, totalSteps: 4, message: 'Processing 3-layer model...', progress: 0 });
+    // Step 3: Process into 3-layer model (to identify which ASNs we actually need)
+    updateProgress({ step: 3, totalSteps: 4, message: 'Processing 3-layer model...', progress: 0 });
     const analysis = analyzeGateways(routes, countryASNs, (p) => updateProgress(p));
+    
+    // Step 4: Fetch ASN names only for ASNs that appear in top edges (much more efficient)
+    const neededASNs = new Set();
+    analysis.edgeIntl.forEach((_, key) => {
+      const [src, tgt] = key.split('|');
+      neededASNs.add(src);
+      neededASNs.add(tgt);
+    });
+    analysis.edgeDomestic.forEach((_, key) => {
+      const [src, tgt] = key.split('|');
+      neededASNs.add(src);
+      neededASNs.add(tgt);
+    });
+    const asnInfo = await ripeClient.fetchASNInfo([...neededASNs], countryASNs, (p) => updateProgress(p));
+
+    // Build visualization data
     const vizData = buildVisualizationData(analysis, asnInfo, countryASNs);
     updateProgress({ step: 4, totalSteps: 4, message: 'Done!', progress: 1, complete: true });
 

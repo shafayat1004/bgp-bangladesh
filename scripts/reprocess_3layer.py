@@ -142,6 +142,9 @@ print(f"\nFetching country info for {len(need_country)} ASNs...")
 
 def fetch_asn_country(asn):
     """Fetch ASN overview and extract country from holder name or RIR data."""
+    # Invalid region codes that should not be treated as countries
+    INVALID_REGIONS = {"AP", "EU", "AS", "AF", "LA", "NA", "OC", "AN"}
+    
     try:
         r = requests.get(f"{BASE}/as-overview/data.json",
                          params={"resource": f"AS{asn}"},
@@ -167,8 +170,8 @@ def fetch_asn_country(asn):
                     first = parts[0]
                     if "-" in first:
                         suffix = first.split("-")[-1].upper()
-                        # Check if it looks like a 2-letter country code
-                        if len(suffix) == 2 and suffix.isalpha():
+                        # Check if it looks like a 2-letter country code and not a region
+                        if len(suffix) == 2 and suffix.isalpha() and suffix not in INVALID_REGIONS:
                             country = suffix
 
             return asn, {
@@ -208,9 +211,13 @@ WELL_KNOWN_COUNTRIES = {
     "8075": "US", "32934": "US", "36351": "US", "46489": "US", "397143": "US",
 }
 
+INVALID_REGIONS = {"AP", "EU", "AS", "AF", "LA", "NA", "OC", "AN"}
 for asn, cc in WELL_KNOWN_COUNTRIES.items():
-    if asn in asn_names and not asn_names[asn].get("country"):
-        asn_names[asn]["country"] = cc
+    if asn in asn_names:
+        current = asn_names[asn].get("country", "")
+        # Override if empty or invalid region code
+        if not current or current in INVALID_REGIONS:
+            asn_names[asn]["country"] = cc
 
 print(f"  ASN info complete: {len(asn_names)} entries")
 

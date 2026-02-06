@@ -176,13 +176,16 @@ function chunkPrefixes(prefixes, maxLen = 1800) {
  * Common pattern: "COMPANYNAME-CC Description" where CC is a 2-letter country code.
  */
 function parseCountryFromHolder(holder) {
+  // Invalid region codes that should not be treated as countries
+  const INVALID_REGIONS = new Set(['AP', 'EU', 'AS', 'AF', 'LA', 'NA', 'OC', 'AN']);
+  
   if (!holder) return '';
   const parts = holder.split(/[\s,]+/);
   if (parts.length > 0) {
     const first = parts[0];
     if (first.includes('-')) {
       const suffix = first.split('-').pop().toUpperCase();
-      if (suffix.length === 2 && /^[A-Z]{2}$/.test(suffix)) {
+      if (suffix.length === 2 && /^[A-Z]{2}$/.test(suffix) && !INVALID_REGIONS.has(suffix)) {
         return suffix;
       }
     }
@@ -431,6 +434,18 @@ export class RIPEStatClient {
               country = 'BD';
             } else {
               country = parseCountryFromHolder(holder);
+            }
+            
+            // Apply well-known ASN country overrides if country is still empty or invalid
+            const WELL_KNOWN_COUNTRIES = {
+              '174': 'US', '6939': 'US', '6461': 'US', '3356': 'US', '1299': 'SE',
+              '2914': 'US', '3257': 'DE', '3491': 'US', '5511': 'FR', '6762': 'IT',
+              '9002': 'EU', '9498': 'IN', '4637': 'HK', '2516': 'JP', '4826': 'AU',
+              '7922': 'US', '20473': 'US', '13335': 'US', '16509': 'US', '15169': 'US',
+              '8075': 'US', '32934': 'US', '36351': 'US', '46489': 'US', '397143': 'US',
+            };
+            if (!country && WELL_KNOWN_COUNTRIES[asn]) {
+              country = WELL_KNOWN_COUNTRIES[asn];
             }
 
             results[asn] = {
