@@ -5,7 +5,7 @@
 
 import { countryToFlag } from '../api/ripestat.js';
 
-const TYPE_COLORS = { 'outside': '#ef5350', 'iig': '#66bb6a', 'local-isp': '#42a5f5', 'inside': '#66bb6a' };
+const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -25,19 +25,24 @@ function moveTooltipSmart(event) {
 }
 
 let currentData = null;
+let currentOptions = {};
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
   if (container) container.innerHTML = '<svg id="sankey-svg"></svg>';
 }
 
-export function loadData(data) {
+export function loadData(data, options = {}) {
   currentData = data;
+  currentOptions = options;
   render();
 }
 
 function render() {
   if (!currentData) return;
+  const options = currentOptions;
+  const minTraffic = options.minTraffic || 0;
+  
   const container = document.getElementById('viz-panel');
   if (!container) return;
   const width = container.clientWidth;
@@ -58,9 +63,13 @@ function render() {
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
   const hasLocalISP = currentData.nodes.some(n => n.type === 'local-isp');
 
-  // Separate edges by type
-  const intlEdges = currentData.edges.filter(e => e.type === 'international' || !e.type).sort((a, b) => b.count - a.count).slice(0, 40);
-  const domEdges = hasDomestic ? currentData.edges.filter(e => e.type === 'domestic').sort((a, b) => b.count - a.count).slice(0, 40) : [];
+  // Filter by minimum traffic - no arbitrary limits, only user-controlled filtering
+  const intlEdges = currentData.edges
+    .filter(e => (e.type === 'international' || !e.type) && e.count >= minTraffic)
+    .sort((a, b) => b.count - a.count);
+  const domEdges = hasDomestic 
+    ? currentData.edges.filter(e => e.type === 'domestic' && e.count >= minTraffic).sort((a, b) => b.count - a.count)
+    : [];
 
   // All edges for layout
   const allEdges = [...intlEdges, ...domEdges];
@@ -119,12 +128,17 @@ function render() {
   const offsets = {};
 
   function drawEdges(edges, srcCol, tgtCol, color) {
+    let drawn = 0, skipped = 0;
     edges.forEach(edge => {
       const src = edge.source?.asn || edge.source;
       const tgt = edge.target?.asn || edge.target;
       const srcPos = positions[`${src}_${srcCol}`];
       const tgtPos = positions[`${tgt}_${tgtCol}`];
-      if (!srcPos || !tgtPos) return;
+      if (!srcPos || !tgtPos) {
+        skipped++;
+        return;
+      }
+      drawn++;
 
       const bandW = Math.max(2, (edge.count / totalTraffic) * h * 0.6);
       const srcOff = offsets[`${src}_${srcCol}_out`] || 0;
@@ -154,10 +168,11 @@ function render() {
         .on('mousemove', moveTooltipSmart)
         .on('mouseout', function () { d3.select(this).attr('stroke-opacity', 0.25); d3.select('#tooltip').style('display', 'none'); });
     });
+    if (skipped > 0) console.warn(`Sankey: Drew ${drawn} ${srcCol}→${tgtCol} edges, skipped ${skipped} (missing positions)`);
   }
 
   drawEdges(intlEdges, 'Outside', columns.length > 2 ? 'IIGs' : 'Inside BD', '#4fc3f7');
-  if (domEdges.length > 0) drawEdges(domEdges, 'IIGs', 'Local ISPs', '#42a5f5');
+  if (domEdges.length > 0) drawEdges(domEdges, 'Local ISPs', 'IIGs', '#4dabf7');
 
   // Draw nodes and labels
   columns.forEach(col => {

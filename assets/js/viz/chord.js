@@ -22,21 +22,26 @@ function moveTooltipSmart(event) {
   tooltip.style('left', `${left}px`).style('top', `${top}px`);
 }
 
-const TYPE_COLORS = { 'outside': '#ef5350', 'iig': '#66bb6a', 'local-isp': '#42a5f5', 'inside': '#66bb6a' };
+const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
 let currentData = null;
+let currentOptions = {};
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
   if (container) container.innerHTML = '<svg id="chord-svg"></svg>';
 }
 
-export function loadData(data) {
+export function loadData(data, options = {}) {
   currentData = data;
+  currentOptions = options;
   render();
 }
 
 function render() {
   if (!currentData) return;
+  const options = currentOptions;
+  const minTraffic = options.minTraffic || 0;
+  
   const container = document.getElementById('viz-panel');
   if (!container) return;
   const size = Math.min(container.clientWidth, container.clientHeight);
@@ -49,17 +54,19 @@ function render() {
   const g = svg.append('g')
     .attr('transform', `translate(${container.clientWidth / 2},${container.clientHeight / 2})`);
 
-  // Take top edges for readability
-  const topEdges = currentData.edges.slice().sort((a, b) => b.count - a.count).slice(0, 60);
+  // Filter edges by minimum traffic (no arbitrary limits)
+  const filteredEdges = currentData.edges
+    .filter(e => e.count >= minTraffic)
+    .sort((a, b) => b.count - a.count);
   const asnSet = new Set();
-  topEdges.forEach(e => { asnSet.add(e.source?.asn || e.source); asnSet.add(e.target?.asn || e.target); });
+  filteredEdges.forEach(e => { asnSet.add(e.source?.asn || e.source); asnSet.add(e.target?.asn || e.target); });
   const asnList = [...asnSet];
   const indexMap = {};
   asnList.forEach((asn, i) => { indexMap[asn] = i; });
   const n = asnList.length;
   const matrix = Array.from({ length: n }, () => new Array(n).fill(0));
 
-  topEdges.forEach(e => {
+  filteredEdges.forEach(e => {
     const si = indexMap[e.source?.asn || e.source];
     const ti = indexMap[e.target?.asn || e.target];
     if (si !== undefined && ti !== undefined) matrix[si][ti] = e.count;

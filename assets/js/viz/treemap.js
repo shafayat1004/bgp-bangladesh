@@ -23,11 +23,13 @@ function moveTooltipSmart(event) {
 }
 
 const TYPE_CONFIG = {
-  'iig': { color: '#66bb6a', label: 'IIGs (Border Gateways)' },
-  'local-isp': { color: '#42a5f5', label: 'Local ISPs' },
-  'outside': { color: '#ef5350', label: 'Outside BD (International)' },
-  'inside': { color: '#66bb6a', label: 'Inside BD (Gateways)' },
+  'iig': { color: '#51cf66', label: 'IIGs (Border Gateways)' },
+  'local-isp': { color: '#4dabf7', label: 'Local ISPs' },
+  'outside': { color: '#ff6b6b', label: 'Outside BD (International)' },
+  'inside': { color: '#51cf66', label: 'Inside BD (Gateways)' },
 };
+
+let currentOptions = {};
 
 let currentData = null;
 
@@ -36,13 +38,17 @@ export function init(containerId) {
   if (container) container.innerHTML = '<div id="treemap-container"></div>';
 }
 
-export function loadData(data) {
+export function loadData(data, options = {}) {
   currentData = data;
+  currentOptions = options;
   render();
 }
 
 function render() {
   if (!currentData) return;
+  const options = currentOptions;
+  const minTraffic = options.minTraffic || 0;
+  
   const container = document.getElementById('treemap-container');
   if (!container) return;
 
@@ -71,8 +77,9 @@ function renderTreemap(containerId, type) {
   const width = container.clientWidth;
   const height = container.clientHeight;
   const cfg = TYPE_CONFIG[type];
+  const minTraffic = currentOptions.minTraffic || 0;
 
-  const nodesOfType = currentData.nodes.filter(n => n.type === type && n.traffic > 0);
+  const nodesOfType = currentData.nodes.filter(n => n.type === type && n.traffic >= minTraffic);
   if (nodesOfType.length === 0) return;
 
   const root = d3.hierarchy({ children: nodesOfType })

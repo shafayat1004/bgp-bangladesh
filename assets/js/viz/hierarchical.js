@@ -22,23 +22,28 @@ function moveTooltipSmart(event) {
   tooltip.style('left', `${left}px`).style('top', `${top}px`);
 }
 
-const TYPE_COLORS = { 'outside': '#ef5350', 'iig': '#66bb6a', 'local-isp': '#42a5f5', 'inside': '#66bb6a' };
+const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
 const TYPE_LABELS = { 'local-isp': 'Local ISPs (Origin Networks)', 'iig': 'IIGs (Border Gateways)', 'outside': 'Outside BD (International Feeders)', 'inside': 'Inside BD (Gateways)' };
 
 let currentData = null;
+let currentOptions = {};
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
   if (container) container.innerHTML = '<svg id="hier-svg"></svg>';
 }
 
-export function loadData(data) {
+export function loadData(data, options = {}) {
   currentData = data;
+  currentOptions = options;
   render();
 }
 
 function render() {
   if (!currentData) return;
+  const options = currentOptions;
+  const minTraffic = options.minTraffic || 0;
+  
   const container = document.getElementById('viz-panel');
   if (!container) return;
   const width = container.clientWidth;
@@ -57,12 +62,16 @@ function render() {
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
   const hasLocalISP = currentData.nodes.some(n => n.type === 'local-isp');
 
-  // Get top edges
-  const topIntl = currentData.edges.filter(e => e.type === 'international' || !e.type).sort((a, b) => b.count - a.count).slice(0, 60);
-  const topDom = hasDomestic ? currentData.edges.filter(e => e.type === 'domestic').sort((a, b) => b.count - a.count).slice(0, 60) : [];
+  // Filter edges by minimum traffic (no arbitrary limits)
+  const filteredIntl = currentData.edges
+    .filter(e => (e.type === 'international' || !e.type) && e.count >= minTraffic)
+    .sort((a, b) => b.count - a.count);
+  const filteredDom = hasDomestic 
+    ? currentData.edges.filter(e => e.type === 'domestic' && e.count >= minTraffic).sort((a, b) => b.count - a.count)
+    : [];
 
   const usedASNs = new Set();
-  [...topIntl, ...topDom].forEach(e => {
+  [...filteredIntl, ...filteredDom].forEach(e => {
     usedASNs.add(e.source?.asn || e.source);
     usedASNs.add(e.target?.asn || e.target);
   });
@@ -70,14 +79,14 @@ function render() {
   // Determine layers
   const layers = [];
   if (hasLocalISP) {
-    const localISPs = currentData.nodes.filter(n => n.type === 'local-isp' && usedASNs.has(n.asn)).sort((a, b) => b.traffic - a.traffic);
+    const localISPs = currentData.nodes.filter(n => n.type === 'local-isp' && usedASNs.has(n.asn) && n.traffic >= minTraffic).sort((a, b) => b.traffic - a.traffic);
     if (localISPs.length > 0) layers.push({ type: 'local-isp', nodes: localISPs });
   }
 
-  const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn)).sort((a, b) => b.traffic - a.traffic);
+  const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn) && n.traffic >= minTraffic).sort((a, b) => b.traffic - a.traffic);
   if (iigs.length > 0) layers.push({ type: 'iig', nodes: iigs });
 
-  const outside = currentData.nodes.filter(n => n.type === 'outside' && usedASNs.has(n.asn)).sort((a, b) => b.traffic - a.traffic);
+  const outside = currentData.nodes.filter(n => n.type === 'outside' && usedASNs.has(n.asn) && n.traffic >= minTraffic).sort((a, b) => b.traffic - a.traffic);
   if (outside.length > 0) layers.push({ type: 'outside', nodes: outside });
 
   const margin = { top: 60, bottom: 60, left: 40, right: 40 };
@@ -104,8 +113,8 @@ function render() {
     });
   });
 
-  // Draw edges
-  const allEdges = [...topIntl, ...topDom];
+  // Draw edges (use filtered edges)
+  const allEdges = [...filteredIntl, ...filteredDom];
   const maxCount = Math.max(...allEdges.map(e => e.count), 1);
 
   allEdges.forEach(edge => {
@@ -117,7 +126,7 @@ function render() {
 
     const opacity = 0.08 + (edge.count / maxCount) * 0.45;
     const strokeW = Math.max(0.5, (edge.count / maxCount) * 3.5);
-      const color = edge.type === 'domestic' ? '#42a5f5' : '#4fc3f7';
+      const color = edge.type === 'domestic' ? '#4dabf7' : '#4fc3f7';
 
     g.append('path')
       .attr('d', `M${srcPos.x},${srcPos.y - boxH / 2} C${srcPos.x},${(srcPos.y + tgtPos.y) / 2} ${tgtPos.x},${(srcPos.y + tgtPos.y) / 2} ${tgtPos.x},${tgtPos.y + boxH / 2}`)

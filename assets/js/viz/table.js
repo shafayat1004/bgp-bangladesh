@@ -8,6 +8,7 @@ const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG', 'local-isp': 'Local
 const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'local-isp': 'type-local-isp', 'inside': 'type-iig' };
 
 let currentData = null;
+let currentOptions = {};
 let currentSort = { column: 'traffic', asc: false };
 let searchQuery = '';
 let currentPage = 0;
@@ -19,8 +20,9 @@ export function init(containerId) {
   if (container) container.innerHTML = '<div id="table-container"></div>';
 }
 
-export function loadData(data) {
+export function loadData(data, options = {}) {
   currentData = data;
+  currentOptions = options;
   currentPage = 0;
   render();
 }
@@ -90,7 +92,9 @@ function renderNodesTable() {
     });
   });
 
-  let rows = currentData.nodes.slice();
+  const minTraffic = currentOptions.minTraffic || 0;
+  let rows = currentData.nodes.filter(n => n.traffic >= minTraffic);
+  
   if (searchQuery) {
     rows = rows.filter(n =>
       n.asn.includes(searchQuery) ||
@@ -173,18 +177,21 @@ function renderEdgesTable() {
     });
   });
 
-  let rows = currentData.edges.map(e => {
-    const src = e.source?.asn || e.source;
-    const tgt = e.target?.asn || e.target;
-    return {
-      source: src, target: tgt, count: e.count,
-      source_name: nodeMap[src]?.name || '',
-      target_name: nodeMap[tgt]?.name || '',
-      edge_type: e.type || 'international',
-      source_country: nodeMap[src]?.country || '',
-      target_country: nodeMap[tgt]?.country || '',
-    };
-  });
+  const minTraffic = currentOptions.minTraffic || 0;
+  let rows = currentData.edges
+    .filter(e => e.count >= minTraffic)
+    .map(e => {
+      const src = e.source?.asn || e.source;
+      const tgt = e.target?.asn || e.target;
+      return {
+        source: src, target: tgt, count: e.count,
+        source_name: nodeMap[src]?.name || '',
+        target_name: nodeMap[tgt]?.name || '',
+        edge_type: e.type || 'international',
+        source_country: nodeMap[src]?.country || '',
+        target_country: nodeMap[tgt]?.country || '',
+      };
+    });
 
   if (searchQuery) {
     rows = rows.filter(r =>

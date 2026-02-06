@@ -6,10 +6,10 @@
 import { countryToFlag } from '../api/ripestat.js';
 
 const TYPE_COLORS = {
-  'outside': '#ef5350',
-  'iig': '#66bb6a',
-  'local-isp': '#42a5f5',
-  'inside': '#66bb6a',  // backward compat
+  'outside': '#ff6b6b',
+  'iig': '#51cf66',
+  'local-isp': '#4dabf7',
+  'inside': '#51cf66',  // backward compat
 };
 
 const TYPE_LABELS = {
@@ -112,7 +112,7 @@ export function loadData(data, options = {}) {
   legend.append('circle')
     .attr('cx', 5).attr('cy', 52)
     .attr('r', 4)
-    .attr('fill', '#42a5f5');
+    .attr('fill', '#4dabf7');
   legend.append('text')
     .attr('x', 12).attr('y', 56)
     .attr('fill', '#ccc')
@@ -122,7 +122,7 @@ export function loadData(data, options = {}) {
   legend.append('circle')
     .attr('cx', 70).attr('cy', 52)
     .attr('r', 4)
-    .attr('fill', '#66bb6a');
+    .attr('fill', '#51cf66');
   legend.append('text')
     .attr('x', 77).attr('y', 56)
     .attr('fill', '#ccc')
@@ -132,7 +132,7 @@ export function loadData(data, options = {}) {
   legend.append('circle')
     .attr('cx', 115).attr('cy', 52)
     .attr('r', 4)
-    .attr('fill', '#ef5350');
+    .attr('fill', '#ff6b6b');
   legend.append('text')
     .attr('x', 122).attr('y', 56)
     .attr('fill', '#ccc')
