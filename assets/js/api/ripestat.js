@@ -1,11 +1,23 @@
 /**
  * RIPEstat API Client
  * Fetches BGP data from RIPEstat with retry logic, rate limiting, and progress feedback.
- * Ported from country_gateways_outside.py and fetch_asn_names_parallel.py
+ * Includes "What's My ASN?" detection and country info for ASNs.
  */
 
 const RIPESTAT_BASE = 'https://stat.ripe.net/data';
-const USER_AGENT = 'bgp-bangladesh-viz/1.0 (https://github.com/bgp-bangladesh)';
+
+/**
+ * Convert 2-letter country code to flag emoji
+ */
+export function countryToFlag(cc) {
+  if (!cc || cc.length !== 2) return '';
+  const upper = cc.toUpperCase();
+  const offset = 0x1F1E6 - 65; // 'A' = 65
+  return String.fromCodePoint(
+    upper.charCodeAt(0) + offset,
+    upper.charCodeAt(1) + offset
+  );
+}
 
 /**
  * Token bucket rate limiter
@@ -16,26 +28,22 @@ class RateLimiter {
     this.maxTokens = requestsPerSecond;
     this.refillRate = requestsPerSecond;
     this.lastRefill = Date.now();
-    this.queue = [];
     this.paused = false;
     this.pauseUntil = 0;
   }
 
   async acquire() {
-    // Wait if paused (rate limited by server)
     if (this.paused && Date.now() < this.pauseUntil) {
       const waitMs = this.pauseUntil - Date.now();
       await sleep(waitMs);
       this.paused = false;
     }
 
-    // Refill tokens
     const now = Date.now();
     const elapsed = (now - this.lastRefill) / 1000;
     this.tokens = Math.min(this.maxTokens, this.tokens + elapsed * this.refillRate);
     this.lastRefill = now;
 
-    // Wait for a token
     if (this.tokens < 1) {
       const waitMs = ((1 - this.tokens) / this.refillRate) * 1000;
       await sleep(waitMs);
@@ -46,9 +54,6 @@ class RateLimiter {
     }
   }
 
-  /**
-   * Back off after a 429 response
-   */
   backoff(retryAfterSeconds = 60) {
     this.paused = true;
     this.pauseUntil = Date.now() + retryAfterSeconds * 1000;
@@ -93,7 +98,6 @@ async function fetchWithRetry(url, options = {}) {
 
       const response = await fetch(url, {
         signal: combinedSignal,
-        headers: { 'User-Agent': USER_AGENT },
       });
 
       clearTimeout(timeoutId);
@@ -102,30 +106,21 @@ async function fetchWithRetry(url, options = {}) {
         return await response.json();
       }
 
-      // Handle rate limiting
       if (response.status === 429) {
         const retryAfter = parseInt(response.headers.get('Retry-After') || '60', 10);
-        if (rateLimiter) {
-          rateLimiter.backoff(retryAfter);
-        }
-        if (onRetry) {
-          onRetry(attempt + 1, maxRetries, `Rate limited, waiting ${retryAfter}s`);
-        }
+        if (rateLimiter) rateLimiter.backoff(retryAfter);
+        if (onRetry) onRetry(attempt + 1, maxRetries, `Rate limited, waiting ${retryAfter}s`);
         await sleep(retryAfter * 1000);
         continue;
       }
 
-      // Client errors - don't retry
       if (response.status >= 400 && response.status < 500) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      // Server errors - retry
       if (attempt < maxRetries) {
         const delay = Math.min(baseDelay * Math.pow(2, attempt), maxDelay) + Math.random() * 500;
-        if (onRetry) {
-          onRetry(attempt + 1, maxRetries, `Server error ${response.status}, retrying in ${(delay / 1000).toFixed(1)}s`);
-        }
+        if (onRetry) onRetry(attempt + 1, maxRetries, `Server error ${response.status}, retrying in ${(delay / 1000).toFixed(1)}s`);
         await sleep(delay);
         continue;
       }
@@ -133,27 +128,18 @@ async function fetchWithRetry(url, options = {}) {
       throw new Error(`HTTP ${response.status} after ${maxRetries + 1} attempts`);
 
     } catch (err) {
-      if (err.name === 'AbortError') {
-        throw err;
-      }
-
+      if (err.name === 'AbortError') throw err;
       if (attempt < maxRetries) {
         const delay = Math.min(baseDelay * Math.pow(2, attempt), maxDelay) + Math.random() * 500;
-        if (onRetry) {
-          onRetry(attempt + 1, maxRetries, `${err.message}, retrying in ${(delay / 1000).toFixed(1)}s`);
-        }
+        if (onRetry) onRetry(attempt + 1, maxRetries, `${err.message}, retrying in ${(delay / 1000).toFixed(1)}s`);
         await sleep(delay);
         continue;
       }
-
       throw err;
     }
   }
 }
 
-/**
- * Combine two AbortSignals
- */
 function combineAbortSignals(signal1, signal2) {
   const controller = new AbortController();
   const onAbort = () => controller.abort();
@@ -164,7 +150,6 @@ function combineAbortSignals(signal1, signal2) {
 
 /**
  * Chunk prefixes into batches that fit URL length limits.
- * Ported from chunk_by_url_length() in Python.
  */
 function chunkPrefixes(prefixes, maxLen = 1800) {
   const chunks = [];
@@ -172,7 +157,7 @@ function chunkPrefixes(prefixes, maxLen = 1800) {
   let currentLen = 0;
 
   for (const prefix of prefixes) {
-    const addLen = prefix.length + (chunk.length > 0 ? 1 : 0); // +1 for comma
+    const addLen = prefix.length + (chunk.length > 0 ? 1 : 0);
     if (currentLen + addLen > maxLen && chunk.length > 0) {
       chunks.push(chunk);
       chunk = [prefix];
@@ -182,12 +167,27 @@ function chunkPrefixes(prefixes, maxLen = 1800) {
       currentLen += addLen;
     }
   }
-
-  if (chunk.length > 0) {
-    chunks.push(chunk);
-  }
-
+  if (chunk.length > 0) chunks.push(chunk);
   return chunks;
+}
+
+/**
+ * Try to extract country code from ASN holder name.
+ * Common pattern: "COMPANYNAME-CC Description" where CC is a 2-letter country code.
+ */
+function parseCountryFromHolder(holder) {
+  if (!holder) return '';
+  const parts = holder.split(/[\s,]+/);
+  if (parts.length > 0) {
+    const first = parts[0];
+    if (first.includes('-')) {
+      const suffix = first.split('-').pop().toUpperCase();
+      if (suffix.length === 2 && /^[A-Z]{2}$/.test(suffix)) {
+        return suffix;
+      }
+    }
+  }
+  return '';
 }
 
 /**
@@ -199,9 +199,6 @@ export class RIPEStatClient {
     this.abortController = null;
   }
 
-  /**
-   * Cancel any ongoing fetch
-   */
   cancel() {
     if (this.abortController) {
       this.abortController.abort();
@@ -210,14 +207,87 @@ export class RIPEStatClient {
   }
 
   /**
+   * Detect user's ASN.
+   * Uses multiple fallback strategies for IP detection (CORS-safe).
+   * Returns { ip, asn, holder, prefix, country }
+   */
+  async getMyASN() {
+    // Step 1: Get user's IP via a CORS-friendly service
+    let ip = null;
+
+    // Try ipify (CORS-friendly, returns plain IP)
+    try {
+      const res = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(10000) });
+      if (res.ok) {
+        const data = await res.json();
+        ip = data.ip;
+      }
+    } catch { /* fallback below */ }
+
+    // Fallback: try cloudflare
+    if (!ip) {
+      try {
+        const res = await fetch('https://1.1.1.1/cdn-cgi/trace', { signal: AbortSignal.timeout(10000) });
+        if (res.ok) {
+          const text = await res.text();
+          const match = text.match(/ip=(.+)/);
+          if (match) ip = match[1].trim();
+        }
+      } catch { /* give up on IP */ }
+    }
+
+    if (!ip) throw new Error('Could not detect your IP address. Try disabling ad blockers.');
+
+    // Step 2: Get network info from RIPEstat (CORS-safe, no custom headers)
+    const netData = await fetchWithRetry(`${RIPESTAT_BASE}/network-info/data.json?resource=${ip}`, {
+      timeout: 15000,
+      rateLimiter: this.rateLimiter,
+    });
+    const asns = netData?.data?.asns || [];
+    const prefix = netData?.data?.prefix || '';
+    const asn = asns.length > 0 ? String(asns[0]) : null;
+
+    if (!asn) throw new Error(`Could not determine ASN for IP ${ip}`);
+
+    // Step 3: Get ASN details
+    const asnData = await fetchWithRetry(`${RIPESTAT_BASE}/as-overview/data.json?resource=AS${asn}`, {
+      timeout: 15000,
+      rateLimiter: this.rateLimiter,
+    });
+    const holder = asnData?.data?.holder || `AS${asn}`;
+    
+    // Step 4: Determine country - check if it's a BD ASN first
+    let country = '';
+    
+    // First check if this ASN is in Bangladesh by querying country resources
+    try {
+      const bdCheck = await fetchWithRetry(`${RIPESTAT_BASE}/country-resource-list/data.json?resource=bd&v4_format=prefix`, {
+        timeout: 10000,
+        rateLimiter: this.rateLimiter,
+      });
+      const bdASNs = (bdCheck?.data?.resources?.asn || []).map(a => String(a));
+      if (bdASNs.includes(asn)) {
+        country = 'BD';
+      }
+    } catch {
+      // Fallback to parsing holder name
+      country = parseCountryFromHolder(holder);
+    }
+    
+    if (!country) {
+      country = parseCountryFromHolder(holder);
+    }
+
+    return { ip, asn, holder, prefix, country };
+  }
+
+  /**
    * Fetch country resources (ASNs and prefixes).
-   * Ported from get_country_resources() in Python.
    */
   async getCountryResources(countryCode, onProgress) {
     if (onProgress) onProgress({ step: 1, totalSteps: 4, message: `Fetching country resources for ${countryCode}...` });
 
     const url = `${RIPESTAT_BASE}/country-resource-list/data.json?resource=${countryCode.toLowerCase()}&v4_format=prefix`;
-
     const data = await fetchWithRetry(url, {
       rateLimiter: this.rateLimiter,
       signal: this.abortController?.signal,
@@ -241,7 +311,6 @@ export class RIPEStatClient {
 
   /**
    * Fetch BGP routes in batches.
-   * Ported from fetch_bgp_routes() in Python.
    */
   async fetchBGPRoutes(prefixes, onProgress) {
     this.abortController = new AbortController();
@@ -294,7 +363,6 @@ export class RIPEStatClient {
         console.warn(`Batch ${i + 1} permanently failed:`, err.message);
       }
 
-      // Progress update
       const elapsed = (Date.now() - startTime) / 1000;
       const avgPerBatch = elapsed / (completed + failed);
       const remaining = (totalBatches - completed - failed) * avgPerBatch;
@@ -316,7 +384,6 @@ export class RIPEStatClient {
         message: `BGP routes fetched: ${allRoutes.length.toLocaleString()} routes from ${completed} batches` +
           (failed > 0 ? ` (${failed} batches failed)` : ''),
         progress: 1, complete: true,
-        completed, failed, total: totalBatches,
       });
     }
 
@@ -324,10 +391,9 @@ export class RIPEStatClient {
   }
 
   /**
-   * Fetch ASN info in parallel batches.
-   * Ported from fetch_asn_names_parallel.py
+   * Fetch ASN info in parallel batches. Includes country extraction.
    */
-  async fetchASNInfo(asnList, onProgress) {
+  async fetchASNInfo(asnList, countryASNs, onProgress) {
     const results = {};
     const total = asnList.length;
     let completed = 0;
@@ -343,7 +409,6 @@ export class RIPEStatClient {
       });
     }
 
-    // Process in concurrent batches
     for (let i = 0; i < asnList.length; i += concurrency) {
       if (this.abortController?.signal.aborted) break;
 
@@ -361,18 +426,26 @@ export class RIPEStatClient {
           if (data.status === 'ok') {
             const info = data.data || {};
             const holder = info.holder || `AS${asn}`;
+            let country = '';
+            if (countryASNs && countryASNs.has(asn)) {
+              country = 'BD';
+            } else {
+              country = parseCountryFromHolder(holder);
+            }
+
             results[asn] = {
               asn,
               name: holder,
               holder,
               announced: info.announced || false,
+              country,
             };
           } else {
-            results[asn] = { asn, name: `AS${asn}`, holder: '', announced: false };
+            results[asn] = { asn, name: `AS${asn}`, holder: '', announced: false, country: countryASNs?.has(asn) ? 'BD' : '' };
           }
           completed++;
         } catch {
-          results[asn] = { asn, name: `AS${asn}`, holder: '', announced: false };
+          results[asn] = { asn, name: `AS${asn}`, holder: '', announced: false, country: countryASNs?.has(asn) ? 'BD' : '' };
           failed++;
         }
       });

@@ -248,18 +248,40 @@ input[type="range"]::-webkit-slider-thumb {
 
 .filter-value { color: var(--accent); font-weight: bold; }
 
+.search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+  background: var(--bg-secondary);
+}
+
+.search-input::placeholder {
+  color: var(--text-dim);
+}
+
 /* ── Tooltip ── */
 .tooltip {
-  position: absolute;
-  background: rgba(26, 31, 58, 0.95);
+  position: fixed;
+  background: rgba(26, 31, 58, 0.98);
   border: 2px solid var(--accent);
   border-radius: var(--radius);
   padding: 10px;
   pointer-events: none;
   font-size: 12px;
-  max-width: 300px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  max-width: 320px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.7);
   z-index: 10000;
+  backdrop-filter: blur(8px);
 }
 
 .tooltip-title { font-weight: bold; font-size: 13px; margin-bottom: 4px; color: var(--accent); }
@@ -572,10 +594,14 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* ── Scrollbar ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg-card);
+}
+
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg-card); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 /* ── Animations ── */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -597,6 +623,121 @@ input[type="range"]::-webkit-slider-thumb {
 
 #app-footer a { color: var(--accent); text-decoration: none; }
 #app-footer a:hover { text-decoration: underline; }
+
+/* ── 3-Layer Type Colors ── */
+.sidebar-section-title.iig { color: #66bb6a; }
+.sidebar-section-title.local-isp { color: #42a5f5; }
+.sidebar-section-title.outside { color: #ef5350; }
+
+.asn-item.iig { border-left-color: #66bb6a; }
+.asn-item.local-isp { border-left-color: #42a5f5; }
+.asn-item.outside { border-left-color: #ef5350; }
+.asn-item.inside { border-left-color: #66bb6a; }
+
+.type-iig { background: rgba(102, 187, 106, 0.2); color: #66bb6a; }
+.type-local-isp { background: rgba(66, 165, 245, 0.2); color: #42a5f5; }
+.type-outside { background: rgba(239, 83, 80, 0.2); color: #ef5350; }
+.type-inside { background: rgba(102, 187, 106, 0.2); color: #66bb6a; }
+
+/* ── Stats Row ── */
+.stat-row {
+  display: flex;
+  gap: 6px;
+}
+
+.stat-mini {
+  flex: 1;
+  padding: 6px 8px;
+}
+
+.stat-mini .stat-value { font-size: 15px; }
+.stat-mini .stat-label { font-size: 9px; }
+
+/* ── What's My ASN? ── */
+.my-asn-section {
+  text-align: center;
+}
+
+.btn-my-asn {
+  width: 100%;
+  background: linear-gradient(135deg, #42a5f5, #66bb6a);
+  color: #fff;
+  font-size: 13px;
+  padding: 10px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: var(--transition);
+}
+
+.btn-my-asn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-my-asn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.my-asn-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px;
+  margin-top: 8px;
+  text-align: left;
+}
+
+.my-asn-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 12px;
+}
+
+.my-asn-label { color: var(--text-muted); }
+.my-asn-value { color: var(--text); font-weight: 600; }
+
+.my-asn-error {
+  color: var(--red);
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.my-asn-note {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ── Legend ── */
+.legend-section { padding-bottom: 4px; }
+
+.legend-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
 
 /* ── Responsive ── */
 @media (max-width: 900px) {

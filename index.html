@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BGP Bangladesh - Internet Path Visualization</title>
-  <meta name="description" content="Interactive visualization of Bangladesh's internet connectivity paths via BGP routing. See how local ISPs connect to the global internet.">
+  <meta name="description" content="Interactive 3-layer visualization of Bangladesh's internet connectivity: Local ISPs, IIGs, and International Transit via BGP routing.">
   <meta property="og:title" content="BGP Bangladesh - Internet Path Visualization">
   <meta property="og:description" content="Explore Bangladesh's BGP routing paths and internet bottlenecks interactively.">
   <meta property="og:type" content="website">
@@ -21,6 +21,13 @@
         <div id="data-source-label">Loading...</div>
       </div>
       <div id="sidebar-content">
+        <!-- What's My ASN? -->
+        <div class="controls-section my-asn-section">
+          <button class="btn btn-my-asn" id="btn-my-asn">What's My ASN?</button>
+          <div id="my-asn-result"></div>
+          <div class="my-asn-note">Note: Only top 300 connections per type are shown. Small ISPs may not appear in the visualization.</div>
+        </div>
+
         <!-- Stats -->
         <div id="stats-container"></div>
 
@@ -36,11 +43,19 @@
           </div>
         </div>
 
+        <!-- Search ASN -->
+        <div class="controls-section">
+          <div class="control-group">
+            <label>Search ASN</label>
+            <input type="text" id="search-asn" placeholder="Search by ASN or name..." class="search-input">
+          </div>
+        </div>
+
         <!-- Filters -->
         <div class="controls-section">
           <div class="control-group">
-            <label>Min Traffic: <span class="filter-value" id="filter-min-traffic-label">0</span></label>
-            <input type="range" id="filter-min-traffic" min="0" max="40000" value="0" step="500">
+            <label>Min Traffic: <span class="filter-value" id="filter-min-traffic-label">1000</span></label>
+            <input type="range" id="filter-min-traffic" min="0" max="40000" value="1000" step="500">
           </div>
           <div class="control-group">
             <label>Node Size</label>
@@ -58,12 +73,26 @@
           </div>
         </div>
 
-        <!-- Inside ASN list -->
-        <div class="sidebar-section-title inside">Inside BD (Gateways)</div>
-        <div id="inside-list"></div>
+        <!-- Legend -->
+        <div class="controls-section legend-section">
+          <div class="sidebar-section-title" style="color: var(--text-muted);">Legend</div>
+          <div class="legend-items">
+            <div class="legend-item"><span class="legend-dot" style="background:#42a5f5;"></span> Local ISPs</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#66bb6a;"></span> IIGs (Border Gateways)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ef5350;"></span> Outside BD (International)</div>
+          </div>
+        </div>
+
+        <!-- IIG list (border gateways) -->
+        <div class="sidebar-section-title iig">IIGs (Border Gateways)</div>
+        <div id="iig-list"></div>
+
+        <!-- Local ISP list -->
+        <div class="sidebar-section-title local-isp">Local ISPs</div>
+        <div id="local-isp-list"></div>
 
         <!-- Outside ASN list -->
-        <div class="sidebar-section-title outside">Outside BD (Feeders)</div>
+        <div class="sidebar-section-title outside">Outside BD (International)</div>
         <div id="outside-list"></div>
       </div>
     </aside>
@@ -90,7 +119,7 @@
 
       <!-- Footer -->
       <div id="app-footer">
-        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a></span>
+        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a> | 3-layer model: Local ISP &rarr; IIG &rarr; International</span>
         <span><a href="#" id="btn-show-intro">About this project</a></span>
       </div>
     </div>

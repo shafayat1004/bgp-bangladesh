@@ -56,13 +56,18 @@ export function showModal(force = false) {
         </div>
 
         <div class="modal-diagram">
-          <div class="modal-layer modal-layer-inside">
-            <div class="modal-layer-label">Your ISP / Domestic Gateways</div>
-            <div class="modal-layer-desc">BTCL, GrameenPhone, Robi, BDCOM, Banglalink...</div>
+          <div class="modal-layer" style="background:rgba(66,165,245,0.15);border:1px solid #42a5f5;">
+            <div class="modal-layer-label">Layer 1: Your Local ISP</div>
+            <div class="modal-layer-desc">ADN Telecom, Triangle Services, KS Network, Dot Internet, Mazeda Networks...</div>
           </div>
-          <div class="modal-arrow">&#8595; BGP Peering &#8595;</div>
+          <div class="modal-arrow">&#8595; Domestic BGP Peering &#8595;</div>
+          <div class="modal-layer modal-layer-inside">
+            <div class="modal-layer-label">Layer 2: IIGs (International Internet Gateways)</div>
+            <div class="modal-layer-desc">Summit Communications, Fiber@Home, Level3, Earth Telecom, Windstream...</div>
+          </div>
+          <div class="modal-arrow">&#8595; International BGP Peering &#8595;</div>
           <div class="modal-layer modal-layer-outside">
-            <div class="modal-layer-label">International Transit Providers</div>
+            <div class="modal-layer-label">Layer 3: International Transit</div>
             <div class="modal-layer-desc">Bharti Airtel, Hurricane Electric, NTT, TATA, Cogent...</div>
           </div>
           <div class="modal-arrow">&#8595;</div>
@@ -80,14 +85,14 @@ export function showModal(force = false) {
             <dt>BGP Route</dt>
             <dd>A path that internet traffic follows between networks. Like a road between cities.</dd>
 
-            <dt>Inside BD (Green nodes)</dt>
-            <dd>Bangladeshi networks that receive international traffic. These are your domestic gateways.</dd>
+            <dt>Local ISP (Blue nodes)</dt>
+            <dd>Your local Bangladeshi ISP that originates the route to your network.</dd>
+
+            <dt>IIG - International Internet Gateway (Green nodes)</dt>
+            <dd>Licensed border gateway operators in Bangladesh. They peer with international networks and carry your traffic abroad.</dd>
 
             <dt>Outside BD (Red nodes)</dt>
-            <dd>International networks that send traffic into Bangladesh. These are your international feeders.</dd>
-
-            <dt>IIG (International Internet Gateway)</dt>
-            <dd>Licensed operators in Bangladesh that provide the physical connection to the global internet.</dd>
+            <dd>International transit networks that connect Bangladesh to the world. These are your international feeders.</dd>
           </dl>
         </div>
 

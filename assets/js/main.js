@@ -1,12 +1,12 @@
 /**
  * Main Application Orchestrator
- * Wires together all modules: data loading, UI, visualizations, and live fetch.
+ * Wires together: data loading, 3-layer model, UI, visualizations, live fetch, and ASN lookup.
  */
 
 import { RIPEStatClient } from './api/ripestat.js';
 import { analyzeGateways, buildVisualizationData } from './api/data-processor.js';
 import { showModal, resetModal } from './ui/modal.js';
-import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, loadPreferences, savePreferences } from './ui/controls.js';
+import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, loadPreferences, savePreferences, showMyASNResult } from './ui/controls.js';
 import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel } from './ui/loading.js';
 import { exportNodesCSV, exportEdgesCSV, exportJSON } from './ui/export.js';
 
@@ -36,22 +36,11 @@ const vizModules = {
 // ────────────────────────────────────────
 
 async function init() {
-  // Show educational modal
   showModal();
-
-  // Restore preferences
   activeTab = getActiveTab();
-
-  // Set up tab navigation
   setupTabs();
-
-  // Set up control buttons
   setupButtons();
-
-  // Set up filters
   setupFilters();
-
-  // Load static data
   await loadStaticData();
 }
 
@@ -67,19 +56,17 @@ async function loadStaticData() {
     ]);
 
     if (!vizResponse.ok) throw new Error('Failed to load visualization data');
-
     currentData = await vizResponse.json();
 
     let meta = {};
-    if (metaResponse.ok) {
-      meta = await metaResponse.json();
-    }
+    if (metaResponse.ok) meta = await metaResponse.json();
 
     const dateStr = meta.last_updated
       ? new Date(meta.last_updated).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
       : 'Unknown';
 
-    setDataSourceLabel(`Static data from: ${dateStr}`);
+    const model = meta.model === '3-layer' ? ' (3-layer)' : '';
+    setDataSourceLabel(`Static data from: ${dateStr}${model}`);
     onDataLoaded();
   } catch (err) {
     console.error('Failed to load static data:', err);
@@ -93,15 +80,15 @@ async function loadStaticData() {
 
 function onDataLoaded() {
   if (!currentData) return;
-
-  // Populate sidebar
   populateSidebar(currentData, (asn) => {
     const mod = vizModules[activeTab];
     if (mod?.highlightASN) mod.highlightASN(asn);
   });
-
-  // Initialize and load active visualization
-  switchTab(activeTab);
+  
+  // Load with default filter to reduce density
+  const prefs = loadPreferences();
+  const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 1000;
+  switchTab(activeTab, { minTraffic: defaultMinTraffic });
 }
 
 // ────────────────────────────────────────
@@ -110,31 +97,28 @@ function onDataLoaded() {
 
 function setupTabs() {
   document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      switchTab(btn.dataset.tab);
-    });
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
-
-  // Highlight active tab
   highlightTab(activeTab);
 }
 
-function switchTab(tabId) {
+function switchTab(tabId, options = {}) {
   if (!currentData) return;
-
-  // Destroy previous
   const prevMod = vizModules[activeTab];
   if (prevMod?.destroy) prevMod.destroy();
-
   activeTab = tabId;
   saveActiveTab(tabId);
   highlightTab(tabId);
-
-  // Initialize new
   const mod = vizModules[tabId];
   if (mod) {
     mod.init('viz-panel');
-    mod.loadData(currentData);
+    const prefs = loadPreferences();
+    const loadOptions = {
+      minTraffic: options.minTraffic !== undefined ? options.minTraffic : prefs.minTraffic || 1000,
+      nodeSize: prefs.nodeSize || 15,
+      ...options
+    };
+    mod.loadData(currentData, loadOptions);
   }
 }
 
@@ -149,10 +133,8 @@ function highlightTab(tabId) {
 // ────────────────────────────────────────
 
 function setupButtons() {
-  // Fetch Live Data
   document.getElementById('btn-fetch-live')?.addEventListener('click', fetchLiveData);
 
-  // Revert to Static
   document.getElementById('btn-revert-static')?.addEventListener('click', async () => {
     ripeClient.cancel();
     hideProgress();
@@ -160,36 +142,67 @@ function setupButtons() {
     showToast('info', 'Reverted to static data.');
   });
 
-  // Export buttons
   document.getElementById('btn-export-nodes')?.addEventListener('click', () => {
     if (currentData) { exportNodesCSV(currentData); showToast('success', 'Nodes CSV downloaded.'); }
   });
-
   document.getElementById('btn-export-edges')?.addEventListener('click', () => {
     if (currentData) { exportEdgesCSV(currentData); showToast('success', 'Edges CSV downloaded.'); }
   });
-
   document.getElementById('btn-export-json')?.addEventListener('click', () => {
     if (currentData) { exportJSON(currentData); showToast('success', 'JSON data downloaded.'); }
   });
 
-  // Show intro again
   document.getElementById('btn-show-intro')?.addEventListener('click', () => {
     resetModal();
     showModal(true);
   });
 
-  // Reset view
   document.getElementById('btn-reset-view')?.addEventListener('click', () => {
     const mod = vizModules[activeTab];
     if (mod?.resetView) mod.resetView();
   });
 
-  // Toggle labels
   document.getElementById('btn-toggle-labels')?.addEventListener('click', () => {
     const mod = vizModules[activeTab];
     if (mod?.toggleLabelsVisibility) mod.toggleLabelsVisibility();
   });
+
+  // What's My ASN?
+  document.getElementById('btn-my-asn')?.addEventListener('click', detectMyASN);
+}
+
+// ────────────────────────────────────────
+// What's My ASN?
+// ────────────────────────────────────────
+
+async function detectMyASN() {
+  const btn = document.getElementById('btn-my-asn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Detecting...'; }
+
+  try {
+    const result = await ripeClient.getMyASN();
+    showMyASNResult(result);
+
+    // Check if this ASN is in our data
+    if (currentData) {
+      const found = currentData.nodes.find(n => n.asn === result.asn);
+      if (found) {
+        const typeLabel = found.type === 'iig' ? 'Border Gateway (IIG)' : 
+                         found.type === 'local-isp' ? 'Local ISP' : 
+                         found.type === 'outside' ? 'International Transit' : 'node';
+        showToast('success', `Your ASN (AS${result.asn}) is visible as a ${typeLabel}!`, 8000);
+        const mod = vizModules[activeTab];
+        if (mod?.highlightASN) mod.highlightASN(result.asn);
+      } else {
+        showToast('info', `Your ASN (AS${result.asn}) is not in the top 300 connections shown. Your traffic likely routes through one of the ${currentData.stats.total_iig} IIGs displayed (green nodes).`, 10000);
+      }
+    }
+  } catch (err) {
+    showMyASNResult({ error: `Could not detect your ASN: ${err.message}` });
+    showToast('error', `ASN detection failed: ${err.message}`);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = "What's My ASN?"; }
+  }
 }
 
 // ────────────────────────────────────────
@@ -202,9 +215,14 @@ function setupFilters() {
   const trafficSlider = document.getElementById('filter-min-traffic');
   const trafficLabel = document.getElementById('filter-min-traffic-label');
   const sizeSlider = document.getElementById('filter-node-size');
+  const searchInput = document.getElementById('search-asn');
 
+  // Set default minimum traffic to reduce density
   if (trafficSlider) {
-    if (prefs.minTraffic) trafficSlider.value = prefs.minTraffic;
+    const defaultMin = prefs.minTraffic !== undefined ? prefs.minTraffic : 1000;
+    trafficSlider.value = defaultMin;
+    if (trafficLabel) trafficLabel.textContent = defaultMin.toLocaleString();
+    
     trafficSlider.addEventListener('input', () => {
       const val = parseInt(trafficSlider.value);
       if (trafficLabel) trafficLabel.textContent = val.toLocaleString();
@@ -223,10 +241,39 @@ function setupFilters() {
       if (mod?.setNodeSize) mod.setNodeSize(val);
     });
   }
+
+  // ASN Search
+  if (searchInput) {
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const query = e.target.value.trim().toLowerCase();
+        if (!query || !currentData) return;
+
+        // Search for matching ASNs
+        const matches = currentData.nodes.filter(n => 
+          n.asn.includes(query) ||
+          (n.name || '').toLowerCase().includes(query) ||
+          (n.description || '').toLowerCase().includes(query)
+        );
+
+        if (matches.length > 0) {
+          const mod = vizModules[activeTab];
+          if (mod?.highlightASN) {
+            mod.highlightASN(matches[0].asn);
+            showToast('info', `Found: ${matches[0].name || `AS${matches[0].asn}`}${matches.length > 1 ? ` (+${matches.length - 1} more)` : ''}`, 3000);
+          }
+        } else if (query.length > 2) {
+          showToast('warning', 'No matching ASN found in visible data', 2000);
+        }
+      }, 500);
+    });
+  }
 }
 
 // ────────────────────────────────────────
-// Live Data Fetching
+// Live Data Fetching (3-layer)
 // ────────────────────────────────────────
 
 async function fetchLiveData() {
@@ -246,27 +293,25 @@ async function fetchLiveData() {
     // Step 2: BGP routes
     const routes = await ripeClient.fetchBGPRoutes(prefixes, (p) => updateProgress(p));
 
-    // Step 3: ASN names
+    // Step 3: ASN names (for all unique ASNs in paths)
     const allASNs = new Set();
     routes.forEach(rt => {
       (rt.path || []).forEach(a => allASNs.add(String(a)));
     });
-    const asnInfo = await ripeClient.fetchASNInfo([...allASNs].slice(0, 500), (p) => updateProgress(p));
+    const asnInfo = await ripeClient.fetchASNInfo([...allASNs].slice(0, 500), countryASNs, (p) => updateProgress(p));
 
-    // Step 4: Process
-    updateProgress({ step: 4, totalSteps: 4, message: 'Processing data...', progress: 0 });
-    const { outsideCounts, insideCounts, edgeCounts, validObservations } = analyzeGateways(routes, countryASNs, (p) => updateProgress(p));
-
-    const vizData = buildVisualizationData(outsideCounts, insideCounts, edgeCounts, asnInfo);
+    // Step 4: Process into 3-layer model
+    updateProgress({ step: 4, totalSteps: 4, message: 'Processing 3-layer model...', progress: 0 });
+    const analysis = analyzeGateways(routes, countryASNs, (p) => updateProgress(p));
+    const vizData = buildVisualizationData(analysis, asnInfo, countryASNs);
     updateProgress({ step: 4, totalSteps: 4, message: 'Done!', progress: 1, complete: true });
 
-    // Update
     currentData = vizData;
-    setDataSourceLabel(`Live data from: ${new Date().toLocaleString()}`);
+    setDataSourceLabel(`Live data from: ${new Date().toLocaleString()} (3-layer)`);
     onDataLoaded();
 
     hideProgress();
-    showToast('success', `Live data loaded! ${validObservations.toLocaleString()} observations processed.`);
+    showToast('success', `Live data loaded! ${analysis.validObservations.toLocaleString()} observations, ${vizData.stats.total_iig} IIGs, ${vizData.stats.total_local_isp} Local ISPs.`);
 
   } catch (err) {
     hideProgress();

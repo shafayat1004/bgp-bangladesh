@@ -1,7 +1,11 @@
 /**
- * Interactive Data Table
- * Sortable, searchable, paginated table of ASN data.
+ * Interactive Data Table - 3-layer model with country flags
  */
+
+import { countryToFlag } from '../api/ripestat.js';
+
+const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG', 'local-isp': 'Local ISP', 'inside': 'Inside BD' };
+const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'local-isp': 'type-local-isp', 'inside': 'type-iig' };
 
 let currentData = null;
 let currentSort = { column: 'traffic', asc: false };
@@ -28,7 +32,7 @@ function render() {
 
   container.innerHTML = `
     <div class="table-toolbar">
-      <input type="text" id="table-search" placeholder="Search ASN or name..." class="table-search" value="${searchQuery}">
+      <input type="text" id="table-search" placeholder="Search ASN, name, or country..." class="table-search" value="${searchQuery}">
       <div class="table-toolbar-right">
         <button class="btn btn-small ${!showEdges ? 'btn-active' : ''}" id="table-show-nodes">Nodes</button>
         <button class="btn btn-small ${showEdges ? 'btn-active' : ''}" id="table-show-edges">Edges</button>
@@ -39,40 +43,21 @@ function render() {
         </select>
       </div>
     </div>
-    <div class="table-wrapper">
-      <table class="data-table">
-        <thead id="table-head"></thead>
-        <tbody id="table-body"></tbody>
-      </table>
-    </div>
+    <div class="table-wrapper"><table class="data-table"><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
     <div class="table-footer" id="table-footer"></div>
   `;
 
-  // Event listeners
-  document.getElementById('table-search').addEventListener('input', (e) => {
-    searchQuery = e.target.value.toLowerCase();
-    currentPage = 0;
-    renderTable();
-  });
-
+  document.getElementById('table-search').addEventListener('input', (e) => { searchQuery = e.target.value.toLowerCase(); currentPage = 0; renderTable(); });
   document.getElementById('table-show-nodes').addEventListener('click', () => { showEdges = false; currentPage = 0; render(); });
   document.getElementById('table-show-edges').addEventListener('click', () => { showEdges = true; currentPage = 0; render(); });
-
-  document.getElementById('table-page-size').addEventListener('change', (e) => {
-    pageSize = parseInt(e.target.value);
-    currentPage = 0;
-    renderTable();
-  });
+  document.getElementById('table-page-size').addEventListener('change', (e) => { pageSize = parseInt(e.target.value); currentPage = 0; renderTable(); });
 
   renderTable();
 }
 
 function renderTable() {
-  if (showEdges) {
-    renderEdgesTable();
-  } else {
-    renderNodesTable();
-  }
+  if (showEdges) renderEdgesTable();
+  else renderNodesTable();
 }
 
 function renderNodesTable() {
@@ -84,12 +69,12 @@ function renderNodesTable() {
     { key: 'rank', label: 'Rank', numeric: true },
     { key: 'asn', label: 'ASN', numeric: false },
     { key: 'name', label: 'Company', numeric: false },
+    { key: 'country', label: 'Country', numeric: false },
     { key: 'type', label: 'Type', numeric: false },
     { key: 'traffic', label: 'Routes', numeric: true },
     { key: 'percentage', label: 'Share %', numeric: true },
   ];
 
-  // Header
   thead.innerHTML = '<tr>' + columns.map(c => {
     const arrow = currentSort.column === c.key ? (currentSort.asc ? ' &#9650;' : ' &#9660;') : '';
     return `<th data-col="${c.key}" class="sortable">${c.label}${arrow}</th>`;
@@ -98,24 +83,21 @@ function renderNodesTable() {
   thead.querySelectorAll('th.sortable').forEach(th => {
     th.addEventListener('click', () => {
       const col = th.dataset.col;
-      if (currentSort.column === col) {
-        currentSort.asc = !currentSort.asc;
-      } else {
-        currentSort.column = col;
-        currentSort.asc = false;
-      }
+      if (currentSort.column === col) currentSort.asc = !currentSort.asc;
+      else { currentSort.column = col; currentSort.asc = false; }
       currentPage = 0;
       renderTable();
     });
   });
 
-  // Filter and sort data
   let rows = currentData.nodes.slice();
   if (searchQuery) {
     rows = rows.filter(n =>
       n.asn.includes(searchQuery) ||
       (n.name || '').toLowerCase().includes(searchQuery) ||
-      (n.description || '').toLowerCase().includes(searchQuery)
+      (n.description || '').toLowerCase().includes(searchQuery) ||
+      (n.country || '').toLowerCase().includes(searchQuery) ||
+      (n.type || '').toLowerCase().includes(searchQuery)
     );
   }
 
@@ -130,27 +112,27 @@ function renderNodesTable() {
     return 0;
   });
 
-  // Pagination
-  const totalPages = Math.ceil(rows.length / pageSize);
+  const totalPages = Math.ceil(rows.length / pageSize) || 1;
   const pageRows = rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
-  tbody.innerHTML = pageRows.map(n => `
-    <tr data-asn="${n.asn}">
+  tbody.innerHTML = pageRows.map(n => {
+    const flag = n.country ? countryToFlag(n.country) : '';
+    return `<tr data-asn="${n.asn}">
       <td>${n.rank || '-'}</td>
       <td>AS${n.asn}</td>
-      <td>${n.name || '-'}</td>
-      <td><span class="type-badge type-${n.type}">${n.type === 'inside' ? 'Inside BD' : 'Outside BD'}</span></td>
+      <td>${flag} ${n.name || '-'}</td>
+      <td>${flag} ${n.country || '-'}</td>
+      <td><span class="type-badge ${TYPE_CLASSES[n.type] || ''}">${TYPE_LABELS[n.type] || n.type}</span></td>
       <td class="num">${(n.traffic || 0).toLocaleString()}</td>
       <td class="num">${(n.percentage || 0).toFixed(2)}%</td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
 
-  // Footer with pagination
   footer.innerHTML = `
-    <span>Showing ${currentPage * pageSize + 1}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length}</span>
+    <span>Showing ${rows.length > 0 ? currentPage * pageSize + 1 : 0}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length}</span>
     <div class="table-pagination">
       <button class="btn btn-small" id="page-prev" ${currentPage === 0 ? 'disabled' : ''}>Prev</button>
-      <span>Page ${currentPage + 1} of ${totalPages}</span>
+      <span>Page ${currentPage + 1} / ${totalPages}</span>
       <button class="btn btn-small" id="page-next" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>Next</button>
     </div>
   `;
@@ -172,6 +154,7 @@ function renderEdgesTable() {
     { key: 'source_name', label: 'Source Name', numeric: false },
     { key: 'target', label: 'Target ASN', numeric: false },
     { key: 'target_name', label: 'Target Name', numeric: false },
+    { key: 'edge_type', label: 'Type', numeric: false },
     { key: 'count', label: 'Route Count', numeric: true },
   ];
 
@@ -190,18 +173,24 @@ function renderEdgesTable() {
     });
   });
 
-  let rows = currentData.edges.map(e => ({
-    source: e.source?.asn || e.source,
-    target: e.target?.asn || e.target,
-    count: e.count,
-    source_name: nodeMap[e.source?.asn || e.source]?.name || '',
-    target_name: nodeMap[e.target?.asn || e.target]?.name || '',
-  }));
+  let rows = currentData.edges.map(e => {
+    const src = e.source?.asn || e.source;
+    const tgt = e.target?.asn || e.target;
+    return {
+      source: src, target: tgt, count: e.count,
+      source_name: nodeMap[src]?.name || '',
+      target_name: nodeMap[tgt]?.name || '',
+      edge_type: e.type || 'international',
+      source_country: nodeMap[src]?.country || '',
+      target_country: nodeMap[tgt]?.country || '',
+    };
+  });
 
   if (searchQuery) {
     rows = rows.filter(r =>
       r.source.includes(searchQuery) || r.target.includes(searchQuery) ||
-      r.source_name.toLowerCase().includes(searchQuery) || r.target_name.toLowerCase().includes(searchQuery)
+      r.source_name.toLowerCase().includes(searchQuery) || r.target_name.toLowerCase().includes(searchQuery) ||
+      r.edge_type.toLowerCase().includes(searchQuery)
     );
   }
 
@@ -216,24 +205,28 @@ function renderEdgesTable() {
     return 0;
   });
 
-  const totalPages = Math.ceil(rows.length / pageSize);
+  const totalPages = Math.ceil(rows.length / pageSize) || 1;
   const pageRows = rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
-  tbody.innerHTML = pageRows.map(r => `
-    <tr>
-      <td>AS${r.source}</td>
-      <td>${r.source_name || '-'}</td>
-      <td>AS${r.target}</td>
-      <td>${r.target_name || '-'}</td>
+  tbody.innerHTML = pageRows.map(r => {
+    const sf = r.source_country ? countryToFlag(r.source_country) + ' ' : '';
+    const tf = r.target_country ? countryToFlag(r.target_country) + ' ' : '';
+    const typeCls = r.edge_type === 'domestic' ? 'type-local-isp' : 'type-outside';
+    return `<tr>
+      <td>${sf}AS${r.source}</td>
+      <td>${sf}${r.source_name || '-'}</td>
+      <td>${tf}AS${r.target}</td>
+      <td>${tf}${r.target_name || '-'}</td>
+      <td><span class="type-badge ${typeCls}">${r.edge_type}</span></td>
       <td class="num">${r.count.toLocaleString()}</td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
 
   footer.innerHTML = `
-    <span>Showing ${currentPage * pageSize + 1}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length}</span>
+    <span>Showing ${rows.length > 0 ? currentPage * pageSize + 1 : 0}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length}</span>
     <div class="table-pagination">
       <button class="btn btn-small" id="page-prev" ${currentPage === 0 ? 'disabled' : ''}>Prev</button>
-      <span>Page ${currentPage + 1} of ${totalPages}</span>
+      <span>Page ${currentPage + 1} / ${totalPages}</span>
       <button class="btn btn-small" id="page-next" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>Next</button>
     </div>
   `;
@@ -242,10 +235,6 @@ function renderEdgesTable() {
   document.getElementById('page-next')?.addEventListener('click', () => { if (currentPage < totalPages - 1) { currentPage++; renderTable(); } });
 }
 
-export function destroy() {
-  const container = document.getElementById('viz-panel');
-  if (container) container.innerHTML = '';
-}
-
+export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
 export function highlightASN() {}
 export function updateFilter() {}
