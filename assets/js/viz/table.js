@@ -92,8 +92,9 @@ function renderNodesTable() {
     });
   });
 
-  const minTraffic = currentOptions.minTraffic || 0;
-  let rows = currentData.nodes.filter(n => n.traffic >= minTraffic);
+  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 500;
+  const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
+  let rows = currentData.nodes.filter(n => n.traffic >= minTraffic && n.traffic <= maxTraffic);
   
   if (searchQuery) {
     rows = rows.filter(n =>
@@ -177,9 +178,10 @@ function renderEdgesTable() {
     });
   });
 
-  const minTraffic = currentOptions.minTraffic || 0;
+  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 500;
+  const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
   let rows = currentData.edges
-    .filter(e => e.count >= minTraffic)
+    .filter(e => e.count >= minTraffic && e.count <= maxTraffic)
     .map(e => {
       const src = e.source?.asn || e.source;
       const tgt = e.target?.asn || e.target;
@@ -251,7 +253,8 @@ export function highlightASN(asn) {
   if (searchEl) searchEl.value = asn;
   render();
 }
-export function updateFilter(val) { 
-  currentOptions.minTraffic = val; 
+export function updateFilter(minVal, maxVal) { 
+  if (minVal !== undefined) currentOptions.minTraffic = minVal;
+  if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render(); 
 }

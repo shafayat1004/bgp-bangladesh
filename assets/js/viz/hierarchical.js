@@ -42,7 +42,8 @@ export function loadData(data, options = {}) {
 function render() {
   if (!currentData) return;
   const options = currentOptions;
-  const minTraffic = options.minTraffic || 0;
+  const minTraffic = options.minTraffic !== undefined ? options.minTraffic : 500;
+  const maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
   
   const container = document.getElementById('viz-panel');
   if (!container) return;
@@ -62,12 +63,12 @@ function render() {
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
   const hasLocalISP = currentData.nodes.some(n => n.type === 'local-isp');
 
-  // Filter edges by minimum traffic (no arbitrary limits)
+  // Filter edges by traffic range (no arbitrary limits)
   const filteredIntl = currentData.edges
-    .filter(e => (e.type === 'international' || !e.type) && e.count >= minTraffic)
+    .filter(e => (e.type === 'international' || !e.type) && e.count >= minTraffic && e.count <= maxTraffic)
     .sort((a, b) => b.count - a.count);
   const filteredDom = hasDomestic 
-    ? currentData.edges.filter(e => e.type === 'domestic' && e.count >= minTraffic).sort((a, b) => b.count - a.count)
+    ? currentData.edges.filter(e => e.type === 'domestic' && e.count >= minTraffic && e.count <= maxTraffic).sort((a, b) => b.count - a.count)
     : [];
 
   const usedASNs = new Set();
@@ -79,14 +80,14 @@ function render() {
   // Determine layers
   const layers = [];
   if (hasLocalISP) {
-    const localISPs = currentData.nodes.filter(n => n.type === 'local-isp' && usedASNs.has(n.asn) && n.traffic >= minTraffic).sort((a, b) => b.traffic - a.traffic);
+    const localISPs = currentData.nodes.filter(n => n.type === 'local-isp' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
     if (localISPs.length > 0) layers.push({ type: 'local-isp', nodes: localISPs });
   }
 
-  const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn) && n.traffic >= minTraffic).sort((a, b) => b.traffic - a.traffic);
+  const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
   if (iigs.length > 0) layers.push({ type: 'iig', nodes: iigs });
 
-  const outside = currentData.nodes.filter(n => n.type === 'outside' && usedASNs.has(n.asn) && n.traffic >= minTraffic).sort((a, b) => b.traffic - a.traffic);
+  const outside = currentData.nodes.filter(n => n.type === 'outside' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
   if (outside.length > 0) layers.push({ type: 'outside', nodes: outside });
 
   const margin = { top: 60, bottom: 60, left: 40, right: 40 };
@@ -211,7 +212,8 @@ export function highlightASN(asn) {
     svg.on('click.highlight', null);
   });
 }
-export function updateFilter(val) { 
-  currentOptions.minTraffic = val; 
+export function updateFilter(minVal, maxVal) { 
+  if (minVal !== undefined) currentOptions.minTraffic = minVal;
+  if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render(); 
 }

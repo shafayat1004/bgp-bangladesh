@@ -24,7 +24,8 @@ let showLabels = true;
 let highlightedNode = null;
 let currentNodeSize = 15;
 let currentData = null;
-let minTraffic = 0;
+let minTraffic = 500;
+let maxTraffic = Infinity;
 let renderedEdges = [];  // Track which edges are actually rendered
 
 export function init(containerId) {
@@ -36,7 +37,8 @@ export function init(containerId) {
 
 export function loadData(data, options = {}) {
   currentData = data;
-  minTraffic = options.minTraffic !== undefined ? options.minTraffic : 0;
+  minTraffic = options.minTraffic !== undefined ? options.minTraffic : 500;
+  maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
   currentNodeSize = options.nodeSize || 15;
   showLabels = options.showLabels !== false;
 
@@ -158,7 +160,7 @@ export function loadData(data, options = {}) {
 function render() {
   if (!currentData || !g) return;
 
-  renderedEdges = currentData.edges.filter(e => e.count >= minTraffic);
+  renderedEdges = currentData.edges.filter(e => e.count >= minTraffic && e.count <= maxTraffic);
   const usedNodes = new Set();
   renderedEdges.forEach(e => {
     usedNodes.add(e.source?.asn || e.source);
@@ -303,7 +305,11 @@ export function highlightASN(asn) {
   if (node) highlightNodeHandler({ stopPropagation: () => {} }, node);
 }
 
-export function updateFilter(val) { minTraffic = val; render(); }
+export function updateFilter(minVal, maxVal) {
+  minTraffic = minVal !== undefined ? minVal : minTraffic;
+  maxTraffic = maxVal !== undefined ? maxVal : maxTraffic;
+  render();
+}
 export function setNodeSize(size) {
   currentNodeSize = size;
   if (nodes) {

@@ -43,7 +43,8 @@ export function loadData(data, options = {}) {
 function render() {
   if (!currentData) return;
   const options = currentOptions;
-  const minTraffic = options.minTraffic || 0;
+  const minTraffic = options.minTraffic !== undefined ? options.minTraffic : 500;
+  const maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
   
   const container = document.getElementById('viz-panel');
   if (!container) return;
@@ -57,9 +58,9 @@ function render() {
   const g = svg.append('g')
     .attr('transform', `translate(${container.clientWidth / 2},${container.clientHeight / 2})`);
 
-  // Filter edges by minimum traffic (no arbitrary limits)
+  // Filter edges by traffic range (no arbitrary limits)
   const filteredEdges = currentData.edges
-    .filter(e => e.count >= minTraffic)
+    .filter(e => e.count >= minTraffic && e.count <= maxTraffic)
     .sort((a, b) => b.count - a.count);
   const asnSet = new Set();
   filteredEdges.forEach(e => { asnSet.add(e.source?.asn || e.source); asnSet.add(e.target?.asn || e.target); });
@@ -157,7 +158,8 @@ export function highlightASN(asn) {
     svg.on('click.highlight', null);
   });
 }
-export function updateFilter(val) { 
-  currentOptions.minTraffic = val; 
+export function updateFilter(minVal, maxVal) { 
+  if (minVal !== undefined) currentOptions.minTraffic = minVal;
+  if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render(); 
 }

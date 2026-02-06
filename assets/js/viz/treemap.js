@@ -47,7 +47,8 @@ export function loadData(data, options = {}) {
 function render() {
   if (!currentData) return;
   const options = currentOptions;
-  const minTraffic = options.minTraffic || 0;
+  const minTraffic = options.minTraffic !== undefined ? options.minTraffic : 500;
+  const maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
   
   const container = document.getElementById('treemap-container');
   if (!container) return;
@@ -77,9 +78,10 @@ function renderTreemap(containerId, type) {
   const width = container.clientWidth;
   const height = container.clientHeight;
   const cfg = TYPE_CONFIG[type];
-  const minTraffic = currentOptions.minTraffic || 0;
+  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 500;
+  const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
 
-  const nodesOfType = currentData.nodes.filter(n => n.type === type && n.traffic >= minTraffic);
+  const nodesOfType = currentData.nodes.filter(n => n.type === type && n.traffic >= minTraffic && n.traffic <= maxTraffic);
   if (nodesOfType.length === 0) return;
 
   const root = d3.hierarchy({ children: nodesOfType })
@@ -171,7 +173,8 @@ export function highlightASN(asn) {
     container.addEventListener('click', handler);
   }
 }
-export function updateFilter(val) { 
-  currentOptions.minTraffic = val; 
+export function updateFilter(minVal, maxVal) { 
+  if (minVal !== undefined) currentOptions.minTraffic = minVal;
+  if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render(); 
 }

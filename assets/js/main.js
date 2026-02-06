@@ -88,8 +88,9 @@ function onDataLoaded() {
   
   // Load with user's saved filter preference
   const prefs = loadPreferences();
-  const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 0;
-  switchTab(activeTab, { minTraffic: defaultMinTraffic });
+  const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 500;
+  const defaultMaxTraffic = prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity;
+  switchTab(activeTab, { minTraffic: defaultMinTraffic, maxTraffic: defaultMaxTraffic });
 }
 
 // ────────────────────────────────────────
@@ -115,7 +116,8 @@ function switchTab(tabId, options = {}) {
     mod.init('viz-panel');
     const prefs = loadPreferences();
     const loadOptions = {
-      minTraffic: options.minTraffic !== undefined ? options.minTraffic : (prefs.minTraffic !== undefined ? prefs.minTraffic : 0),
+      minTraffic: options.minTraffic !== undefined ? options.minTraffic : (prefs.minTraffic !== undefined ? prefs.minTraffic : 500),
+      maxTraffic: options.maxTraffic !== undefined ? options.maxTraffic : (prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity),
       nodeSize: prefs.nodeSize || 15,
       ...options
     };
@@ -222,23 +224,51 @@ async function detectMyASN() {
 function setupFilters() {
   const prefs = loadPreferences();
 
-  const trafficSlider = document.getElementById('filter-min-traffic');
-  const trafficLabel = document.getElementById('filter-min-traffic-label');
+  const minTrafficSlider = document.getElementById('filter-min-traffic');
+  const minTrafficLabel = document.getElementById('filter-min-traffic-label');
+  const maxTrafficSlider = document.getElementById('filter-max-traffic');
+  const maxTrafficLabel = document.getElementById('filter-max-traffic-label');
   const sizeSlider = document.getElementById('filter-node-size');
   const searchInput = document.getElementById('search-asn');
 
-  // Set default minimum traffic to reduce density
-  if (trafficSlider) {
-    const defaultMin = prefs.minTraffic !== undefined ? prefs.minTraffic : 0;
-    trafficSlider.value = defaultMin;
-    if (trafficLabel) trafficLabel.textContent = defaultMin.toLocaleString();
+  // Min traffic filter
+  if (minTrafficSlider) {
+    const defaultMin = prefs.minTraffic !== undefined ? prefs.minTraffic : 500;
+    minTrafficSlider.value = defaultMin;
+    if (minTrafficLabel) minTrafficLabel.textContent = defaultMin.toLocaleString();
     
-    trafficSlider.addEventListener('input', () => {
-      const val = parseInt(trafficSlider.value);
-      if (trafficLabel) trafficLabel.textContent = val.toLocaleString();
-      savePreferences({ ...loadPreferences(), minTraffic: val });
+    minTrafficSlider.addEventListener('input', () => {
+      const minVal = parseInt(minTrafficSlider.value);
+      const maxVal = maxTrafficSlider ? parseInt(maxTrafficSlider.value) : Infinity;
+      
+      if (minTrafficLabel) minTrafficLabel.textContent = minVal.toLocaleString();
+      savePreferences({ ...loadPreferences(), minTraffic: minVal });
+      
       const mod = vizModules[activeTab];
-      if (mod?.updateFilter) mod.updateFilter(val);
+      if (mod?.updateFilter) mod.updateFilter(minVal, maxVal);
+    });
+  }
+
+  // Max traffic filter
+  if (maxTrafficSlider) {
+    const defaultMax = prefs.maxTraffic !== undefined ? prefs.maxTraffic : 40000;
+    maxTrafficSlider.value = defaultMax;
+    if (maxTrafficLabel) {
+      maxTrafficLabel.textContent = defaultMax >= 40000 ? '∞' : defaultMax.toLocaleString();
+    }
+    
+    maxTrafficSlider.addEventListener('input', () => {
+      const minVal = minTrafficSlider ? parseInt(minTrafficSlider.value) : 0;
+      const maxVal = parseInt(maxTrafficSlider.value);
+      const isInfinity = maxVal >= 40000;
+      
+      if (maxTrafficLabel) {
+        maxTrafficLabel.textContent = isInfinity ? '∞' : maxVal.toLocaleString();
+      }
+      savePreferences({ ...loadPreferences(), maxTraffic: isInfinity ? Infinity : maxVal });
+      
+      const mod = vizModules[activeTab];
+      if (mod?.updateFilter) mod.updateFilter(minVal, isInfinity ? Infinity : maxVal);
     });
   }
 
