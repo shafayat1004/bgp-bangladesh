@@ -9,8 +9,8 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Large raw data (optional - uncomment to exclude from git)
-# data/BD/bgp_routes_raw.json
+# Large raw data (excluded from git - use fetch_bgp_routes.py to regenerate)
+data/BD/bgp_routes_raw.json
 
 # Node modules (if ever added)
 node_modules/
