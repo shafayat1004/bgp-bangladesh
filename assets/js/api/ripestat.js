@@ -313,7 +313,7 @@ export class RIPEStatClient {
   }
 
   /**
-   * Fetch BGP routes in batches.
+   * Fetch BGP routes in parallel batches for better performance.
    */
   async fetchBGPRoutes(prefixes, onProgress) {
     this.abortController = new AbortController();
@@ -323,6 +323,7 @@ export class RIPEStatClient {
     let completed = 0;
     let failed = 0;
     const startTime = Date.now();
+    const concurrency = 5; // Fetch 5 batches in parallel
 
     if (onProgress) {
       onProgress({
@@ -332,38 +333,53 @@ export class RIPEStatClient {
       });
     }
 
-    for (let i = 0; i < batches.length; i++) {
+    // Process batches in parallel waves
+    for (let i = 0; i < batches.length; i += concurrency) {
       if (this.abortController.signal.aborted) break;
 
-      const batch = batches[i];
-      const params = new URLSearchParams({ resource: batch.join(',') });
-      const url = `${RIPESTAT_BASE}/bgp-state/data.json?${params}`;
+      const batchGroup = batches.slice(i, i + concurrency);
+      const promises = batchGroup.map(async (batch, idx) => {
+        const batchNum = i + idx + 1;
+        const params = new URLSearchParams({ resource: batch.join(',') });
+        const url = `${RIPESTAT_BASE}/bgp-state/data.json?${params}`;
 
-      try {
-        const data = await fetchWithRetry(url, {
-          rateLimiter: this.rateLimiter,
-          signal: this.abortController.signal,
-          timeout: 120000,
-          onRetry: (attempt, max, reason) => {
-            if (onProgress) {
-              onProgress({
-                step: 2, totalSteps: 4,
-                message: `Batch ${i + 1}/${totalBatches}: ${reason} (attempt ${attempt}/${max})`,
-                progress: completed / totalBatches,
-                completed, failed, total: totalBatches,
-                warning: true,
-              });
-            }
-          },
-        });
+        try {
+          const data = await fetchWithRetry(url, {
+            rateLimiter: this.rateLimiter,
+            signal: this.abortController.signal,
+            timeout: 120000,
+            onRetry: (attempt, max, reason) => {
+              if (onProgress) {
+                onProgress({
+                  step: 2, totalSteps: 4,
+                  message: `Batch ${batchNum}/${totalBatches}: ${reason} (retry ${attempt}/${max})`,
+                  progress: completed / totalBatches,
+                  completed, failed, total: totalBatches,
+                  warning: true,
+                });
+              }
+            },
+          });
 
-        const routes = data.data?.bgp_state || [];
-        allRoutes.push(...routes);
-        completed++;
-      } catch (err) {
-        if (err.name === 'AbortError') break;
-        failed++;
-        console.warn(`Batch ${i + 1} permanently failed:`, err.message);
+          const routes = data.data?.bgp_state || [];
+          return { success: true, routes };
+        } catch (err) {
+          if (err.name === 'AbortError') throw err;
+          console.warn(`Batch ${batchNum} permanently failed:`, err.message);
+          return { success: false, routes: [] };
+        }
+      });
+
+      const results = await Promise.all(promises);
+
+      // Collect results
+      for (const result of results) {
+        if (result.success) {
+          allRoutes.push(...result.routes);
+          completed++;
+        } else {
+          failed++;
+        }
       }
 
       const elapsed = (Date.now() - startTime) / 1000;
@@ -373,7 +389,7 @@ export class RIPEStatClient {
       if (onProgress) {
         onProgress({
           step: 2, totalSteps: 4,
-          message: `Fetching BGP routes (${completed}/${totalBatches} batches)...`,
+          message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${concurrency} parallel)...`,
           progress: (completed + failed) / totalBatches,
           completed, failed, total: totalBatches,
           eta: Math.ceil(remaining),
