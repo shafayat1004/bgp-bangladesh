@@ -80,3 +80,17 @@ export function exportJSON(data) {
   const json = JSON.stringify(data, null, 2);
   downloadFile(json, `bgp_bd_data_${dateStamp()}.json`, 'application/json');
 }
+
+/**
+ * Export raw BGP routes as JSON (unprocessed route data from RIPEstat)
+ */
+export function exportRawRoutes(routes) {
+  const data = {
+    timestamp: new Date().toISOString(),
+    source: 'RIPEstat BGP State API',
+    route_count: routes.length,
+    routes: routes
+  };
+  const json = JSON.stringify(data, null, 2);
+  downloadFile(json, `bgp_bd_raw_routes_${dateStamp()}.json`, 'application/json');
+}

@@ -8,7 +8,7 @@ import { analyzeGateways, buildVisualizationData } from './api/data-processor.js
 import { showModal, resetModal } from './ui/modal.js';
 import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, loadPreferences, savePreferences, showMyASNResult } from './ui/controls.js';
 import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel } from './ui/loading.js';
-import { exportNodesCSV, exportEdgesCSV, exportJSON } from './ui/export.js';
+import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './ui/export.js';
 
 import * as ForceGraph from './viz/force-graph.js';
 import * as Sankey from './viz/sankey.js';
@@ -19,6 +19,7 @@ import * as Table from './viz/table.js';
 
 const COUNTRY = 'BD';
 let currentData = null;
+let rawRoutes = null;  // Store raw BGP routes for export
 let activeTab = 'force-graph';
 let ripeClient = new RIPEStatClient();
 
@@ -150,6 +151,15 @@ function setupButtons() {
   });
   document.getElementById('btn-export-json')?.addEventListener('click', () => {
     if (currentData) { exportJSON(currentData); showToast('success', 'JSON data downloaded.'); }
+  });
+  
+  document.getElementById('btn-export-raw')?.addEventListener('click', () => {
+    if (rawRoutes) {
+      exportRawRoutes(rawRoutes);
+      showToast('success', `Raw routes downloaded (${rawRoutes.length.toLocaleString()} routes, ~${(JSON.stringify(rawRoutes).length / 1024 / 1024).toFixed(1)}MB).`);
+    } else {
+      showToast('warning', 'No raw routes available. Click "Fetch Live Data" first to download raw routes.');
+    }
   });
 
   document.getElementById('btn-show-intro')?.addEventListener('click', () => {
@@ -292,6 +302,7 @@ async function fetchLiveData() {
 
     // Step 2: BGP routes
     const routes = await ripeClient.fetchBGPRoutes(prefixes, (p) => updateProgress(p));
+    rawRoutes = routes;  // Store for raw export
 
     // Step 3: Process into 3-layer model (to identify which ASNs we actually need)
     updateProgress({ step: 3, totalSteps: 4, message: 'Processing 3-layer model...', progress: 0 });
