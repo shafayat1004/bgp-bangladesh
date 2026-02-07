@@ -125,16 +125,17 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
  * @param {Object} analysis - Result from analyzeGateways()
  * @param {Object} asnInfo - ASN → { name, holder, announced, country }
  * @param {Set} countryASNs - Set of country ASNs
- * @param {number} topEdges - Number of top edges per type to include
+ * @param {number} topIntlEdges - Number of top international edges to include
+ * @param {number} topDomesticEdges - Number of top domestic edges to include
  * @param {Set} btrcLicensedASNs - Set of ASN strings from the BTRC IIG license list
  * @returns {{ nodes, edges, stats }}
  */
-export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges = 1000, btrcLicensedASNs = new Set()) {
+export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEdges = 1500, topDomesticEdges = 2000, btrcLicensedASNs = new Set()) {
   const { outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, validObservations } = analysis;
 
-  // Sort and take top N edges per type
-  const sortedIntl = [...edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, topEdges);
-  const sortedDomestic = [...edgeDomestic.entries()].sort((a, b) => b[1] - a[1]).slice(0, topEdges);
+  // Sort and take top N edges per type (separate limits for intl and domestic)
+  const sortedIntl = [...edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, topIntlEdges);
+  const sortedDomestic = [...edgeDomestic.entries()].sort((a, b) => b[1] - a[1]).slice(0, topDomesticEdges);
 
   // Pre-compute which tentative IIGs have domestic customers
   const iigsWithDomestic = new Set();

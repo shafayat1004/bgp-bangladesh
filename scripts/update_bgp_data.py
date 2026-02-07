@@ -832,9 +832,9 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, pe
     print(f"\nBuilding visualization data (license-aware, 6-category)...")
     print(f"      Known IIG ASNs from BTRC list: {len(btrc_licensed_asns)}")
     
-    # Top edges (matching website: increased from 300 to 1000)
-    top_intl_edges = analysis["edge_intl"].most_common(1000)
-    top_domestic_edges = analysis["edge_domestic"].most_common(1000)
+    # Top edges (international: 1500, domestic: 2000)
+    top_intl_edges = analysis["edge_intl"].most_common(1500)
+    top_domestic_edges = analysis["edge_domestic"].most_common(2000)
     
     # Pre-compute which tentative IIGs have domestic customers
     iigs_with_domestic = set()

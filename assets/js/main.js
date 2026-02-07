@@ -449,7 +449,7 @@ async function fetchLiveData() {
     // Step 3c: Fetch geolocation for BD-registered tentative IIGs (offshore detection)
     updateProgress({ step: 3, totalSteps: 5, message: 'Detecting offshore ASNs via geolocation...', progress: 0.85 });
     const tentativeIIGs = [];
-    const sortedIntl = [...analysis.edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, 1000);
+    const sortedIntl = [...analysis.edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, 1500);
     for (const [edgeKey] of sortedIntl) {
       const tgt = edgeKey.split('|')[1];
       if (countryASNs.has(tgt) && !btrcLicensedASNs.has(tgt) && !tentativeIIGs.includes(tgt)) {
@@ -490,7 +490,7 @@ async function fetchLiveData() {
 
     // Step 5: Build visualization data (license-aware, 6-category)
     updateProgress({ step: 5, totalSteps: 5, message: 'Building visualization...', progress: 0.5 });
-    const vizData = buildVisualizationData(analysis, asnInfo, countryASNs, 1000, btrcLicensedASNs);
+    const vizData = buildVisualizationData(analysis, asnInfo, countryASNs, 1500, 2000, btrcLicensedASNs);
     updateProgress({ step: 5, totalSteps: 5, message: 'Done!', progress: 1, complete: true });
 
     currentData = vizData;

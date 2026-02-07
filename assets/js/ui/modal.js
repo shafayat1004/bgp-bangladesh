@@ -53,6 +53,8 @@ export function showModal(force = false) {
           <p>This visualization shows the <strong>BGP (Border Gateway Protocol)</strong> routing paths
           that connect Bangladesh to the global internet. Every time you visit a website or send a message,
           your data travels through these paths.</p>
+          <p><em>Note: The dataset includes the top 1,500 international connections and top 2,000 domestic connections, 
+          capturing all significant BGP traffic while keeping the visualization focused and performant.</em></p>
         </div>
 
         <div class="modal-diagram">

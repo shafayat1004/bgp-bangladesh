@@ -276,10 +276,10 @@ else:
 
 print("\nBuilding visualization data (license-aware)...")
 
-# Top edges for international (outside → iig) - matching website (increased from 300 to 1000)
-top_intl_edges = edge_intl.most_common(1000)
-# Top edges for domestic (local_isp → iig) - matching website (increased from 300 to 1000)
-top_domestic_edges = edge_domestic.most_common(1000)
+# Top edges for international (outside → iig) - increased to 1500
+top_intl_edges = edge_intl.most_common(1500)
+# Top edges for domestic (local_isp → iig) - increased to 2000
+top_domestic_edges = edge_domestic.most_common(2000)
 
 # Pre-compute which tentative IIGs have domestic customers
 iigs_with_domestic = set()
