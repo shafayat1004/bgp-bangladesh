@@ -30,15 +30,18 @@ const TYPE_LABELS = { 'local-company': 'Local Companies (Origin Networks)', 'iig
 let currentData = null;
 let currentOptions = {};
 let highlightedASN = null; // Track which ASN is currently highlighted
+let savedTransform = null; // Preserve zoom/pan across re-renders
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
   if (container) container.innerHTML = '<svg id="hier-svg"></svg>';
+  savedTransform = null; // Reset on fresh init
 }
 
 export function loadData(data, options = {}) {
   currentData = data;
   currentOptions = options;
+  savedTransform = null; // Reset zoom for new data
   render();
 }
 
@@ -57,12 +60,20 @@ function render() {
   svg.selectAll('*').remove();
 
   const g = svg.append('g');
-  const zoom = d3.zoom().scaleExtent([0.1, 4]).on('zoom', (event) => g.attr('transform', event.transform));
+  const zoom = d3.zoom().scaleExtent([0.1, 4]).on('zoom', (event) => {
+    g.attr('transform', event.transform);
+    savedTransform = event.transform; // Persist zoom state across re-renders
+  });
   svg.call(zoom);
   
-  // Start zoomed out to show the entire dense layout
-  const initialScale = 0.3;
-  svg.call(zoom.transform, d3.zoomIdentity.scale(initialScale).translate(width / 2 / initialScale, height / 2 / initialScale));
+  // Restore previous zoom/pan or apply initial zoom-out for new data
+  if (savedTransform) {
+    svg.call(zoom.transform, savedTransform);
+  } else {
+    const initialScale = 0.3;
+    const t = d3.zoomIdentity.scale(initialScale).translate(width / 2 / initialScale, height / 2 / initialScale);
+    svg.call(zoom.transform, t);
+  }
 
   const nodeMap = {};
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
@@ -70,12 +81,12 @@ function render() {
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
   const hasLocalISP = currentData.nodes.some(n => n.type === 'local-company' || n.type === 'local-isp');
 
-  // Filter edges by traffic range (no arbitrary limits)
+  // Filter edges by traffic range (handle undefined/null traffic as 0)
   const filteredIntl = currentData.edges
-    .filter(e => (e.type === 'international' || !e.type) && e.count >= minTraffic && e.count <= maxTraffic)
+    .filter(e => (e.type === 'international' || !e.type) && (e.count || 0) >= minTraffic && (e.count || 0) <= maxTraffic)
     .sort((a, b) => b.count - a.count);
   const filteredDom = hasDomestic 
-    ? currentData.edges.filter(e => e.type === 'domestic' && e.count >= minTraffic && e.count <= maxTraffic).sort((a, b) => b.count - a.count)
+    ? currentData.edges.filter(e => e.type === 'domestic' && (e.count || 0) >= minTraffic && (e.count || 0) <= maxTraffic).sort((a, b) => b.count - a.count)
     : [];
 
   const usedASNs = new Set();
@@ -86,14 +97,14 @@ function render() {
 
   // Determine layers (top to bottom: Local Companies → IIGs → Detected → Offshore → Outside)
   const layers = [];
-  const filterNodes = (type) => currentData.nodes.filter(n => n.type === type && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+  const filterNodes = (type) => currentData.nodes.filter(n => n.type === type && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
   
   if (hasLocalISP) {
-    const localCompanies = currentData.nodes.filter(n => (n.type === 'local-company' || n.type === 'local-isp') && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+    const localCompanies = currentData.nodes.filter(n => (n.type === 'local-company' || n.type === 'local-isp') && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
     if (localCompanies.length > 0) layers.push({ type: 'local-company', nodes: localCompanies });
   }
 
-  const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+  const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
   if (iigs.length > 0) layers.push({ type: 'iig', nodes: iigs });
 
   const detectedIigs = filterNodes('detected-iig');

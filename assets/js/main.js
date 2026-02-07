@@ -343,7 +343,8 @@ function setupFilters() {
     
     minTrafficSlider.addEventListener('input', () => {
       const minVal = parseInt(minTrafficSlider.value);
-      const maxVal = maxTrafficSlider ? parseInt(maxTrafficSlider.value) : Infinity;
+      const rawMax = maxTrafficSlider ? parseInt(maxTrafficSlider.value) : 40000;
+      const maxVal = rawMax >= 40000 ? Infinity : rawMax;
       
       if (minTrafficLabel) minTrafficLabel.textContent = minVal.toLocaleString();
       savePreferences({ ...loadPreferences(), minTraffic: minVal });
