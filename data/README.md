@@ -84,7 +84,7 @@ The primary data file used by the visualization. Contains 6 node types:
 **Node types:**
 - `outside` - International transit providers (red)
 - `iig` - BTRC-licensed border gateways (green)
-- `detected-iig` - Acting as gateway, not in BTRC list (amber)
+- `detected-iig` - Acting as gateway, Not in my datasets BTRC list (amber)
 - `offshore-enterprise` - BD-registered, abroad, no downstream BD customers (cyan)
 - `offshore-gateway` - BD-registered, abroad, providing transit to BD networks (pink)
 - `local-company` - Domestic origin networks (blue)

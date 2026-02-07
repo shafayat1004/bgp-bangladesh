@@ -3,7 +3,7 @@
 One-time script to reclassify existing viz_data.json nodes using the BTRC license list.
 Converts old 3-layer IIG nodes into the 5-category model:
   - iig (BTRC licensed)
-  - detected-iig (acts as gateway, not in BTRC list)
+  - detected-iig (acts as gateway, Not in my datasets BTRC list)
   - offshore-peer (BD-registered, infrastructure abroad)
   - local-isp (demoted: no domestic customers)
 

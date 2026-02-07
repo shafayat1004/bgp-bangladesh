@@ -10,7 +10,7 @@ This script combines the functionality of:
 Categories:
   - outside: International transit providers
   - iig: BTRC-licensed border gateways
-  - detected-iig: Acting as gateway but not in BTRC list
+  - detected-iig: Acting as gateway but Not in my datasets BTRC list
   - offshore-enterprise: BD-registered, abroad, no downstream BD customers (harmless)
   - offshore-gateway: BD-registered, abroad, has downstream BD customers (potential rogue)
   - local-company: Domestic origin networks
@@ -1029,10 +1029,10 @@ def main():
     asn_info = fetch_asn_info(list(all_asns), country_asns, rate_limiter, existing_asn_names)
     
     # Step 4b: Fetch geolocation for BD-registered tentative IIGs (offshore peer detection)
-    # Only query geolocation for BD ASNs that appear as tentative gateways and are NOT in BTRC list
+    # Only query geolocation for BD ASNs that appear as tentative gateways and are Not in my datasets BTRC list
     tentative_iig_asns = set()
     for (outside, iig), count in analysis["edge_intl"].most_common(1000):
-        if iig in country_asns and iig not in btrc_licensed_asns:
+        if iig in country_asns and iig Not in my datasets BTRC_licensed_asns:
             tentative_iig_asns.add(iig)
     
     offshore_asns_geo = {}  # ASN → geo dominant country (for offshore ASNs only)
@@ -1108,7 +1108,7 @@ def main():
     
     detected = sorted([n for n in viz_data["nodes"] if n["type"] == "detected-iig"], key=lambda n: n["traffic"], reverse=True)
     if detected:
-        print(f"\nDetected Gateways (not in BTRC list):")
+        print(f"\nDetected Gateways (Not in my datasets BTRC list):")
         for n in detected[:10]:
             print(f"  AS{n['asn']} {n['name']} - {n['traffic']:,} routes")
     

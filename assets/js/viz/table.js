@@ -228,7 +228,7 @@ function buildDetailPanel(n) {
         <div class="detail-section">
           <div class="detail-section-title">Classification</div>
           <div class="detail-row"><span class="detail-label">Type:</span><span class="detail-value"><span class="type-badge ${typeCls}">${typeLabel}</span></span></div>
-          ${n.licensed ? '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value detail-licensed">BTRC Licensed IIG</span></div>' : '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value">Not in BTRC list</span></div>'}
+          ${n.licensed ? '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value detail-licensed">BTRC Licensed IIG</span></div>' : '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value">Not in my datasets BTRC list</span></div>'}
           ${typeExplanation ? `<div class="detail-explanation">${typeExplanation}</div>` : ''}
         </div>
 

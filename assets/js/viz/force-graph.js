@@ -60,22 +60,17 @@ export function loadData(data, options = {}) {
   svg = d3.select('#force-svg').attr('width', width).attr('height', height);
   svg.selectAll('*').remove();
 
-  // Arrowhead marker
-  svg.append('defs').append('marker')
-    .attr('id', 'arrowhead')
-    .attr('viewBox', '-0 -5 10 10')
-    .attr('refX', 25).attr('refY', 0)
-    .attr('orient', 'auto')
-    .attr('markerWidth', 6).attr('markerHeight', 6)
-    .append('path').attr('d', 'M 0,-5 L 10,0 L 0,5')
-    .attr('fill', '#4fc3f7').attr('opacity', 0.6);
+  // Create g element first, before setting up zoom
+  g = svg.append('g');
 
   const zoom = d3.zoom().scaleExtent([0.1, 5])
     .on('zoom', (event) => g.attr('transform', event.transform));
   svg.call(zoom);
+  
+  // Set initial zoom to 0.6x to show the full graph
+  svg.call(zoom.transform, d3.zoomIdentity.scale(0.6).translate(width * 0.33, height * 0.33));
+  
   svg.on('click', () => clearHighlight());
-
-  g = svg.append('g');
 
   // Add edge type legend
   const legend = svg.append('g')
@@ -106,7 +101,7 @@ export function loadData(data, options = {}) {
     .attr('x', 45).attr('y', 19)
     .attr('fill', '#ccc')
     .attr('font-size', '10px')
-    .text('International (Gateway ← Outside)');
+    .text('International (Gateway - Outside)');
 
   // Domestic edge example
   legend.append('line')
@@ -119,7 +114,7 @@ export function loadData(data, options = {}) {
     .attr('x', 45).attr('y', 39)
     .attr('fill', '#ccc')
     .attr('font-size', '10px')
-    .text('Domestic (Local Company → Gateway)');
+    .text('Domestic (Local Company - Gateway)');
 
   // Node type legend - all 6 types
   const typeLegend = [
@@ -138,30 +133,30 @@ export function loadData(data, options = {}) {
   });
 
   // 6-type Y positioning (local-company top, gateways middle, outside bottom)
-  // X and Y forces create distinct type-based clusters
+  // X and Y forces create distinct type-based clusters with strong separation
   simulation = d3.forceSimulation()
-    .force('link', d3.forceLink().id(d => d.asn).distance(200).strength(0.2))
-    .force('charge', d3.forceManyBody().strength(-500).distanceMax(500))
+    .force('link', d3.forceLink().id(d => d.asn).distance(180).strength(0.08))
+    .force('charge', d3.forceManyBody().strength(-400).distanceMax(450))
     .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide().radius(70).strength(0.9))
+    .force('collision', d3.forceCollide().radius(d => Math.max(8, Math.sqrt(d.traffic / 100) * 2 + 5)).strength(0.9))
     .force('x', d3.forceX(d => {
-      // Cluster same types horizontally
-      if (d.type === 'local-company' || d.type === 'local-isp') return width * 0.3;
-      if (d.type === 'iig' || d.type === 'inside') return width * 0.35;
+      // Much wider horizontal cluster spacing for better separation
+      if (d.type === 'local-company' || d.type === 'local-isp') return width * 0.15;
+      if (d.type === 'iig' || d.type === 'inside') return width * 0.32;
       if (d.type === 'detected-iig') return width * 0.5;
-      if (d.type === 'offshore-enterprise') return width * 0.65;
-      if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') return width * 0.7;
-      return width * 0.75;  // outside
-    }).strength(0.15))
+      if (d.type === 'offshore-enterprise') return width * 0.68;
+      if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') return width * 0.78;
+      return width * 0.88;  // outside
+    }).strength(0.35))
     .force('y', d3.forceY(d => {
-      // Stronger Y-force for distinct layers with more spacing
-      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.12;
-      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.38;
-      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.62;
-      return height * 0.88;
-    }).strength(0.8))
-    .velocityDecay(0.5)
-    .alphaDecay(0.015);
+      // Very strong Y-force for distinct layers with maximum spacing
+      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.1;
+      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.35;
+      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.65;
+      return height * 0.9;
+    }).strength(0.85))
+    .velocityDecay(0.55)
+    .alphaDecay(0.025);
 
   render();
 }
@@ -183,43 +178,42 @@ function render() {
   const filteredNodes = currentData.nodes.filter(n => usedNodes.has(n.asn));
   
   // Pre-position nodes based on type to reduce initial bouncing
-  // Position in type-specific clusters for better separation
+  // Position in well-separated type-specific clusters
   filteredNodes.forEach(d => {
     if (d.x === undefined || d.y === undefined) {
-      // Initial X and Y positions cluster by type
+      // Initial X and Y positions with wide separation between types
       if (d.type === 'local-company' || d.type === 'local-isp') {
-        d.x = width * 0.3 + (Math.random() - 0.5) * width * 0.2;
-        d.y = height * 0.12 + (Math.random() - 0.5) * 60;
+        d.x = width * 0.15 + (Math.random() - 0.5) * width * 0.12;
+        d.y = height * 0.1 + (Math.random() - 0.5) * 50;
       } else if (d.type === 'iig' || d.type === 'inside') {
-        d.x = width * 0.35 + (Math.random() - 0.5) * width * 0.15;
-        d.y = height * 0.38 + (Math.random() - 0.5) * 60;
+        d.x = width * 0.32 + (Math.random() - 0.5) * width * 0.12;
+        d.y = height * 0.35 + (Math.random() - 0.5) * 50;
       } else if (d.type === 'detected-iig') {
-        d.x = width * 0.5 + (Math.random() - 0.5) * width * 0.2;
-        d.y = height * 0.38 + (Math.random() - 0.5) * 60;
+        d.x = width * 0.5 + (Math.random() - 0.5) * width * 0.12;
+        d.y = height * 0.35 + (Math.random() - 0.5) * 50;
       } else if (d.type === 'offshore-enterprise') {
-        d.x = width * 0.65 + (Math.random() - 0.5) * width * 0.15;
-        d.y = height * 0.62 + (Math.random() - 0.5) * 60;
+        d.x = width * 0.68 + (Math.random() - 0.5) * width * 0.12;
+        d.y = height * 0.65 + (Math.random() - 0.5) * 50;
       } else if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') {
-        d.x = width * 0.7 + (Math.random() - 0.5) * width * 0.15;
-        d.y = height * 0.62 + (Math.random() - 0.5) * 60;
+        d.x = width * 0.78 + (Math.random() - 0.5) * width * 0.12;
+        d.y = height * 0.65 + (Math.random() - 0.5) * 50;
       } else {
-        d.x = width * 0.75 + (Math.random() - 0.5) * width * 0.2;
-        d.y = height * 0.88 + (Math.random() - 0.5) * 60;
+        d.x = width * 0.88 + (Math.random() - 0.5) * width * 0.1;
+        d.y = height * 0.9 + (Math.random() - 0.5) * 50;
       }
     }
   });
 
   g.selectAll('*').remove();
 
-  // Links - color by type
+  // Links - color by type (no arrows)
   links = g.append('g').selectAll('path')
     .data(renderedEdges)
     .enter().append('path')
     .attr('class', 'link')
     .attr('stroke', d => d.type === 'domestic' ? '#42a5f5' : '#4fc3f7')
     .attr('stroke-width', d => Math.max(0.5, Math.sqrt(d.count / 500)))
-    .attr('stroke-dasharray', d => d.type === 'domestic' ? '4,2' : 'none')
-    .attr('marker-end', 'url(#arrowhead)');
+    .attr('stroke-dasharray', d => d.type === 'domestic' ? '4,2' : 'none');
 
   // Nodes
   nodes = g.append('g').selectAll('g')
@@ -253,15 +247,19 @@ function render() {
 
   // Adjust forces based on graph size for better performance
   const nodeCount = filteredNodes.length;
-  const chargeStrength = Math.max(-800, -400 - nodeCount * 3);
-  const collisionRadius = Math.max(60, 90 - nodeCount * 0.4);
+  const chargeStrength = Math.max(-600, -350 - nodeCount * 2.5);
   simulation.force('charge').strength(chargeStrength);
-  simulation.force('collision').radius(collisionRadius);
 
   simulation.nodes(filteredNodes).on('tick', ticked);
   simulation.force('link').links(renderedEdges);
-  // Use much lower initial alpha for smoother, calmer startup
-  simulation.alpha(0.2).restart();
+  
+  // Low initial alpha for calm settling
+  simulation.alpha(0.1).restart();
+  
+  // Auto-stop simulation after 6 seconds
+  setTimeout(() => {
+    if (simulation) simulation.stop();
+  }, 6000);
 }
 
 function ticked() {

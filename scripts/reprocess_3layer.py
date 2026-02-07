@@ -429,7 +429,7 @@ for n in iigs[:5]:
 
 detected = sorted([n for n in nodes if n["type"] == "detected-iig"], key=lambda n: n["traffic"], reverse=True)
 if detected:
-    print(f"\nDetected Gateways (not in BTRC list):")
+    print(f"\nDetected Gateways (Not in my datasets BTRC list):")
     for n in detected[:10]:
         print(f"  AS{n['asn']} {n['name']} - {n['traffic']} routes")
 

@@ -962,7 +962,7 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
     const peerLoc = d.peering_country || d.geo_country;
     html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but physically peers in ${peerLoc}. Has downstream BD customers — potential unlicensed IIG.</div>`;
   } else if (d.type === 'detected-iig') {
-    html += `<div class="tooltip-insight" style="color:#fcc419">Not in BTRC license list but has downstream BD customers — acting as an unlicensed gateway.</div>`;
+    html += `<div class="tooltip-insight" style="color:#fcc419">Not in my datasets BTRC license list but has downstream BD customers — potentially acting as an unlicensed gateway.</div>`;
   }
 
   return html;
