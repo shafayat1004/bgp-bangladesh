@@ -52,6 +52,7 @@ async function init() {
   activeTab = getActiveTab();
   setupTabs();
   setupButtons();
+  setupMobileMenu();
   setupFilters();
   setupTypeFilters();
   await loadLicenseData();
@@ -215,6 +216,77 @@ function setupButtons() {
 
   // What's My ASN?
   document.getElementById('btn-my-asn')?.addEventListener('click', detectMyASN);
+}
+
+// ────────────────────────────────────────
+// Mobile Menu
+// ────────────────────────────────────────
+
+function setupMobileMenu() {
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+
+  if (!mobileMenuBtn || !sidebar || !overlay) return;
+
+  // Toggle menu
+  mobileMenuBtn.addEventListener('click', () => {
+    const isActive = sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
+    mobileMenuBtn.classList.toggle('active');
+    
+    // Prevent body scroll when sidebar is open on mobile
+    if (isActive && window.innerWidth <= 900) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Close on overlay click
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    mobileMenuBtn.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  // Close sidebar when clicking on sidebar items (for better mobile UX)
+  sidebar.addEventListener('click', (e) => {
+    // Close if clicking on ASN items or buttons
+    if (e.target.closest('.asn-item') || e.target.closest('.tab-btn')) {
+      if (window.innerWidth <= 900) {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        mobileMenuBtn.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+  });
+  
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      mobileMenuBtn.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Tap on viz panel dismisses tooltip on mobile
+  const vizPanel = document.getElementById('viz-panel');
+  if (vizPanel) {
+    vizPanel.addEventListener('click', (e) => {
+      if (window.innerWidth > 900) return;
+      // Only dismiss if tapping on empty space (not a node/link)
+      const target = e.target;
+      if (target.tagName === 'svg' || target.classList.contains('viz-container') || target.id === 'viz-panel') {
+        const tip = document.getElementById('tooltip');
+        if (tip) tip.style.display = 'none';
+      }
+    });
+  }
 }
 
 // ────────────────────────────────────────

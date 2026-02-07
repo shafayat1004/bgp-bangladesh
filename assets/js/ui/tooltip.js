@@ -8,6 +8,8 @@
  */
 export function positionTooltip(event, tooltipElement) {
   if (!tooltipElement || !tooltipElement.node) return;
+  // On mobile, tooltip is a CSS bottom sheet — skip coordinate positioning
+  if (window.innerWidth <= 900) return;
   
   const tooltip = tooltipElement.node();
   const mouseX = event.pageX;

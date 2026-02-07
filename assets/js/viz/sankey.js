@@ -12,6 +12,8 @@ function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
   const tooltipNode = tooltip.node();
   if (!tooltipNode) return;
+  // On mobile, tooltip is a CSS bottom sheet
+  if (window.innerWidth <= 900) return;
   
   const rect = tooltipNode.getBoundingClientRect();
   let left = event.pageX + 15;

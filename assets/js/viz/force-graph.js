@@ -280,6 +280,8 @@ function buildTooltipHtml(d) {
 function showTooltipHandler(event, d) { if (tooltip) tooltip.html(buildTooltipHtml(d)).style('display', 'block'); }
 function moveTooltipHandler(event) {
   if (!tooltip) return;
+  // On mobile, tooltip is a CSS bottom sheet — skip coordinate positioning
+  if (window.innerWidth <= 900) return;
   const offset = 15;
   let left = event.pageX + offset;
   let top = event.pageY + offset;
