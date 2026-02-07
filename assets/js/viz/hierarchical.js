@@ -214,9 +214,13 @@ export function highlightASN(asn) {
   const svg = d3.select('#hier-svg');
   // Dim everything more (lower opacity)
   svg.selectAll('.hier-node').attr('opacity', 0.08);
-  svg.selectAll('.hier-link').attr('stroke-opacity', 0.01);
+  svg.selectAll('.hier-link')
+    .attr('stroke-opacity', 0.01)
+    .style('pointer-events', 'none'); // Disable hover on dimmed links
+  
   // Highlight matching node (full visibility)
   svg.selectAll(`.hier-node[data-asn="${asn}"]`).attr('opacity', 1);
+  
   // Highlight connected links and their partner nodes (full visibility)
   svg.selectAll('.hier-link').each(function() {
     const link = d3.select(this);
@@ -225,11 +229,14 @@ export function highlightASN(asn) {
     if (src === asn || tgt === asn) {
       // Use stored original width instead of current width to prevent accumulation
       const originalWidth = parseFloat(link.attr('data-original-width')) || 1;
-      link.attr('stroke-opacity', 0.95).attr('stroke-width', originalWidth + 2);
+      link.attr('stroke-opacity', 0.95)
+        .attr('stroke-width', originalWidth + 2)
+        .style('pointer-events', 'all'); // Re-enable hover on highlighted links
       const other = src === asn ? tgt : src;
       svg.selectAll(`.hier-node[data-asn="${other}"]`).attr('opacity', 1);
     }
   });
+  
   // Click to clear
   svg.on('click.highlight', () => {
     highlightedASN = null; // Clear the highlighted ASN
@@ -239,7 +246,9 @@ export function highlightASN(asn) {
       // Restore original values from stored attributes
       const originalOpacity = parseFloat(link.attr('data-original-opacity'));
       const originalWidth = parseFloat(link.attr('data-original-width'));
-      link.attr('stroke-opacity', originalOpacity).attr('stroke-width', originalWidth);
+      link.attr('stroke-opacity', originalOpacity)
+        .attr('stroke-width', originalWidth)
+        .style('pointer-events', 'all'); // Re-enable all hover events
     });
     svg.on('click.highlight', null);
   });
