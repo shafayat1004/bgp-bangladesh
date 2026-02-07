@@ -179,7 +179,11 @@ function render() {
       d3.select('#tooltip').html(buildNodeTooltipHtml(n, TYPE_LABELS)).style('display', 'block');
     })
     .on('mousemove', moveTooltipSmart)
-    .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); });
+    .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); })
+    .on('click', function (event) {
+      event.stopPropagation();
+      highlightASN(asn);
+    });
   }
 }
 
