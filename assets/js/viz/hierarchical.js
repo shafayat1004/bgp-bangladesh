@@ -27,6 +27,7 @@ const TYPE_LABELS = { 'local-company': 'Local Companies (Origin Networks)', 'iig
 
 let currentData = null;
 let currentOptions = {};
+let highlightedASN = null; // Track which ASN is currently highlighted
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -144,12 +145,32 @@ function render() {
       .attr('class', 'hier-link').attr('data-source', src).attr('data-target', tgt)
       .attr('d', `M${srcPos.x},${srcPos.y - boxH / 2} C${srcPos.x},${(srcPos.y + tgtPos.y) / 2} ${tgtPos.x},${(srcPos.y + tgtPos.y) / 2} ${tgtPos.x},${tgtPos.y + boxH / 2}`)
       .attr('fill', 'none').attr('stroke', color).attr('stroke-opacity', opacity).attr('stroke-width', strokeW)
+      .attr('data-original-opacity', opacity).attr('data-original-width', strokeW)  // Store originals
       .on('mouseover', function (event) {
-        d3.select(this).attr('stroke-opacity', 0.9).attr('stroke-width', strokeW + 2);
+        const link = d3.select(this);
+        const originalWidth = parseFloat(link.attr('data-original-width'));
+        link.attr('stroke-opacity', 0.9).attr('stroke-width', originalWidth + 2);
         d3.select('#tooltip').html(buildEdgeTooltipHtml(nodeMap[src], nodeMap[tgt], edge.count, edge.type || 'international')).style('display', 'block');
       })
       .on('mousemove', moveTooltipSmart)
-      .on('mouseout', function () { d3.select(this).attr('stroke-opacity', opacity).attr('stroke-width', strokeW); d3.select('#tooltip').style('display', 'none'); });
+      .on('mouseout', function () { 
+        const link = d3.select(this);
+        const linkSrc = link.attr('data-source');
+        const linkTgt = link.attr('data-target');
+        
+        // Check if this link should stay highlighted
+        if (highlightedASN && (linkSrc === highlightedASN || linkTgt === highlightedASN)) {
+          // Restore to highlighted state
+          const originalWidth = parseFloat(link.attr('data-original-width'));
+          link.attr('stroke-opacity', 0.95).attr('stroke-width', originalWidth + 2);
+        } else {
+          // Restore to original state
+          const originalOpacity = parseFloat(link.attr('data-original-opacity'));
+          const originalWidth = parseFloat(link.attr('data-original-width'));
+          link.attr('stroke-opacity', originalOpacity).attr('stroke-width', originalWidth);
+        }
+        d3.select('#tooltip').style('display', 'none'); 
+      });
   });
 
   // Draw nodes
@@ -189,6 +210,7 @@ function render() {
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
 export function highlightASN(asn) {
+  highlightedASN = asn; // Store the highlighted ASN
   const svg = d3.select('#hier-svg');
   // Dim everything more (lower opacity)
   svg.selectAll('.hier-node').attr('opacity', 0.08);
@@ -201,19 +223,24 @@ export function highlightASN(asn) {
     const src = link.attr('data-source');
     const tgt = link.attr('data-target');
     if (src === asn || tgt === asn) {
-      link.attr('stroke-opacity', 0.95).attr('stroke-width', parseFloat(link.attr('stroke-width')) + 2);
+      // Use stored original width instead of current width to prevent accumulation
+      const originalWidth = parseFloat(link.attr('data-original-width')) || 1;
+      link.attr('stroke-opacity', 0.95).attr('stroke-width', originalWidth + 2);
       const other = src === asn ? tgt : src;
       svg.selectAll(`.hier-node[data-asn="${other}"]`).attr('opacity', 1);
     }
   });
   // Click to clear
   svg.on('click.highlight', () => {
+    highlightedASN = null; // Clear the highlighted ASN
     svg.selectAll('.hier-node').attr('opacity', 1);
     svg.selectAll('.hier-link').each(function() {
-      // Reset to original opacity (stored as data or recalculate)
-      d3.select(this).attr('stroke-opacity', null); // Will trigger re-render on next filter change
+      const link = d3.select(this);
+      // Restore original values from stored attributes
+      const originalOpacity = parseFloat(link.attr('data-original-opacity'));
+      const originalWidth = parseFloat(link.attr('data-original-width'));
+      link.attr('stroke-opacity', originalOpacity).attr('stroke-width', originalWidth);
     });
-    render(); // Simplest: just re-render to restore original state
     svg.on('click.highlight', null);
   });
 }
