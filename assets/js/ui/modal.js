@@ -91,10 +91,10 @@ export function showModal(force = false) {
             <dd>Your local Bangladeshi company or ISP that originates the route to your network.</dd>
 
             <dt>IIG - International Internet Gateway (Green nodes)</dt>
-            <dd>Border gateway operators in Bangladesh that peer with international networks and provide transit for domestic ISPs. Cross-referenced against the known BTRC IIG list.</dd>
+            <dd>Border gateway operators in Bangladesh that peer with international networks and provide transit for domestic ISPs. Cross-referenced against the <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#51cf66">BTRC IIG license list</a>.</dd>
 
             <dt>Detected Gateway (Amber nodes)</dt>
-            <dd>An ASN observed acting as a border gateway for other BD networks, but not found in the known IIG list. This may indicate a new operator, a subsidiary, or a data mapping gap.</dd>
+            <dd>An ASN observed acting as a border gateway for other BD networks, but not found in the <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#fcc419">known IIG license list</a>. This may indicate a new operator, a subsidiary, or a data mapping gap.</dd>
 
             <dt>Offshore Enterprise (Cyan nodes)</dt>
             <dd>A BD-registered ASN with infrastructure located outside Bangladesh, but no downstream BD customers. Typically tech companies or cloud users. Detected via IP geolocation and PeeringDB analysis.</dd>

@@ -9,8 +9,8 @@ This script combines the functionality of:
 
 Categories:
   - outside: International transit providers
-  - iig: BTRC-licensed border gateways
-  - detected-iig: Acting as gateway but Not in my datasets BTRC list
+  - iig: BTRC-licensed border gateways (https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)
+  - detected-iig: Acting as gateway but not in BTRC list (see above PDF for license source)
   - offshore-enterprise: BD-registered, abroad, no downstream BD customers (harmless)
   - offshore-gateway: BD-registered, abroad, has downstream BD customers (potential rogue)
   - local-company: Domestic origin networks

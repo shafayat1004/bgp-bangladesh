@@ -10,8 +10,8 @@ const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-i
 
 const TYPE_EXPLANATIONS = {
   'outside': 'International transit provider that feeds routes into Bangladesh from abroad.',
-  'iig': 'BTRC-licensed International Internet Gateway — authorized to carry international traffic for Bangladesh.',
-  'detected-iig': 'Not in the official BTRC license list, but detected acting as a gateway with downstream BD customers. Potential unlicensed IIG.',
+  'iig': 'BTRC-licensed International Internet Gateway — authorized to carry international traffic for Bangladesh. Source: https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf',
+  'detected-iig': 'Not in the official BTRC license list (https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf), but detected acting as a gateway with downstream BD customers. Potential unlicensed IIG.',
   'offshore-enterprise': 'Registered in Bangladesh but IP addresses are geolocated abroad. No downstream BD customers detected — likely an offshore hosting or enterprise presence (harmless).',
   'offshore-gateway': 'Registered in Bangladesh but IP addresses are geolocated abroad. Has downstream BD customers — potential unlicensed international gateway operating from outside the country.',
   'local-company': 'Domestic network operating within Bangladesh. Receives routes via IIGs or detected gateways.',
@@ -228,7 +228,7 @@ function buildDetailPanel(n) {
         <div class="detail-section">
           <div class="detail-section-title">Classification</div>
           <div class="detail-row"><span class="detail-label">Type:</span><span class="detail-value"><span class="type-badge ${typeCls}">${typeLabel}</span></span></div>
-          ${n.licensed ? '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value detail-licensed">BTRC Licensed IIG</span></div>' : '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value">Not in my datasets BTRC list</span></div>'}
+          ${n.licensed ? '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value detail-licensed">BTRC Licensed IIG (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#51cf66;text-decoration:underline">source</a>)</span></div>' : '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value">Not in <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#868e96;text-decoration:underline">BTRC license list</a></span></div>'}
           ${typeExplanation ? `<div class="detail-explanation">${typeExplanation}</div>` : ''}
         </div>
 

@@ -1,6 +1,8 @@
-Based on the BTRC license list and public BGP routing data, here is the updated table with the **ASN (Autonomous System Number)** column added.
+Based on the [BTRC license list](https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf) and public BGP routing data, here is the updated table with the **ASN (Autonomous System Number)** column added.
 
 ### **Licensed IIG Service Providers & Their ASNs**
+
+**Source:** [BTRC IIG Service Providers License List (PDF)](https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)
 
 | SL No. | Company Name | Address | ASN (BGP) |
 | --- | --- | --- | --- |

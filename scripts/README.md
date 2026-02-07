@@ -128,12 +128,12 @@ The scripts analyze BGP AS paths and cross-reference the BTRC IIG license list t
 - Examples: ADN Telecom, Dot Internet
 
 **IIGs - Licensed Gateways (Green 🟢)**
-- BTRC-licensed border gateways confirmed in `data/btrc_iig_licenses.json`
+- BTRC-licensed border gateways confirmed in `data/btrc_iig_licenses.json` (source: [BTRC IIG License List](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf))
 - Have direct international peering
 - Examples: Summit Communications, Fiber@Home, Grameenphone
 
 **Detected Gateways (Amber 🟡)**
-- ASNs observed acting as border gateways but NOT in the BTRC license list
+- ASNs observed acting as border gateways but NOT in the [BTRC license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)
 - Neutral term - no legal claims made
 
 **BD Offshore Peers (Orange 🟠)**

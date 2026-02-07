@@ -27,7 +27,7 @@ All data is sourced from [RIPEstat](https://stat.ripe.net/), specifically:
 
 ### btrc_iig_licenses.json
 
-List of known BTRC-licensed IIG operators. Used to distinguish confirmed IIGs from detected gateways:
+List of known BTRC-licensed IIG operators (source: [BTRC IIG Service Providers License List](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)). Used to distinguish confirmed IIGs from detected gateways:
 
 ```json
 {
@@ -83,8 +83,8 @@ The primary data file used by the visualization. Contains 6 node types:
 
 **Node types:**
 - `outside` - International transit providers (red)
-- `iig` - BTRC-licensed border gateways (green)
-- `detected-iig` - Acting as gateway, Not in my datasets BTRC list (amber)
+- `iig` - BTRC-licensed border gateways (green) - confirmed in [license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)
+- `detected-iig` - Acting as gateway, not in [BTRC license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf) (amber)
 - `offshore-enterprise` - BD-registered, abroad, no downstream BD customers (cyan)
 - `offshore-gateway` - BD-registered, abroad, providing transit to BD networks (pink)
 - `local-company` - Domestic origin networks (blue)

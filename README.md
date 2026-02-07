@@ -68,8 +68,8 @@ All data fetching and processing happens **100% in your browser**. No backend se
 The app analyzes BGP AS paths and cross-references the BTRC IIG license list to classify ASNs:
 
 - **Local Companies** (blue 🔵): Origin networks that announce prefixes but don't provide international transit to other BD networks
-- **IIGs - Licensed Gateways** (green 🟢): BTRC-licensed border gateways confirmed in the official IIG license list
-- **Detected Gateways** (amber 🟡): ASNs observed acting as border gateways for other BD networks, but not found in the known IIG license list
+- **IIGs - Licensed Gateways** (green 🟢): BTRC-licensed border gateways confirmed in the [official IIG license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)
+- **Detected Gateways** (amber 🟡): ASNs observed acting as border gateways for other BD networks, but not found in the [known IIG license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)
 - **Offshore Enterprises** (cyan 🩵): BD-registered ASNs with infrastructure located abroad but no downstream BD customers (e.g., Chaldal with routers in Singapore). Detected via IP geolocation.
 - **Offshore Gateways** (pink 🩷): BD-registered ASNs with infrastructure abroad that are also providing transit to other BD networks. Potential regulatory concern. Detected via geolocation + transit analysis.
 - **Outside ASNs** (red 🔴): International transit providers and content networks
@@ -213,7 +213,7 @@ bgp-bangladesh/
 
 1. **6-Category Classification**: Most BGP visualizers show a simple "inside vs outside" view. This tool distinguishes Licensed IIGs, Detected Gateways, Offshore Enterprises, Offshore Gateways, Local Companies, and Outside networks.
 
-2. **License-Aware**: Gateway ASNs are cross-referenced against the BTRC IIG license list (`data/btrc_iig_licenses.json`). Those not found are labeled as "Detected Gateways" (a neutral term) rather than making legal claims.
+2. **License-Aware**: Gateway ASNs are cross-referenced against the [BTRC IIG license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf) (`data/btrc_iig_licenses.json`). Those not found are labeled as "Detected Gateways" (a neutral term) rather than making legal claims.
 
 3. **Geolocation-Aware**: BD-registered ASNs are checked via RIPEstat MaxMind GeoLite to detect offshore infrastructure. This prevents misclassifying entities like Chaldal (SG-based infrastructure) as IIGs.
 

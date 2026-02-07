@@ -960,9 +960,9 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
     html += `<div class="tooltip-insight">Registered in ${d.country || 'BD'} but physically peers in ${peerLoc}. No downstream BD customers — classified as harmless offshore presence.</div>`;
   } else if (d.type === 'offshore-gateway') {
     const peerLoc = d.peering_country || d.geo_country;
-    html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but physically peers in ${peerLoc}. Has downstream BD customers — potential unlicensed IIG.</div>`;
+    html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but physically peers in ${peerLoc}. Has downstream BD customers — potential unlicensed IIG (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#e64980;text-decoration:underline">license list</a>).</div>`;
   } else if (d.type === 'detected-iig') {
-    html += `<div class="tooltip-insight" style="color:#fcc419">Not in my datasets BTRC license list but has downstream BD customers — potentially acting as an unlicensed gateway.</div>`;
+    html += `<div class="tooltip-insight" style="color:#fcc419">Not in <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#fcc419;text-decoration:underline">BTRC license list</a> but has downstream BD customers — potentially acting as an unlicensed gateway.</div>`;
   }
 
   return html;

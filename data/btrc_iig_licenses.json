@@ -1,6 +1,6 @@
 {
   "_description": "BTRC-licensed IIG operators. ASN as key. Update this file when licenses change.",
-  "_source": "docs/List of IIG Service Providers License.pdf",
+  "_source": "https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf",
   "_last_verified": "2026-02-07",
   "_note": "Some companies operate multiple ASNs under the same license",
   "45588": { "name": "Bangladesh Telecommunications Company Limited (BTCL)", "short": "BTCL" },

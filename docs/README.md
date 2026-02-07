@@ -25,8 +25,8 @@ Internet traffic from Bangladesh follows this path:
 ### What the Colors Mean (6 Categories)
 
 - **Blue nodes** = Local Companies - Bangladeshi ISPs and origin networks
-- **Green nodes** = IIGs (Licensed Gateways) - BTRC-licensed border gateway operators
-- **Amber nodes** = Detected Gateways - Acting as gateways but not in the known BTRC IIG list
+- **Green nodes** = IIGs (Licensed Gateways) - BTRC-licensed border gateway operators ([license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf))
+- **Amber nodes** = Detected Gateways - Acting as gateways but not in the [known BTRC IIG license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)
 - **Cyan nodes** = Offshore Enterprises - BD-registered ASNs with infrastructure abroad, no transit role (e.g., Chaldal)
 - **Pink nodes** = Offshore Gateways - BD-registered, abroad, but providing transit to BD networks
 - **Red nodes** = Outside BD (International Feeders) - Foreign transit networks

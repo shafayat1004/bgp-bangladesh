@@ -2,8 +2,8 @@
  * Data Processor
  * Converts raw BGP routes into visualization-ready format with license-aware 6-category classification:
  *   - Local Companies (origin ASNs within the country)
- *   - IIGs (BTRC-licensed border gateway ASNs)
- *   - Detected Gateways (acting as gateway but not in known IIG list)
+ *   - IIGs (BTRC-licensed border gateway ASNs - https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)
+ *   - Detected Gateways (acting as gateway but not in known IIG list - see above PDF for license source)
  *   - Offshore Enterprises (BD-registered, abroad, no downstream BD customers)
  *   - Offshore Gateways (BD-registered, abroad, has downstream BD customers)
  *   - Outside ASNs (international feeders)
