@@ -37,6 +37,9 @@ let currentData = null;
 let minTraffic = 100;
 let maxTraffic = Infinity;
 let renderedEdges = [];  // Track which edges are actually rendered
+let tickScheduled = false;  // rAF throttle flag for simulation ticks
+let edgeFrameCount = 0;  // Frame counter for edge curve throttling
+let stopTimer = null;  // Safety stop timer
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -156,7 +159,8 @@ export function loadData(data, options = {}) {
       return height * 0.9;
     }).strength(0.85))
     .velocityDecay(0.55)
-    .alphaDecay(0.025);
+    .alphaDecay(0.05)  // Fast convergence: ~60 ticks instead of ~300
+    .alphaMin(0.01);   // Stop sooner
 
   render();
 }
@@ -231,14 +235,29 @@ function render() {
     .attr('stroke', '#fff')
     .attr('stroke-width', 1.5);
 
-  nodes.append('text')
+  // Only create labels for top 30 nodes per type to keep DOM lightweight
+  // All other nodes still show full info via tooltip on hover
+  const TOP_LABELS_PER_TYPE = 30;
+  const labelASNs = new Set();
+  const byType = {};
+  filteredNodes.forEach(n => {
+    if (!byType[n.type]) byType[n.type] = [];
+    byType[n.type].push(n);
+  });
+  for (const type in byType) {
+    byType[type].sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
+    byType[type].slice(0, TOP_LABELS_PER_TYPE).forEach(n => labelASNs.add(n.asn));
+  }
+
+  nodes.filter(d => labelASNs.has(d.asn))
+    .append('text')
     .attr('class', 'node-label')
     .attr('dy', d => Math.max(5, Math.sqrt(d.traffic / 100) * (currentNodeSize / 10)) + 14)
     .text(d => {
       const flag = d.country ? countryToFlag(d.country) : '';
       return `${flag} ${d.name || `AS${d.asn}`}`;
     })
-    .style('display', showLabels ? 'block' : 'none');
+    .style('display', 'none');  // Hidden during simulation for performance
 
   nodes.on('mouseover', showTooltipHandler)
     .on('mousemove', moveTooltipHandler)
@@ -248,29 +267,58 @@ function render() {
   // Adjust forces based on graph size for better performance
   const nodeCount = filteredNodes.length;
   const chargeStrength = Math.max(-600, -350 - nodeCount * 2.5);
-  simulation.force('charge').strength(chargeStrength);
+  const distMax = nodeCount > 500 ? 300 : 450;
+  simulation.force('charge').strength(chargeStrength).distanceMax(distMax);
+  
+  // Weaken collision for large graphs to reduce per-tick computation
+  simulation.force('collision').strength(nodeCount > 500 ? 0.5 : 0.9);
 
-  simulation.nodes(filteredNodes).on('tick', ticked);
+  // Decouple simulation ticks from DOM updates via requestAnimationFrame
+  // The simulation can fire multiple ticks between frames; only render once per frame
+  edgeFrameCount = 0;
+  tickScheduled = false;
+  simulation.nodes(filteredNodes).on('tick', () => {
+    if (!tickScheduled) {
+      tickScheduled = true;
+      requestAnimationFrame(() => { ticked(); tickScheduled = false; });
+    }
+  });
   simulation.force('link').links(renderedEdges);
+  
+  // Show labels once simulation settles
+  simulation.on('end', () => {
+    if (showLabels) d3.selectAll('.node-label').style('display', 'block');
+  });
   
   // Low initial alpha for calm settling
   simulation.alpha(0.1).restart();
   
-  // Auto-stop simulation after 6 seconds
-  setTimeout(() => {
-    if (simulation) simulation.stop();
-  }, 6000);
+  // Auto-stop simulation after 3 seconds (safety net)
+  if (stopTimer) clearTimeout(stopTimer);
+  stopTimer = setTimeout(() => {
+    if (simulation) {
+      simulation.stop();
+      // Show labels if they should be visible
+      if (showLabels) d3.selectAll('.node-label').style('display', 'block');
+    }
+  }, 3000);
 }
 
 function ticked() {
-  links.attr('d', d => {
-    const s = typeof d.source === 'object' ? d.source : { x: 0, y: 0 };
-    const t = typeof d.target === 'object' ? d.target : { x: 0, y: 0 };
-    const dx = t.x - s.x, dy = t.y - s.y;
-    const dr = Math.sqrt(dx * dx + dy * dy) * 1.5;
-    return `M${s.x},${s.y}A${dr},${dr} 0 0,1 ${t.x},${t.y}`;
-  });
+  // Nodes update every frame (cheap: just translate transform)
   nodes.attr('transform', d => `translate(${d.x},${d.y})`);
+  
+  // Edge curves update every 3rd frame (expensive: path string rebuild for 3000+ edges)
+  // The ~50ms lag is imperceptible but saves ~66% of path recomputations
+  if (++edgeFrameCount % 3 === 0) {
+    links.attr('d', d => {
+      const s = typeof d.source === 'object' ? d.source : { x: 0, y: 0 };
+      const t = typeof d.target === 'object' ? d.target : { x: 0, y: 0 };
+      const dx = t.x - s.x, dy = t.y - s.y;
+      const dr = Math.sqrt(dx * dx + dy * dy) * 1.5;
+      return `M${s.x},${s.y}A${dr},${dr} 0 0,1 ${t.x},${t.y}`;
+    });
+  }
 }
 
 function buildTooltipHtml(d) {
@@ -356,7 +404,15 @@ export function setNodeSize(size) {
     nodes.selectAll('text').attr('dy', d => Math.max(5, Math.sqrt(d.traffic / 100) * (currentNodeSize / 10)) + 14);
   }
 }
-export function toggleLabelsVisibility() { showLabels = !showLabels; d3.selectAll('.node-label').style('display', showLabels ? 'block' : 'none'); }
+export function toggleLabelsVisibility() {
+  showLabels = !showLabels;
+  // Only show immediately if simulation has stopped; otherwise they appear on 'end'
+  if (showLabels && simulation && simulation.alpha() < simulation.alphaMin()) {
+    d3.selectAll('.node-label').style('display', 'block');
+  } else if (!showLabels) {
+    d3.selectAll('.node-label').style('display', 'none');
+  }
+}
 export function resetView() { if (svg) svg.transition().duration(750).call(d3.zoom().transform, d3.zoomIdentity); clearHighlight(); }
 
 export function filterByTypes(activeTypes) {
@@ -379,4 +435,9 @@ function dragStart(event, d) { if (!event.active) simulation.alphaTarget(0.3).re
 function dragging(event, d) { d.fx = event.x; d.fy = event.y; }
 function dragEnd(event, d) { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }
 
-export function destroy() { if (simulation) simulation.stop(); const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
+export function destroy() {
+  if (stopTimer) { clearTimeout(stopTimer); stopTimer = null; }
+  if (simulation) simulation.stop();
+  const c = document.getElementById('viz-panel');
+  if (c) c.innerHTML = '';
+}

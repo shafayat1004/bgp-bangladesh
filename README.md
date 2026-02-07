@@ -24,7 +24,7 @@ This tool visualizes those paths using real BGP (Border Gateway Protocol) routin
 ## Features
 
 ### 🎨 Visualizations
-- **6 Interactive Views**: Network graph, Sankey flow, treemap, chord diagram, hierarchical view, and data table
+- **6 Interactive Views**: Network graph, Sankey flow, hierarchical view, gateway ranking, country origins, and data table
 - **6 Node Types**: Local Companies (blue 🔵), Licensed IIGs (green 🟢), Detected Gateways (amber 🟡), Offshore Enterprises (cyan 🩵), Offshore Gateways (pink 🩷), Outside (red 🔴)
 - **Edge Types**: Visual distinction between domestic peering (blue dashed) and international peering (cyan)
 - **Country Flags**: Every ASN shows its country flag emoji (🇧🇩 🇮🇳 🇺🇸 etc.)
@@ -155,7 +155,7 @@ python3 scripts/reprocess_3layer.py  # Updates viz_data.json, asn_names.json, me
 
 ## Tech Stack
 
-- **D3.js v7** for all visualizations (force simulation, Sankey, treemap, chord, etc.)
+- **D3.js v7** for all visualizations (force simulation, Sankey, bar charts, hierarchical, etc.)
 - **Vanilla JavaScript** (ES6 modules, no framework, no build step)
 - **RIPEstat API** for BGP data (public, no auth, CORS-friendly)
 - **ipify.org** for "What's My ASN?" IP detection
@@ -195,9 +195,9 @@ bgp-bangladesh/
 │       └── viz/                     # 6 visualization modules
 │           ├── force-graph.js       # Network graph (D3 force simulation)
 │           ├── sankey.js            # Traffic flow (zoomable, 3 columns)
-│           ├── treemap.js           # Market share (adaptive text)
-│           ├── chord.js             # Circular connections
 │           ├── hierarchical.js      # Layered view (zoomable)
+│           ├── bar-gateway.js       # Gateway ranking (stacked bars)
+│           ├── bar-country.js       # Country origins (horizontal bars)
 │           └── table.js             # Data table (sortable, filterable)
 ├── scripts/
 │   ├── update_bgp_data.py           # Python: All-in-one data updater (fetch + process)

@@ -12,10 +12,10 @@ import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './u
 
 import * as ForceGraph from './viz/force-graph.js';
 import * as Sankey from './viz/sankey.js';
-import * as Treemap from './viz/treemap.js';
-import * as Chord from './viz/chord.js';
 import * as Hierarchical from './viz/hierarchical.js';
 import * as Table from './viz/table.js';
+import * as BarGateway from './viz/bar-gateway.js';
+import * as BarCountry from './viz/bar-country.js';
 
 const COUNTRY = 'BD';
 let currentData = null;
@@ -37,10 +37,10 @@ const TYPE_LABEL_MAP = {
 const vizModules = {
   'force-graph': ForceGraph,
   'sankey': Sankey,
-  'treemap': Treemap,
-  'chord': Chord,
   'hierarchical': Hierarchical,
   'table': Table,
+  'bar-gateway': BarGateway,
+  'bar-country': BarCountry,
 };
 
 // ────────────────────────────────────────
