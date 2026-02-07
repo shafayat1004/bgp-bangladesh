@@ -195,9 +195,11 @@ function parseCountryFromHolder(holder) {
 
 /**
  * Fetch geolocation for a single ASN using MaxMind GeoLite data via RIPEstat.
- * Returns the dominant non-BD country if BD coverage < 80%, otherwise 'BD'.
+ * Returns a geo data object with full breakdown:
+ *   { dominant_country, breakdown: [{country, city, percentage}], bd_percentage }
  */
 async function fetchGeoCountrySingle(asn, rateLimiter) {
+  const fallback = { dominant_country: 'BD', breakdown: [], bd_percentage: 100 };
   try {
     const url = `${RIPESTAT_BASE}/maxmind-geo-lite-announced-by-as/data.json?resource=AS${asn}`;
     const data = await fetchWithRetry(url, {
@@ -206,16 +208,18 @@ async function fetchGeoCountrySingle(asn, rateLimiter) {
       timeout: 30000,
     });
 
-    if (data.status !== 'ok') return 'BD';
+    if (data.status !== 'ok') return fallback;
 
     let totalPct = 0;
     let bdPct = 0;
     const countryPcts = {};
+    const breakdown = [];
 
     for (const resource of (data.data?.located_resources || [])) {
       for (const loc of (resource.locations || [])) {
         const pct = loc.covered_percentage || 0;
         const cc = loc.country || '';
+        const city = loc.city || '';
         if (!cc) continue;
         totalPct += pct;
         if (cc === 'BD') {
@@ -223,20 +227,31 @@ async function fetchGeoCountrySingle(asn, rateLimiter) {
         } else {
           countryPcts[cc] = (countryPcts[cc] || 0) + pct;
         }
+        breakdown.push({ country: cc, city, percentage: pct });
       }
     }
 
-    if (totalPct <= 0) return 'BD';
-    if ((bdPct / totalPct) > 0.8) return 'BD';
+    if (totalPct <= 0) return fallback;
 
-    // Return dominant non-BD country
-    const entries = Object.entries(countryPcts);
-    if (entries.length > 0) {
-      return entries.sort((a, b) => b[1] - a[1])[0][0];
+    // Determine dominant country
+    let dominant;
+    if ((bdPct / totalPct) > 0.8) {
+      dominant = 'BD';
+    } else {
+      const entries = Object.entries(countryPcts);
+      dominant = entries.length > 0 ? entries.sort((a, b) => b[1] - a[1])[0][0] : 'BD';
     }
-    return 'BD';
+
+    // Sort breakdown by percentage descending
+    breakdown.sort((a, b) => b.percentage - a.percentage);
+
+    return {
+      dominant_country: dominant,
+      breakdown,
+      bd_percentage: Math.round(bdPct * 100) / 100,
+    };
   } catch {
-    return 'BD'; // Safe fallback
+    return fallback;
   }
 }
 
@@ -572,7 +587,7 @@ export class RIPEStatClient {
 
   /**
    * Fetch geolocation for multiple ASNs to detect offshore peers.
-   * Returns a Map of ASN → geo_country code.
+   * Returns an object of ASN → geo data { dominant_country, breakdown, bd_percentage }.
    */
   async fetchGeoCountries(asnList, onProgress) {
     const results = {};
@@ -601,9 +616,10 @@ export class RIPEStatClient {
       await Promise.all(promises);
     }
 
-    const nonBD = Object.entries(results).filter(([, cc]) => cc !== 'BD');
+    const nonBD = Object.entries(results).filter(([, geo]) => geo.dominant_country !== 'BD');
     if (nonBD.length > 0) {
-      console.log(`Geolocation: ${nonBD.length} ASNs with non-BD infrastructure:`, nonBD.map(([asn, cc]) => `AS${asn}=${cc}`).join(', '));
+      console.log(`Geolocation: ${nonBD.length} ASNs with non-BD infrastructure:`,
+        nonBD.map(([asn, geo]) => `AS${asn}=${geo.dominant_country}`).join(', '));
     }
 
     return results;
@@ -635,7 +651,6 @@ export const SHARED_TYPE_LABELS = {
  */
 export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
   const regFlag = d.country ? countryToFlag(d.country) : '';
-  const geoFlag = d.geo_country ? countryToFlag(d.geo_country) : '';
   const licenseBadge = d.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC Licensed]</span>' : '';
   const typeLabel = typeLabels[d.type] || d.type || '';
 
@@ -654,9 +669,36 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
     html += `<div class="tooltip-row"><span class="tooltip-label">Registered:</span><span class="tooltip-value">${regFlag} ${d.country}</span></div>`;
   }
 
-  if (geoKnown) {
+  // Show IP geolocation — full breakdown if multiple locations, single line otherwise
+  if (d.geo_breakdown && d.geo_breakdown.length > 0) {
+    if (d.geo_breakdown.length === 1) {
+      const loc = d.geo_breakdown[0];
+      const flag = countryToFlag(loc.country);
+      const cityInfo = loc.city ? ` (${loc.city})` : '';
+      const style = loc.country !== d.country ? 'color:#fcc419;font-weight:bold' : '';
+      html += `<div class="tooltip-row"><span class="tooltip-label">IP Location:</span><span class="tooltip-value" style="${style}">${flag} ${loc.country}${cityInfo}${loc.country !== d.country ? ' ⚠' : ''}</span></div>`;
+    } else {
+      html += `<div class="tooltip-row"><span class="tooltip-label">IP Distribution:</span></div>`;
+      for (const loc of d.geo_breakdown) {
+        const flag = countryToFlag(loc.country);
+        const cityInfo = loc.city ? ` (${loc.city})` : '';
+        html += `<div class="tooltip-detail">&nbsp;&nbsp;${flag} ${loc.percentage.toFixed(0)}% ${loc.country}${cityInfo}</div>`;
+      }
+    }
+  } else if (geoKnown) {
+    // Fallback to simple geo_country if no breakdown available
+    const geoFlag = countryToFlag(d.geo_country);
     const geoStyle = geoDiffers ? 'color:#fcc419;font-weight:bold' : '';
     html += `<div class="tooltip-row"><span class="tooltip-label">IP Location:</span><span class="tooltip-value" style="${geoStyle}">${geoFlag} ${d.geo_country}${geoDiffers ? ' ⚠' : ''}</span></div>`;
+  }
+
+  // Show BGP peering location for offshore ASNs
+  if (d.peering_country) {
+    const peerFlag = countryToFlag(d.peering_country);
+    html += `<div class="tooltip-row"><span class="tooltip-label">BGP Peering:</span><span class="tooltip-value">${peerFlag} ${d.peering_country}</span></div>`;
+    if (d.peering_details && d.peering_details.length > 0) {
+      html += `<div class="tooltip-detail">&nbsp;&nbsp;Peers at: ${d.peering_details.slice(0, 2).join(', ')}</div>`;
+    }
   }
 
   html += `<div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div>`;
@@ -673,9 +715,11 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
 
   // Classification insight for offshore types
   if (d.type === 'offshore-enterprise') {
-    html += `<div class="tooltip-insight">Registered in ${d.country || 'BD'} but IPs geolocated to ${d.geo_country}. No downstream BD customers detected — classified as harmless offshore presence.</div>`;
+    const peerLoc = d.peering_country || d.geo_country;
+    html += `<div class="tooltip-insight">Registered in ${d.country || 'BD'} but physically peers in ${peerLoc}. No downstream BD customers — classified as harmless offshore presence.</div>`;
   } else if (d.type === 'offshore-gateway') {
-    html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but IPs geolocated to ${d.geo_country}. Has downstream BD customers — potential unlicensed IIG.</div>`;
+    const peerLoc = d.peering_country || d.geo_country;
+    html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but physically peers in ${peerLoc}. Has downstream BD customers — potential unlicensed IIG.</div>`;
   } else if (d.type === 'detected-iig') {
     html += `<div class="tooltip-insight" style="color:#fcc419">Not in BTRC license list but has downstream BD customers — acting as an unlicensed gateway.</div>`;
   }

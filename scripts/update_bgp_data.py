@@ -223,6 +223,7 @@ def analyze_routes(routes, country_asns):
     local_isp_counts = collections.Counter()
     edge_intl = collections.Counter()      # "outside|iig" → count
     edge_domestic = collections.Counter()  # "local-company|iig" → count
+    direct_peers = collections.Counter()   # (asn_a, asn_b) → count for direct adjacency
     valid_obs = 0
     
     for idx, rt in enumerate(routes):
@@ -258,6 +259,12 @@ def analyze_routes(routes, country_asns):
         iig = path[i + 1] if (i + 1) < len(path) else None
         origin = path[-1]
         
+        # Track direct adjacency for all BD ASNs in the path
+        for pi in range(len(path) - 1):
+            a, b = path[pi], path[pi + 1]
+            if a in country_asns or b in country_asns:
+                direct_peers[(a, b)] += 1
+
         if outside and iig:
             outside_counts[outside] += 1
             iig_counts[iig] += 1
@@ -277,12 +284,34 @@ def analyze_routes(routes, country_asns):
     print(f"      International edges: {len(edge_intl)}")
     print(f"      Domestic edges: {len(edge_domestic)}")
     
+    # Build direct peers map: for each BD ASN, list its non-BD upstream neighbors
+    direct_peers_map = {}
+    for (a, b), count in direct_peers.items():
+        # a→b adjacency: if b is BD and a is not, a is an upstream of b
+        if b in country_asns and a not in country_asns:
+            if b not in direct_peers_map:
+                direct_peers_map[b] = []
+            direct_peers_map[b].append(a)
+        # Reverse: if a is BD and b is not, b is an upstream of a
+        if a in country_asns and b not in country_asns:
+            if a not in direct_peers_map:
+                direct_peers_map[a] = []
+            direct_peers_map[a].append(b)
+
+    # Deduplicate upstream lists
+    for asn in direct_peers_map:
+        direct_peers_map[asn] = list(set(direct_peers_map[asn]))
+
+    print(f"      Direct peer adjacencies tracked: {len(direct_peers):,}")
+    print(f"      BD ASNs with international peers: {len(direct_peers_map)}")
+
     return {
         "outside_counts": outside_counts,
         "iig_counts": iig_counts,
         "local_isp_counts": local_isp_counts,
         "edge_intl": edge_intl,
         "edge_domestic": edge_domestic,
+        "direct_peers_map": direct_peers_map,
         "valid_obs": valid_obs,
     }
 
@@ -419,8 +448,14 @@ def fetch_asn_info(asn_list, country_asns, rate_limiter, existing_asn_names=None
 def fetch_geo_country(asn, rate_limiter):
     """
     Query RIPEstat MaxMind GeoLite to determine the physical location of an ASN's prefixes.
-    Returns the dominant non-BD country if BD coverage < 80%, otherwise 'BD'.
+    Returns a dict with full breakdown:
+      {
+        'dominant_country': 'IN' or 'BD',
+        'breakdown': [{'country': 'IN', 'city': 'Chennai', 'percentage': 50.0, 'prefixes': [...]}],
+        'bd_percentage': 50.0
+      }
     """
+    fallback = {"dominant_country": "BD", "breakdown": [], "bd_percentage": 100.0}
     try:
         rate_limiter.acquire()
         r = requests.get(
@@ -432,16 +467,19 @@ def fetch_geo_country(asn, rate_limiter):
         data = r.json()
 
         if data.get("status") != "ok":
-            return "BD"
+            return fallback
 
         total_pct = 0
         bd_pct = 0
         country_pcts = {}
+        breakdown = []
 
         for resource in data.get("data", {}).get("located_resources", []):
             for loc in resource.get("locations", []):
                 pct = loc.get("covered_percentage", 0)
                 cc = loc.get("country", "")
+                city = loc.get("city", "")
+                prefixes = loc.get("resources", [])
                 if not cc:
                     continue
                 total_pct += pct
@@ -449,26 +487,41 @@ def fetch_geo_country(asn, rate_limiter):
                     bd_pct += pct
                 else:
                     country_pcts[cc] = country_pcts.get(cc, 0) + pct
+                breakdown.append({
+                    "country": cc,
+                    "city": city,
+                    "percentage": pct,
+                    "prefixes": prefixes[:3],  # Keep max 3 examples
+                })
 
         if total_pct <= 0:
-            return "BD"
+            return fallback
 
-        # If > 80% is in BD, treat as domestic
-        if (bd_pct / total_pct) > 0.8:
-            return "BD"
+        # Determine dominant country
+        bd_ratio = bd_pct / total_pct
+        if bd_ratio > 0.8:
+            dominant = "BD"
+        elif country_pcts:
+            dominant = max(country_pcts, key=country_pcts.get)
+        else:
+            dominant = "BD"
 
-        # Return the dominant non-BD country
-        if country_pcts:
-            return max(country_pcts, key=country_pcts.get)
-        return "BD"
+        # Sort breakdown by percentage descending
+        breakdown.sort(key=lambda x: x["percentage"], reverse=True)
+
+        return {
+            "dominant_country": dominant,
+            "breakdown": breakdown,
+            "bd_percentage": round(bd_pct, 2),
+        }
 
     except Exception as e:
         print(f"      Warning: Geo fetch failed for AS{asn}: {e}")
-        return "BD"  # Safe fallback
+        return fallback
 
 
 def fetch_geo_countries(asn_list, rate_limiter, concurrency=10):
-    """Fetch geolocation for multiple ASNs in parallel."""
+    """Fetch geolocation for multiple ASNs in parallel. Returns dict of ASN → geo data."""
     print(f"\n[4b] Fetching geolocation for {len(asn_list)} ASNs (offshore peer detection)...")
     results = {}
     completed = 0
@@ -485,13 +538,195 @@ def fetch_geo_countries(asn_list, rate_limiter, concurrency=10):
                     results[asn] = future.result()
                     completed += 1
                 except Exception:
-                    results[asn] = "BD"
+                    results[asn] = {"dominant_country": "BD", "breakdown": [], "bd_percentage": 100.0}
                     completed += 1
 
-    non_bd = {asn: cc for asn, cc in results.items() if cc != "BD"}
+    non_bd = {asn: geo for asn, geo in results.items() if geo["dominant_country"] != "BD"}
     print(f"      Geolocation complete: {len(results)} ASNs checked, {len(non_bd)} with non-BD infrastructure")
-    for asn, cc in non_bd.items():
-        print(f"        AS{asn}: geolocated to {cc}")
+    for asn, geo in non_bd.items():
+        locs = ", ".join(f"{b['country']}({b['percentage']:.0f}%)" for b in geo["breakdown"])
+        print(f"        AS{asn}: {locs}")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Step 4c: PeeringDB Integration (Physical Peering Location Detection)
+# ═══════════════════════════════════════════════════════════════════════════
+
+PEERINGDB_BASE = "https://www.peeringdb.com/api"
+PEERINGDB_DELAY = 3  # Seconds between queries (conservative: 20/min anonymous limit)
+
+
+def fetch_peeringdb_net(asn):
+    """
+    Query PeeringDB for an ASN's network record with expanded IX/facility data.
+    Returns the network dict or None on failure.
+    """
+    try:
+        time.sleep(PEERINGDB_DELAY)
+        r = requests.get(
+            f"{PEERINGDB_BASE}/net",
+            params={"asn": asn, "depth": 2},
+            headers={"User-Agent": "bgp-bangladesh-viz/1.0"},
+            timeout=15,
+        )
+        if r.status_code == 429:
+            print(f"      PeeringDB rate limited for AS{asn}, waiting 60s...")
+            time.sleep(60)
+            r = requests.get(
+                f"{PEERINGDB_BASE}/net",
+                params={"asn": asn, "depth": 2},
+                headers={"User-Agent": "bgp-bangladesh-viz/1.0"},
+                timeout=15,
+            )
+        r.raise_for_status()
+        data = r.json()
+        nets = data.get("data", [])
+        return nets[0] if nets else None
+    except Exception as e:
+        print(f"      Warning: PeeringDB fetch failed for AS{asn}: {e}")
+        return None
+
+
+def extract_peering_countries(net_record):
+    """
+    Extract peering countries from a PeeringDB network record.
+    Returns list of dicts: [{'country': 'SG', 'ix_name': '...', 'speed': 10000}, ...]
+    """
+    if not net_record:
+        return []
+
+    ix_entries = []
+    for ix in net_record.get("netixlan_set", []):
+        ix_data = ix.get("ix", {}) if isinstance(ix.get("ix"), dict) else {}
+        country = ix_data.get("country", "")
+        ix_name = ix_data.get("name", "")
+        city = ix_data.get("city", "")
+        speed = ix.get("speed", 0) or 0
+        if country:
+            ix_entries.append({
+                "country": country,
+                "ix_name": ix_name,
+                "city": city,
+                "speed": speed,
+            })
+
+    fac_entries = []
+    for fac in net_record.get("netfac_set", []):
+        fac_data = fac.get("fac", {}) if isinstance(fac.get("fac"), dict) else {}
+        country = fac_data.get("country", "")
+        fac_name = fac_data.get("name", "")
+        city = fac_data.get("city", "")
+        if country:
+            fac_entries.append({
+                "country": country,
+                "fac_name": fac_name,
+                "city": city,
+            })
+
+    return ix_entries, fac_entries
+
+
+def determine_peering_location(target_asn, upstream_asns, geo_dominant):
+    """
+    Determine physical peering location for an offshore ASN.
+    Strategy:
+      1. Query PeeringDB for the target ASN directly
+      2. If no data, query upstream ASNs to find intersection
+      3. Fallback to geo_dominant country
+    Returns dict: {'country': 'SG', 'details': [...], 'source': 'peeringdb'|'fallback-geo'}
+    """
+    # Step 1: Check target ASN in PeeringDB
+    net = fetch_peeringdb_net(target_asn)
+    if net:
+        ix_entries, fac_entries = extract_peering_countries(net)
+        if ix_entries or fac_entries:
+            # Weight countries by port speed for IX, count for facilities
+            country_weights = {}
+            country_details = {}
+            for ix in ix_entries:
+                cc = ix["country"]
+                country_weights[cc] = country_weights.get(cc, 0) + max(ix["speed"], 1)
+                if cc not in country_details:
+                    country_details[cc] = []
+                if ix["ix_name"]:
+                    country_details[cc].append(ix["ix_name"])
+            for fac in fac_entries:
+                cc = fac["country"]
+                country_weights[cc] = country_weights.get(cc, 0) + 100  # Base weight for facility
+                if cc not in country_details:
+                    country_details[cc] = []
+                if fac["fac_name"]:
+                    country_details[cc].append(fac["fac_name"])
+
+            if country_weights:
+                dominant = max(country_weights, key=country_weights.get)
+                details = list(dict.fromkeys(country_details.get(dominant, [])))  # Deduplicate
+                return {
+                    "country": dominant,
+                    "details": details[:5],
+                    "source": "peeringdb",
+                }
+
+    # Step 2: Query upstream ASNs for common peering locations
+    if upstream_asns:
+        upstream_countries = {}
+        for up_asn in upstream_asns[:3]:  # Check top 3 upstreams only
+            up_net = fetch_peeringdb_net(up_asn)
+            if up_net:
+                ix_entries, fac_entries = extract_peering_countries(up_net)
+                for ix in ix_entries:
+                    cc = ix["country"]
+                    if cc not in upstream_countries:
+                        upstream_countries[cc] = {"weight": 0, "details": []}
+                    upstream_countries[cc]["weight"] += max(ix["speed"], 1)
+                    if ix["ix_name"]:
+                        upstream_countries[cc]["details"].append(ix["ix_name"])
+
+        if upstream_countries:
+            dominant = max(upstream_countries, key=lambda c: upstream_countries[c]["weight"])
+            details = list(dict.fromkeys(upstream_countries[dominant]["details"]))
+            return {
+                "country": dominant,
+                "details": details[:5],
+                "source": "peeringdb-upstream",
+            }
+
+    # Step 3: Fallback to geo_dominant
+    if geo_dominant and geo_dominant != "BD":
+        return {
+            "country": geo_dominant,
+            "details": [],
+            "source": "fallback-geo",
+        }
+
+    return None
+
+
+def fetch_peering_locations(offshore_asns, direct_peers_map, rate_limiter):
+    """
+    Fetch peering locations for offshore ASNs using PeeringDB.
+    Returns dict of ASN → peering location info.
+    """
+    if not offshore_asns:
+        return {}
+
+    print(f"\n[4c] Fetching PeeringDB peering locations for {len(offshore_asns)} offshore ASNs...")
+    print(f"      Using {PEERINGDB_DELAY}s delay between queries (rate limit safe)")
+
+    results = {}
+    for asn in offshore_asns:
+        upstream = direct_peers_map.get(asn, [])
+        geo_dominant = offshore_asns[asn] if isinstance(offshore_asns, dict) else None
+        peering = determine_peering_location(asn, upstream, geo_dominant)
+        if peering:
+            results[asn] = peering
+            src = peering["source"]
+            details_str = ", ".join(peering["details"][:2]) if peering["details"] else "no details"
+            print(f"        AS{asn}: peers in {peering['country']} ({details_str}) [source: {src}]")
+        else:
+            print(f"        AS{asn}: no peering location found")
 
     return results
 
@@ -500,10 +735,12 @@ def fetch_geo_countries(asn_list, rate_limiter, concurrency=10):
 # Build Visualization Data
 # ═══════════════════════════════════════════════════════════════════════════
 
-def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
+def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, peering_locations=None):
     """Build visualization data with license-aware 6-category classification."""
     if btrc_licensed_asns is None:
         btrc_licensed_asns = set()
+    if peering_locations is None:
+        peering_locations = {}
     
     print(f"\nBuilding visualization data (license-aware, 6-category)...")
     print(f"      Known IIG ASNs from BTRC list: {len(btrc_licensed_asns)}")
@@ -522,7 +759,9 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
     def ensure_node(asn, node_type):
         if asn not in node_map:
             info = asn_info.get(asn, {})
-            geo_country = info.get("geo_country", "")
+            geo_data = info.get("geo_country_data", {})
+            geo_country = geo_data.get("dominant_country", "") if isinstance(geo_data, dict) else info.get("geo_country", "")
+            geo_breakdown = geo_data.get("breakdown", []) if isinstance(geo_data, dict) else []
             is_bd_registered = asn in country_asns
             
             # Reclassify tentative IIGs based on license list + geolocation
@@ -532,13 +771,16 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
                 elif is_bd_registered and geo_country and geo_country != "BD":
                     # Offshore BD ASN - split by transit role
                     if asn in iigs_with_domestic:
-                        node_type = "offshore-gateway"  # Abroad + selling transit (potential rogue)
+                        node_type = "offshore-gateway"
                     else:
-                        node_type = "offshore-enterprise"  # Abroad + no customers (harmless)
+                        node_type = "offshore-enterprise"
                 elif asn in iigs_with_domestic:
-                    node_type = "detected-iig"  # Acting as gateway, not in known IIG list
+                    node_type = "detected-iig"
                 else:
-                    node_type = "local-company"  # No domestic customers, demote
+                    node_type = "local-company"
+            
+            # Get peering location data if available
+            peering = peering_locations.get(asn, {})
             
             node_map[asn] = {
                 "asn": asn,
@@ -548,6 +790,10 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
                 "description": info.get("holder", info.get("name", "")),
                 "country": info.get("country", "BD" if asn in country_asns else ""),
                 "geo_country": geo_country,
+                "geo_breakdown": geo_breakdown,
+                "peering_country": peering.get("country", ""),
+                "peering_details": peering.get("details", []),
+                "peering_source": peering.get("source", ""),
                 "announced": info.get("announced", False),
                 "traffic": 0,
             }
@@ -613,6 +859,7 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
 def main():
     parser = argparse.ArgumentParser(description="Update BGP data - fetch and process in one go")
     parser.add_argument("--country", default="BD", help="Country code (default: BD)")
+    parser.add_argument("--reprocess", action="store_true", help="Skip BGP fetching, reprocess from cached raw routes")
     args = parser.parse_args()
     
     country = args.country.upper()
@@ -656,18 +903,35 @@ def main():
     # Initialize rate limiter (4 requests per second, matching website)
     rate_limiter = RateLimiter(requests_per_second=4)
     
-    # Step 1: Get country resources
-    country_asns, prefixes = get_country_resources(args.country)
-    
-    # Step 2: Fetch BGP routes in parallel
-    routes = fetch_bgp_routes(prefixes, rate_limiter)
-    
-    # Save raw routes
-    print(f"\nSaving raw routes to: {out_raw}")
-    with open(out_raw, "w") as f:
-        json.dump(routes, f)
-    file_size_mb = os.path.getsize(out_raw) / (1024 * 1024)
-    print(f"      File size: {file_size_mb:.1f} MB")
+    if args.reprocess:
+        # Reprocess mode: load from cached files
+        print(f"\n[REPROCESS] Loading cached data (skipping BGP route fetching)...")
+        
+        if not os.path.exists(out_raw):
+            print(f"ERROR: No cached raw routes found at {out_raw}")
+            print(f"       Run without --reprocess first to fetch data.")
+            sys.exit(1)
+        
+        print(f"Loading raw routes from: {out_raw}")
+        with open(out_raw) as f:
+            routes = json.load(f)
+        print(f"      Loaded {len(routes):,} routes")
+        
+        # Still need country resources for classification
+        country_asns, prefixes = get_country_resources(args.country)
+    else:
+        # Step 1: Get country resources
+        country_asns, prefixes = get_country_resources(args.country)
+        
+        # Step 2: Fetch BGP routes in parallel
+        routes = fetch_bgp_routes(prefixes, rate_limiter)
+        
+        # Save raw routes
+        print(f"\nSaving raw routes to: {out_raw}")
+        with open(out_raw, "w") as f:
+            json.dump(routes, f)
+        file_size_mb = os.path.getsize(out_raw) / (1024 * 1024)
+        print(f"      File size: {file_size_mb:.1f} MB")
     
     # Step 3: Analyze routes
     analysis = analyze_routes(routes, country_asns)
@@ -684,16 +948,33 @@ def main():
         if iig in country_asns and iig not in btrc_licensed_asns:
             tentative_iig_asns.add(iig)
     
+    offshore_asns_geo = {}  # ASN → geo dominant country (for offshore ASNs only)
     if tentative_iig_asns:
         geo_results = fetch_geo_countries(list(tentative_iig_asns), rate_limiter)
-        for asn, geo_cc in geo_results.items():
+        for asn, geo_data in geo_results.items():
             if asn in asn_info:
-                asn_info[asn]["geo_country"] = geo_cc
+                asn_info[asn]["geo_country"] = geo_data["dominant_country"]
+                asn_info[asn]["geo_country_data"] = geo_data
             else:
-                asn_info[asn] = {"asn": asn, "name": f"AS{asn}", "holder": "", "announced": False, "country": "BD", "geo_country": geo_cc}
+                asn_info[asn] = {
+                    "asn": asn, "name": f"AS{asn}", "holder": "",
+                    "announced": False, "country": "BD",
+                    "geo_country": geo_data["dominant_country"],
+                    "geo_country_data": geo_data,
+                }
+            if geo_data["dominant_country"] != "BD":
+                offshore_asns_geo[asn] = geo_data["dominant_country"]
+    
+    # Step 4c: Fetch PeeringDB peering locations for offshore ASNs
+    direct_peers_map = analysis.get("direct_peers_map", {})
+    peering_locations = {}
+    if offshore_asns_geo:
+        peering_locations = fetch_peering_locations(
+            offshore_asns_geo, direct_peers_map, rate_limiter
+        )
     
     # Build visualization data (license-aware, 6-category)
-    viz_data = build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns)
+    viz_data = build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns, peering_locations)
     
     # Save all outputs
     print(f"\nSaving visualization data to: {out_viz}")
@@ -748,13 +1029,21 @@ def main():
     if offshore_ent:
         print(f"\nOffshore Enterprises (BD-registered, abroad, no transit):")
         for n in offshore_ent:
-            print(f"  AS{n['asn']} {n['name']} (registered: {n['country']}, geo: {n.get('geo_country', '?')})")
+            peering_info = f", peering: {n.get('peering_country', '?')}" if n.get('peering_country') else ""
+            geo_details = ""
+            if n.get("geo_breakdown"):
+                geo_details = " [" + ", ".join(f"{b['country']}({b['percentage']:.0f}%)" for b in n["geo_breakdown"]) + "]"
+            print(f"  AS{n['asn']} {n['name']} (registered: {n['country']}, geo: {n.get('geo_country', '?')}{peering_info}){geo_details}")
     
     offshore_gw = [n for n in viz_data["nodes"] if n["type"] == "offshore-gateway"]
     if offshore_gw:
         print(f"\nOffshore Gateways (BD-registered, abroad, selling transit):")
         for n in offshore_gw:
-            print(f"  AS{n['asn']} {n['name']} (registered: {n['country']}, geo: {n.get('geo_country', '?')})")
+            peering_info = f", peering: {n.get('peering_country', '?')}" if n.get('peering_country') else ""
+            geo_details = ""
+            if n.get("geo_breakdown"):
+                geo_details = " [" + ", ".join(f"{b['country']}({b['percentage']:.0f}%)" for b in n["geo_breakdown"]) + "]"
+            print(f"  AS{n['asn']} {n['name']} (registered: {n['country']}, geo: {n.get('geo_country', '?')}{peering_info}){geo_details}")
     
     print(f"\nTop 5 Local Companies:")
     companies = sorted([n for n in viz_data["nodes"] if n["type"] == "local-company"], key=lambda n: n["traffic"], reverse=True)

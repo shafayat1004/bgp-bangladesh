@@ -442,9 +442,10 @@ async function fetchLiveData() {
     }
     if (tentativeIIGs.length > 0) {
       const geoResults = await ripeClient.fetchGeoCountries(tentativeIIGs, (p) => updateProgress(p));
-      for (const [asn, geoCC] of Object.entries(geoResults)) {
+      for (const [asn, geoData] of Object.entries(geoResults)) {
         if (asnInfo[asn]) {
-          asnInfo[asn].geo_country = geoCC;
+          asnInfo[asn].geo_country = geoData.dominant_country;
+          asnInfo[asn].geo_breakdown = geoData.breakdown || [];
         }
       }
     }

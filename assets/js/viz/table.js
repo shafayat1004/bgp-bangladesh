@@ -157,6 +157,52 @@ function buildDetailPanel(n) {
     return html;
   }
 
+  // Build IP distribution section
+  let geoBreakdownHtml = '';
+  if (n.geo_breakdown && n.geo_breakdown.length > 0) {
+    geoBreakdownHtml = `
+        <div class="detail-section">
+          <div class="detail-section-title">IP Address Distribution</div>`;
+    for (const loc of n.geo_breakdown) {
+      const flag = countryToFlag(loc.country);
+      const cityInfo = loc.city ? ` (${loc.city})` : '';
+      geoBreakdownHtml += `
+          <div class="detail-row">
+            <span class="detail-label">${flag} ${loc.country}${cityInfo}:</span>
+            <span class="detail-value">${loc.percentage.toFixed(1)}%</span>
+          </div>`;
+    }
+    geoBreakdownHtml += '</div>';
+  }
+
+  // Build peering location section
+  let peeringHtml = '';
+  if (n.peering_country) {
+    const peeringFlag = countryToFlag(n.peering_country);
+    peeringHtml = `
+        <div class="detail-section">
+          <div class="detail-section-title">BGP Peering Location</div>
+          <div class="detail-row">
+            <span class="detail-label">Physical Peering:</span>
+            <span class="detail-value">${peeringFlag} ${n.peering_country}</span>
+          </div>`;
+    if (n.peering_details && n.peering_details.length > 0) {
+      peeringHtml += `
+          <div class="detail-explanation">Peers at: ${n.peering_details.join(', ')}</div>`;
+    }
+    if (n.peering_source) {
+      const sourceLabel = n.peering_source === 'peeringdb' ? 'PeeringDB'
+        : n.peering_source === 'peeringdb-upstream' ? 'PeeringDB (via upstream)'
+        : 'Inferred from geolocation';
+      peeringHtml += `
+          <div class="detail-row">
+            <span class="detail-label">Data Source:</span>
+            <span class="detail-value">${sourceLabel}</span>
+          </div>`;
+    }
+    peeringHtml += '</div>';
+  }
+
   return `
     <div class="detail-panel">
       <div class="detail-header">
@@ -171,10 +217,13 @@ function buildDetailPanel(n) {
           <div class="detail-row"><span class="detail-label">Name:</span><span class="detail-value">${n.name || '-'}</span></div>
           ${n.description && n.description !== n.name ? `<div class="detail-row"><span class="detail-label">Organization:</span><span class="detail-value">${n.description}</span></div>` : ''}
           ${n.country ? `<div class="detail-row"><span class="detail-label">Registered In:</span><span class="detail-value">${regFlag} ${n.country}</span></div>` : ''}
-          ${geoKnown ? `<div class="detail-row"><span class="detail-label">IP Geolocation:</span><span class="detail-value${geoDiffers ? ' detail-warning' : ''}">${geoFlag} ${n.geo_country}${geoDiffers ? ' (differs from registration!)' : ''}</span></div>` : ''}
+          ${geoKnown && !(n.geo_breakdown && n.geo_breakdown.length > 0) ? `<div class="detail-row"><span class="detail-label">IP Geolocation:</span><span class="detail-value${geoDiffers ? ' detail-warning' : ''}">${geoFlag} ${n.geo_country}${geoDiffers ? ' (differs from registration!)' : ''}</span></div>` : ''}
           <div class="detail-row"><span class="detail-label">Announced:</span><span class="detail-value">${n.announced ? 'Yes' : 'No'}</span></div>
           <div class="detail-row"><span class="detail-label">RIPEstat:</span><span class="detail-value"><a href="https://stat.ripe.net/AS${n.asn}" target="_blank" rel="noopener">View on RIPEstat</a></span></div>
         </div>
+
+        ${geoBreakdownHtml}
+        ${peeringHtml}
 
         <div class="detail-section">
           <div class="detail-section-title">Classification</div>
@@ -219,6 +268,7 @@ function renderNodesTable() {
     { key: 'name', label: 'Company', numeric: false },
     { key: 'country', label: 'Registered', numeric: false },
     { key: 'geo_country', label: 'IP Location', numeric: false },
+    { key: 'peering_country', label: 'Peering At', numeric: false },
     { key: 'type', label: 'Type', numeric: false },
     { key: 'traffic', label: 'Routes', numeric: true },
     { key: 'percentage', label: 'Share %', numeric: true },
@@ -255,6 +305,7 @@ function renderNodesTable() {
       (n.description || '').toLowerCase().includes(searchQuery) ||
       (n.country || '').toLowerCase().includes(searchQuery) ||
       (n.geo_country || '').toLowerCase().includes(searchQuery) ||
+      (n.peering_country || '').toLowerCase().includes(searchQuery) ||
       (n.type || '').toLowerCase().includes(searchQuery)
     );
   }
@@ -283,12 +334,16 @@ function renderNodesTable() {
     const geoDisplay = n.geo_country && n.geo_country !== '' ? `${geoFlag} ${n.geo_country}` : '-';
     const geoClass = geoDiffers ? ' geo-mismatch' : '';
 
+    const peerFlag = n.peering_country ? countryToFlag(n.peering_country) : '';
+    const peerDisplay = n.peering_country ? `${peerFlag} ${n.peering_country}` : '-';
+
     tbodyHtml += `<tr data-asn="${n.asn}" class="clickable-row${isExpanded ? ' row-expanded' : ''}">
       <td>${n.rank || '-'}</td>
       <td>AS${n.asn}</td>
       <td>${regFlag} ${n.name || '-'}${licenseBadge}</td>
       <td>${regFlag} ${n.country || '-'}</td>
       <td class="${geoClass}">${geoDisplay}</td>
+      <td>${peerDisplay}</td>
       <td><span class="type-badge ${TYPE_CLASSES[n.type] || ''}">${TYPE_LABELS[n.type] || n.type}</span></td>
       <td class="num">${(n.traffic || 0).toLocaleString()}</td>
       <td class="num">${(n.percentage || 0).toFixed(2)}%</td>

@@ -95,7 +95,7 @@ export function showModal(force = false) {
             <dd>An ASN observed acting as a border gateway for other BD networks, but not found in the known IIG list. This may indicate a new operator, a subsidiary, or a data mapping gap.</dd>
 
             <dt>Offshore Enterprise (Cyan nodes)</dt>
-            <dd>A BD-registered ASN with infrastructure located outside Bangladesh, but no downstream BD customers. Typically tech companies or cloud users (e.g., Chaldal). Detected via IP geolocation.</dd>
+            <dd>A BD-registered ASN with infrastructure located outside Bangladesh, but no downstream BD customers. Typically tech companies or cloud users. Detected via IP geolocation and PeeringDB analysis.</dd>
 
             <dt>Offshore Gateway (Pink nodes)</dt>
             <dd>A BD-registered ASN with infrastructure abroad that is also providing transit to other BD networks. This is a potential regulatory concern. Detected via IP geolocation + transit analysis.</dd>

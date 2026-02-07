@@ -1,9 +1,9 @@
 {
   "country": "BD",
   "country_name": "Bangladesh",
-  "last_updated": "2026-02-07T16:38:46Z",
-  "schema_version": 4,
-  "model": "license-aware-6cat",
+  "last_updated": "2026-02-07T17:20:59Z",
+  "schema_version": 3,
+  "model": "license-aware",
   "stats": {
     "total_outside": 212,
     "total_iig": 17,
@@ -17,5 +17,6 @@
     "total_traffic": 456371,
     "valid_observations": 457575
   },
-  "source": "RIPEstat BGP State API"
+  "source": "RIPEstat BGP State API",
+  "source_url": "https://stat.ripe.net/data/bgp-state/data.json"
 }

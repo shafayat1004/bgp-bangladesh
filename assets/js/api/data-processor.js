@@ -150,6 +150,10 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges 
         description: info.holder || info.name || '',
         country,
         geo_country: geoCountry,
+        geo_breakdown: info.geo_breakdown || [],
+        peering_country: info.peering_country || '',
+        peering_details: info.peering_details || [],
+        peering_source: info.peering_source || '',
         announced: info.announced || false,
         traffic: 0,
       };

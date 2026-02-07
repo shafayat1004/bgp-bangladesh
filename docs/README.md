@@ -17,17 +17,21 @@ Every major network has a unique **ASN (Autonomous System Number)**. For example
 
 Internet traffic from Bangladesh follows this path:
 
-1. **Your device** connects to your **local ISP**
-2. Your ISP routes traffic through **domestic gateways** (Inside BD ASNs)
+1. **Your device** connects to your **local company/ISP**
+2. Your ISP routes traffic through **border gateways** (IIGs - International Internet Gateways)
 3. These gateways connect to **international transit providers** (Outside BD ASNs)
 4. Transit providers deliver traffic to the **global internet**
 
-### What the Colors Mean
+### What the Colors Mean (6 Categories)
 
-- **Green nodes** = Inside BD (Domestic Gateways) - Bangladeshi networks
-- **Red nodes** = Outside BD (International Feeders) - Foreign networks
+- **Blue nodes** = Local Companies - Bangladeshi ISPs and origin networks
+- **Green nodes** = IIGs (Licensed Gateways) - BTRC-licensed border gateway operators
+- **Amber nodes** = Detected Gateways - Acting as gateways but not in the known BTRC IIG list
+- **Cyan nodes** = Offshore Enterprises - BD-registered ASNs with infrastructure abroad, no transit role (e.g., Chaldal)
+- **Pink nodes** = Offshore Gateways - BD-registered, abroad, but providing transit to BD networks
+- **Red nodes** = Outside BD (International Feeders) - Foreign transit networks
 - **Lines/arrows** = BGP routing paths between networks
-- **Thicker lines** = More traffic/routes flowing through that path
+- **Thicker lines** = More routes flowing through that path
 
 ## Using the Tool
 
@@ -56,13 +60,13 @@ Use the **tab bar** at the top to switch between 6 different views:
 ### Exporting Data
 
 Click the export buttons in the sidebar:
-- **Nodes CSV**: ASN list with traffic stats (opens in Excel/Google Sheets)
+- **Nodes CSV**: ASN list with route stats (opens in Excel/Google Sheets)
 - **Edges CSV**: Connection list with route counts
 - **JSON**: Full dataset (can be used as static data)
 
 ### Filtering
 
-- **Min Traffic slider**: Hide low-traffic connections to focus on major paths
+- **Min Routes slider**: Hide low-route connections to focus on major paths
 - **Node Size slider**: Adjust visual prominence of nodes
 
 ## Why This Matters

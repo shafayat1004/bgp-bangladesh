@@ -215,7 +215,112 @@
     "holder": "BTTB-AS-AP Telecom Operator & Internet Service Provider as well",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2407:5000::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 43.54,
+          "prefixes": [
+            "180.211.128.0/17"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 16.33,
+          "prefixes": [
+            "114.130.128.0/20",
+            "114.130.160.0/19"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 15.99,
+          "prefixes": [
+            "123.49.0.0/21",
+            "123.49.8.0/24",
+            "123.49.9.0/29"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 10.88,
+          "prefixes": [
+            "203.112.192.0/19"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 5.44,
+          "prefixes": [
+            "114.130.144.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 5.44,
+          "prefixes": [
+            "123.49.32.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 1.36,
+          "prefixes": [
+            "114.130.224.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.34,
+          "prefixes": [
+            "103.110.215.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.34,
+          "prefixes": [
+            "123.49.50.0/24"
+          ]
+        },
+        {
+          "country": "IN",
+          "city": "Mumbai",
+          "percentage": 0.34,
+          "prefixes": [
+            "209.58.24.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 0.0,
+          "prefixes": [
+            "123.49.9.9/32"
+          ]
+        }
+      ],
+      "bd_percentage": 199.66
+    }
   },
   "14840": {
     "asn": "14840",
@@ -552,7 +657,37 @@
     "holder": "MIRTELECOM-AS-AP Mir Telecom",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "202.129.194.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "123.176.57.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "202.129.192.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "39351": {
     "asn": "39351",
@@ -672,7 +807,21 @@
     "holder": "BAN-TEL-BD Bangla Tel Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.12.228.0/22"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "58682": {
     "asn": "58682",
@@ -687,7 +836,21 @@
     "holder": "UIL-NET-BD Unique Infoway Limited",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.14.204.0/22"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "58945": {
     "asn": "58945",
@@ -758,7 +921,215 @@
     "holder": "DZCRD-AS-AP DZCRD Networks Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "SG"
+    "geo_country": "SG",
+    "geo_country_data": {
+      "dominant_country": "SG",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "43.242.0.0/22"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "45.249.104.0/22"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "45.252.56.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "59.152.84.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.66.64.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.69.156.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.73.52.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.74.132.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.75.220.0/22"
+          ]
+        },
+        {
+          "country": "AU",
+          "city": "Sydney",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.76.236.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.211.144.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.214.92.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.228.224.0/22"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "119.42.36.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "144.48.96.0/22"
+          ]
+        },
+        {
+          "country": "AU",
+          "city": "Sydney",
+          "percentage": 5.0,
+          "prefixes": [
+            "160.238.16.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 5.0,
+          "prefixes": [
+            "192.144.88.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.75,
+          "prefixes": [
+            "103.221.56.0/24",
+            "103.221.58.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.75,
+          "prefixes": [
+            "116.206.48.0/23",
+            "116.206.51.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "New York",
+          "percentage": 2.5,
+          "prefixes": [
+            "103.74.178.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 1.25,
+          "prefixes": [
+            "103.74.176.0/24"
+          ]
+        },
+        {
+          "country": "MX",
+          "city": "Mexico City",
+          "percentage": 1.25,
+          "prefixes": [
+            "103.74.177.0/24"
+          ]
+        },
+        {
+          "country": "BE",
+          "city": "Brussels",
+          "percentage": 1.25,
+          "prefixes": [
+            "103.221.57.0/24"
+          ]
+        },
+        {
+          "country": "TH",
+          "city": "Bangkok",
+          "percentage": 0.62,
+          "prefixes": [
+            "116.206.50.0/25"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "Singapore",
+          "percentage": 0.62,
+          "prefixes": [
+            "116.206.50.128/25"
+          ]
+        }
+      ],
+      "bd_percentage": 53.75
+    }
   },
   "64475": {
     "asn": "64475",
@@ -794,7 +1165,29 @@
     "holder": "DIGICON-IGW-BD Digicon Telecommunication Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.14.73.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.59.233.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "134734": {
     "asn": "134734",
@@ -830,7 +1223,29 @@
     "holder": "SUMMIT-BD Summit Communications Limited",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.26.244.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2407:d700::/32"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "136557": {
     "asn": "136557",
@@ -859,7 +1274,61 @@
     "holder": "APPLE1-AS-AP Apple Communication Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.85.236.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2400:b340::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2400:e260::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "103.93.34.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.134.24.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.189.10.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "141731": {
     "asn": "141731",
@@ -881,7 +1350,29 @@
     "holder": "CHALDALLIMITED-AS-AP Chaldal Limited",
     "announced": true,
     "country": "BD",
-    "geo_country": "IN"
+    "geo_country": "IN",
+    "geo_country_data": {
+      "dominant_country": "IN",
+      "breakdown": [
+        {
+          "country": "IN",
+          "city": "Chennai",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.185.176.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.185.177.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 50.0
+    }
   },
   "142271": {
     "asn": "142271",
@@ -910,7 +1401,111 @@
     "holder": "FLAREZENLTD-AS-AP Flarezen Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "SG"
+    "geo_country": "SG",
+    "geo_country_data": {
+      "dominant_country": "SG",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 22.22,
+          "prefixes": [
+            "103.42.4.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 22.22,
+          "prefixes": [
+            "103.174.50.0/23"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "Singapore",
+          "percentage": 22.22,
+          "prefixes": [
+            "103.191.50.0/23"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "Singapore",
+          "percentage": 20.0,
+          "prefixes": [
+            "2001:df0:f7c0::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 20.0,
+          "prefixes": [
+            "2001:df1:8f40::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "2001:df5:5140::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "2001:df5:f240::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 20.0,
+          "prefixes": [
+            "2001:df7:b880::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 11.11,
+          "prefixes": [
+            "163.227.6.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 11.11,
+          "prefixes": [
+            "203.9.214.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 11.07,
+          "prefixes": [
+            "163.223.240.0/26",
+            "163.223.240.64/27",
+            "163.223.240.96/31"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Rangpur City",
+          "percentage": 0.04,
+          "prefixes": [
+            "163.223.240.99/32"
+          ]
+        }
+      ],
+      "bd_percentage": 157.77
+    }
   },
   "150178": {
     "asn": "150178",
@@ -918,7 +1513,45 @@
     "holder": "EXABYTELTD-AS-AP EXABYTE LTD",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2400:a3a0::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.198.94.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "103.135.139.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "163.61.152.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "152144": {
     "asn": "152144",
@@ -933,7 +1566,21 @@
     "holder": "BD-LINK-AS-AP BD Link Communication Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "45.251.128.0/22"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "205112": {
     "asn": "205112",
@@ -955,7 +1602,69 @@
     "holder": "ETL-AS-AP Extent Technologies Limited",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "Dhanmondi",
+          "percentage": 33.33,
+          "prefixes": [
+            "103.173.84.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhanmondi",
+          "percentage": 33.33,
+          "prefixes": [
+            "163.61.236.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhanmondi",
+          "percentage": 33.33,
+          "prefixes": [
+            "2001:df4:7bc0::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "2001:df4:ec40::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhanmondi",
+          "percentage": 33.33,
+          "prefixes": [
+            "2001:df5:2640::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhanmondi",
+          "percentage": 16.67,
+          "prefixes": [
+            "160.191.80.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Los Angeles",
+          "percentage": 16.67,
+          "prefixes": [
+            "160.191.81.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 183.32
+    }
   },
   "154112": {
     "asn": "154112",
@@ -963,7 +1672,45 @@
     "holder": "NEXELOGYLTD-AS-AP Nexelogy Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "US"
+    "geo_country": "US",
+    "geo_country_data": {
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "Salt Lake City",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df5:f241::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 64.0,
+          "prefixes": [
+            "38.242.32.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Sutr\u0101pur",
+          "percentage": 32.0,
+          "prefixes": [
+            "38.19.160.0/21"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Salt Lake City",
+          "percentage": 4.0,
+          "prefixes": [
+            "203.9.215.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 96.0
+    }
   },
   "152726": {
     "asn": "152726",
@@ -971,7 +1718,21 @@
     "holder": "DREAMENGINEERING-AS-AP Dream Engineering",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df3:bec0::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "199524": {
     "asn": "199524",
@@ -2561,7 +3322,29 @@
     "holder": "AYSHAITSOLUTIONS-AS-AP Aysha IT Solutions",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.181.43.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df5:840::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "149168": {
     "asn": "149168",
@@ -2730,7 +3513,119 @@
     "holder": "DOTINTERNET-AS-AP Dot Internet",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 100.0,
+          "prefixes": [
+            "2401:f40::/36",
+            "2401:f40:1000::/37",
+            "2401:f40:1800::/37"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "45.248.148.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "59.153.100.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.119.100.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.198.136.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.217.108.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.121.216.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.180.244.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.187.94.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "163.61.240.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "165.101.132.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 3.12,
+          "prefixes": [
+            "103.72.212.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 3.12,
+          "prefixes": [
+            "103.181.42.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 199.99
+    }
   },
   "55850": {
     "asn": "55850",
@@ -5741,7 +6636,29 @@
     "holder": "APONIT-AS-AP Evan Ahmed Bhuiyan ta APON IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.73.44.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2406:ec80::/32"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "149517": {
     "asn": "149517",
@@ -6232,7 +7149,37 @@
     "holder": "MANGOTELESERVICES-ITC-AS-BD Mango Teleservices Limited for ITC",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "114.130.46.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "114.130.50.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "114.130.113.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 99.99
+    }
   },
   "138574": {
     "asn": "138574",
@@ -6541,7 +7488,12 @@
     "holder": "BANGLADESH-AS-AP Bangladesh Submarine Cable Company Limited BSCCL",
     "announced": false,
     "country": "BD",
-    "geo_country": "BD"
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   },
   "137425": {
     "asn": "137425",
