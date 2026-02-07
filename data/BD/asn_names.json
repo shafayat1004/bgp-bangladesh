@@ -13513,5 +13513,26 @@
     "holder": "RAIHANINTERNET-AS-AP RAIHAN INTERNET",
     "announced": true,
     "country": "BD"
+  },
+  "1031": {
+    "asn": "1031",
+    "name": "PEER1-1031 - PEER 1031 LLC",
+    "holder": "PEER1-1031 - PEER 1031 LLC",
+    "announced": true,
+    "country": ""
+  },
+  "9505": {
+    "asn": "9505",
+    "name": "TWGATE-AP Taiwan Internet Gateway",
+    "holder": "TWGATE-AP Taiwan Internet Gateway",
+    "announced": true,
+    "country": ""
+  },
+  "263152": {
+    "asn": "263152",
+    "name": "MIGO TELECOM",
+    "holder": "MIGO TELECOM",
+    "announced": true,
+    "country": ""
   }
 }
