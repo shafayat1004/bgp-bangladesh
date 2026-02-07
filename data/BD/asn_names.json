@@ -7907,5 +7907,33 @@
     "holder": "MAYAENTERPRISE-AS-AP Maya Enterprise",
     "announced": true,
     "country": "BD"
+  },
+  "135341": {
+    "asn": "135341",
+    "name": "ORANGE2-AS-AP Orange Communication",
+    "holder": "ORANGE2-AS-AP Orange Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "138614": {
+    "asn": "138614",
+    "name": "FREXPRESS-AS-AP FR Express",
+    "holder": "FREXPRESS-AS-AP FR Express",
+    "announced": false,
+    "country": "BD"
+  },
+  "136903": {
+    "asn": "136903",
+    "name": "PITSL-AS-AP Planet Information Technology Solution Ltd.",
+    "holder": "PITSL-AS-AP Planet Information Technology Solution Ltd.",
+    "announced": false,
+    "country": "BD"
+  },
+  "61568": {
+    "asn": "61568",
+    "name": "ALOO TELECOM - FSF TECNOLOGIA SA",
+    "holder": "ALOO TELECOM - FSF TECNOLOGIA SA",
+    "announced": true,
+    "country": ""
   }
 }
