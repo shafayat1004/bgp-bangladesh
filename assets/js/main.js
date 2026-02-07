@@ -277,7 +277,13 @@ function setupFilters() {
       savePreferences({ ...loadPreferences(), minTraffic: minVal });
       
       const mod = vizModules[activeTab];
-      if (mod?.updateFilter) mod.updateFilter(minVal, maxVal);
+      if (mod?.updateFilter) {
+        mod.updateFilter(minVal, maxVal);
+        // Re-apply type filter after traffic filter update
+        if (activeTypeFilters.size < 6 && mod.filterByTypes) {
+          mod.filterByTypes(activeTypeFilters);
+        }
+      }
     });
   }
 
@@ -300,7 +306,13 @@ function setupFilters() {
       savePreferences({ ...loadPreferences(), maxTraffic: isInfinity ? Infinity : maxVal });
       
       const mod = vizModules[activeTab];
-      if (mod?.updateFilter) mod.updateFilter(minVal, isInfinity ? Infinity : maxVal);
+      if (mod?.updateFilter) {
+        mod.updateFilter(minVal, isInfinity ? Infinity : maxVal);
+        // Re-apply type filter after traffic filter update
+        if (activeTypeFilters.size < 6 && mod.filterByTypes) {
+          mod.filterByTypes(activeTypeFilters);
+        }
+      }
     });
   }
 

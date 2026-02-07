@@ -84,7 +84,7 @@ export function loadData(data, options = {}) {
 
   legend.append('rect')
     .attr('x', -10).attr('y', -10)
-    .attr('width', 300).attr('height', 70)
+    .attr('width', 400).attr('height', 70)
     .attr('fill', 'rgba(26, 31, 58, 0.9)')
     .attr('stroke', '#2a3f5f')
     .attr('rx', 4);
@@ -138,23 +138,41 @@ export function loadData(data, options = {}) {
   });
 
   // 6-type Y positioning (local-company top, gateways middle, outside bottom)
+  // X and Y forces create distinct type-based clusters
   simulation = d3.forceSimulation()
-    .force('link', d3.forceLink().id(d => d.asn).distance(120))
-    .force('charge', d3.forceManyBody().strength(-150))
+    .force('link', d3.forceLink().id(d => d.asn).distance(200).strength(0.2))
+    .force('charge', d3.forceManyBody().strength(-500).distanceMax(500))
     .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide().radius(30))
+    .force('collision', d3.forceCollide().radius(70).strength(0.9))
+    .force('x', d3.forceX(d => {
+      // Cluster same types horizontally
+      if (d.type === 'local-company' || d.type === 'local-isp') return width * 0.3;
+      if (d.type === 'iig' || d.type === 'inside') return width * 0.35;
+      if (d.type === 'detected-iig') return width * 0.5;
+      if (d.type === 'offshore-enterprise') return width * 0.65;
+      if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') return width * 0.7;
+      return width * 0.75;  // outside
+    }).strength(0.15))
     .force('y', d3.forceY(d => {
-      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.15;
-      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.4;
-      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.6;
-      return height * 0.85;
-    }).strength(0.4));
+      // Stronger Y-force for distinct layers with more spacing
+      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.12;
+      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.38;
+      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.62;
+      return height * 0.88;
+    }).strength(0.8))
+    .velocityDecay(0.5)
+    .alphaDecay(0.015);
 
   render();
 }
 
 function render() {
   if (!currentData || !g) return;
+
+  const container = document.getElementById('viz-panel');
+  if (!container) return;
+  const width = container.clientWidth;
+  const height = container.clientHeight;
 
   renderedEdges = currentData.edges.filter(e => e.count >= minTraffic && e.count <= maxTraffic);
   const usedNodes = new Set();
@@ -163,6 +181,33 @@ function render() {
     usedNodes.add(e.target?.asn || e.target);
   });
   const filteredNodes = currentData.nodes.filter(n => usedNodes.has(n.asn));
+  
+  // Pre-position nodes based on type to reduce initial bouncing
+  // Position in type-specific clusters for better separation
+  filteredNodes.forEach(d => {
+    if (d.x === undefined || d.y === undefined) {
+      // Initial X and Y positions cluster by type
+      if (d.type === 'local-company' || d.type === 'local-isp') {
+        d.x = width * 0.3 + (Math.random() - 0.5) * width * 0.2;
+        d.y = height * 0.12 + (Math.random() - 0.5) * 60;
+      } else if (d.type === 'iig' || d.type === 'inside') {
+        d.x = width * 0.35 + (Math.random() - 0.5) * width * 0.15;
+        d.y = height * 0.38 + (Math.random() - 0.5) * 60;
+      } else if (d.type === 'detected-iig') {
+        d.x = width * 0.5 + (Math.random() - 0.5) * width * 0.2;
+        d.y = height * 0.38 + (Math.random() - 0.5) * 60;
+      } else if (d.type === 'offshore-enterprise') {
+        d.x = width * 0.65 + (Math.random() - 0.5) * width * 0.15;
+        d.y = height * 0.62 + (Math.random() - 0.5) * 60;
+      } else if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') {
+        d.x = width * 0.7 + (Math.random() - 0.5) * width * 0.15;
+        d.y = height * 0.62 + (Math.random() - 0.5) * 60;
+      } else {
+        d.x = width * 0.75 + (Math.random() - 0.5) * width * 0.2;
+        d.y = height * 0.88 + (Math.random() - 0.5) * 60;
+      }
+    }
+  });
 
   g.selectAll('*').remove();
 
@@ -206,9 +251,17 @@ function render() {
     .on('mouseout', hideTooltipHandler)
     .on('click', highlightNodeHandler);
 
+  // Adjust forces based on graph size for better performance
+  const nodeCount = filteredNodes.length;
+  const chargeStrength = Math.max(-800, -400 - nodeCount * 3);
+  const collisionRadius = Math.max(60, 90 - nodeCount * 0.4);
+  simulation.force('charge').strength(chargeStrength);
+  simulation.force('collision').radius(collisionRadius);
+
   simulation.nodes(filteredNodes).on('tick', ticked);
   simulation.force('link').links(renderedEdges);
-  simulation.alpha(1).restart();
+  // Use much lower initial alpha for smoother, calmer startup
+  simulation.alpha(0.2).restart();
 }
 
 function ticked() {

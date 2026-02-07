@@ -50,13 +50,21 @@ function render() {
   const container = document.getElementById('viz-panel');
   if (!container) return;
   const size = Math.min(container.clientWidth, container.clientHeight);
-  const outerRadius = size / 2 - 70;
-  const innerRadius = outerRadius - 20;
-
+  
   const svg = d3.select('#chord-svg')
     .attr('width', container.clientWidth).attr('height', container.clientHeight);
   svg.selectAll('*').remove();
-  const g = svg.append('g')
+  
+  // Add zoom functionality
+  const zoomGroup = svg.append('g');
+  const zoom = d3.zoom()
+    .scaleExtent([0.3, 3])
+    .on('zoom', (event) => {
+      zoomGroup.attr('transform', event.transform);
+    });
+  svg.call(zoom);
+  
+  const g = zoomGroup.append('g')
     .attr('transform', `translate(${container.clientWidth / 2},${container.clientHeight / 2})`);
 
   // Filter edges by traffic range (no arbitrary limits)
@@ -71,6 +79,18 @@ function render() {
   const indexMap = chordIndexMap;
   asnList.forEach((asn, i) => { indexMap[asn] = i; });
   const n = asnList.length;
+  
+  // Dynamically adjust radius based on number of nodes
+  // More nodes = relatively smaller radius, fewer nodes = much larger radius
+  const baseRadius = size / 2 - 70;
+  const radiusScale = n < 5 ? 1.6 : n < 10 ? 1.4 : n < 20 ? 1.2 : 1.0;
+  const outerRadius = Math.min(baseRadius * radiusScale, size / 2 - 30);
+  const innerRadius = outerRadius - Math.max(12, 30 - n * 0.8);
+  
+  // Dynamic font size and spacing based on number of nodes
+  const fontSize = n < 5 ? 13 : n < 10 ? 12 : n < 20 ? 10 : 9;
+  const labelDistance = n < 5 ? 15 : n < 10 ? 13 : n < 20 ? 10 : 8;
+  
   const matrix = Array.from({ length: n }, () => new Array(n).fill(0));
 
   filteredEdges.forEach(e => {
@@ -109,14 +129,15 @@ function render() {
     .attr('data-asn', d => asnList[d.index])
     .each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
     .attr('dy', '0.35em')
-    .attr('transform', d => `rotate(${(d.angle * 180 / Math.PI - 90)}) translate(${outerRadius + 8}) ${d.angle > Math.PI ? 'rotate(180)' : ''}`)
+    .attr('transform', d => `rotate(${(d.angle * 180 / Math.PI - 90)}) translate(${outerRadius + labelDistance}) ${d.angle > Math.PI ? 'rotate(180)' : ''}`)
     .attr('text-anchor', d => d.angle > Math.PI ? 'end' : null)
-    .attr('fill', '#ccc').attr('font-size', '9px')
+    .attr('fill', '#ccc').attr('font-size', `${fontSize}px`)
     .text(d => {
       const asn = asnList[d.index]; const node = nodeMap[asn];
       const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
       const name = node?.name || `AS${asn}`;
-      return `${flag}${name.length > 18 ? name.slice(0, 16) + '...' : name}`;
+      const maxLen = n < 5 ? 30 : n < 10 ? 25 : n < 20 ? 20 : 18;
+      return `${flag}${name.length > maxLen ? name.slice(0, maxLen - 2) + '...' : name}`;
     });
 
   // Ribbons
