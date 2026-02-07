@@ -3,7 +3,7 @@
  * Top: Local ISPs | Middle: Gateways | Bottom: Outside ASNs
  */
 
-import { countryToFlag } from '../api/ripestat.js';
+import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -146,10 +146,7 @@ function render() {
       .attr('fill', 'none').attr('stroke', color).attr('stroke-opacity', opacity).attr('stroke-width', strokeW)
       .on('mouseover', function (event) {
         d3.select(this).attr('stroke-opacity', 0.9).attr('stroke-width', strokeW + 2);
-        const sn = nodeMap[src]; const tn = nodeMap[tgt];
-        const sf = sn?.country ? countryToFlag(sn.country) + ' ' : '';
-        const tf = tn?.country ? countryToFlag(tn.country) + ' ' : '';
-        d3.select('#tooltip').html(`<div class="tooltip-title">${sf}${sn?.name || `AS${src}`} &rarr; ${tf}${tn?.name || `AS${tgt}`}</div><div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${edge.count.toLocaleString()}</span></div><div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${edge.type || 'international'}</span></div>`).style('display', 'block');
+        d3.select('#tooltip').html(buildEdgeTooltipHtml(nodeMap[src], nodeMap[tgt], edge.count, edge.type || 'international')).style('display', 'block');
       })
       .on('mousemove', moveTooltipSmart)
       .on('mouseout', function () { d3.select(this).attr('stroke-opacity', opacity).attr('stroke-width', strokeW); d3.select('#tooltip').style('display', 'none'); });
@@ -179,17 +176,7 @@ function render() {
       .text(`${(n.percentage || 0).toFixed(1)}%`);
 
     group.on('mouseover', function (event) {
-      const f = n.country ? countryToFlag(n.country) + ' ' : '';
-      const typeLabel = TYPE_LABELS[n.type] || n.type || '';
-      const licenseBadge = n.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC]</span>' : '';
-      d3.select('#tooltip').html(`
-        <div class="tooltip-title">${f}${n.name || `AS${n.asn}`}${licenseBadge}</div>
-        <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${n.asn}</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div>
-        ${n.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${f}${n.country}</span></div>` : ''}
-        <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${n.traffic.toLocaleString()}</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(n.percentage || 0).toFixed(1)}%</span></div>
-      `).style('display', 'block');
+      d3.select('#tooltip').html(buildNodeTooltipHtml(n, TYPE_LABELS)).style('display', 'block');
     })
     .on('mousemove', moveTooltipSmart)
     .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); });

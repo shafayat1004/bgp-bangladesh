@@ -3,7 +3,7 @@
  * Circular view of connections between ASNs with country flags.
  */
 
-import { countryToFlag } from '../api/ripestat.js';
+import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -96,9 +96,8 @@ function render() {
     .attr('stroke', '#0a0e27')
     .on('mouseover', function (event, d) {
       const asn = asnList[d.index]; const node = nodeMap[asn];
-      const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
-      const typeLabel = TYPE_LABELS[node?.type] || node?.type || '';
-      d3.select('#tooltip').html(`<div class="tooltip-title">${flag}${node?.name || `AS${asn}`}</div><div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div><div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${(node?.traffic || 0).toLocaleString()}</span></div>`).style('display', 'block');
+      const nodeData = node || { asn, name: `AS${asn}` };
+      d3.select('#tooltip').html(buildNodeTooltipHtml(nodeData, TYPE_LABELS)).style('display', 'block');
       chordRibbons.attr('opacity', r => (r.source.index === d.index || r.target.index === d.index) ? 0.8 : 0.08);
     })
     .on('mousemove', moveTooltipSmart)
@@ -131,9 +130,7 @@ function render() {
     .on('mouseover', function (event, d) {
       d3.select(this).attr('opacity', 0.9);
       const sn = nodeMap[asnList[d.source.index]]; const tn = nodeMap[asnList[d.target.index]];
-      const sf = sn?.country ? countryToFlag(sn.country) + ' ' : '';
-      const tf = tn?.country ? countryToFlag(tn.country) + ' ' : '';
-      d3.select('#tooltip').html(`<div class="tooltip-title">${sf}${sn?.name || '?'} &harr; ${tf}${tn?.name || '?'}</div><div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${d.source.value.toLocaleString()}</span></div>`).style('display', 'block');
+      d3.select('#tooltip').html(buildEdgeTooltipHtml(sn, tn, d.source.value)).style('display', 'block');
     })
     .on('mousemove', moveTooltipSmart)
     .on('mouseout', function () { d3.select(this).attr('opacity', 0.45); d3.select('#tooltip').style('display', 'none'); });

@@ -1,11 +1,21 @@
 /**
- * Interactive Data Table with country flags and license badges
+ * Interactive Data Table with country flags, license badges, and ASN detail panel.
+ * Clicking a row expands a detail panel showing full analysis info.
  */
 
 import { countryToFlag } from '../api/ripestat.js';
 
 const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-enterprise': 'Offshore Enterprise', 'offshore-gateway': 'Offshore Gateway', 'local-company': 'Local Company', 'inside': 'Inside BD', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP' };
 const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-enterprise': 'type-offshore-enterprise', 'offshore-gateway': 'type-offshore-gateway', 'local-company': 'type-local-company', 'inside': 'type-iig', 'offshore-peer': 'type-offshore-peer', 'local-isp': 'type-local-company' };
+
+const TYPE_EXPLANATIONS = {
+  'outside': 'International transit provider that feeds routes into Bangladesh from abroad.',
+  'iig': 'BTRC-licensed International Internet Gateway — authorized to carry international traffic for Bangladesh.',
+  'detected-iig': 'Not in the official BTRC license list, but detected acting as a gateway with downstream BD customers. Potential unlicensed IIG.',
+  'offshore-enterprise': 'Registered in Bangladesh but IP addresses are geolocated abroad. No downstream BD customers detected — likely an offshore hosting or enterprise presence (harmless).',
+  'offshore-gateway': 'Registered in Bangladesh but IP addresses are geolocated abroad. Has downstream BD customers — potential unlicensed international gateway operating from outside the country.',
+  'local-company': 'Domestic network operating within Bangladesh. Receives routes via IIGs or detected gateways.',
+};
 
 let currentData = null;
 let currentOptions = {};
@@ -15,6 +25,7 @@ let currentPage = 0;
 let pageSize = 50;
 let showEdges = false;
 let activeTypeFilters = null; // null = show all
+let expandedASN = null; // currently expanded detail panel ASN
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -25,6 +36,7 @@ export function loadData(data, options = {}) {
   currentData = data;
   currentOptions = options;
   currentPage = 0;
+  expandedASN = null;
   render();
 }
 
@@ -63,6 +75,139 @@ function renderTable() {
   else renderNodesTable();
 }
 
+/**
+ * Find all connections for a given ASN from the edge data.
+ */
+function getConnections(asn) {
+  if (!currentData?.edges) return { upstream: [], downstream: [] };
+
+  const nodeMap = {};
+  currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
+
+  const upstream = []; // edges where this ASN is the target (receiving routes from)
+  const downstream = []; // edges where this ASN is the source (sending routes to)
+
+  for (const e of currentData.edges) {
+    const src = e.source?.asn || e.source;
+    const tgt = e.target?.asn || e.target;
+
+    if (tgt === asn) {
+      upstream.push({
+        asn: src,
+        name: nodeMap[src]?.name || `AS${src}`,
+        country: nodeMap[src]?.country || '',
+        type: nodeMap[src]?.type || '',
+        count: e.count,
+        edgeType: e.type || 'international',
+      });
+    }
+    if (src === asn) {
+      downstream.push({
+        asn: tgt,
+        name: nodeMap[tgt]?.name || `AS${tgt}`,
+        country: nodeMap[tgt]?.country || '',
+        type: nodeMap[tgt]?.type || '',
+        count: e.count,
+        edgeType: e.type || 'international',
+      });
+    }
+  }
+
+  upstream.sort((a, b) => b.count - a.count);
+  downstream.sort((a, b) => b.count - a.count);
+
+  return { upstream, downstream };
+}
+
+/**
+ * Build the detail panel HTML for a node.
+ */
+function buildDetailPanel(n) {
+  const regFlag = n.country ? countryToFlag(n.country) : '';
+  const geoFlag = n.geo_country ? countryToFlag(n.geo_country) : '';
+  const geoKnown = n.geo_country && n.geo_country !== '';
+  const geoDiffers = geoKnown && n.geo_country !== n.country;
+
+  const { upstream, downstream } = getConnections(n.asn);
+
+  const typeExplanation = TYPE_EXPLANATIONS[n.type] || '';
+  const typeLabel = TYPE_LABELS[n.type] || n.type;
+  const typeCls = TYPE_CLASSES[n.type] || '';
+
+  // Build connections HTML
+  function connectionRows(list, label) {
+    if (list.length === 0) return `<div class="detail-empty">No ${label.toLowerCase()} connections found in dataset.</div>`;
+    const maxShow = 10;
+    const shown = list.slice(0, maxShow);
+    let html = '<table class="detail-connections-table"><thead><tr><th>ASN</th><th>Name</th><th>Country</th><th>Type</th><th>Routes</th></tr></thead><tbody>';
+    for (const c of shown) {
+      const cf = c.country ? countryToFlag(c.country) + ' ' : '';
+      html += `<tr>
+        <td>AS${c.asn}</td>
+        <td>${cf}${c.name}</td>
+        <td>${cf}${c.country || '-'}</td>
+        <td><span class="type-badge ${TYPE_CLASSES[c.type] || ''}">${TYPE_LABELS[c.type] || c.type}</span></td>
+        <td class="num">${c.count.toLocaleString()}</td>
+      </tr>`;
+    }
+    html += '</tbody></table>';
+    if (list.length > maxShow) {
+      html += `<div class="detail-more">... and ${list.length - maxShow} more</div>`;
+    }
+    return html;
+  }
+
+  return `
+    <div class="detail-panel">
+      <div class="detail-header">
+        <div class="detail-title">${regFlag} ${n.name || `AS${n.asn}`}</div>
+        <button class="detail-close" title="Close">&times;</button>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-section">
+          <div class="detail-section-title">Identity</div>
+          <div class="detail-row"><span class="detail-label">ASN:</span><span class="detail-value">AS${n.asn}</span></div>
+          <div class="detail-row"><span class="detail-label">Name:</span><span class="detail-value">${n.name || '-'}</span></div>
+          ${n.description && n.description !== n.name ? `<div class="detail-row"><span class="detail-label">Organization:</span><span class="detail-value">${n.description}</span></div>` : ''}
+          ${n.country ? `<div class="detail-row"><span class="detail-label">Registered In:</span><span class="detail-value">${regFlag} ${n.country}</span></div>` : ''}
+          ${geoKnown ? `<div class="detail-row"><span class="detail-label">IP Geolocation:</span><span class="detail-value${geoDiffers ? ' detail-warning' : ''}">${geoFlag} ${n.geo_country}${geoDiffers ? ' (differs from registration!)' : ''}</span></div>` : ''}
+          <div class="detail-row"><span class="detail-label">Announced:</span><span class="detail-value">${n.announced ? 'Yes' : 'No'}</span></div>
+          <div class="detail-row"><span class="detail-label">RIPEstat:</span><span class="detail-value"><a href="https://stat.ripe.net/AS${n.asn}" target="_blank" rel="noopener">View on RIPEstat</a></span></div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-section-title">Classification</div>
+          <div class="detail-row"><span class="detail-label">Type:</span><span class="detail-value"><span class="type-badge ${typeCls}">${typeLabel}</span></span></div>
+          ${n.licensed ? '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value detail-licensed">BTRC Licensed IIG</span></div>' : '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value">Not in BTRC list</span></div>'}
+          ${typeExplanation ? `<div class="detail-explanation">${typeExplanation}</div>` : ''}
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-section-title">Traffic Statistics</div>
+          <div class="detail-row"><span class="detail-label">Total Routes:</span><span class="detail-value">${(n.traffic || 0).toLocaleString()}</span></div>
+          ${n.rank ? `<div class="detail-row"><span class="detail-label">Rank:</span><span class="detail-value">#${n.rank} in category</span></div>` : ''}
+          <div class="detail-row"><span class="detail-label">Route Share:</span><span class="detail-value">${(n.percentage || 0).toFixed(2)}%</span></div>
+        </div>
+      </div>
+
+      <div class="detail-connections">
+        <div class="detail-section">
+          <div class="detail-section-title">Upstream Peers (${upstream.length})</div>
+          <div class="detail-section-subtitle">ASNs that send routes to this network</div>
+          ${connectionRows(upstream, 'Upstream')}
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-section-title">Downstream Customers (${downstream.length})</div>
+          <div class="detail-section-subtitle">ASNs that receive routes from this network</div>
+          ${connectionRows(downstream, 'Downstream')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderNodesTable() {
   const thead = document.getElementById('table-head');
   const tbody = document.getElementById('table-body');
@@ -72,7 +217,8 @@ function renderNodesTable() {
     { key: 'rank', label: 'Rank', numeric: true },
     { key: 'asn', label: 'ASN', numeric: false },
     { key: 'name', label: 'Company', numeric: false },
-    { key: 'country', label: 'Country', numeric: false },
+    { key: 'country', label: 'Registered', numeric: false },
+    { key: 'geo_country', label: 'IP Location', numeric: false },
     { key: 'type', label: 'Type', numeric: false },
     { key: 'traffic', label: 'Routes', numeric: true },
     { key: 'percentage', label: 'Share %', numeric: true },
@@ -108,6 +254,7 @@ function renderNodesTable() {
       (n.name || '').toLowerCase().includes(searchQuery) ||
       (n.description || '').toLowerCase().includes(searchQuery) ||
       (n.country || '').toLowerCase().includes(searchQuery) ||
+      (n.geo_country || '').toLowerCase().includes(searchQuery) ||
       (n.type || '').toLowerCase().includes(searchQuery)
     );
   }
@@ -126,32 +273,62 @@ function renderNodesTable() {
   const totalPages = Math.ceil(rows.length / pageSize) || 1;
   const pageRows = rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
-  tbody.innerHTML = pageRows.map(n => {
-    const flag = n.country ? countryToFlag(n.country) : '';
+  let tbodyHtml = '';
+  for (const n of pageRows) {
+    const regFlag = n.country ? countryToFlag(n.country) : '';
+    const geoFlag = n.geo_country ? countryToFlag(n.geo_country) : '';
     const licenseBadge = n.licensed ? ' <span class="license-badge">BTRC</span>' : '';
-    return `<tr data-asn="${n.asn}" class="clickable-row">
+    const isExpanded = expandedASN === n.asn;
+    const geoDiffers = n.geo_country && n.geo_country !== '' && n.geo_country !== n.country;
+    const geoDisplay = n.geo_country && n.geo_country !== '' ? `${geoFlag} ${n.geo_country}` : '-';
+    const geoClass = geoDiffers ? ' geo-mismatch' : '';
+
+    tbodyHtml += `<tr data-asn="${n.asn}" class="clickable-row${isExpanded ? ' row-expanded' : ''}">
       <td>${n.rank || '-'}</td>
       <td>AS${n.asn}</td>
-      <td>${flag} ${n.name || '-'}${licenseBadge}</td>
-      <td>${flag} ${n.country || '-'}</td>
+      <td>${regFlag} ${n.name || '-'}${licenseBadge}</td>
+      <td>${regFlag} ${n.country || '-'}</td>
+      <td class="${geoClass}">${geoDisplay}</td>
       <td><span class="type-badge ${TYPE_CLASSES[n.type] || ''}">${TYPE_LABELS[n.type] || n.type}</span></td>
       <td class="num">${(n.traffic || 0).toLocaleString()}</td>
       <td class="num">${(n.percentage || 0).toFixed(2)}%</td>
     </tr>`;
-  }).join('');
 
-  // Click-to-filter: clicking a row highlights that ASN across visualizations
+    // Insert detail panel row if this ASN is expanded
+    if (isExpanded) {
+      tbodyHtml += `<tr class="detail-row"><td colspan="${columns.length}">${buildDetailPanel(n)}</td></tr>`;
+    }
+  }
+  tbody.innerHTML = tbodyHtml;
+
+  // Click handler: toggle detail panel
   tbody.querySelectorAll('tr.clickable-row').forEach(tr => {
     tr.addEventListener('click', () => {
       const asn = tr.dataset.asn;
-      if (asn && window._bgpHighlightASN) {
-        window._bgpHighlightASN(asn);
+      if (!asn) return;
+
+      if (expandedASN === asn) {
+        // Collapse
+        expandedASN = null;
+      } else {
+        // Expand this ASN
+        expandedASN = asn;
       }
+      renderTable();
+    });
+  });
+
+  // Close button handlers (delegated)
+  tbody.querySelectorAll('.detail-close').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      expandedASN = null;
+      renderTable();
     });
   });
 
   footer.innerHTML = `
-    <span>Showing ${rows.length > 0 ? currentPage * pageSize + 1 : 0}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length}</span>
+    <span>Showing ${rows.length > 0 ? currentPage * pageSize + 1 : 0}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length} &middot; Click a row for details</span>
     <div class="table-pagination">
       <button class="btn btn-small" id="page-prev" ${currentPage === 0 ? 'disabled' : ''}>Prev</button>
       <span>Page ${currentPage + 1} / ${totalPages}</span>
@@ -263,8 +440,9 @@ function renderEdgesTable() {
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
 export function highlightASN(asn) {
-  // Set search query to the ASN and re-render to filter the table
+  // Expand the detail panel for this ASN and filter to show it
   searchQuery = asn;
+  expandedASN = asn;
   currentPage = 0;
   const searchEl = document.getElementById('table-search');
   if (searchEl) searchEl.value = asn;

@@ -3,7 +3,7 @@
  * Side-by-side treemaps for each node type.
  */
 
-import { countryToFlag } from '../api/ripestat.js';
+import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -111,18 +111,7 @@ function renderTreemap(containerId, type) {
     .attr('stroke', '#0a0e27').attr('stroke-width', 1).attr('rx', 2)
     .on('mouseover', function (event, d) {
       d3.select(this).attr('stroke', '#fff').attr('stroke-width', 2);
-      const flag = d.data.country ? countryToFlag(d.data.country) + ' ' : '';
-      const typeLabel = TYPE_CONFIG[d.data.type]?.label || d.data.type || '';
-      const licenseBadge = d.data.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC]</span>' : '';
-      d3.select('#tooltip').html(`
-        <div class="tooltip-title">${flag}${d.data.name || `AS${d.data.asn}`}${licenseBadge}</div>
-        <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${d.data.asn}</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div>
-        ${d.data.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${flag}${d.data.country}</span></div>` : ''}
-        <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${d.data.traffic.toLocaleString()}</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(d.data.percentage || 0).toFixed(1)}%</span></div>
-        <div class="tooltip-row"><span class="tooltip-label">Rank:</span><span class="tooltip-value">#${d.data.rank}</span></div>
-      `).style('display', 'block');
+      d3.select('#tooltip').html(buildNodeTooltipHtml(d.data)).style('display', 'block');
     })
     .on('mousemove', moveTooltipSmart)
     .on('mouseout', function () { d3.select(this).attr('stroke', '#0a0e27').attr('stroke-width', 1); d3.select('#tooltip').style('display', 'none'); });

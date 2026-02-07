@@ -3,7 +3,7 @@
  * Supports 5 node types: local-isp (blue), iig (green), detected-iig (amber), offshore-peer (orange), outside (red).
  */
 
-import { countryToFlag } from '../api/ripestat.js';
+import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
 
 const TYPE_COLORS = {
   'outside': '#ff6b6b',
@@ -223,18 +223,7 @@ function ticked() {
 }
 
 function buildTooltipHtml(d) {
-  const flag = d.country ? countryToFlag(d.country) : '';
-  const licenseBadge = d.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC Licensed]</span>' : '';
-  return `
-    <div class="tooltip-title">${flag} ${d.name || `AS${d.asn}`}${licenseBadge}</div>
-    <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${d.asn}</span></div>
-    ${d.description ? `<div class="tooltip-row"><span class="tooltip-label">Org:</span><span class="tooltip-value">${d.description}</span></div>` : ''}
-    ${d.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${flag} ${d.country}</span></div>` : ''}
-    <div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${TYPE_LABELS[d.type] || d.type}</span></div>
-    <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${d.traffic.toLocaleString()}</span></div>
-    <div class="tooltip-row"><span class="tooltip-label">Rank:</span><span class="tooltip-value">#${d.rank}</span></div>
-    <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(d.percentage || 0).toFixed(1)}%</span></div>
-  `;
+  return buildNodeTooltipHtml(d, TYPE_LABELS);
 }
 
 function showTooltipHandler(event, d) { if (tooltip) tooltip.html(buildTooltipHtml(d)).style('display', 'block'); }

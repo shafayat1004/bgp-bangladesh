@@ -609,3 +609,99 @@ export class RIPEStatClient {
     return results;
   }
 }
+
+/**
+ * Shared TYPE_LABELS map for all visualizations
+ */
+export const SHARED_TYPE_LABELS = {
+  'outside': 'Outside BD (Intl Feeder)',
+  'iig': 'IIG (Licensed Gateway)',
+  'detected-iig': 'Detected Gateway',
+  'offshore-enterprise': 'Offshore Enterprise',
+  'offshore-gateway': 'Offshore Gateway',
+  'local-company': 'Local Company',
+  'inside': 'Inside BD (Gateway)',
+  'offshore-peer': 'BD Offshore Peer',
+  'local-isp': 'Local ISP',
+};
+
+/**
+ * Build enriched tooltip HTML for a BGP node.
+ * Shows geo location, registration country, classification info.
+ *
+ * @param {Object} d - Node data object with asn, name, type, country, geo_country, etc.
+ * @param {Object} [typeLabels] - Optional type label overrides
+ * @returns {string} HTML string for tooltip content
+ */
+export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
+  const regFlag = d.country ? countryToFlag(d.country) : '';
+  const geoFlag = d.geo_country ? countryToFlag(d.geo_country) : '';
+  const licenseBadge = d.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC Licensed]</span>' : '';
+  const typeLabel = typeLabels[d.type] || d.type || '';
+
+  // Determine if geo differs from registration
+  const geoKnown = d.geo_country && d.geo_country !== '';
+  const geoDiffers = geoKnown && d.geo_country !== d.country;
+
+  let html = `<div class="tooltip-title">${regFlag} ${d.name || `AS${d.asn}`}${licenseBadge}</div>`;
+  html += `<div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${d.asn}</span></div>`;
+
+  if (d.description && d.description !== d.name) {
+    html += `<div class="tooltip-row"><span class="tooltip-label">Org:</span><span class="tooltip-value">${d.description}</span></div>`;
+  }
+
+  if (d.country) {
+    html += `<div class="tooltip-row"><span class="tooltip-label">Registered:</span><span class="tooltip-value">${regFlag} ${d.country}</span></div>`;
+  }
+
+  if (geoKnown) {
+    const geoStyle = geoDiffers ? 'color:#fcc419;font-weight:bold' : '';
+    html += `<div class="tooltip-row"><span class="tooltip-label">IP Location:</span><span class="tooltip-value" style="${geoStyle}">${geoFlag} ${d.geo_country}${geoDiffers ? ' ⚠' : ''}</span></div>`;
+  }
+
+  html += `<div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div>`;
+
+  if (d.traffic !== undefined) {
+    html += `<div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${d.traffic.toLocaleString()}</span></div>`;
+  }
+  if (d.rank) {
+    html += `<div class="tooltip-row"><span class="tooltip-label">Rank:</span><span class="tooltip-value">#${d.rank}</span></div>`;
+  }
+  if (d.percentage !== undefined) {
+    html += `<div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(d.percentage || 0).toFixed(1)}%</span></div>`;
+  }
+
+  // Classification insight for offshore types
+  if (d.type === 'offshore-enterprise') {
+    html += `<div class="tooltip-insight">Registered in ${d.country || 'BD'} but IPs geolocated to ${d.geo_country}. No downstream BD customers detected — classified as harmless offshore presence.</div>`;
+  } else if (d.type === 'offshore-gateway') {
+    html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but IPs geolocated to ${d.geo_country}. Has downstream BD customers — potential unlicensed IIG.</div>`;
+  } else if (d.type === 'detected-iig') {
+    html += `<div class="tooltip-insight" style="color:#fcc419">Not in BTRC license list but has downstream BD customers — acting as an unlicensed gateway.</div>`;
+  }
+
+  return html;
+}
+
+/**
+ * Build tooltip HTML for an edge (link between two nodes).
+ *
+ * @param {Object} srcNode - Source node data
+ * @param {Object} tgtNode - Target node data
+ * @param {number} count - Route count
+ * @param {string} [edgeType] - Edge type (international/domestic)
+ * @returns {string} HTML string
+ */
+export function buildEdgeTooltipHtml(srcNode, tgtNode, count, edgeType) {
+  const sf = srcNode?.country ? countryToFlag(srcNode.country) + ' ' : '';
+  const tf = tgtNode?.country ? countryToFlag(tgtNode.country) + ' ' : '';
+  const sn = srcNode?.name || '?';
+  const tn = tgtNode?.name || '?';
+
+  let html = `<div class="tooltip-title">${sf}${sn} &rarr; ${tf}${tn}</div>`;
+  html += `<div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${count.toLocaleString()}</span></div>`;
+  if (edgeType) {
+    html += `<div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${edgeType}</span></div>`;
+  }
+  return html;
+}
