@@ -6089,7 +6089,30 @@
     "name": "THESOFTKINGLIMITED-AS-AP THESOFTKING LIMITED",
     "holder": "THESOFTKINGLIMITED-AS-AP THESOFTKING LIMITED",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "138.252.82.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df6:3c40::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "9441": {
     "asn": "9441",
@@ -7935,5 +7958,5560 @@
     "holder": "ALOO TELECOM - FSF TECNOLOGIA SA",
     "announced": true,
     "country": ""
+  },
+  "139202": {
+    "asn": "139202",
+    "name": "POWERMEDIA-AS-AP Power Media",
+    "holder": "POWERMEDIA-AS-AP Power Media",
+    "announced": true,
+    "country": "BD"
+  },
+  "149497": {
+    "asn": "149497",
+    "name": "SONARGAONSUPERNET-AS-AP Sonargaon Supernet",
+    "holder": "SONARGAONSUPERNET-AS-AP Sonargaon Supernet",
+    "announced": true,
+    "country": "BD"
+  },
+  "45607": {
+    "asn": "45607",
+    "name": "BTCL-SATELLITE-AS Bangladesh Telecommunications Company Limited BTCL",
+    "holder": "BTCL-SATELLITE-AS Bangladesh Telecommunications Company Limited BTCL",
+    "announced": true,
+    "country": "BD"
+  },
+  "132008": {
+    "asn": "132008",
+    "name": "EJOGAJOG-AS-AP E-JOGAJOG",
+    "holder": "EJOGAJOG-AS-AP E-JOGAJOG",
+    "announced": true,
+    "country": "BD"
+  },
+  "136512": {
+    "asn": "136512",
+    "name": "ABBANK-AS-AP AB Bank Limited",
+    "holder": "ABBANK-AS-AP AB Bank Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "152149": {
+    "asn": "152149",
+    "name": "AHAMEDIT-AS-AP Ahamed IT",
+    "holder": "AHAMEDIT-AS-AP Ahamed IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "134740": {
+    "asn": "134740",
+    "name": "HORIZON-AS-AP Horizon & Associates",
+    "holder": "HORIZON-AS-AP Horizon & Associates",
+    "announced": true,
+    "country": "BD"
+  },
+  "151391": {
+    "asn": "151391",
+    "name": "VARENDRAIT-AS-AP Varendra IT",
+    "holder": "VARENDRAIT-AS-AP Varendra IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "151339": {
+    "asn": "151339",
+    "name": "BMSCYBERHUT-AS-AP Cyber Hut",
+    "holder": "BMSCYBERHUT-AS-AP Cyber Hut",
+    "announced": true,
+    "country": "BD"
+  },
+  "149498": {
+    "asn": "149498",
+    "name": "GOTIBROADBAND-AS-AP Goti Broadband",
+    "holder": "GOTIBROADBAND-AS-AP Goti Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "152674": {
+    "asn": "152674",
+    "name": "MARVELWEBHOST-AS-AP Marvel Web Host",
+    "holder": "MARVELWEBHOST-AS-AP Marvel Web Host",
+    "announced": true,
+    "country": "BD"
+  },
+  "149033": {
+    "asn": "149033",
+    "name": "C1COMMUNICATION-AS-AP C1 Communication",
+    "holder": "C1COMMUNICATION-AS-AP C1 Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "137444": {
+    "asn": "137444",
+    "name": "SDNETWORK-AS-AP SD NETWORK",
+    "holder": "SDNETWORK-AS-AP SD NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "135613": {
+    "asn": "135613",
+    "name": "SIT-AS-AP Streaming Internet Trade",
+    "holder": "SIT-AS-AP Streaming Internet Trade",
+    "announced": true,
+    "country": "BD"
+  },
+  "150330": {
+    "asn": "150330",
+    "name": "BREEZE-AS-AP Breeze Online",
+    "holder": "BREEZE-AS-AP Breeze Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "150394": {
+    "asn": "150394",
+    "name": "CYBERHUB-AS-AP Cyber Hub Limited",
+    "holder": "CYBERHUB-AS-AP Cyber Hub Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "139850": {
+    "asn": "139850",
+    "name": "HI-TEC-AS-AP Hi-Tec Enterprise",
+    "holder": "HI-TEC-AS-AP Hi-Tec Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "152606": {
+    "asn": "152606",
+    "name": "LINK4COMMUNICATION-AS-AP LINK4 COMMUNICATION",
+    "holder": "LINK4COMMUNICATION-AS-AP LINK4 COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "18230": {
+    "asn": "18230",
+    "name": "ZIPNETBD-DKB-AS-AP Zipnet Limited DKB AS number",
+    "holder": "ZIPNETBD-DKB-AS-AP Zipnet Limited DKB AS number",
+    "announced": true,
+    "country": "BD"
+  },
+  "154332": {
+    "asn": "154332",
+    "name": "TCORPORATION-AS-AP T-Corporation",
+    "holder": "TCORPORATION-AS-AP T-Corporation",
+    "announced": true,
+    "country": "BD"
+  },
+  "151474": {
+    "asn": "151474",
+    "name": "CLOUD3-AS-AP Cloud online",
+    "holder": "CLOUD3-AS-AP Cloud online",
+    "announced": true,
+    "country": "BD"
+  },
+  "138659": {
+    "asn": "138659",
+    "name": "CYBERLINK-AS-AP Cyberlink Online",
+    "holder": "CYBERLINK-AS-AP Cyberlink Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "58670": {
+    "asn": "58670",
+    "name": "BDIGW-BD Bangladesh International Gateway Limited",
+    "holder": "BDIGW-BD Bangladesh International Gateway Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "149474": {
+    "asn": "149474",
+    "name": "YOURNET-AS-AP Your Net",
+    "holder": "YOURNET-AS-AP Your Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "63957": {
+    "asn": "63957",
+    "name": "M13ONLINEBD-BD 13 Online",
+    "holder": "M13ONLINEBD-BD 13 Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "152137": {
+    "asn": "152137",
+    "name": "AXISHOSTED-AS-AP AXIS HOSTED",
+    "holder": "AXISHOSTED-AS-AP AXIS HOSTED",
+    "announced": true,
+    "country": "BD"
+  },
+  "152189": {
+    "asn": "152189",
+    "name": "UNITEDNETWORK-AS-AP UNITED NETWORK",
+    "holder": "UNITEDNETWORK-AS-AP UNITED NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "136268": {
+    "asn": "136268",
+    "name": "QSRSYSTEMSLTD-AS-AP QSR Systems Ltd.",
+    "holder": "QSRSYSTEMSLTD-AS-AP QSR Systems Ltd.",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 66.67,
+          "prefixes": [
+            "103.85.216.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "103.85.219.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "138501": {
+    "asn": "138501",
+    "name": "UNIFIED-AS-AP Unified Core Limited",
+    "holder": "UNIFIED-AS-AP Unified Core Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "55531": {
+    "asn": "55531",
+    "name": "BRAC-BANK-AS-AP BracBank Limited",
+    "holder": "BRAC-BANK-AS-AP BracBank Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "133331": {
+    "asn": "133331",
+    "name": "INFOBASELIMITED-AS-AP Infobase Limited",
+    "holder": "INFOBASELIMITED-AS-AP Infobase Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "141181": {
+    "asn": "141181",
+    "name": "BCLONLINESERVICE-AS-AP BCL Online Service",
+    "holder": "BCLONLINESERVICE-AS-AP BCL Online Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "135564": {
+    "asn": "135564",
+    "name": "IPAYSYSTEMSLTD-AS-AP iPay Systems Ltd.",
+    "holder": "IPAYSYSTEMSLTD-AS-AP iPay Systems Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "142436": {
+    "asn": "142436",
+    "name": "MICRONETWORK-AS-AP Micro Network",
+    "holder": "MICRONETWORK-AS-AP Micro Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "153737": {
+    "asn": "153737",
+    "name": "CLOUD4-AS-AP Cloud View",
+    "holder": "CLOUD4-AS-AP Cloud View",
+    "announced": true,
+    "country": "BD"
+  },
+  "152739": {
+    "asn": "152739",
+    "name": "ALPHANET-AS-AP Alpha Net",
+    "holder": "ALPHANET-AS-AP Alpha Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "142615": {
+    "asn": "142615",
+    "name": "SARKER-AS-AP SARKER COMMUNICATION",
+    "holder": "SARKER-AS-AP SARKER COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "131216": {
+    "asn": "131216",
+    "name": "AUTHENTICNETWORK-AS-AP Saharea Hossain ta Authentic Network",
+    "holder": "AUTHENTICNETWORK-AS-AP Saharea Hossain ta Authentic Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "58623": {
+    "asn": "58623",
+    "name": "BG-TEL-LIMITED-BD BG TEL LIMITED",
+    "holder": "BG-TEL-LIMITED-BD BG TEL LIMITED",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.12.44.0/22"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "150152": {
+    "asn": "150152",
+    "name": "AGRANIBANKLIMITED-AS-AP Agrani Bank Limited",
+    "holder": "AGRANIBANKLIMITED-AS-AP Agrani Bank Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "139294": {
+    "asn": "139294",
+    "name": "SBN-AS-AP Skynet Broadband Network",
+    "holder": "SBN-AS-AP Skynet Broadband Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "152103": {
+    "asn": "152103",
+    "name": "DOS-AS-AP Daulatganj Online Service",
+    "holder": "DOS-AS-AP Daulatganj Online Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "4230": {
+    "asn": "4230",
+    "name": "CLARO S.A.",
+    "holder": "CLARO S.A.",
+    "announced": true,
+    "country": ""
+  },
+  "142210": {
+    "asn": "142210",
+    "name": "GNACC-AS-AP GH NETWORK AND CYBER CAFE",
+    "holder": "GNACC-AS-AP GH NETWORK AND CYBER CAFE",
+    "announced": true,
+    "country": "BD"
+  },
+  "132561": {
+    "asn": "132561",
+    "name": "BCL-AS-AP Beximco Computers Limited",
+    "holder": "BCL-AS-AP Beximco Computers Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "4601": {
+    "asn": "4601",
+    "name": "DNET - Antonios A. Chariton",
+    "holder": "DNET - Antonios A. Chariton",
+    "announced": true,
+    "country": ""
+  },
+  "147175": {
+    "asn": "147175",
+    "name": "DIGITALBDNET-AS-AP DIGITALBD.NET",
+    "holder": "DIGITALBDNET-AS-AP DIGITALBD.NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "138575": {
+    "asn": "138575",
+    "name": "APPLE2-AS-AP APPLE NET",
+    "holder": "APPLE2-AS-AP APPLE NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "24382": {
+    "asn": "24382",
+    "name": "BIGMEDIALIMITED-AS-AP Big Media Limited",
+    "holder": "BIGMEDIALIMITED-AS-AP Big Media Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "150745": {
+    "asn": "150745",
+    "name": "PABNAONLINE-AS-AP PABNA ONLINE",
+    "holder": "PABNAONLINE-AS-AP PABNA ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "134585": {
+    "asn": "134585",
+    "name": "DDNCOMMUNICATION-AS-AP DDN Communication",
+    "holder": "DDNCOMMUNICATION-AS-AP DDN Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "151046": {
+    "asn": "151046",
+    "name": "HIMELONLINE-AS-AP Himel Online",
+    "holder": "HIMELONLINE-AS-AP Himel Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "149860": {
+    "asn": "149860",
+    "name": "FTLINK-AS-AP F.T LINK",
+    "holder": "FTLINK-AS-AP F.T LINK",
+    "announced": true,
+    "country": "BD"
+  },
+  "132387": {
+    "asn": "132387",
+    "name": "TSTNETWORK-AS-AP TST Network",
+    "holder": "TSTNETWORK-AS-AP TST Network",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
+  },
+  "140889": {
+    "asn": "140889",
+    "name": "IMPEXBDNET-AS-AP Impex Bd Net",
+    "holder": "IMPEXBDNET-AS-AP Impex Bd Net",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "US",
+    "geo_country_data": {
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.182.170.0/23"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2602:feda:b8a::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "139928": {
+    "asn": "139928",
+    "name": "TWTL-AS-AP Third Wave Technologies Ltd",
+    "holder": "TWTL-AS-AP Third Wave Technologies Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "147307": {
+    "asn": "147307",
+    "name": "MMCN-AS-AP Mars Computer Net",
+    "holder": "MMCN-AS-AP Mars Computer Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "141209": {
+    "asn": "141209",
+    "name": "SKYNETBROADBANDSERVICE-AS-AP Skynet Broadband Service",
+    "holder": "SKYNETBROADBANDSERVICE-AS-AP Skynet Broadband Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "141474": {
+    "asn": "141474",
+    "name": "TRUSTINNOVATIONLIMITED-AS-AP Trust Innovation Limited",
+    "holder": "TRUSTINNOVATIONLIMITED-AS-AP Trust Innovation Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "23893": {
+    "asn": "23893",
+    "name": "BPL-BD Bangla Phone Ltd",
+    "holder": "BPL-BD Bangla Phone Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "149287": {
+    "asn": "149287",
+    "name": "MYNETTECHNOLOGIES-AS-AP Mynet Technologies",
+    "holder": "MYNETTECHNOLOGIES-AS-AP Mynet Technologies",
+    "announced": true,
+    "country": "BD"
+  },
+  "140076": {
+    "asn": "140076",
+    "name": "MIS-AS-AP Mir Internet Service",
+    "holder": "MIS-AS-AP Mir Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "138523": {
+    "asn": "138523",
+    "name": "SCSL-AS-AP Sylhet Communcation Systems Limited",
+    "holder": "SCSL-AS-AP Sylhet Communcation Systems Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "140216": {
+    "asn": "140216",
+    "name": "BANDHON-ENTERPRISE-AS-AP Bandhon Enterprise",
+    "holder": "BANDHON-ENTERPRISE-AS-AP Bandhon Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "150336": {
+    "asn": "150336",
+    "name": "DLOADNETWORK-AS-AP D-Load Network",
+    "holder": "DLOADNETWORK-AS-AP D-Load Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "152716": {
+    "asn": "152716",
+    "name": "MBDCONNECTION-AS-AP MBD Connection",
+    "holder": "MBDCONNECTION-AS-AP MBD Connection",
+    "announced": true,
+    "country": "BD"
+  },
+  "140865": {
+    "asn": "140865",
+    "name": "MASUDIT-AS-AP Masud It",
+    "holder": "MASUDIT-AS-AP Masud It",
+    "announced": true,
+    "country": "BD"
+  },
+  "134676": {
+    "asn": "134676",
+    "name": "XENIALBB1-AS-AP Santonu Talukder ta Xenial Broadband",
+    "holder": "XENIALBB1-AS-AP Santonu Talukder ta Xenial Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "133633": {
+    "asn": "133633",
+    "name": "MULTITECHONLINE-BD MultiTech Online",
+    "holder": "MULTITECHONLINE-BD MultiTech Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "152593": {
+    "asn": "152593",
+    "name": "SBC-AS-AP Sunamganj Broadband Communication",
+    "holder": "SBC-AS-AP Sunamganj Broadband Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "151984": {
+    "asn": "151984",
+    "name": "NRLINK-AS-AP NR Link",
+    "holder": "NRLINK-AS-AP NR Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "152110": {
+    "asn": "152110",
+    "name": "SPACEXONLINE-AS-AP SpaceX Online",
+    "holder": "SPACEXONLINE-AS-AP SpaceX Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "142428": {
+    "asn": "142428",
+    "name": "SUCHANABROADBAND-AS-AP Suchana Broadband",
+    "holder": "SUCHANABROADBAND-AS-AP Suchana Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "154269": {
+    "asn": "154269",
+    "name": "ABDURRAHMAN-AS-AP Easy Net-Wifi",
+    "holder": "ABDURRAHMAN-AS-AP Easy Net-Wifi",
+    "announced": true,
+    "country": "BD"
+  },
+  "138557": {
+    "asn": "138557",
+    "name": "NET-AS-AP NET CONNECT",
+    "holder": "NET-AS-AP NET CONNECT",
+    "announced": true,
+    "country": "BD"
+  },
+  "142595": {
+    "asn": "142595",
+    "name": "MDABUSALEH-AS-AP AG Communication",
+    "holder": "MDABUSALEH-AS-AP AG Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "138213": {
+    "asn": "138213",
+    "name": "LFL-AS-AP LankaBangla Finance Limited",
+    "holder": "LFL-AS-AP LankaBangla Finance Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "139276": {
+    "asn": "139276",
+    "name": "AFLAH-BD Aflah Communication",
+    "holder": "AFLAH-BD Aflah Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "141782": {
+    "asn": "141782",
+    "name": "SAN-AS-AP Search Air Network",
+    "holder": "SAN-AS-AP Search Air Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "136003": {
+    "asn": "136003",
+    "name": "INTERNETFACTORY-AS-AP Internet Factory",
+    "holder": "INTERNETFACTORY-AS-AP Internet Factory",
+    "announced": true,
+    "country": "BD"
+  },
+  "152336": {
+    "asn": "152336",
+    "name": "SONGJOZANINTERNET-AS-AP SONGJOZAN INTERNET",
+    "holder": "SONGJOZANINTERNET-AS-AP SONGJOZAN INTERNET",
+    "announced": true,
+    "country": "BD"
+  },
+  "153528": {
+    "asn": "153528",
+    "name": "ESL-AS-AP ExtentIT Solution Limited",
+    "holder": "ESL-AS-AP ExtentIT Solution Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "45588": {
+    "asn": "45588",
+    "name": "BTCL-ISP-AS Bangladesh Telecommunications Company Limited BTCL",
+    "holder": "BTCL-ISP-AS Bangladesh Telecommunications Company Limited BTCL",
+    "announced": true,
+    "country": "BD"
+  },
+  "140523": {
+    "asn": "140523",
+    "name": "MANIKGONJNETWORK-AS-AP Manikgonj Network",
+    "holder": "MANIKGONJNETWORK-AS-AP Manikgonj Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "153493": {
+    "asn": "153493",
+    "name": "UTTARAUNIVERSITY-AS-AP Uttara University",
+    "holder": "UTTARAUNIVERSITY-AS-AP Uttara University",
+    "announced": true,
+    "country": "BD"
+  },
+  "137568": {
+    "asn": "137568",
+    "name": "SKYSYSTEMSLTD-AS-AP SKY SYSTEMS LTD",
+    "holder": "SKYSYSTEMSLTD-AS-AP SKY SYSTEMS LTD",
+    "announced": true,
+    "country": "BD"
+  },
+  "133157": {
+    "asn": "133157",
+    "name": "FIREFLY-AS-AP Firefly Solution",
+    "holder": "FIREFLY-AS-AP Firefly Solution",
+    "announced": true,
+    "country": "BD"
+  },
+  "132408": {
+    "asn": "132408",
+    "name": "OSIFAONLINE-AS-AP OSIFA ONLINE",
+    "holder": "OSIFAONLINE-AS-AP OSIFA ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "133866": {
+    "asn": "133866",
+    "name": "UTURN-AS-AP U-Turn Technologies",
+    "holder": "UTURN-AS-AP U-Turn Technologies",
+    "announced": true,
+    "country": "BD"
+  },
+  "147050": {
+    "asn": "147050",
+    "name": "MEGHNAONLINE-AS-AP Meghna Online",
+    "holder": "MEGHNAONLINE-AS-AP Meghna Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "134804": {
+    "asn": "134804",
+    "name": "RIL-AS-AP ECTLINK",
+    "holder": "RIL-AS-AP ECTLINK",
+    "announced": true,
+    "country": "BD"
+  },
+  "151057": {
+    "asn": "151057",
+    "name": "TORRONGO-AS-AP Torrongo Communications",
+    "holder": "TORRONGO-AS-AP Torrongo Communications",
+    "announced": true,
+    "country": "BD"
+  },
+  "139041": {
+    "asn": "139041",
+    "name": "CBS-AS-AP CAFE-7040",
+    "holder": "CBS-AS-AP CAFE-7040",
+    "announced": true,
+    "country": "BD"
+  },
+  "138512": {
+    "asn": "138512",
+    "name": "CODEAXIS-AS-AP CodeAxis",
+    "holder": "CODEAXIS-AS-AP CodeAxis",
+    "announced": true,
+    "country": "BD"
+  },
+  "149048": {
+    "asn": "149048",
+    "name": "DURANTA-AS-AP Duranta Online Limited",
+    "holder": "DURANTA-AS-AP Duranta Online Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "136256": {
+    "asn": "136256",
+    "name": "KAZINETWORKS-AS-AP Kazi Networks",
+    "holder": "KAZINETWORKS-AS-AP Kazi Networks",
+    "announced": true,
+    "country": "BD"
+  },
+  "149633": {
+    "asn": "149633",
+    "name": "TURAGNET-AS-AP Turag net",
+    "holder": "TURAGNET-AS-AP Turag net",
+    "announced": true,
+    "country": "BD"
+  },
+  "137274": {
+    "asn": "137274",
+    "name": "UBONLINE-AS-AP Md. Zakir Hossain",
+    "holder": "UBONLINE-AS-AP Md. Zakir Hossain",
+    "announced": true,
+    "country": "BD"
+  },
+  "137252": {
+    "asn": "137252",
+    "name": "PROGOTIIT-AS-AP Mohammad Shahajahan",
+    "holder": "PROGOTIIT-AS-AP Mohammad Shahajahan",
+    "announced": true,
+    "country": "BD"
+  },
+  "58800": {
+    "asn": "58800",
+    "name": "ACENET-BD ACE IT Networks Limited",
+    "holder": "ACENET-BD ACE IT Networks Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "134599": {
+    "asn": "134599",
+    "name": "DIGITALDOTNET-AS-AP Digital Dot Net DDN",
+    "holder": "DIGITALDOTNET-AS-AP Digital Dot Net DDN",
+    "announced": true,
+    "country": "BD"
+  },
+  "53667": {
+    "asn": "53667",
+    "name": "PONYNET - FranTech Solutions",
+    "holder": "PONYNET - FranTech Solutions",
+    "announced": true,
+    "country": ""
+  },
+  "138585": {
+    "asn": "138585",
+    "name": "OFFTECHITBD-AS-AP OffTechIT Bangladesh",
+    "holder": "OFFTECHITBD-AS-AP OffTechIT Bangladesh",
+    "announced": true,
+    "country": "BD"
+  },
+  "138612": {
+    "asn": "138612",
+    "name": "AMRNET-AS-AP AMR NET",
+    "holder": "AMRNET-AS-AP AMR NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "139722": {
+    "asn": "139722",
+    "name": "FRIENDSCABLENET-AS-AP Friends Cable Net",
+    "holder": "FRIENDSCABLENET-AS-AP Friends Cable Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "138541": {
+    "asn": "138541",
+    "name": "ACTIVE-AS-AP Active Multimedia",
+    "holder": "ACTIVE-AS-AP Active Multimedia",
+    "announced": true,
+    "country": "BD"
+  },
+  "150302": {
+    "asn": "150302",
+    "name": "FENICYBERLINK-AS-AP Feni Cyber Link",
+    "holder": "FENICYBERLINK-AS-AP Feni Cyber Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "137531": {
+    "asn": "137531",
+    "name": "RAYHANENETWORK-AS-AP Rayhan E Network",
+    "holder": "RAYHANENETWORK-AS-AP Rayhan E Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "151608": {
+    "asn": "151608",
+    "name": "BLUE2-AS-AP Blue Communication",
+    "holder": "BLUE2-AS-AP Blue Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "134601": {
+    "asn": "134601",
+    "name": "MICROLINK-AS-AP Microlink Technology",
+    "holder": "MICROLINK-AS-AP Microlink Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "134353": {
+    "asn": "134353",
+    "name": "NETCOCLOUD-VIRTUAIIZATION-TECHNOLOGY Netcocloud - The Quality Based Datacenter",
+    "holder": "NETCOCLOUD-VIRTUAIIZATION-TECHNOLOGY Netcocloud - The Quality Based Datacenter",
+    "announced": true,
+    "country": "BD"
+  },
+  "149865": {
+    "asn": "149865",
+    "name": "CNETWORK-AS-AP CNETWORK",
+    "holder": "CNETWORK-AS-AP CNETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "134781": {
+    "asn": "134781",
+    "name": "HSBN-AS-AP HI-SPEED BROADBAND NETWORK",
+    "holder": "HSBN-AS-AP HI-SPEED BROADBAND NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "140063": {
+    "asn": "140063",
+    "name": "TIMETECHNOLOGY-AS-AP Time Technology",
+    "holder": "TIMETECHNOLOGY-AS-AP Time Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "133443": {
+    "asn": "133443",
+    "name": "COMILLA-AS-AP Comilla Online",
+    "holder": "COMILLA-AS-AP Comilla Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "149442": {
+    "asn": "149442",
+    "name": "DOIP-AS-AP Department of Immigration & Passports",
+    "holder": "DOIP-AS-AP Department of Immigration & Passports",
+    "announced": true,
+    "country": "BD"
+  },
+  "64018": {
+    "asn": "64018",
+    "name": "CWT-AS-AP Md. Abdul Awual ta Cyber Way Technology",
+    "holder": "CWT-AS-AP Md. Abdul Awual ta Cyber Way Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "138178": {
+    "asn": "138178",
+    "name": "MSMSTECHNOLOGY-AS-AP Md. Mustak Ahmed ta MS M.S. Technology",
+    "holder": "MSMSTECHNOLOGY-AS-AP Md. Mustak Ahmed ta MS M.S. Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "133528": {
+    "asn": "133528",
+    "name": "SNS-AS-AP MS Step Net System SNS",
+    "holder": "SNS-AS-AP MS Step Net System SNS",
+    "announced": true,
+    "country": "BD"
+  },
+  "140541": {
+    "asn": "140541",
+    "name": "MSOPTIMA-AS-AP Optima",
+    "holder": "MSOPTIMA-AS-AP Optima",
+    "announced": true,
+    "country": "BD"
+  },
+  "134983": {
+    "asn": "134983",
+    "name": "BDPEER-AS-AP BDPEER",
+    "holder": "BDPEER-AS-AP BDPEER",
+    "announced": true,
+    "country": "BD"
+  },
+  "152689": {
+    "asn": "152689",
+    "name": "HASANHOST-AS-AP Hasan Host",
+    "holder": "HASANHOST-AS-AP Hasan Host",
+    "announced": true,
+    "country": "BD"
+  },
+  "150379": {
+    "asn": "150379",
+    "name": "JPNETWORKBD-AS-AP J.P. Network",
+    "holder": "JPNETWORKBD-AS-AP J.P. Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "151832": {
+    "asn": "151832",
+    "name": "SONISTAR-AS-AP Soni Star",
+    "holder": "SONISTAR-AS-AP Soni Star",
+    "announced": true,
+    "country": "BD"
+  },
+  "152163": {
+    "asn": "152163",
+    "name": "FUTUREDOTNET-AS-AP FUTURE DOT NET",
+    "holder": "FUTUREDOTNET-AS-AP FUTURE DOT NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "153432": {
+    "asn": "153432",
+    "name": "TONGIONLINE-AS-AP Tongi Online",
+    "holder": "TONGIONLINE-AS-AP Tongi Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "139834": {
+    "asn": "139834",
+    "name": "SAVARNETCITY-AS-AP Savar Net City",
+    "holder": "SAVARNETCITY-AS-AP Savar Net City",
+    "announced": true,
+    "country": "BD"
+  },
+  "135654": {
+    "asn": "135654",
+    "name": "IHL-AS-AP Internet @ Home Limited",
+    "holder": "IHL-AS-AP Internet @ Home Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "150182": {
+    "asn": "150182",
+    "name": "CROWN-AS-AP Crown",
+    "holder": "CROWN-AS-AP Crown",
+    "announced": true,
+    "country": "BD"
+  },
+  "152099": {
+    "asn": "152099",
+    "name": "TELECABLE-AS-BD Telecable Bangladesh",
+    "holder": "TELECABLE-AS-BD Telecable Bangladesh",
+    "announced": true,
+    "country": "BD"
+  },
+  "138561": {
+    "asn": "138561",
+    "name": "BROADBANDZONENG-AS-AP BroadBandZone",
+    "holder": "BROADBANDZONENG-AS-AP BroadBandZone",
+    "announced": true,
+    "country": "BD"
+  },
+  "153516": {
+    "asn": "153516",
+    "name": "SYBON-AS-AP Six young boys online network",
+    "holder": "SYBON-AS-AP Six young boys online network",
+    "announced": true,
+    "country": "BD"
+  },
+  "141465": {
+    "asn": "141465",
+    "name": "DIS-AS-AP DURBIN INTERNET SERVICES",
+    "holder": "DIS-AS-AP DURBIN INTERNET SERVICES",
+    "announced": true,
+    "country": "BD"
+  },
+  "58912": {
+    "asn": "58912",
+    "name": "CTSL-BD Chittagong Telecom Services Ltd",
+    "holder": "CTSL-BD Chittagong Telecom Services Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "151215": {
+    "asn": "151215",
+    "name": "BDCALLINGITLTD-AS-AP bdCalling IT Ltd",
+    "holder": "BDCALLINGITLTD-AS-AP bdCalling IT Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "63987": {
+    "asn": "63987",
+    "name": "DSEL-BD Dhaka Stock Exchange Limited",
+    "holder": "DSEL-BD Dhaka Stock Exchange Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "149809": {
+    "asn": "149809",
+    "name": "MS5-AS-AP Sky Technologies",
+    "holder": "MS5-AS-AP Sky Technologies",
+    "announced": true,
+    "country": "BD"
+  },
+  "38210": {
+    "asn": "38210",
+    "name": "RANKSTEL-AS-BD Ranks Telecom Limited",
+    "holder": "RANKSTEL-AS-BD Ranks Telecom Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "141045": {
+    "asn": "141045",
+    "name": "CIVILNETWORK-AS-AP Civil Network",
+    "holder": "CIVILNETWORK-AS-AP Civil Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "150728": {
+    "asn": "150728",
+    "name": "RON-AS-AP Rongdhonu Online Network",
+    "holder": "RON-AS-AP Rongdhonu Online Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "133890": {
+    "asn": "133890",
+    "name": "BANGLADESHARMY-AS-AP Bangladesh Army",
+    "holder": "BANGLADESHARMY-AS-AP Bangladesh Army",
+    "announced": true,
+    "country": "BD"
+  },
+  "153853": {
+    "asn": "153853",
+    "name": "SERVER-AS-AP Server Anywhere",
+    "holder": "SERVER-AS-AP Server Anywhere",
+    "announced": true,
+    "country": "BD"
+  },
+  "138042": {
+    "asn": "138042",
+    "name": "RUNWAYBROADBAND-AS-AP Runway Broadband",
+    "holder": "RUNWAYBROADBAND-AS-AP Runway Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "154037": {
+    "asn": "154037",
+    "name": "GLOBALNETWORKINC-AS-AP Global Network Inc",
+    "holder": "GLOBALNETWORKINC-AS-AP Global Network Inc",
+    "announced": true,
+    "country": "BD"
+  },
+  "132869": {
+    "asn": "132869",
+    "name": "MANETWORKSERVICE-AS-AP Mohammad Mahabub Alam ta M.A Network Service",
+    "holder": "MANETWORKSERVICE-AS-AP Mohammad Mahabub Alam ta M.A Network Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "136562": {
+    "asn": "136562",
+    "name": "THEWINNERIT-AS-AP Mohammad Ohid Ullah Bhuiyan ta The Winner IT",
+    "holder": "THEWINNERIT-AS-AP Mohammad Ohid Ullah Bhuiyan ta The Winner IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "45245": {
+    "asn": "45245",
+    "name": "BANGLALINK-AS Banglalink Digital Communications Ltd",
+    "holder": "BANGLALINK-AS Banglalink Digital Communications Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "150661": {
+    "asn": "150661",
+    "name": "ICOMMUNICATIONBD-AS-AP I COMMUNICATION",
+    "holder": "ICOMMUNICATIONBD-AS-AP I COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "132436": {
+    "asn": "132436",
+    "name": "TAHOECOM-AS-AP Tahoe Communication Limited",
+    "holder": "TAHOECOM-AS-AP Tahoe Communication Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "142407": {
+    "asn": "142407",
+    "name": "SALAUDDINCYBERNET-AS-AP Salauddin Cybernet",
+    "holder": "SALAUDDINCYBERNET-AS-AP Salauddin Cybernet",
+    "announced": true,
+    "country": "BD"
+  },
+  "138549": {
+    "asn": "138549",
+    "name": "NETCAFE-AS-AP Net Cafe",
+    "holder": "NETCAFE-AS-AP Net Cafe",
+    "announced": true,
+    "country": "BD"
+  },
+  "136217": {
+    "asn": "136217",
+    "name": "MOON-AS-AP MOON NET",
+    "holder": "MOON-AS-AP MOON NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "146946": {
+    "asn": "146946",
+    "name": "TSNETWORK-AS-AP TS Network",
+    "holder": "TSNETWORK-AS-AP TS Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "154449": {
+    "asn": "154449",
+    "name": "DSN-AS-AP Dream Solution Networks",
+    "holder": "DSN-AS-AP Dream Solution Networks",
+    "announced": true,
+    "country": "BD"
+  },
+  "134502": {
+    "asn": "134502",
+    "name": "VICTORIANSONLINE-AS-AP Victorians Online",
+    "holder": "VICTORIANSONLINE-AS-AP Victorians Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "150718": {
+    "asn": "150718",
+    "name": "PIONEER-AS-AP Pioneer Services Limited",
+    "holder": "PIONEER-AS-AP Pioneer Services Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "140546": {
+    "asn": "140546",
+    "name": "UECL-AS-AP United Enterprises & CO Ltd.",
+    "holder": "UECL-AS-AP United Enterprises & CO Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "149643": {
+    "asn": "149643",
+    "name": "CLICKCOMMUNICATION-AS-AP Click Communication",
+    "holder": "CLICKCOMMUNICATION-AS-AP Click Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "139282": {
+    "asn": "139282",
+    "name": "NOVUSNETWORK-AS-AP Novus Network",
+    "holder": "NOVUSNETWORK-AS-AP Novus Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "132608": {
+    "asn": "132608",
+    "name": "MTSL-ISP-AP Mango Teleservices Limited ISP",
+    "holder": "MTSL-ISP-AP Mango Teleservices Limited ISP",
+    "announced": true,
+    "country": "BD"
+  },
+  "149815": {
+    "asn": "149815",
+    "name": "POSHCOMMUNICATION-AS-AP posh communication",
+    "holder": "POSHCOMMUNICATION-AS-AP posh communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "135527": {
+    "asn": "135527",
+    "name": "EXPLOREONLINE-AS-AP Kazi Mohammad Shoabe TA Explore Online",
+    "holder": "EXPLOREONLINE-AS-AP Kazi Mohammad Shoabe TA Explore Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "138692": {
+    "asn": "138692",
+    "name": "POLLYIT-AS-AP Polly IT",
+    "holder": "POLLYIT-AS-AP Polly IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "151403": {
+    "asn": "151403",
+    "name": "ACLOUDPLANET-AS-AP A Cloud Planet",
+    "holder": "ACLOUDPLANET-AS-AP A Cloud Planet",
+    "announced": true,
+    "country": "BD"
+  },
+  "149420": {
+    "asn": "149420",
+    "name": "IKN-AS-AP Inter Khulna Network",
+    "holder": "IKN-AS-AP Inter Khulna Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "153310": {
+    "asn": "153310",
+    "name": "TALL-AS-AP The ACME Laboratories Limited",
+    "holder": "TALL-AS-AP The ACME Laboratories Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "151620": {
+    "asn": "151620",
+    "name": "MD2-AS-AP AVEVA RESOURCE",
+    "holder": "MD2-AS-AP AVEVA RESOURCE",
+    "announced": true,
+    "country": "BD"
+  },
+  "140917": {
+    "asn": "140917",
+    "name": "MET-AS-AP ERA TRADERS",
+    "holder": "MET-AS-AP ERA TRADERS",
+    "announced": true,
+    "country": "BD"
+  },
+  "140524": {
+    "asn": "140524",
+    "name": "PEOPLENTECHDNS-AS-AP People N Tech Limited",
+    "holder": "PEOPLENTECHDNS-AS-AP People N Tech Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "142028": {
+    "asn": "142028",
+    "name": "MBDN-AS-AP Banasreee Dot Net",
+    "holder": "MBDN-AS-AP Banasreee Dot Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "134106": {
+    "asn": "134106",
+    "name": "ENJOYNETWORK-AS-AP Enjoy Network",
+    "holder": "ENJOYNETWORK-AS-AP Enjoy Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "151791": {
+    "asn": "151791",
+    "name": "AMADER-AS-AP Amader Internet Connection",
+    "holder": "AMADER-AS-AP Amader Internet Connection",
+    "announced": true,
+    "country": "BD"
+  },
+  "152462": {
+    "asn": "152462",
+    "name": "SHAJIBONLINE-AS-AP Shajib Online",
+    "holder": "SHAJIBONLINE-AS-AP Shajib Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "152916": {
+    "asn": "152916",
+    "name": "PROGOTI1-AS-AP Progoti systems Limited",
+    "holder": "PROGOTI1-AS-AP Progoti systems Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "147292": {
+    "asn": "147292",
+    "name": "MAHP-AS-AP Microwin Cyber Cafe",
+    "holder": "MAHP-AS-AP Microwin Cyber Cafe",
+    "announced": true,
+    "country": "BD"
+  },
+  "154462": {
+    "asn": "154462",
+    "name": "YOURNET-AS-AP Yournet Communications",
+    "holder": "YOURNET-AS-AP Yournet Communications",
+    "announced": true,
+    "country": "BD"
+  },
+  "6894": {
+    "asn": "6894",
+    "name": "KDDI-EUROPE - KDDI Europe Ltd",
+    "holder": "KDDI-EUROPE - KDDI Europe Ltd",
+    "announced": true,
+    "country": ""
+  },
+  "133099": {
+    "asn": "133099",
+    "name": "IMAGEIT-AS-AP Image IT",
+    "holder": "IMAGEIT-AS-AP Image IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "140992": {
+    "asn": "140992",
+    "name": "GEONET-AS-AP GEO NET",
+    "holder": "GEONET-AS-AP GEO NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "153568": {
+    "asn": "153568",
+    "name": "NEWDHAKAHARDWARE-AS-AP NEW DHAKA HARDWARE",
+    "holder": "NEWDHAKAHARDWARE-AS-AP NEW DHAKA HARDWARE",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "163.61.188.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "140711": {
+    "asn": "140711",
+    "name": "DESHNETBROADBAND-AS-AP Deshnet Broadband",
+    "holder": "DESHNETBROADBAND-AS-AP Deshnet Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "138403": {
+    "asn": "138403",
+    "name": "BISMILLAENTERPRISE-AS-AP Bismilla Enterprise",
+    "holder": "BISMILLAENTERPRISE-AS-AP Bismilla Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "153304": {
+    "asn": "153304",
+    "name": "RAHATECHNOLOGY-AS-AP Raha Technology",
+    "holder": "RAHATECHNOLOGY-AS-AP Raha Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "141030": {
+    "asn": "141030",
+    "name": "CIRCLENETWORK-AS-AP CIRCLE NETWORK",
+    "holder": "CIRCLENETWORK-AS-AP CIRCLE NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "13335": {
+    "asn": "13335",
+    "name": "CLOUDFLARENET - Cloudflare",
+    "holder": "CLOUDFLARENET - Cloudflare",
+    "announced": true,
+    "country": "US"
+  },
+  "152481": {
+    "asn": "152481",
+    "name": "FBI-AS-AP FC Broadband Internet",
+    "holder": "FBI-AS-AP FC Broadband Internet",
+    "announced": true,
+    "country": "BD"
+  },
+  "139758": {
+    "asn": "139758",
+    "name": "SHINECOMMUNICATION-AS-AP Shine Communication",
+    "holder": "SHINECOMMUNICATION-AS-AP Shine Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "134122": {
+    "asn": "134122",
+    "name": "KAZINET-AS-AP Kazi Net",
+    "holder": "KAZINET-AS-AP Kazi Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "141418": {
+    "asn": "141418",
+    "name": "UIC-AS-AP U-Turn Internet Communication",
+    "holder": "UIC-AS-AP U-Turn Internet Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "132031": {
+    "asn": "132031",
+    "name": "SUBNETSER-AS-AP MS. Subnet Services",
+    "holder": "SUBNETSER-AS-AP MS. Subnet Services",
+    "announced": true,
+    "country": "BD"
+  },
+  "64037": {
+    "asn": "64037",
+    "name": "FIRSTNFASTITLTD-AS-AP First n Fast IT Ltd",
+    "holder": "FIRSTNFASTITLTD-AS-AP First n Fast IT Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "132801": {
+    "asn": "132801",
+    "name": "NBL-AS National Bank LimitedHead Office",
+    "holder": "NBL-AS National Bank LimitedHead Office",
+    "announced": true,
+    "country": "BD"
+  },
+  "149523": {
+    "asn": "149523",
+    "name": "SELIMSHEIKH-AS-AP Internet Carrier",
+    "holder": "SELIMSHEIKH-AS-AP Internet Carrier",
+    "announced": true,
+    "country": "BD"
+  },
+  "141154": {
+    "asn": "141154",
+    "name": "IFOSOURCEBROADBANDINTERNET-AS-AP Ifosource Broadband Internet",
+    "holder": "IFOSOURCEBROADBANDINTERNET-AS-AP Ifosource Broadband Internet",
+    "announced": true,
+    "country": "BD"
+  },
+  "139027": {
+    "asn": "139027",
+    "name": "RENAISSANCE-AS-AP Renaissance Online and Cyber Cafe",
+    "holder": "RENAISSANCE-AS-AP Renaissance Online and Cyber Cafe",
+    "announced": true,
+    "country": "BD"
+  },
+  "149311": {
+    "asn": "149311",
+    "name": "SKYNETATHOME-AS-AP SKY NET@HOME",
+    "holder": "SKYNETATHOME-AS-AP SKY NET@HOME",
+    "announced": true,
+    "country": "BD"
+  },
+  "152300": {
+    "asn": "152300",
+    "name": "SKYLINKNET-AS-AP Sky Link Net",
+    "holder": "SKYLINKNET-AS-AP Sky Link Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "136416": {
+    "asn": "136416",
+    "name": "SOROB2-AS-AP Sorob IT LTD",
+    "holder": "SOROB2-AS-AP Sorob IT LTD",
+    "announced": true,
+    "country": "BD"
+  },
+  "153981": {
+    "asn": "153981",
+    "name": "DAFFODIL1-AS-AP Daffodil International University",
+    "holder": "DAFFODIL1-AS-AP Daffodil International University",
+    "announced": true,
+    "country": "BD"
+  },
+  "153800": {
+    "asn": "153800",
+    "name": "IPLUSTECHNOLOGY-AS-AP I-PLUS TECHNOLOGY",
+    "holder": "IPLUSTECHNOLOGY-AS-AP I-PLUS TECHNOLOGY",
+    "announced": true,
+    "country": "BD"
+  },
+  "136519": {
+    "asn": "136519",
+    "name": "ACCESS5-AS-AP Access Net",
+    "holder": "ACCESS5-AS-AP Access Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "136022": {
+    "asn": "136022",
+    "name": "JANANITECHNOLOGY-AS-AP Janani Technology",
+    "holder": "JANANITECHNOLOGY-AS-AP Janani Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "139913": {
+    "asn": "139913",
+    "name": "FSIBL-AS-AP First Security Islami Bank Limited",
+    "holder": "FSIBL-AS-AP First Security Islami Bank Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "137018": {
+    "asn": "137018",
+    "name": "BLUE1-AS-AP Blue Sky Cable Network",
+    "holder": "BLUE1-AS-AP Blue Sky Cable Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "63851": {
+    "asn": "63851",
+    "name": "BANKALFALAHLTD-AS-AP Bank Alfalah Ltd.",
+    "holder": "BANKALFALAHLTD-AS-AP Bank Alfalah Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "150738": {
+    "asn": "150738",
+    "name": "LIKEONLINE-AS-AP Like Online",
+    "holder": "LIKEONLINE-AS-AP Like Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "136215": {
+    "asn": "136215",
+    "name": "SB-AS-AP SB NETWORK",
+    "holder": "SB-AS-AP SB NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "140090": {
+    "asn": "140090",
+    "name": "HKNET-AS-AP HK Net",
+    "holder": "HKNET-AS-AP HK Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "150451": {
+    "asn": "150451",
+    "name": "SBNETCITY-AS-AP SB Net City",
+    "holder": "SBNETCITY-AS-AP SB Net City",
+    "announced": true,
+    "country": "BD"
+  },
+  "45273": {
+    "asn": "45273",
+    "name": "BTRAC-AS-AP Bangla Trac Communications Ltd IGW Operation",
+    "holder": "BTRAC-AS-AP Bangla Trac Communications Ltd IGW Operation",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "202.90.200.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "117.104.184.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "202.52.138.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "140502": {
+    "asn": "140502",
+    "name": "BAHANNO-AS-AP Bahanno",
+    "holder": "BAHANNO-AS-AP Bahanno",
+    "announced": true,
+    "country": "BD"
+  },
+  "146957": {
+    "asn": "146957",
+    "name": "CLICKONLINE-AS-AP Click Online",
+    "holder": "CLICKONLINE-AS-AP Click Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "139599": {
+    "asn": "139599",
+    "name": "PVMBPL-AS-AP Perfetti Van Melle Bangladesh Private Limited",
+    "holder": "PVMBPL-AS-AP Perfetti Van Melle Bangladesh Private Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "142543": {
+    "asn": "142543",
+    "name": "RABFORCESHQ-AS-AP RAB",
+    "holder": "RABFORCESHQ-AS-AP RAB",
+    "announced": true,
+    "country": "BD"
+  },
+  "152449": {
+    "asn": "152449",
+    "name": "IST-AS-AP IST",
+    "holder": "IST-AS-AP IST",
+    "announced": true,
+    "country": "BD"
+  },
+  "150114": {
+    "asn": "150114",
+    "name": "CITYINTERNETCOM-AS-AP CITY INTERNET.COM",
+    "holder": "CITYINTERNETCOM-AS-AP CITY INTERNET.COM",
+    "announced": true,
+    "country": "BD"
+  },
+  "137391": {
+    "asn": "137391",
+    "name": "RINGS3-AS-AP Rings-3",
+    "holder": "RINGS3-AS-AP Rings-3",
+    "announced": true,
+    "country": "BD"
+  },
+  "152138": {
+    "asn": "152138",
+    "name": "HOTLINGNETWORK-AS-AP Hot Ling Network",
+    "holder": "HOTLINGNETWORK-AS-AP Hot Ling Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "150662": {
+    "asn": "150662",
+    "name": "DANIEL24-AS-AP DANIEL-24",
+    "holder": "DANIEL24-AS-AP DANIEL-24",
+    "announced": true,
+    "country": "BD"
+  },
+  "140539": {
+    "asn": "140539",
+    "name": "MDDN-AS-AP Mirpur DOHS Digital Network",
+    "holder": "MDDN-AS-AP Mirpur DOHS Digital Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "132604": {
+    "asn": "132604",
+    "name": "MIDLAND-AS-AP Midland Bank",
+    "holder": "MIDLAND-AS-AP Midland Bank",
+    "announced": true,
+    "country": "BD"
+  },
+  "136910": {
+    "asn": "136910",
+    "name": "TECHNO1-AS-AP MD. JAKIR HOSSAIN TA Techno One Line",
+    "holder": "TECHNO1-AS-AP MD. JAKIR HOSSAIN TA Techno One Line",
+    "announced": true,
+    "country": "BD"
+  },
+  "135587": {
+    "asn": "135587",
+    "name": "JGTL-AS-AP JH GLOBAL TECHNOLOGY LTD",
+    "holder": "JGTL-AS-AP JH GLOBAL TECHNOLOGY LTD",
+    "announced": true,
+    "country": "BD"
+  },
+  "150372": {
+    "asn": "150372",
+    "name": "WRSPEEDONLINE-AS-AP WR SPEED ONLINE",
+    "holder": "WRSPEEDONLINE-AS-AP WR SPEED ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "137862": {
+    "asn": "137862",
+    "name": "RAINBOWDNET-AS-AP Rainbow D Net",
+    "holder": "RAINBOWDNET-AS-AP Rainbow D Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "141417": {
+    "asn": "141417",
+    "name": "MSBHOLADOTNET-AS-AP MS Bhola Dot Net",
+    "holder": "MSBHOLADOTNET-AS-AP MS Bhola Dot Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "138420": {
+    "asn": "138420",
+    "name": "AAMRA-IXP-AS-AP Aamra Infrastructure Services Limited",
+    "holder": "AAMRA-IXP-AS-AP Aamra Infrastructure Services Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "151484": {
+    "asn": "151484",
+    "name": "KMNETWORK-AS-AP KM NETWORK",
+    "holder": "KMNETWORK-AS-AP KM NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "136010": {
+    "asn": "136010",
+    "name": "SEBAIT-AS-AP SEBA IT",
+    "holder": "SEBAIT-AS-AP SEBA IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "141003": {
+    "asn": "141003",
+    "name": "JONEYCABLENETWORK-AS-AP Jony Cable Network",
+    "holder": "JONEYCABLENETWORK-AS-AP Jony Cable Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "153378": {
+    "asn": "153378",
+    "name": "ORBITAL-AS-AP Orbital Net",
+    "holder": "ORBITAL-AS-AP Orbital Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "152709": {
+    "asn": "152709",
+    "name": "RKLINK-AS-AP RK Link",
+    "holder": "RKLINK-AS-AP RK Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "151967": {
+    "asn": "151967",
+    "name": "DLIS-AS-AP DLITS",
+    "holder": "DLIS-AS-AP DLITS",
+    "announced": true,
+    "country": "BD"
+  },
+  "9304": {
+    "asn": "9304",
+    "name": "HUTCHISON-AS-AP HGC Global Communications Limited",
+    "holder": "HUTCHISON-AS-AP HGC Global Communications Limited",
+    "announced": true,
+    "country": ""
+  },
+  "141217": {
+    "asn": "141217",
+    "name": "ABS1-AS-AP A.B.S. Online Service",
+    "holder": "ABS1-AS-AP A.B.S. Online Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "835": {
+    "asn": "835",
+    "name": "GOCODEIT-EDGE - GoCodeIT Inc",
+    "holder": "GOCODEIT-EDGE - GoCodeIT Inc",
+    "announced": true,
+    "country": ""
+  },
+  "140993": {
+    "asn": "140993",
+    "name": "BEACONLINK-AS-AP Beacon Link",
+    "holder": "BEACONLINK-AS-AP Beacon Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "153681": {
+    "asn": "153681",
+    "name": "RAIDAONLINE-AS-AP Raida Online",
+    "holder": "RAIDAONLINE-AS-AP Raida Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "139326": {
+    "asn": "139326",
+    "name": "DOIBS-AS-AP Digital One Broadband Internet Service",
+    "holder": "DOIBS-AS-AP Digital One Broadband Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "153980": {
+    "asn": "153980",
+    "name": "BRACAARONG-AS-AP BRAC-Aarong",
+    "holder": "BRACAARONG-AS-AP BRAC-Aarong",
+    "announced": true,
+    "country": "BD"
+  },
+  "138694": {
+    "asn": "138694",
+    "name": "SYNCIT-AS-AP SyncIT Bangladesh",
+    "holder": "SYNCIT-AS-AP SyncIT Bangladesh",
+    "announced": true,
+    "country": "BD"
+  },
+  "137953": {
+    "asn": "137953",
+    "name": "BIS-AS-AP Bismillah IT Solution",
+    "holder": "BIS-AS-AP Bismillah IT Solution",
+    "announced": true,
+    "country": "BD"
+  },
+  "138205": {
+    "asn": "138205",
+    "name": "RMNETWORK-AS-AP RM NETWORK",
+    "holder": "RMNETWORK-AS-AP RM NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "141997": {
+    "asn": "141997",
+    "name": "AHONCOMMUNICATION-AS-AP AHON COMMUNICATION",
+    "holder": "AHONCOMMUNICATION-AS-AP AHON COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "141208": {
+    "asn": "141208",
+    "name": "GBNS-AS-AP Green Broadband Network Service",
+    "holder": "GBNS-AS-AP Green Broadband Network Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "136007": {
+    "asn": "136007",
+    "name": "SHEBA-AS-AP Internet Service Provider",
+    "holder": "SHEBA-AS-AP Internet Service Provider",
+    "announced": true,
+    "country": "BD"
+  },
+  "150319": {
+    "asn": "150319",
+    "name": "HBCT-AS-AP HOMENET BROADBAND COMMUNICATION AND TECHNOLOGIES",
+    "holder": "HBCT-AS-AP HOMENET BROADBAND COMMUNICATION AND TECHNOLOGIES",
+    "announced": true,
+    "country": "BD"
+  },
+  "142162": {
+    "asn": "142162",
+    "name": "KIN-AS-AP King IT Net",
+    "holder": "KIN-AS-AP King IT Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "136207": {
+    "asn": "136207",
+    "name": "KBNONLINE-AS-AP K B N Online",
+    "holder": "KBNONLINE-AS-AP K B N Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "63964": {
+    "asn": "63964",
+    "name": "STL-BD Songbird Telecom Limited",
+    "holder": "STL-BD Songbird Telecom Limited",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.53.84.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "24389": {
+    "asn": "24389",
+    "name": "GRAMEENPHONE-AS-AP GrameenPhone Ltd.",
+    "holder": "GRAMEENPHONE-AS-AP GrameenPhone Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "147001": {
+    "asn": "147001",
+    "name": "DIGITALNET-AS-AP DIGITAL NET",
+    "holder": "DIGITALNET-AS-AP DIGITAL NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "137020": {
+    "asn": "137020",
+    "name": "FCN-AS-AP Fast Cyber Network",
+    "holder": "FCN-AS-AP Fast Cyber Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "135658": {
+    "asn": "135658",
+    "name": "MIMONILNE-AS-AP MIM Online",
+    "holder": "MIMONILNE-AS-AP MIM Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "142134": {
+    "asn": "142134",
+    "name": "FASTBDONLINE-AS-AP FastBD Online",
+    "holder": "FASTBDONLINE-AS-AP FastBD Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "138658": {
+    "asn": "138658",
+    "name": "ICOMMUNICATION-AS-AP I Communication",
+    "holder": "ICOMMUNICATION-AS-AP I Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "150709": {
+    "asn": "150709",
+    "name": "AJWAHNETWORK-AS-AP Ajwah Network",
+    "holder": "AJWAHNETWORK-AS-AP Ajwah Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "132601": {
+    "asn": "132601",
+    "name": "ISMAIL-AS-AP Ismail It Solution",
+    "holder": "ISMAIL-AS-AP Ismail It Solution",
+    "announced": true,
+    "country": "BD"
+  },
+  "49453": {
+    "asn": "49453",
+    "name": "GLOBALLAYER - Global Layer B.V.",
+    "holder": "GLOBALLAYER - Global Layer B.V.",
+    "announced": true,
+    "country": ""
+  },
+  "149179": {
+    "asn": "149179",
+    "name": "NET6-AS-AP Net Express",
+    "holder": "NET6-AS-AP Net Express",
+    "announced": true,
+    "country": "BD"
+  },
+  "153935": {
+    "asn": "153935",
+    "name": "MBNETWORK-AS-AP MB Network",
+    "holder": "MBNETWORK-AS-AP MB Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "134455": {
+    "asn": "134455",
+    "name": "CAMPC-AS-AP C & C Communication",
+    "holder": "CAMPC-AS-AP C & C Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "138924": {
+    "asn": "138924",
+    "name": "BPBL-AS-AP Berger Paints Bangladesh Ltd.",
+    "holder": "BPBL-AS-AP Berger Paints Bangladesh Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "139343": {
+    "asn": "139343",
+    "name": "WENET-AS-AP WENET",
+    "holder": "WENET-AS-AP WENET",
+    "announced": true,
+    "country": "BD"
+  },
+  "140606": {
+    "asn": "140606",
+    "name": "QTAIL-AS-AP Quad Technology and Infotech Limited",
+    "holder": "QTAIL-AS-AP Quad Technology and Infotech Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "140919": {
+    "asn": "140919",
+    "name": "CLOUDONE-AS-AP Cloudone",
+    "holder": "CLOUDONE-AS-AP Cloudone",
+    "announced": true,
+    "country": "BD"
+  },
+  "134603": {
+    "asn": "134603",
+    "name": "MAHDIINTERNET-AS-AP Mahdi Internet",
+    "holder": "MAHDIINTERNET-AS-AP Mahdi Internet",
+    "announced": true,
+    "country": "BD"
+  },
+  "151077": {
+    "asn": "151077",
+    "name": "ITEL-AS-AP I-TEL",
+    "holder": "ITEL-AS-AP I-TEL",
+    "announced": true,
+    "country": "BD"
+  },
+  "138651": {
+    "asn": "138651",
+    "name": "SPIDERNET-AS-AP Spider Net",
+    "holder": "SPIDERNET-AS-AP Spider Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "58732": {
+    "asn": "58732",
+    "name": "PLATINUMCOMMUNICATION Platinum Communication Limited",
+    "holder": "PLATINUMCOMMUNICATION Platinum Communication Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "140980": {
+    "asn": "140980",
+    "name": "NALTAVISION-AS-AP Nalta Vision",
+    "holder": "NALTAVISION-AS-AP Nalta Vision",
+    "announced": true,
+    "country": "BD"
+  },
+  "138667": {
+    "asn": "138667",
+    "name": "ABUTECHNOLOGY-AS-AP Abu Technology",
+    "holder": "ABUTECHNOLOGY-AS-AP Abu Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "137970": {
+    "asn": "137970",
+    "name": "AAA-AS-AP Rocket Signal",
+    "holder": "AAA-AS-AP Rocket Signal",
+    "announced": true,
+    "country": "BD"
+  },
+  "139716": {
+    "asn": "139716",
+    "name": "BMIT-AS-AP B.M IT and Cyber Place",
+    "holder": "BMIT-AS-AP B.M IT and Cyber Place",
+    "announced": true,
+    "country": "BD"
+  },
+  "141701": {
+    "asn": "141701",
+    "name": "JAAN-AS-AP Jaan Computer",
+    "holder": "JAAN-AS-AP Jaan Computer",
+    "announced": true,
+    "country": "BD"
+  },
+  "135650": {
+    "asn": "135650",
+    "name": "MTABS-AS-AP Masum Telecom and Broadband Service",
+    "holder": "MTABS-AS-AP Masum Telecom and Broadband Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "150714": {
+    "asn": "150714",
+    "name": "DANISH-AS-AP Danish Foods Limited",
+    "holder": "DANISH-AS-AP Danish Foods Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "132156": {
+    "asn": "132156",
+    "name": "TOMATTOSTL-AS-AP Tomattos Technologies Ltd.",
+    "holder": "TOMATTOSTL-AS-AP Tomattos Technologies Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "139757": {
+    "asn": "139757",
+    "name": "TALUKDERNET-AS-AP Talukder net",
+    "holder": "TALUKDERNET-AS-AP Talukder net",
+    "announced": true,
+    "country": "BD"
+  },
+  "154308": {
+    "asn": "154308",
+    "name": "RODELAONLINE-AS-AP Rodela Online",
+    "holder": "RODELAONLINE-AS-AP Rodela Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "137830": {
+    "asn": "137830",
+    "name": "WIREITSERVICES-AS-AP Wire IT Services",
+    "holder": "WIREITSERVICES-AS-AP Wire IT Services",
+    "announced": true,
+    "country": "BD"
+  },
+  "140087": {
+    "asn": "140087",
+    "name": "JMIS-AS-AP Jannat Mir Internet Service",
+    "holder": "JMIS-AS-AP Jannat Mir Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "153550": {
+    "asn": "153550",
+    "name": "SPIDERNETWORKS-AS-AP Spider Networks",
+    "holder": "SPIDERNETWORKS-AS-AP Spider Networks",
+    "announced": true,
+    "country": "BD"
+  },
+  "150135": {
+    "asn": "150135",
+    "name": "MS6-AS-AP Ms. Chesta",
+    "holder": "MS6-AS-AP Ms. Chesta",
+    "announced": true,
+    "country": "BD"
+  },
+  "138183": {
+    "asn": "138183",
+    "name": "MSCOMPUTERMATE-AS-AP Computer Mate",
+    "holder": "MSCOMPUTERMATE-AS-AP Computer Mate",
+    "announced": true,
+    "country": "BD"
+  },
+  "36352": {
+    "asn": "36352",
+    "name": "AS-COLOCROSSING - HostPapa",
+    "holder": "AS-COLOCROSSING - HostPapa",
+    "announced": true,
+    "country": ""
+  },
+  "138548": {
+    "asn": "138548",
+    "name": "CONNECT3-AS-AP CONNECT 3",
+    "holder": "CONNECT3-AS-AP CONNECT 3",
+    "announced": true,
+    "country": "BD"
+  },
+  "139793": {
+    "asn": "139793",
+    "name": "CRYSTALINTERNATIONAL-AS-AP Crystal International",
+    "holder": "CRYSTALINTERNATIONAL-AS-AP Crystal International",
+    "announced": true,
+    "country": "BD"
+  },
+  "137884": {
+    "asn": "137884",
+    "name": "GNS-AS-AP Gazipur Network System",
+    "holder": "GNS-AS-AP Gazipur Network System",
+    "announced": true,
+    "country": "BD"
+  },
+  "147179": {
+    "asn": "147179",
+    "name": "GLOBALVOICECOM-AS-AP Global Voice.Com",
+    "holder": "GLOBALVOICECOM-AS-AP Global Voice.Com",
+    "announced": true,
+    "country": "BD"
+  },
+  "140381": {
+    "asn": "140381",
+    "name": "TKNETWORK-AS-AP T. K. NETWORK",
+    "holder": "TKNETWORK-AS-AP T. K. NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "141446": {
+    "asn": "141446",
+    "name": "M3NETTECHNOLOGY-AS-AP 3 Net Technology",
+    "holder": "M3NETTECHNOLOGY-AS-AP 3 Net Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "150340": {
+    "asn": "150340",
+    "name": "CTL-AS-AP Cyberspace Technologies Ltd.",
+    "holder": "CTL-AS-AP Cyberspace Technologies Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "150701": {
+    "asn": "150701",
+    "name": "REGIMENT-AS-AP Regiment Technologies",
+    "holder": "REGIMENT-AS-AP Regiment Technologies",
+    "announced": true,
+    "country": "BD"
+  },
+  "58946": {
+    "asn": "58946",
+    "name": "GRAMEEN1-AS-AP GRAMEEN COMMUNICATIONS",
+    "holder": "GRAMEEN1-AS-AP GRAMEEN COMMUNICATIONS",
+    "announced": true,
+    "country": "BD"
+  },
+  "139919": {
+    "asn": "139919",
+    "name": "RDCONLINE-AS RDC Online",
+    "holder": "RDCONLINE-AS RDC Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "149501": {
+    "asn": "149501",
+    "name": "PALASHBARIONLINE-AS-AP Palashbari Online",
+    "holder": "PALASHBARIONLINE-AS-AP Palashbari Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "151638": {
+    "asn": "151638",
+    "name": "UECL-AS-AP United Enterprises & CO Ltd.",
+    "holder": "UECL-AS-AP United Enterprises & CO Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "137706": {
+    "asn": "137706",
+    "name": "NATIONAL-UNIVERSITY-AS-AP National University",
+    "holder": "NATIONAL-UNIVERSITY-AS-AP National University",
+    "announced": true,
+    "country": "BD"
+  },
+  "136901": {
+    "asn": "136901",
+    "name": "BTRC-AS-AP Bangladesh Telecommunication Regulatory Commission BTRC",
+    "holder": "BTRC-AS-AP Bangladesh Telecommunication Regulatory Commission BTRC",
+    "announced": true,
+    "country": "BD"
+  },
+  "137810": {
+    "asn": "137810",
+    "name": "ADELONLINE-AS-AP Md Obaid Ullah Khan",
+    "holder": "ADELONLINE-AS-AP Md Obaid Ullah Khan",
+    "announced": true,
+    "country": "BD"
+  },
+  "149985": {
+    "asn": "149985",
+    "name": "PENTAONLINE-AS-AP Penta Online",
+    "holder": "PENTAONLINE-AS-AP Penta Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "152729": {
+    "asn": "152729",
+    "name": "HDL-AS-AP Ha- Meem Denim Limited",
+    "holder": "HDL-AS-AP Ha- Meem Denim Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "154456": {
+    "asn": "154456",
+    "name": "MANDA2-AS-AP Manda Online",
+    "holder": "MANDA2-AS-AP Manda Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "137221": {
+    "asn": "137221",
+    "name": "STANDARD-GROUP-AS-AP Standard Group Limited",
+    "holder": "STANDARD-GROUP-AS-AP Standard Group Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "142619": {
+    "asn": "142619",
+    "name": "UIT-AS-AP Ultrafast Information and Technology",
+    "holder": "UIT-AS-AP Ultrafast Information and Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "38614": {
+    "asn": "38614",
+    "name": "IDS-BD IDS Bangladesh. IP Transit provider. Dhaka",
+    "holder": "IDS-BD IDS Bangladesh. IP Transit provider. Dhaka",
+    "announced": true,
+    "country": "BD"
+  },
+  "137419": {
+    "asn": "137419",
+    "name": "NETFOX-AS-AP Asif Chowdhury",
+    "holder": "NETFOX-AS-AP Asif Chowdhury",
+    "announced": true,
+    "country": "BD"
+  },
+  "58826": {
+    "asn": "58826",
+    "name": "ICOMBANGLADESHLTD-BD ping by ICOM Bangladesh Ltd",
+    "holder": "ICOMBANGLADESHLTD-BD ping by ICOM Bangladesh Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "137964": {
+    "asn": "137964",
+    "name": "NEXTGENONLINE-AS-AP Nextgen Online",
+    "holder": "NEXTGENONLINE-AS-AP Nextgen Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "149505": {
+    "asn": "149505",
+    "name": "M3RCOMMUNICATIONS-AS-AP 3R Communications",
+    "holder": "M3RCOMMUNICATIONS-AS-AP 3R Communications",
+    "announced": true,
+    "country": "BD"
+  },
+  "139825": {
+    "asn": "139825",
+    "name": "HM1-AS-AP HM Enterprise",
+    "holder": "HM1-AS-AP HM Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "38071": {
+    "asn": "38071",
+    "name": "AFTABIT-BD-AS-AP Aftab IT Limited.",
+    "holder": "AFTABIT-BD-AS-AP Aftab IT Limited.",
+    "announced": true,
+    "country": "BD"
+  },
+  "149312": {
+    "asn": "149312",
+    "name": "RAPIDBROADBAN-AS-AP Rapid Broadband",
+    "holder": "RAPIDBROADBAN-AS-AP Rapid Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "134597": {
+    "asn": "134597",
+    "name": "M7T1COMMUNICATION-AS-AP 7t1 Communication",
+    "holder": "M7T1COMMUNICATION-AS-AP 7t1 Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "136425": {
+    "asn": "136425",
+    "name": "ASIA-NET-AS-AP Asianet Online Service",
+    "holder": "ASIA-NET-AS-AP Asianet Online Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "142015": {
+    "asn": "142015",
+    "name": "FOXPROTECHNOLOGY-AS-AP Foxpro Technology",
+    "holder": "FOXPROTECHNOLOGY-AS-AP Foxpro Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "55828": {
+    "asn": "55828",
+    "name": "DRIK-BD Drik ICT Ltd",
+    "holder": "DRIK-BD Drik ICT Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "135100": {
+    "asn": "135100",
+    "name": "MOL-AS-AP Maxnet Online Limited",
+    "holder": "MOL-AS-AP Maxnet Online Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "141185": {
+    "asn": "141185",
+    "name": "ASA1-AS-AP ASA",
+    "holder": "ASA1-AS-AP ASA",
+    "announced": true,
+    "country": "BD"
+  },
+  "134236": {
+    "asn": "134236",
+    "name": "TETRASOFT-AS-AP Sheikh Mohammad Zulfiquer ta Tetrasoft",
+    "holder": "TETRASOFT-AS-AP Sheikh Mohammad Zulfiquer ta Tetrasoft",
+    "announced": true,
+    "country": "BD"
+  },
+  "138487": {
+    "asn": "138487",
+    "name": "FNFNETWORK-AS-AP FNF NETWORK",
+    "holder": "FNFNETWORK-AS-AP FNF NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "55933": {
+    "asn": "55933",
+    "name": "CLOUDIE-AS-AP Cloudie Limited",
+    "holder": "CLOUDIE-AS-AP Cloudie Limited",
+    "announced": true,
+    "country": ""
+  },
+  "137584": {
+    "asn": "137584",
+    "name": "PREFIXNET-AS-AP Prefixnet",
+    "holder": "PREFIXNET-AS-AP Prefixnet",
+    "announced": true,
+    "country": "BD"
+  },
+  "150705": {
+    "asn": "150705",
+    "name": "HVDN-AS-AP Hello Vision Dot Net",
+    "holder": "HVDN-AS-AP Hello Vision Dot Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "38256": {
+    "asn": "38256",
+    "name": "NATIONAL-ROUTE-BD-MHK Bengal Group Ltd. Nationwide Internet Service Provider",
+    "holder": "NATIONAL-ROUTE-BD-MHK Bengal Group Ltd. Nationwide Internet Service Provider",
+    "announced": true,
+    "country": "BD"
+  },
+  "138346": {
+    "asn": "138346",
+    "name": "SAJIDTRADINGLTD-AS-AP Sajid Trading Ltd.",
+    "holder": "SAJIDTRADINGLTD-AS-AP Sajid Trading Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "203915": {
+    "asn": "203915",
+    "name": "ISHRAK-203915 - Ishrak Rahman",
+    "holder": "ISHRAK-203915 - Ishrak Rahman",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "US",
+    "geo_country_data": {
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 66.67,
+          "prefixes": [
+            "2a14:7580:ff7a::/47"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "2a14:7580:ff7c::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 0
+    }
+  },
+  "146956": {
+    "asn": "146956",
+    "name": "HEAA-AS-AP Hamid Electronics and Automobiles",
+    "holder": "HEAA-AS-AP Hamid Electronics and Automobiles",
+    "announced": true,
+    "country": "BD"
+  },
+  "150695": {
+    "asn": "150695",
+    "name": "MARIYAONLINE-AS-AP Mariya Online",
+    "holder": "MARIYAONLINE-AS-AP Mariya Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "138325": {
+    "asn": "138325",
+    "name": "ETHERLINK-AS-AP Ether Link",
+    "holder": "ETHERLINK-AS-AP Ether Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "23876": {
+    "asn": "23876",
+    "name": "BDNIX-AS-BD Bangladesh National intenet exchange",
+    "holder": "BDNIX-AS-BD Bangladesh National intenet exchange",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "AU",
+    "geo_country_data": {
+      "dominant_country": "AU",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.110.212.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 25.0,
+          "prefixes": [
+            "123.49.43.0/24"
+          ]
+        },
+        {
+          "country": "AU",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "218.100.37.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 75.0
+    }
+  },
+  "151500": {
+    "asn": "151500",
+    "name": "DCN-AS-AP Digital Communication Network",
+    "holder": "DCN-AS-AP Digital Communication Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "150722": {
+    "asn": "150722",
+    "name": "KBS-AS-AP Khulna Broadband Service",
+    "holder": "KBS-AS-AP Khulna Broadband Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "139715": {
+    "asn": "139715",
+    "name": "QUANTFINTECHLTD-AS-AP Quant FinTech Ltd.",
+    "holder": "QUANTFINTECHLTD-AS-AP Quant FinTech Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "38011": {
+    "asn": "38011",
+    "name": "GBSL-AS-BD GramBangla Systems Limites",
+    "holder": "GBSL-AS-BD GramBangla Systems Limites",
+    "announced": true,
+    "country": "BD"
+  },
+  "134785": {
+    "asn": "134785",
+    "name": "SMART3-AS-AP Smart Digital",
+    "holder": "SMART3-AS-AP Smart Digital",
+    "announced": true,
+    "country": "BD"
+  },
+  "149449": {
+    "asn": "149449",
+    "name": "POLASH-AS-AP polash nagor dot net",
+    "holder": "POLASH-AS-AP polash nagor dot net",
+    "announced": true,
+    "country": "BD"
+  },
+  "152319": {
+    "asn": "152319",
+    "name": "DGOF-AS-AP Directorate General of Food",
+    "holder": "DGOF-AS-AP Directorate General of Food",
+    "announced": true,
+    "country": "BD"
+  },
+  "139296": {
+    "asn": "139296",
+    "name": "BWDB-AS-AP Bangladesh Water Development Board",
+    "holder": "BWDB-AS-AP Bangladesh Water Development Board",
+    "announced": true,
+    "country": "BD"
+  },
+  "63844": {
+    "asn": "63844",
+    "name": "ONCL-BD One Net Communication Ltd",
+    "holder": "ONCL-BD One Net Communication Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "149480": {
+    "asn": "149480",
+    "name": "DECENTNETWORK-AS-AP Decent Network",
+    "holder": "DECENTNETWORK-AS-AP Decent Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "136438": {
+    "asn": "136438",
+    "name": "ADDANETWORK-AS-AP Husnul Bari ta Adda Network",
+    "holder": "ADDANETWORK-AS-AP Husnul Bari ta Adda Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "154169": {
+    "asn": "154169",
+    "name": "MISSIONCOMPUTER-AS-AP MISSION COMPUTER",
+    "holder": "MISSIONCOMPUTER-AS-AP MISSION COMPUTER",
+    "announced": true,
+    "country": "BD"
+  },
+  "151183": {
+    "asn": "151183",
+    "name": "MODERN-AS-AP Modern Communication",
+    "holder": "MODERN-AS-AP Modern Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "139835": {
+    "asn": "139835",
+    "name": "MSPUSPITATELECOM-AS-AP Puspita Telecom",
+    "holder": "MSPUSPITATELECOM-AS-AP Puspita Telecom",
+    "announced": true,
+    "country": "BD"
+  },
+  "141192": {
+    "asn": "141192",
+    "name": "DHRUBOSOFTLIMITED-AS-AP Dhrubosoft Limited",
+    "holder": "DHRUBOSOFTLIMITED-AS-AP Dhrubosoft Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "132366": {
+    "asn": "132366",
+    "name": "ALFAZNETWORK-AS-AP Alfaz Network",
+    "holder": "ALFAZNETWORK-AS-AP Alfaz Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "138587": {
+    "asn": "138587",
+    "name": "PSTU-AS-AP Patuakhali Science and Technology University",
+    "holder": "PSTU-AS-AP Patuakhali Science and Technology University",
+    "announced": true,
+    "country": "BD"
+  },
+  "135420": {
+    "asn": "135420",
+    "name": "AS-MEDIAONLINE Media Online",
+    "holder": "AS-MEDIAONLINE Media Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "137961": {
+    "asn": "137961",
+    "name": "ABUZZITLIMITED-AS-AP MD. Mokhlesur Rahman",
+    "holder": "ABUZZITLIMITED-AS-AP MD. Mokhlesur Rahman",
+    "announced": true,
+    "country": "BD"
+  },
+  "137828": {
+    "asn": "137828",
+    "name": "NETMAT-AS-AP Net Matrix",
+    "holder": "NETMAT-AS-AP Net Matrix",
+    "announced": true,
+    "country": "BD"
+  },
+  "139029": {
+    "asn": "139029",
+    "name": "AKNETWORKS-AS-AP AKNetworks",
+    "holder": "AKNETWORKS-AS-AP AKNetworks",
+    "announced": true,
+    "country": "BD"
+  },
+  "138581": {
+    "asn": "138581",
+    "name": "BRITTONETWORK-AS-AP Britto Network",
+    "holder": "BRITTONETWORK-AS-AP Britto Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "151675": {
+    "asn": "151675",
+    "name": "IHOME-AS-AP iHOME",
+    "holder": "IHOME-AS-AP iHOME",
+    "announced": true,
+    "country": "BD"
+  },
+  "137218": {
+    "asn": "137218",
+    "name": "BEXIMCO1-AS-AP Beximco Communications Limited",
+    "holder": "BEXIMCO1-AS-AP Beximco Communications Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "137478": {
+    "asn": "137478",
+    "name": "CYBER-AS-AP Cyber Net Cafe",
+    "holder": "CYBER-AS-AP Cyber Net Cafe",
+    "announced": true,
+    "country": "BD"
+  },
+  "51447": {
+    "asn": "51447",
+    "name": "ROOTLAYERNET - RootLayer Web Services Ltd.",
+    "holder": "ROOTLAYERNET - RootLayer Web Services Ltd.",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "NL",
+    "geo_country_data": {
+      "dominant_country": "NL",
+      "breakdown": [
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 40.0,
+          "prefixes": [
+            "45.137.20.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 40.0,
+          "prefixes": [
+            "185.222.56.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.178.236.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 0
+    }
+  },
+  "3356": {
+    "asn": "3356",
+    "name": "LEVEL3 - Level 3 Parent",
+    "holder": "LEVEL3 - Level 3 Parent",
+    "announced": true,
+    "country": "US"
+  },
+  "149653": {
+    "asn": "149653",
+    "name": "FAISAL-AS-AP Faisal Network",
+    "holder": "FAISAL-AS-AP Faisal Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "151476": {
+    "asn": "151476",
+    "name": "IBOXCOMMUNICATIONS-AS-AP IBOX Communications",
+    "holder": "IBOXCOMMUNICATIONS-AS-AP IBOX Communications",
+    "announced": true,
+    "country": "BD"
+  },
+  "58889": {
+    "asn": "58889",
+    "name": "ZOL-BD Zx Online Ltd",
+    "holder": "ZOL-BD Zx Online Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "140995": {
+    "asn": "140995",
+    "name": "THE1WEBSOLUTION-AS-AP The 1 Web Solution",
+    "holder": "THE1WEBSOLUTION-AS-AP The 1 Web Solution",
+    "announced": true,
+    "country": "BD"
+  },
+  "151368": {
+    "asn": "151368",
+    "name": "GOTMYHOST-AS-AP GOTMYHOST",
+    "holder": "GOTMYHOST-AS-AP GOTMYHOST",
+    "announced": true,
+    "country": "BD"
+  },
+  "149863": {
+    "asn": "149863",
+    "name": "ABUSAID-AS-AP D TAJ ONLINE",
+    "holder": "ABUSAID-AS-AP D TAJ ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "138638": {
+    "asn": "138638",
+    "name": "FENIEASYNET-AS-AP Feni Easy Net  ISP",
+    "holder": "FENIEASYNET-AS-AP Feni Easy Net  ISP",
+    "announced": true,
+    "country": "BD"
+  },
+  "139720": {
+    "asn": "139720",
+    "name": "DHAKANET-AS-AP Dhaka Net",
+    "holder": "DHAKANET-AS-AP Dhaka Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "153490": {
+    "asn": "153490",
+    "name": "DATALINKPLC-AS-AP DataLink",
+    "holder": "DATALINKPLC-AS-AP DataLink",
+    "announced": true,
+    "country": "BD"
+  },
+  "136246": {
+    "asn": "136246",
+    "name": "TOMATTOSTL-AS-AP Tomattos Technologies Ltd.",
+    "holder": "TOMATTOSTL-AS-AP Tomattos Technologies Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "140898": {
+    "asn": "140898",
+    "name": "NETCITY-AS-AP Net City",
+    "holder": "NETCITY-AS-AP Net City",
+    "announced": true,
+    "country": "BD"
+  },
+  "140850": {
+    "asn": "140850",
+    "name": "MAA1-AS-AP Maa Internet Service Provider",
+    "holder": "MAA1-AS-AP Maa Internet Service Provider",
+    "announced": true,
+    "country": "BD"
+  },
+  "136151": {
+    "asn": "136151",
+    "name": "JATRABARI-AS-AP Jatrabari Online",
+    "holder": "JATRABARI-AS-AP Jatrabari Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "147053": {
+    "asn": "147053",
+    "name": "BHALUKA-AS-AP Bhaluka Broadband Internet Service",
+    "holder": "BHALUKA-AS-AP Bhaluka Broadband Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "138944": {
+    "asn": "138944",
+    "name": "SAE-AS-AP SNet And Electronics",
+    "holder": "SAE-AS-AP SNet And Electronics",
+    "announced": true,
+    "country": "BD"
+  },
+  "43733": {
+    "asn": "43733",
+    "name": "VIVA-ARMENIA - Viva Armenia CJSC",
+    "holder": "VIVA-ARMENIA - Viva Armenia CJSC",
+    "announced": true,
+    "country": ""
+  },
+  "134685": {
+    "asn": "134685",
+    "name": "FIBERATHOME-AS-AP Fiber@Home Limited",
+    "holder": "FIBERATHOME-AS-AP Fiber@Home Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "138149": {
+    "asn": "138149",
+    "name": "MATCHNET-AS-AP Match Net",
+    "holder": "MATCHNET-AS-AP Match Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "152642": {
+    "asn": "152642",
+    "name": "TILAKPURNETWORK-AS-AP Tilakpur Network",
+    "holder": "TILAKPURNETWORK-AS-AP Tilakpur Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "150681": {
+    "asn": "150681",
+    "name": "R1DOTNET-AS-AP R-1 dot net",
+    "holder": "R1DOTNET-AS-AP R-1 dot net",
+    "announced": true,
+    "country": "BD"
+  },
+  "137530": {
+    "asn": "137530",
+    "name": "TRISHALNET-AS-AP TrishalNet",
+    "holder": "TRISHALNET-AS-AP TrishalNet",
+    "announced": true,
+    "country": "BD"
+  },
+  "138385": {
+    "asn": "138385",
+    "name": "CDC-AS-AP Chittagong Data Communication",
+    "holder": "CDC-AS-AP Chittagong Data Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "138665": {
+    "asn": "138665",
+    "name": "GKNETWORK-AS-AP GK Network",
+    "holder": "GKNETWORK-AS-AP GK Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "134990": {
+    "asn": "134990",
+    "name": "CITYCOMNETWORK-AS-AP CiTYCOM Network",
+    "holder": "CITYCOMNETWORK-AS-AP CiTYCOM Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "140934": {
+    "asn": "140934",
+    "name": "UNIQUEINTERNET-AS-AP Unique Internet",
+    "holder": "UNIQUEINTERNET-AS-AP Unique Internet",
+    "announced": true,
+    "country": "BD"
+  },
+  "153383": {
+    "asn": "153383",
+    "name": "NAZIMHOST-AS-AP Nazim Host",
+    "holder": "NAZIMHOST-AS-AP Nazim Host",
+    "announced": true,
+    "country": "BD"
+  },
+  "152176": {
+    "asn": "152176",
+    "name": "ISHANETWORK-AS-AP Isha Network",
+    "holder": "ISHANETWORK-AS-AP Isha Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "152636": {
+    "asn": "152636",
+    "name": "SAYEDTECHNOLOGY-AS-AP SAYED TECHNOLOGY",
+    "holder": "SAYEDTECHNOLOGY-AS-AP SAYED TECHNOLOGY",
+    "announced": true,
+    "country": "BD"
+  },
+  "154363": {
+    "asn": "154363",
+    "name": "SOFTIMISTLIMITED-AS-AP Softimist Limited",
+    "holder": "SOFTIMISTLIMITED-AS-AP Softimist Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "30781": {
+    "asn": "30781",
+    "name": "JAGUAR-AS - Free Pro SAS",
+    "holder": "JAGUAR-AS - Free Pro SAS",
+    "announced": true,
+    "country": ""
+  },
+  "141166": {
+    "asn": "141166",
+    "name": "JSINTERNET-AS-AP JS INTERNET",
+    "holder": "JSINTERNET-AS-AP JS INTERNET",
+    "announced": true,
+    "country": "BD"
+  },
+  "135092": {
+    "asn": "135092",
+    "name": "DHAKATECH-AS-AP Ashraf Uddin ta Dhaka tech",
+    "holder": "DHAKATECH-AS-AP Ashraf Uddin ta Dhaka tech",
+    "announced": true,
+    "country": "BD"
+  },
+  "140380": {
+    "asn": "140380",
+    "name": "FASTNET1-AS-AP Fastnet",
+    "holder": "FASTNET1-AS-AP Fastnet",
+    "announced": true,
+    "country": "BD"
+  },
+  "140644": {
+    "asn": "140644",
+    "name": "SKYLARKNETWORK-AS-AP Skylark Network",
+    "holder": "SKYLARKNETWORK-AS-AP Skylark Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "3462": {
+    "asn": "3462",
+    "name": "HINET Data Communication Business Group",
+    "holder": "HINET Data Communication Business Group",
+    "announced": true,
+    "country": ""
+  },
+  "140269": {
+    "asn": "140269",
+    "name": "KOTALIPARANET-AS-AP Kotalipara Net",
+    "holder": "KOTALIPARANET-AS-AP Kotalipara Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "135308": {
+    "asn": "135308",
+    "name": "MSDIGITALTELECOM-AS-AP MS DIGITAL TELECOM",
+    "holder": "MSDIGITALTELECOM-AS-AP MS DIGITAL TELECOM",
+    "announced": true,
+    "country": "BD"
+  },
+  "137034": {
+    "asn": "137034",
+    "name": "SAONLINE-AS-AP SA Online",
+    "holder": "SAONLINE-AS-AP SA Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "151472": {
+    "asn": "151472",
+    "name": "EML-AS-AP ENIGMA MULTIMEDIA LIMITED",
+    "holder": "EML-AS-AP ENIGMA MULTIMEDIA LIMITED",
+    "announced": true,
+    "country": "BD"
+  },
+  "151359": {
+    "asn": "151359",
+    "name": "ABG-AS-AP ABG Technologies Limited",
+    "holder": "ABG-AS-AP ABG Technologies Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "152342": {
+    "asn": "152342",
+    "name": "JSSNETWORK-AS-AP J.S.S Network",
+    "holder": "JSSNETWORK-AS-AP J.S.S Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "138023": {
+    "asn": "138023",
+    "name": "CREATION-AS-AP Creation Online",
+    "holder": "CREATION-AS-AP Creation Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "151477": {
+    "asn": "151477",
+    "name": "SN-AS-AP Samins Network",
+    "holder": "SN-AS-AP Samins Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "134529": {
+    "asn": "134529",
+    "name": "IGW1ASIA-AS-AP 1Asia Alliance Gateway Limited",
+    "holder": "IGW1ASIA-AS-AP 1Asia Alliance Gateway Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "136434": {
+    "asn": "136434",
+    "name": "DCOMMBD-AS-AP Digital Communication",
+    "holder": "DCOMMBD-AS-AP Digital Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "152637": {
+    "asn": "152637",
+    "name": "COMILLA4-AS-AP Comilla Cable TV Online",
+    "holder": "COMILLA4-AS-AP Comilla Cable TV Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "152718": {
+    "asn": "152718",
+    "name": "CLOUDPOINT-AS-AP Cloud Point",
+    "holder": "CLOUDPOINT-AS-AP Cloud Point",
+    "announced": true,
+    "country": "BD"
+  },
+  "132575": {
+    "asn": "132575",
+    "name": "SIGMAENGINEERSLTD-AS-AP Sigma Engineers Ltd",
+    "holder": "SIGMAENGINEERSLTD-AS-AP Sigma Engineers Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "28910": {
+    "asn": "28910",
+    "name": "INTAL-ASN - \"Uzbektelekom\" Joint Stock Company",
+    "holder": "INTAL-ASN - \"Uzbektelekom\" Joint Stock Company",
+    "announced": true,
+    "country": ""
+  },
+  "141744": {
+    "asn": "141744",
+    "name": "CPA-AS-AP CPA",
+    "holder": "CPA-AS-AP CPA",
+    "announced": true,
+    "country": "BD"
+  },
+  "140674": {
+    "asn": "140674",
+    "name": "OCTATECHIT-AS-AP Octatech IT",
+    "holder": "OCTATECHIT-AS-AP Octatech IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "153370": {
+    "asn": "153370",
+    "name": "FGL-AS-BD Fiber@Home Global Limited",
+    "holder": "FGL-AS-BD Fiber@Home Global Limited",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.131.158.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "64063": {
+    "asn": "64063",
+    "name": "BDCONNECTNET-AS-AP BDconnect.net",
+    "holder": "BDCONNECTNET-AS-AP BDconnect.net",
+    "announced": true,
+    "country": "BD"
+  },
+  "139865": {
+    "asn": "139865",
+    "name": "BSL-AS-AP Bitroot Systems Limited",
+    "holder": "BSL-AS-AP Bitroot Systems Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "136937": {
+    "asn": "136937",
+    "name": "CUET-AS-AP Chittagong University of Engineering & Technology",
+    "holder": "CUET-AS-AP Chittagong University of Engineering & Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "149868": {
+    "asn": "149868",
+    "name": "COMFORTSOLUTIONS-AS-AP Comfort Solutions",
+    "holder": "COMFORTSOLUTIONS-AS-AP Comfort Solutions",
+    "announced": true,
+    "country": "BD"
+  },
+  "133542": {
+    "asn": "133542",
+    "name": "NETVISION-AS-AP Net Vision",
+    "holder": "NETVISION-AS-AP Net Vision",
+    "announced": true,
+    "country": "BD"
+  },
+  "140071": {
+    "asn": "140071",
+    "name": "THESMARTNETWORK-AS-AP The Smart Network",
+    "holder": "THESMARTNETWORK-AS-AP The Smart Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "139856": {
+    "asn": "139856",
+    "name": "BRACBANKLIMITED-AS-AP Brac Bank Limited",
+    "holder": "BRACBANKLIMITED-AS-AP Brac Bank Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "150406": {
+    "asn": "150406",
+    "name": "BETAGAONLINE-AS-AP BETAGA ONLINE",
+    "holder": "BETAGAONLINE-AS-AP BETAGA ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "151667": {
+    "asn": "151667",
+    "name": "GNETSERVICE-AS-AP G Net Service",
+    "holder": "GNETSERVICE-AS-AP G Net Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "142557": {
+    "asn": "142557",
+    "name": "GEN7ONLINE-AS-AP GEN7 ONLINE",
+    "holder": "GEN7ONLINE-AS-AP GEN7 ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "140843": {
+    "asn": "140843",
+    "name": "DHAMRAINETWORK-AS-AP Dhamrai Network",
+    "holder": "DHAMRAINETWORK-AS-AP Dhamrai Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "136941": {
+    "asn": "136941",
+    "name": "UMS-AS-AP Unicom Multi System",
+    "holder": "UMS-AS-AP Unicom Multi System",
+    "announced": true,
+    "country": "BD"
+  },
+  "141149": {
+    "asn": "141149",
+    "name": "GLOBAL4-AS-AP GLOBAL NETWORK",
+    "holder": "GLOBAL4-AS-AP GLOBAL NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "139807": {
+    "asn": "139807",
+    "name": "PIONEERIT-AS-AP Pioneer IT",
+    "holder": "PIONEERIT-AS-AP Pioneer IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "149490": {
+    "asn": "149490",
+    "name": "SYLHET-AS-AP Sylhet Agricultural University",
+    "holder": "SYLHET-AS-AP Sylhet Agricultural University",
+    "announced": true,
+    "country": "BD"
+  },
+  "153898": {
+    "asn": "153898",
+    "name": "TNRSOFT-AS-AP TNR SOFT",
+    "holder": "TNRSOFT-AS-AP TNR SOFT",
+    "announced": true,
+    "country": "BD"
+  },
+  "63826": {
+    "asn": "63826",
+    "name": "CPTU-BD Ministry of Planning",
+    "holder": "CPTU-BD Ministry of Planning",
+    "announced": true,
+    "country": "BD"
+  },
+  "135413": {
+    "asn": "135413",
+    "name": "SSTNTECHNOLOGY-AS-AP SSTN Technology",
+    "holder": "SSTNTECHNOLOGY-AS-AP SSTN Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "140098": {
+    "asn": "140098",
+    "name": "ANOWARA-AS-AP Anowara Online System",
+    "holder": "ANOWARA-AS-AP Anowara Online System",
+    "announced": true,
+    "country": "BD"
+  },
+  "154433": {
+    "asn": "154433",
+    "name": "NATION-AS-AP NATION COMMUNICATION",
+    "holder": "NATION-AS-AP NATION COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "133430": {
+    "asn": "133430",
+    "name": "IBBL-AS-AP Islami Bank Bangladesh Limited",
+    "holder": "IBBL-AS-AP Islami Bank Bangladesh Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "137842": {
+    "asn": "137842",
+    "name": "MHONLINE-AS-AP MH ONLINE",
+    "holder": "MHONLINE-AS-AP MH ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "141452": {
+    "asn": "141452",
+    "name": "JHONGKARIT1-AS-AP Jhongkar IT",
+    "holder": "JHONGKARIT1-AS-AP Jhongkar IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "149630": {
+    "asn": "149630",
+    "name": "ECS-AS-AP Election Commission Secretariat",
+    "holder": "ECS-AS-AP Election Commission Secretariat",
+    "announced": true,
+    "country": "BD"
+  },
+  "140077": {
+    "asn": "140077",
+    "name": "CNETBROADBAND-AS-AP C Net Broadband",
+    "holder": "CNETBROADBAND-AS-AP C Net Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "150774": {
+    "asn": "150774",
+    "name": "EXABYTELTD2-AS-AP EXABYTE LTD",
+    "holder": "EXABYTELTD2-AS-AP EXABYTE LTD",
+    "announced": true,
+    "country": "BD"
+  },
+  "138170": {
+    "asn": "138170",
+    "name": "MICROLINCOMM-AS-AP Md Omrul Islam",
+    "holder": "MICROLINCOMM-AS-AP Md Omrul Islam",
+    "announced": true,
+    "country": "BD"
+  },
+  "38315": {
+    "asn": "38315",
+    "name": "GAZICOMM-AS-AP GAZI COMMUNICATIONS A TELEPORT OPERATOR",
+    "holder": "GAZICOMM-AS-AP GAZI COMMUNICATIONS A TELEPORT OPERATOR",
+    "announced": true,
+    "country": "BD"
+  },
+  "135604": {
+    "asn": "135604",
+    "name": "MSI-AS-AP Sharmin Akter Shilpi ta MS. Saiba International",
+    "holder": "MSI-AS-AP Sharmin Akter Shilpi ta MS. Saiba International",
+    "announced": true,
+    "country": "BD"
+  },
+  "138476": {
+    "asn": "138476",
+    "name": "MSSKYLINK-AS-AP SKY LINK ISP",
+    "holder": "MSSKYLINK-AS-AP SKY LINK ISP",
+    "announced": true,
+    "country": "BD"
+  },
+  "153483": {
+    "asn": "153483",
+    "name": "IDEAL3-AS-AP Ideal Communication Services",
+    "holder": "IDEAL3-AS-AP Ideal Communication Services",
+    "announced": true,
+    "country": "BD"
+  },
+  "148794": {
+    "asn": "148794",
+    "name": "NSNETCONNECTION-AS-AP NS NET CONNECTION",
+    "holder": "NSNETCONNECTION-AS-AP NS NET CONNECTION",
+    "announced": true,
+    "country": "BD"
+  },
+  "137483": {
+    "asn": "137483",
+    "name": "RD-NETWORK-AS-AP RD Network",
+    "holder": "RD-NETWORK-AS-AP RD Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "139875": {
+    "asn": "139875",
+    "name": "NIE-AS-AP Noakhali Internet Exchange",
+    "holder": "NIE-AS-AP Noakhali Internet Exchange",
+    "announced": true,
+    "country": "BD"
+  },
+  "140613": {
+    "asn": "140613",
+    "name": "SAIMUNENTERPRISE-AS-AP Saimun Enterprise",
+    "holder": "SAIMUNENTERPRISE-AS-AP Saimun Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "149514": {
+    "asn": "149514",
+    "name": "BAIPAIL1-AS-AP Baipail Network And Internet Service",
+    "holder": "BAIPAIL1-AS-AP Baipail Network And Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "136145": {
+    "asn": "136145",
+    "name": "EBL-AS-AP Eastern Bank Limited",
+    "holder": "EBL-AS-AP Eastern Bank Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "153362": {
+    "asn": "153362",
+    "name": "RUPGANJONLINE-AS-AP RUPGANJ ONLINE",
+    "holder": "RUPGANJONLINE-AS-AP RUPGANJ ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "150306": {
+    "asn": "150306",
+    "name": "DEWAN-AS-AP Dewan Enterprise",
+    "holder": "DEWAN-AS-AP Dewan Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "135663": {
+    "asn": "135663",
+    "name": "BENGALHOST-AS-AP BengalHost",
+    "holder": "BENGALHOST-AS-AP BengalHost",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "CN",
+    "geo_country_data": {
+      "dominant_country": "CN",
+      "breakdown": [
+        {
+          "country": "CN",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "23.129.76.0/24"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "23.129.77.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
+    }
+  },
+  "139042": {
+    "asn": "139042",
+    "name": "SPEEDLINKS-AS-AP Speed Links",
+    "holder": "SPEEDLINKS-AS-AP Speed Links",
+    "announced": true,
+    "country": "BD"
+  },
+  "150132": {
+    "asn": "150132",
+    "name": "REDDOT-AS-AP REDDOT DIGITAL LIMITED",
+    "holder": "REDDOT-AS-AP REDDOT DIGITAL LIMITED",
+    "announced": true,
+    "country": "BD"
+  },
+  "150667": {
+    "asn": "150667",
+    "name": "ITFUTURE-AS-AP IT Future",
+    "holder": "ITFUTURE-AS-AP IT Future",
+    "announced": true,
+    "country": "BD"
+  },
+  "151060": {
+    "asn": "151060",
+    "name": "TELEWIRE-AS-AP Telewire Communications",
+    "holder": "TELEWIRE-AS-AP Telewire Communications",
+    "announced": true,
+    "country": "BD"
+  },
+  "142623": {
+    "asn": "142623",
+    "name": "MOMOTATECH-AS-AP Momota Technologies",
+    "holder": "MOMOTATECH-AS-AP Momota Technologies",
+    "announced": true,
+    "country": "BD"
+  },
+  "139632": {
+    "asn": "139632",
+    "name": "MIRPURNET-AS-AP Mirpur Net",
+    "holder": "MIRPURNET-AS-AP Mirpur Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "140906": {
+    "asn": "140906",
+    "name": "MAYASOFT-AS-AP MAYA SOFT",
+    "holder": "MAYASOFT-AS-AP MAYA SOFT",
+    "announced": true,
+    "country": "BD"
+  },
+  "59365": {
+    "asn": "59365",
+    "name": "BD-NETWORKS-AS-AP BD Networks",
+    "holder": "BD-NETWORKS-AS-AP BD Networks",
+    "announced": true,
+    "country": "BD"
+  },
+  "140585": {
+    "asn": "140585",
+    "name": "FIBERNET-AS-AP Fiber Net",
+    "holder": "FIBERNET-AS-AP Fiber Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "142050": {
+    "asn": "142050",
+    "name": "VISIONPLUSINTERNETSERVICE-AS-AP Vision Plus Internet Service",
+    "holder": "VISIONPLUSINTERNETSERVICE-AS-AP Vision Plus Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "138594": {
+    "asn": "138594",
+    "name": "COLOCITY-AS-AP CoLoCity Ltd",
+    "holder": "COLOCITY-AS-AP CoLoCity Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "138582": {
+    "asn": "138582",
+    "name": "GREETINGSONLINE-AS-AP Greetings Online",
+    "holder": "GREETINGSONLINE-AS-AP Greetings Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "138001": {
+    "asn": "138001",
+    "name": "GALAXY1-AS-AP Galaxy Net",
+    "holder": "GALAXY1-AS-AP Galaxy Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "136555": {
+    "asn": "136555",
+    "name": "BKONLINE-AS-AP BK ONLINE",
+    "holder": "BKONLINE-AS-AP BK ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "38138": {
+    "asn": "38138",
+    "name": "INTECHLTD-BD Intech Limited",
+    "holder": "INTECHLTD-BD Intech Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "149831": {
+    "asn": "149831",
+    "name": "FNBNETWORK-AS-AP FNB Network",
+    "holder": "FNBNETWORK-AS-AP FNB Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "138688": {
+    "asn": "138688",
+    "name": "BONDHONONLINENETWORK-AS-AP Bondhon Online Network",
+    "holder": "BONDHONONLINENETWORK-AS-AP Bondhon Online Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "150669": {
+    "asn": "150669",
+    "name": "SNC-AS-AP Speed Net Connection",
+    "holder": "SNC-AS-AP Speed Net Connection",
+    "announced": true,
+    "country": "BD"
+  },
+  "150327": {
+    "asn": "150327",
+    "name": "RSTL-AS-AP RBD SOFTWARE & TECHNOLOGY LIMITED",
+    "holder": "RSTL-AS-AP RBD SOFTWARE & TECHNOLOGY LIMITED",
+    "announced": true,
+    "country": "BD"
+  },
+  "138493": {
+    "asn": "138493",
+    "name": "YESNET-AS-AP Yes Net",
+    "holder": "YESNET-AS-AP Yes Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "138482": {
+    "asn": "138482",
+    "name": "SKYVIEWONLINE-AS-AP Skyview Online Ltd",
+    "holder": "SKYVIEWONLINE-AS-AP Skyview Online Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "134970": {
+    "asn": "134970",
+    "name": "TUHINENTERPRISE-AS-AP Tuhin Enterprise Bangladesh",
+    "holder": "TUHINENTERPRISE-AS-AP Tuhin Enterprise Bangladesh",
+    "announced": true,
+    "country": "BD"
+  },
+  "138192": {
+    "asn": "138192",
+    "name": "SPEED1-AS-AP Speed Net",
+    "holder": "SPEED1-AS-AP Speed Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "136618": {
+    "asn": "136618",
+    "name": "IICT-BUET-AS-AP Bangladesh University of Engineering and Technology",
+    "holder": "IICT-BUET-AS-AP Bangladesh University of Engineering and Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "138909": {
+    "asn": "138909",
+    "name": "LUMINOUSTECHNOLOGY-AS-AP Luminous Technology",
+    "holder": "LUMINOUSTECHNOLOGY-AS-AP Luminous Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "136948": {
+    "asn": "136948",
+    "name": "TODAYVISION-BD Today Vision",
+    "holder": "TODAYVISION-BD Today Vision",
+    "announced": true,
+    "country": "BD"
+  },
+  "151614": {
+    "asn": "151614",
+    "name": "GREENLINKNETWORKS-AS-AP Green Link Networks",
+    "holder": "GREENLINKNETWORKS-AS-AP Green Link Networks",
+    "announced": true,
+    "country": "BD"
+  },
+  "138522": {
+    "asn": "138522",
+    "name": "CHOCOLATE-BROADBAND-AS-AP Kazi Rajib Ferdous ta Chocolate Broadband",
+    "holder": "CHOCOLATE-BROADBAND-AS-AP Kazi Rajib Ferdous ta Chocolate Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "152932": {
+    "asn": "152932",
+    "name": "DOURNET-AS-AP DOUR NET",
+    "holder": "DOURNET-AS-AP DOUR NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "137492": {
+    "asn": "137492",
+    "name": "DIDAR-AS-AP Mohammad Didarul Kader",
+    "holder": "DIDAR-AS-AP Mohammad Didarul Kader",
+    "announced": true,
+    "country": "BD"
+  },
+  "133605": {
+    "asn": "133605",
+    "name": "BTL-BD Bright Technologies Limited",
+    "holder": "BTL-BD Bright Technologies Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "138567": {
+    "asn": "138567",
+    "name": "THE1-AS-AP The Computer Systems",
+    "holder": "THE1-AS-AP The Computer Systems",
+    "announced": true,
+    "country": "BD"
+  },
+  "139008": {
+    "asn": "139008",
+    "name": "NEEFIT-AS-AP NEEF IT LIMITED",
+    "holder": "NEEFIT-AS-AP NEEF IT LIMITED",
+    "announced": true,
+    "country": "BD"
+  },
+  "138146": {
+    "asn": "138146",
+    "name": "NORTHBENGALONLINE-AS-AP Mohammad SAHIDUL ISLAM",
+    "holder": "NORTHBENGALONLINE-AS-AP Mohammad SAHIDUL ISLAM",
+    "announced": true,
+    "country": "BD"
+  },
+  "141448": {
+    "asn": "141448",
+    "name": "ASONLINE-AS-AP A S ONLINE",
+    "holder": "ASONLINE-AS-AP A S ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "141393": {
+    "asn": "141393",
+    "name": "ROSHNI-AS-AP Roshni Broadband Network",
+    "holder": "ROSHNI-AS-AP Roshni Broadband Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "139013": {
+    "asn": "139013",
+    "name": "HTOS-AS-AP Hi-Tech Online Services",
+    "holder": "HTOS-AS-AP Hi-Tech Online Services",
+    "announced": true,
+    "country": "BD"
+  },
+  "142157": {
+    "asn": "142157",
+    "name": "NET2-AS-AP Net Zone",
+    "holder": "NET2-AS-AP Net Zone",
+    "announced": true,
+    "country": "BD"
+  },
+  "134161": {
+    "asn": "134161",
+    "name": "GLOBALFOUNDRIES-AS-AP Globalfoundries Singapore Pte Ltd",
+    "holder": "GLOBALFOUNDRIES-AS-AP Globalfoundries Singapore Pte Ltd",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "IN",
+    "geo_country_data": {
+      "dominant_country": "IN",
+      "breakdown": [
+        {
+          "country": "IN",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.56.28.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
+    }
+  },
+  "58685": {
+    "asn": "58685",
+    "name": "DBLTEL-BD DBL Telecom Ltd",
+    "holder": "DBLTEL-BD DBL Telecom Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "136991": {
+    "asn": "136991",
+    "name": "MS4-AS-AP Delight Broadband Services",
+    "holder": "MS4-AS-AP Delight Broadband Services",
+    "announced": true,
+    "country": "BD"
+  },
+  "57304": {
+    "asn": "57304",
+    "name": "RETNRU-AS - JSC \"RetnNet\"",
+    "holder": "RETNRU-AS - JSC \"RetnNet\"",
+    "announced": true,
+    "country": ""
+  },
+  "142551": {
+    "asn": "142551",
+    "name": "KINGSHOST-AS-AP KingsHost",
+    "holder": "KINGSHOST-AS-AP KingsHost",
+    "announced": true,
+    "country": "BD"
+  },
+  "141738": {
+    "asn": "141738",
+    "name": "NOORHOSTCOMBD-AS-AP noorhost.com.bd",
+    "holder": "NOORHOSTCOMBD-AS-AP noorhost.com.bd",
+    "announced": true,
+    "country": "BD"
+  },
+  "9651": {
+    "asn": "9651",
+    "name": "THECITYBANK-BD Jibon Bima Tower 4th Floor",
+    "holder": "THECITYBANK-BD Jibon Bima Tower 4th Floor",
+    "announced": true,
+    "country": "BD"
+  },
+  "133181": {
+    "asn": "133181",
+    "name": "QUICKONLINEDOTNET-AS-BD Quick Online Dot Net",
+    "holder": "QUICKONLINEDOTNET-AS-BD Quick Online Dot Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "134228": {
+    "asn": "134228",
+    "name": "AXNONLINE-AS-AP AXN ONLINE",
+    "holder": "AXNONLINE-AS-AP AXN ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "137514": {
+    "asn": "137514",
+    "name": "ABROAD-AS-AP ABROAD",
+    "holder": "ABROAD-AS-AP ABROAD",
+    "announced": true,
+    "country": "BD"
+  },
+  "151489": {
+    "asn": "151489",
+    "name": "SSRMNET-AS-AP S.S.R.M NET",
+    "holder": "SSRMNET-AS-AP S.S.R.M NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "150417": {
+    "asn": "150417",
+    "name": "MANUHOST-AS-AP Manu Host",
+    "holder": "MANUHOST-AS-AP Manu Host",
+    "announced": true,
+    "country": "BD"
+  },
+  "154047": {
+    "asn": "154047",
+    "name": "IT2-AS-AP IT Nut Hosting",
+    "holder": "IT2-AS-AP IT Nut Hosting",
+    "announced": true,
+    "country": "BD"
+  },
+  "135155": {
+    "asn": "135155",
+    "name": "TALTOLANET-AS-AP TALTOLA.NET",
+    "holder": "TALTOLANET-AS-AP TALTOLA.NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "142542": {
+    "asn": "142542",
+    "name": "XCZ-AS-AP Xtreme Cyber Zone",
+    "holder": "XCZ-AS-AP Xtreme Cyber Zone",
+    "announced": true,
+    "country": "BD"
+  },
+  "147034": {
+    "asn": "147034",
+    "name": "BAREBOXCOMBD-AS-AP barebox.com.bd",
+    "holder": "BAREBOXCOMBD-AS-AP barebox.com.bd",
+    "announced": true,
+    "country": "BD"
+  },
+  "64012": {
+    "asn": "64012",
+    "name": "MSCML-AS-AP Meghna Seeds Crushing Mills Ltd",
+    "holder": "MSCML-AS-AP Meghna Seeds Crushing Mills Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "150408": {
+    "asn": "150408",
+    "name": "EXTREMECOM-AS-AP Extreme Communication",
+    "holder": "EXTREMECOM-AS-AP Extreme Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "140288": {
+    "asn": "140288",
+    "name": "TOAONLINE-AS-AP Toa Online",
+    "holder": "TOAONLINE-AS-AP Toa Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "134068": {
+    "asn": "134068",
+    "name": "RKUB-AS-AP Rajshahi Krishi Unnayan Bank",
+    "holder": "RKUB-AS-AP Rajshahi Krishi Unnayan Bank",
+    "announced": true,
+    "country": "BD"
+  },
+  "147070": {
+    "asn": "147070",
+    "name": "DHAKAONLINE-AS-AP Dhaka Online",
+    "holder": "DHAKAONLINE-AS-AP Dhaka Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "150175": {
+    "asn": "150175",
+    "name": "KOTBARIONLINE-AS-AP Kotbari Online",
+    "holder": "KOTBARIONLINE-AS-AP Kotbari Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "138150": {
+    "asn": "138150",
+    "name": "SHONGZOGBDNET-AS-AP Salim Khan & Milon Raihan",
+    "holder": "SHONGZOGBDNET-AS-AP Salim Khan & Milon Raihan",
+    "announced": true,
+    "country": "BD"
+  },
+  "148993": {
+    "asn": "148993",
+    "name": "DIANAHOSTLTD-AS-AP Diana Host Ltd",
+    "holder": "DIANAHOSTLTD-AS-AP Diana Host Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "138974": {
+    "asn": "138974",
+    "name": "MESHNETWORK-AS-AP MESH NETWORK",
+    "holder": "MESHNETWORK-AS-AP MESH NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "139809": {
+    "asn": "139809",
+    "name": "SWIFTNET-AS-AP Swift Net",
+    "holder": "SWIFTNET-AS-AP Swift Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "152906": {
+    "asn": "152906",
+    "name": "SHETUETECH-AS-AP Shetue Tech",
+    "holder": "SHETUETECH-AS-AP Shetue Tech",
+    "announced": true,
+    "country": "BD"
+  },
+  "139832": {
+    "asn": "139832",
+    "name": "SYLHETNET-AS-AP Sylhet-Net Broadband",
+    "holder": "SYLHETNET-AS-AP Sylhet-Net Broadband",
+    "announced": true,
+    "country": "BD"
+  },
+  "9451": {
+    "asn": "9451",
+    "name": "BEN-AS-AP Bhairab Express Net",
+    "holder": "BEN-AS-AP Bhairab Express Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "139227": {
+    "asn": "139227",
+    "name": "HELO-IT-AS-AP Hello IT",
+    "holder": "HELO-IT-AS-AP Hello IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "9930": {
+    "asn": "9930",
+    "name": "TTNET-MY TIME dotCom Berhad No. 14",
+    "holder": "TTNET-MY TIME dotCom Berhad No. 14",
+    "announced": true,
+    "country": "MY"
+  },
+  "131192": {
+    "asn": "131192",
+    "name": "BDWEBSDOTCOM-AS-AP BD WEBS DOT COM",
+    "holder": "BDWEBSDOTCOM-AS-AP BD WEBS DOT COM",
+    "announced": true,
+    "country": "BD"
+  },
+  "49981": {
+    "asn": "49981",
+    "name": "WORLDSTREAM - WorldStream B.V.",
+    "holder": "WORLDSTREAM - WorldStream B.V.",
+    "announced": true,
+    "country": ""
+  },
+  "149032": {
+    "asn": "149032",
+    "name": "MTDN-AS-AP Madhabpur Titil Dot Net",
+    "holder": "MTDN-AS-AP Madhabpur Titil Dot Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "142558": {
+    "asn": "142558",
+    "name": "BINARYMATRIXBD-AS-AP Binary Matrix",
+    "holder": "BINARYMATRIXBD-AS-AP Binary Matrix",
+    "announced": true,
+    "country": "BD"
+  },
+  "141155": {
+    "asn": "141155",
+    "name": "OUR1-AS-AP Our Online",
+    "holder": "OUR1-AS-AP Our Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "140705": {
+    "asn": "140705",
+    "name": "GRASP1-AS-AP Grasp Pharmaceuticals Ltd.",
+    "holder": "GRASP1-AS-AP Grasp Pharmaceuticals Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "64072": {
+    "asn": "64072",
+    "name": "EVOLUTIONNET-BD EVOLUTION NET Internet Service Provider",
+    "holder": "EVOLUTIONNET-BD EVOLUTION NET Internet Service Provider",
+    "announced": true,
+    "country": "BD"
+  },
+  "152929": {
+    "asn": "152929",
+    "name": "FAHINONLINE-AS-AP Fahin Online",
+    "holder": "FAHINONLINE-AS-AP Fahin Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "133496": {
+    "asn": "133496",
+    "name": "MOHITECH-AS-AP Mohi Tech",
+    "holder": "MOHITECH-AS-AP Mohi Tech",
+    "announced": true,
+    "country": "BD"
+  },
+  "152707": {
+    "asn": "152707",
+    "name": "TAL-AS-AP Tarasima Apparels Limited",
+    "holder": "TAL-AS-AP Tarasima Apparels Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "149980": {
+    "asn": "149980",
+    "name": "AONENETWORK-AS-AP A One Network",
+    "holder": "AONENETWORK-AS-AP A One Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "139675": {
+    "asn": "139675",
+    "name": "FREEDOM-AS-AP Freedom Online",
+    "holder": "FREEDOM-AS-AP Freedom Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "134738": {
+    "asn": "134738",
+    "name": "JTL-AS-AP JIELIAN TECHNOLOGIES LTD.",
+    "holder": "JTL-AS-AP JIELIAN TECHNOLOGIES LTD.",
+    "announced": true,
+    "country": "BD"
+  },
+  "38054": {
+    "asn": "38054",
+    "name": "DHAKATEL-AS-BD Genuity Systems Ltd.",
+    "holder": "DHAKATEL-AS-BD Genuity Systems Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "154006": {
+    "asn": "154006",
+    "name": "KHBNETWORKS-AS-AP KHB Networks",
+    "holder": "KHBNETWORKS-AS-AP KHB Networks",
+    "announced": true,
+    "country": "BD"
+  },
+  "134798": {
+    "asn": "134798",
+    "name": "ALICONNETWORK-AS-AP Hossain Ahmed Masum TA Alicon Network",
+    "holder": "ALICONNETWORK-AS-AP Hossain Ahmed Masum TA Alicon Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "140036": {
+    "asn": "140036",
+    "name": "NUFLAYER-AS-AP NUFLAYER",
+    "holder": "NUFLAYER-AS-AP NUFLAYER",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.132.42.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "133083": {
+    "asn": "133083",
+    "name": "BEES-AS-AP Bangladesh Extension Education Services",
+    "holder": "BEES-AS-AP Bangladesh Extension Education Services",
+    "announced": true,
+    "country": "BD"
+  },
+  "138491": {
+    "asn": "138491",
+    "name": "LRTELECOMLTD-AS-AP LR Telecom Ltd.",
+    "holder": "LRTELECOMLTD-AS-AP LR Telecom Ltd.",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.126.236.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "59316": {
+    "asn": "59316",
+    "name": "AOL-BD aamra Outsourcing Ltd.",
+    "holder": "AOL-BD aamra Outsourcing Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "138418": {
+    "asn": "138418",
+    "name": "CLC-AS-AP Tarik Hasan Turja",
+    "holder": "CLC-AS-AP Tarik Hasan Turja",
+    "announced": true,
+    "country": "BD"
+  },
+  "151803": {
+    "asn": "151803",
+    "name": "RAJOR1-AS-AP RAJOR ONLINE COMMUNICATION",
+    "holder": "RAJOR1-AS-AP RAJOR ONLINE COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "137186": {
+    "asn": "137186",
+    "name": "UFCN-AS-AP Universal Friends Communication Network",
+    "holder": "UFCN-AS-AP Universal Friends Communication Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "139863": {
+    "asn": "139863",
+    "name": "VIPCOM-AS-AP VIP.com",
+    "holder": "VIPCOM-AS-AP VIP.com",
+    "announced": true,
+    "country": "BD"
+  },
+  "64612": {
+    "asn": "64612",
+    "name": "-Private Use AS-",
+    "holder": "-Private Use AS-",
+    "announced": false,
+    "country": ""
+  },
+  "136997": {
+    "asn": "136997",
+    "name": "GINI-AS-AP Gnet Internet Network Inc.",
+    "holder": "GINI-AS-AP Gnet Internet Network Inc.",
+    "announced": true,
+    "country": "BD"
+  },
+  "141386": {
+    "asn": "141386",
+    "name": "KAKHACOMPUTER-AS-AP Ka Kha Computer",
+    "holder": "KAKHACOMPUTER-AS-AP Ka Kha Computer",
+    "announced": true,
+    "country": "BD"
+  },
+  "139780": {
+    "asn": "139780",
+    "name": "BIC-AS-AP Brothers ICT Connectivity",
+    "holder": "BIC-AS-AP Brothers ICT Connectivity",
+    "announced": true,
+    "country": "BD"
+  },
+  "138212": {
+    "asn": "138212",
+    "name": "SPACENET-AS-AP SpaceNet Ltd.",
+    "holder": "SPACENET-AS-AP SpaceNet Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "58752": {
+    "asn": "58752",
+    "name": "DELTA-IIG-BD Delta Infocom Limited.",
+    "holder": "DELTA-IIG-BD Delta Infocom Limited.",
+    "announced": true,
+    "country": "BD"
+  },
+  "149873": {
+    "asn": "149873",
+    "name": "MOBILECARE-AS-AP Mobile Care",
+    "holder": "MOBILECARE-AS-AP Mobile Care",
+    "announced": true,
+    "country": "BD"
+  },
+  "64077": {
+    "asn": "64077",
+    "name": "RADIANT-IPTV-AS-AP One Stop Media & Entertainment",
+    "holder": "RADIANT-IPTV-AS-AP One Stop Media & Entertainment",
+    "announced": true,
+    "country": "BD"
+  },
+  "140668": {
+    "asn": "140668",
+    "name": "FASTER1-AS-AP Faster Communication",
+    "holder": "FASTER1-AS-AP Faster Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "149489": {
+    "asn": "149489",
+    "name": "NETWORK2-AS-AP Network Solution",
+    "holder": "NETWORK2-AS-AP Network Solution",
+    "announced": true,
+    "country": "BD"
+  },
+  "140073": {
+    "asn": "140073",
+    "name": "DIGITALSYNAPSE-AS-AP Digital Synapse",
+    "holder": "DIGITALSYNAPSE-AS-AP Digital Synapse",
+    "announced": true,
+    "country": "BD"
+  },
+  "147059": {
+    "asn": "147059",
+    "name": "ONETOUCHONLINE-AS-AP One Touch Online",
+    "holder": "ONETOUCHONLINE-AS-AP One Touch Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "137078": {
+    "asn": "137078",
+    "name": "AONEONLINE-AS-AP A One Online",
+    "holder": "AONEONLINE-AS-AP A One Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "137493": {
+    "asn": "137493",
+    "name": "ADAMDIGHIONLINE-AS-AP ADAMDIGHI ONLINE",
+    "holder": "ADAMDIGHIONLINE-AS-AP ADAMDIGHI ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "150799": {
+    "asn": "150799",
+    "name": "FLONLINE-AS-AP FL ONLINE",
+    "holder": "FLONLINE-AS-AP FL ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "151200": {
+    "asn": "151200",
+    "name": "MIRPURTECH-AS-AP Mirpur Tech",
+    "holder": "MIRPURTECH-AS-AP Mirpur Tech",
+    "announced": true,
+    "country": "BD"
+  },
+  "137278": {
+    "asn": "137278",
+    "name": "M1-AS-AP 1 Touch BD Online Ltd.",
+    "holder": "M1-AS-AP 1 Touch BD Online Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "152708": {
+    "asn": "152708",
+    "name": "JADOOTECHNOLOGY-AS-AP Jadoo Technology",
+    "holder": "JADOOTECHNOLOGY-AS-AP Jadoo Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "135365": {
+    "asn": "135365",
+    "name": "SMIRITY-AS-AP Smirity Cable",
+    "holder": "SMIRITY-AS-AP Smirity Cable",
+    "announced": true,
+    "country": "BD"
+  },
+  "137578": {
+    "asn": "137578",
+    "name": "SPACE-AS-AP Space Walker",
+    "holder": "SPACE-AS-AP Space Walker",
+    "announced": true,
+    "country": "BD"
+  },
+  "152898": {
+    "asn": "152898",
+    "name": "INNOGLOBEIT-AS-AP Innoglobe IT",
+    "holder": "INNOGLOBEIT-AS-AP Innoglobe IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "149169": {
+    "asn": "149169",
+    "name": "LINKTECHIT-AS-AP Link Tech IT",
+    "holder": "LINKTECHIT-AS-AP Link Tech IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "59353": {
+    "asn": "59353",
+    "name": "SPARKSYSTEMSLTD-BD Spark Systems Ltd.",
+    "holder": "SPARKSYSTEMSLTD-BD Spark Systems Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "154351": {
+    "asn": "154351",
+    "name": "MSSTARNETWORK-AS-AP Star Network",
+    "holder": "MSSTARNETWORK-AS-AP Star Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "135019": {
+    "asn": "135019",
+    "name": "AMARNETSYSTEM-AS-AP Amarnet System",
+    "holder": "AMARNETSYSTEM-AS-AP Amarnet System",
+    "announced": true,
+    "country": "BD"
+  },
+  "141460": {
+    "asn": "141460",
+    "name": "SNSIT-AS-AP SNS IT",
+    "holder": "SNSIT-AS-AP SNS IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "135045": {
+    "asn": "135045",
+    "name": "SSRB3-AS-AP S.S.R.B Internet Service",
+    "holder": "SSRB3-AS-AP S.S.R.B Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "55846": {
+    "asn": "55846",
+    "name": "BBN-AS-AP IMED",
+    "holder": "BBN-AS-AP IMED",
+    "announced": false,
+    "country": "BD"
+  },
+  "138492": {
+    "asn": "138492",
+    "name": "CFO-AS-AP Chittagong Focus Online",
+    "holder": "CFO-AS-AP Chittagong Focus Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "151820": {
+    "asn": "151820",
+    "name": "MAXSPEED-AS-AP Max Speed",
+    "holder": "MAXSPEED-AS-AP Max Speed",
+    "announced": true,
+    "country": "BD"
+  },
+  "150732": {
+    "asn": "150732",
+    "name": "GUMOTIONLINE-AS-AP Gumati Online",
+    "holder": "GUMOTIONLINE-AS-AP Gumati Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "136738": {
+    "asn": "136738",
+    "name": "DPDC-AS-AP Dhaka Power Distribution Company Limited",
+    "holder": "DPDC-AS-AP Dhaka Power Distribution Company Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "133155": {
+    "asn": "133155",
+    "name": "SATELLITE-BD Satellite Connection",
+    "holder": "SATELLITE-BD Satellite Connection",
+    "announced": true,
+    "country": "BD"
+  },
+  "153667": {
+    "asn": "153667",
+    "name": "SADATINTERNET-AS-AP SADAT INTERNET",
+    "holder": "SADATINTERNET-AS-AP SADAT INTERNET",
+    "announced": true,
+    "country": "BD"
+  },
+  "55836": {
+    "asn": "55836",
+    "name": "RELIANCEJIO-IN Reliance Jio Infocomm Limited",
+    "holder": "RELIANCEJIO-IN Reliance Jio Infocomm Limited",
+    "announced": true,
+    "country": "IN"
+  },
+  "140215": {
+    "asn": "140215",
+    "name": "LUC-AS-AP Link Up Communication",
+    "holder": "LUC-AS-AP Link Up Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "138615": {
+    "asn": "138615",
+    "name": "GARDENIA-AS-AP Gardenia Cyber Communication",
+    "holder": "GARDENIA-AS-AP Gardenia Cyber Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "141434": {
+    "asn": "141434",
+    "name": "NLSOLUTION-AS-AP NL Solution",
+    "holder": "NLSOLUTION-AS-AP NL Solution",
+    "announced": true,
+    "country": "BD"
+  },
+  "151054": {
+    "asn": "151054",
+    "name": "WFC-AS-AP World Faith Communication",
+    "holder": "WFC-AS-AP World Faith Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "61049": {
+    "asn": "61049",
+    "name": "EXASCALE - Exascale Ltd",
+    "holder": "EXASCALE - Exascale Ltd",
+    "announced": true,
+    "country": ""
+  },
+  "149658": {
+    "asn": "149658",
+    "name": "SAZALSARKER-AS-AP Taherpur Online",
+    "holder": "SAZALSARKER-AS-AP Taherpur Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "135554": {
+    "asn": "135554",
+    "name": "LINK-AS-AP Link Line",
+    "holder": "LINK-AS-AP Link Line",
+    "announced": true,
+    "country": "BD"
+  },
+  "131242": {
+    "asn": "131242",
+    "name": "SWAPNO-AS-AP Swapno Network Limited",
+    "holder": "SWAPNO-AS-AP Swapno Network Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "149473": {
+    "asn": "149473",
+    "name": "FTSL-AS-AP Fatema Tech Solution Ltd.",
+    "holder": "FTSL-AS-AP Fatema Tech Solution Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "38588": {
+    "asn": "38588",
+    "name": "FIL-AS-AP Felicity IDC Limited",
+    "holder": "FIL-AS-AP Felicity IDC Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "153680": {
+    "asn": "153680",
+    "name": "MDMASUMHASAN-AS-AP Non Stop Network",
+    "holder": "MDMASUMHASAN-AS-AP Non Stop Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "141398": {
+    "asn": "141398",
+    "name": "SEARCHIT-AS-AP Search IT",
+    "holder": "SEARCHIT-AS-AP Search IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "139678": {
+    "asn": "139678",
+    "name": "JOYDEBPUR-AS-AP Joydebpur Network",
+    "holder": "JOYDEBPUR-AS-AP Joydebpur Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "137834": {
+    "asn": "137834",
+    "name": "AOT-AS-AP Adel Online Technology",
+    "holder": "AOT-AS-AP Adel Online Technology",
+    "announced": true,
+    "country": "BD"
+  },
+  "137812": {
+    "asn": "137812",
+    "name": "KK-AS-AP RMG Sustainability Council RSC",
+    "holder": "KK-AS-AP RMG Sustainability Council RSC",
+    "announced": true,
+    "country": "BD"
+  },
+  "141763": {
+    "asn": "141763",
+    "name": "MTE-AS-AP Titas Enterprise",
+    "holder": "MTE-AS-AP Titas Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "152474": {
+    "asn": "152474",
+    "name": "WEBCONNECTION-AS-AP Web Connection",
+    "holder": "WEBCONNECTION-AS-AP Web Connection",
+    "announced": true,
+    "country": "BD"
+  },
+  "138357": {
+    "asn": "138357",
+    "name": "ABBL-AS-AP Alliance Broadband Bd Ltd.",
+    "holder": "ABBL-AS-AP Alliance Broadband Bd Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "140949": {
+    "asn": "140949",
+    "name": "DIGI-AS-AP Diginet",
+    "holder": "DIGI-AS-AP Diginet",
+    "announced": true,
+    "country": "BD"
+  },
+  "136999": {
+    "asn": "136999",
+    "name": "SKYLINK-AS-AP SkyLink Broadband Internet",
+    "holder": "SKYLINK-AS-AP SkyLink Broadband Internet",
+    "announced": true,
+    "country": "BD"
+  },
+  "138452": {
+    "asn": "138452",
+    "name": "CLICKEARTHONLINE-AS-AP Click Earth Online",
+    "holder": "CLICKEARTHONLINE-AS-AP Click Earth Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "135628": {
+    "asn": "135628",
+    "name": "PC-NET-AS-AP PC-Net",
+    "holder": "PC-NET-AS-AP PC-Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "140244": {
+    "asn": "140244",
+    "name": "INVISIONIT-AS-AP Invision IT",
+    "holder": "INVISIONIT-AS-AP Invision IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "137868": {
+    "asn": "137868",
+    "name": "SIS-AS-AP Star Internet Service",
+    "holder": "SIS-AS-AP Star Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "141427": {
+    "asn": "141427",
+    "name": "JOSBDONLINE-AS-AP JOS BD ONLINE",
+    "holder": "JOSBDONLINE-AS-AP JOS BD ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "132490": {
+    "asn": "132490",
+    "name": "MBSM-AS-AP Mbsm Enterprise",
+    "holder": "MBSM-AS-AP Mbsm Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "154161": {
+    "asn": "154161",
+    "name": "LEECOMMUNICATION-AS-AP Lee Communication",
+    "holder": "LEECOMMUNICATION-AS-AP Lee Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "142218": {
+    "asn": "142218",
+    "name": "SFNL2-AS-AP Sixty Four Networks Limited.",
+    "holder": "SFNL2-AS-AP Sixty Four Networks Limited.",
+    "announced": true,
+    "country": "BD"
+  },
+  "138998": {
+    "asn": "138998",
+    "name": "HPLINKINTERNET-AS-AP HPLink",
+    "holder": "HPLINKINTERNET-AS-AP HPLink",
+    "announced": true,
+    "country": "BD"
+  },
+  "140888": {
+    "asn": "140888",
+    "name": "MTNDOTCOM-AS-AP MTN.COM",
+    "holder": "MTNDOTCOM-AS-AP MTN.COM",
+    "announced": true,
+    "country": "BD"
+  },
+  "13786": {
+    "asn": "13786",
+    "name": "SEABORN - Seabras 1 USA",
+    "holder": "SEABORN - Seabras 1 USA",
+    "announced": true,
+    "country": ""
+  },
+  "152646": {
+    "asn": "152646",
+    "name": "RAKINIT-AS-AP Rakin IT",
+    "holder": "RAKINIT-AS-AP Rakin IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "151812": {
+    "asn": "151812",
+    "name": "MHE-AS-AP Media Hunt Enterprise",
+    "holder": "MHE-AS-AP Media Hunt Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "141414": {
+    "asn": "141414",
+    "name": "ASBLINK-AS-AP ASB Link",
+    "holder": "ASBLINK-AS-AP ASB Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "131340": {
+    "asn": "131340",
+    "name": "TAQWAIT-AS-AP Md. Mozammel Hoque ta Taqwa IT",
+    "holder": "TAQWAIT-AS-AP Md. Mozammel Hoque ta Taqwa IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "7713": {
+    "asn": "7713",
+    "name": "TELKOMNET-AS-AP PT Telekomunikasi Indonesia",
+    "holder": "TELKOMNET-AS-AP PT Telekomunikasi Indonesia",
+    "announced": true,
+    "country": ""
+  },
+  "147063": {
+    "asn": "147063",
+    "name": "ALAMINONLINE-AS-AP Al Amin Online",
+    "holder": "ALAMINONLINE-AS-AP Al Amin Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "150165": {
+    "asn": "150165",
+    "name": "ARKNETWORK-AS-AP ARK Network",
+    "holder": "ARKNETWORK-AS-AP ARK Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "132073": {
+    "asn": "132073",
+    "name": "WAVENET-AS-AP Wave Net",
+    "holder": "WAVENET-AS-AP Wave Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "136534": {
+    "asn": "136534",
+    "name": "GUNGCHIL-NET-AS-AP GUNGCHIL",
+    "holder": "GUNGCHIL-NET-AS-AP GUNGCHIL",
+    "announced": true,
+    "country": "BD"
+  },
+  "150441": {
+    "asn": "150441",
+    "name": "FIS-AS-AP F4 Internet Solutions",
+    "holder": "FIS-AS-AP F4 Internet Solutions",
+    "announced": true,
+    "country": "BD"
+  },
+  "132897": {
+    "asn": "132897",
+    "name": "LINKTODAYINTERNET-AS-AP Link Today Internet",
+    "holder": "LINKTODAYINTERNET-AS-AP Link Today Internet",
+    "announced": true,
+    "country": "BD"
+  },
+  "136531": {
+    "asn": "136531",
+    "name": "NETEXPRESSONLINE-AS-AP NetExpress Online",
+    "holder": "NETEXPRESSONLINE-AS-AP NetExpress Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "134437": {
+    "asn": "134437",
+    "name": "THESKYTRADERSPVTGM-AS-AP The Sky Traders Pvt Ltd",
+    "holder": "THESKYTRADERSPVTGM-AS-AP The Sky Traders Pvt Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "153379": {
+    "asn": "153379",
+    "name": "NS-AS-AP NS INTERNET",
+    "holder": "NS-AS-AP NS INTERNET",
+    "announced": true,
+    "country": "BD"
+  },
+  "135030": {
+    "asn": "135030",
+    "name": "REALSTATION-BROADBAND-AS-AP REAL STATION BROADBAND",
+    "holder": "REALSTATION-BROADBAND-AS-AP REAL STATION BROADBAND",
+    "announced": true,
+    "country": "BD"
+  },
+  "151629": {
+    "asn": "151629",
+    "name": "AALOKITLIMITED-AS-AP Aalok IT Limited",
+    "holder": "AALOKITLIMITED-AS-AP Aalok IT Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "151968": {
+    "asn": "151968",
+    "name": "TGNETWORK-AS-AP T G Network",
+    "holder": "TGNETWORK-AS-AP T G Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "132295": {
+    "asn": "132295",
+    "name": "JAHID-AS-AP Jahid Communication",
+    "holder": "JAHID-AS-AP Jahid Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "138032": {
+    "asn": "138032",
+    "name": "MHS-AS-AP MOS Hosting Services",
+    "holder": "MHS-AS-AP MOS Hosting Services",
+    "announced": true,
+    "country": "BD"
+  },
+  "150352": {
+    "asn": "150352",
+    "name": "SKYBUSINESSCENTER-AS-AP Sky Business Center",
+    "holder": "SKYBUSINESSCENTER-AS-AP Sky Business Center",
+    "announced": true,
+    "country": "BD"
+  },
+  "142298": {
+    "asn": "142298",
+    "name": "NEWTOPLINK-AS-AP New Top Link",
+    "holder": "NEWTOPLINK-AS-AP New Top Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "58668": {
+    "asn": "58668",
+    "name": "BD-LINK-BD BD Link Communication Ltd",
+    "holder": "BD-LINK-BD BD Link Communication Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "154434": {
+    "asn": "154434",
+    "name": "HOSTSTALLCOM-AS-AP Hoststall.com",
+    "holder": "HOSTSTALLCOM-AS-AP Hoststall.com",
+    "announced": true,
+    "country": "BD"
+  },
+  "154224": {
+    "asn": "154224",
+    "name": "ANSN-AS-AP A N S NETWORK",
+    "holder": "ANSN-AS-AP A N S NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "151635": {
+    "asn": "151635",
+    "name": "INCOMITSOLUTION-AS-AP INCOMIT SOLUTION",
+    "holder": "INCOMITSOLUTION-AS-AP INCOMIT SOLUTION",
+    "announced": true,
+    "country": "BD"
+  },
+  "137570": {
+    "asn": "137570",
+    "name": "STORMNETISP-AS-AP Md Sohel Rana",
+    "holder": "STORMNETISP-AS-AP Md Sohel Rana",
+    "announced": true,
+    "country": "BD"
+  },
+  "137703": {
+    "asn": "137703",
+    "name": "NBN-AS-AP Noakhali Broadband Network",
+    "holder": "NBN-AS-AP Noakhali Broadband Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "142634": {
+    "asn": "142634",
+    "name": "CHANPARAONLINE-AS-AP Chanpara Online",
+    "holder": "CHANPARAONLINE-AS-AP Chanpara Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "135091": {
+    "asn": "135091",
+    "name": "AYAANCOMMUNICATION-AS-AP Ayaan communication",
+    "holder": "AYAANCOMMUNICATION-AS-AP Ayaan communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "140068": {
+    "asn": "140068",
+    "name": "CFHIL-AS-AP Code For Host Inc Ltd",
+    "holder": "CFHIL-AS-AP Code For Host Inc Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "138470": {
+    "asn": "138470",
+    "name": "TRUSTBANKLTD-AS-AP Trust Bank Ltd",
+    "holder": "TRUSTBANKLTD-AS-AP Trust Bank Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "58581": {
+    "asn": "58581",
+    "name": "STANDARD-BANK-AS-AP Standard Bank LIMITED",
+    "holder": "STANDARD-BANK-AS-AP Standard Bank LIMITED",
+    "announced": true,
+    "country": "BD"
+  },
+  "59239": {
+    "asn": "59239",
+    "name": "ITELLIMITED-AS-AP iTel Limited",
+    "holder": "ITELLIMITED-AS-AP iTel Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "152446": {
+    "asn": "152446",
+    "name": "FLYNET-AS-AP Flynet Networking System",
+    "holder": "FLYNET-AS-AP Flynet Networking System",
+    "announced": true,
+    "country": "BD"
+  },
+  "132475": {
+    "asn": "132475",
+    "name": "FCAN-AS-AP Future Communication and Network",
+    "holder": "FCAN-AS-AP Future Communication and Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "153834": {
+    "asn": "153834",
+    "name": "MSSDENTERPRISE-AS-AP S.D Enterprise",
+    "holder": "MSSDENTERPRISE-AS-AP S.D Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "56264": {
+    "asn": "56264",
+    "name": "TOMATOWEB-BD Tomato Web Pvt Limited",
+    "holder": "TOMATOWEB-BD Tomato Web Pvt Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "140226": {
+    "asn": "140226",
+    "name": "LITTLEBOYSNET-AS-AP Little Boys. Net",
+    "holder": "LITTLEBOYSNET-AS-AP Little Boys. Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "147308": {
+    "asn": "147308",
+    "name": "GON-AS-AP Goshairhat Online Network",
+    "holder": "GON-AS-AP Goshairhat Online Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "146990": {
+    "asn": "146990",
+    "name": "LIRITECHNOLOGIES-AS-AP Liri Technologies",
+    "holder": "LIRITECHNOLOGIES-AS-AP Liri Technologies",
+    "announced": true,
+    "country": "BD"
+  },
+  "23033": {
+    "asn": "23033",
+    "name": "WOW - Wowrack.com",
+    "holder": "WOW - Wowrack.com",
+    "announced": true,
+    "country": ""
+  },
+  "139691": {
+    "asn": "139691",
+    "name": "CRAZY-AS-AP Crazy Net",
+    "holder": "CRAZY-AS-AP Crazy Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "209533": {
+    "asn": "209533",
+    "name": "BGPTUNNEL - iFog GmbH",
+    "holder": "BGPTUNNEL - iFog GmbH",
+    "announced": true,
+    "country": ""
+  },
+  "149019": {
+    "asn": "149019",
+    "name": "PENTASIX-AS-AP Penta-Six Communication",
+    "holder": "PENTASIX-AS-AP Penta-Six Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "152850": {
+    "asn": "152850",
+    "name": "CHITTAGONG1-AS-AP Chittagong net solution",
+    "holder": "CHITTAGONG1-AS-AP Chittagong net solution",
+    "announced": true,
+    "country": "BD"
+  },
+  "153899": {
+    "asn": "153899",
+    "name": "JAGONET-AS-AP Jago Net",
+    "holder": "JAGONET-AS-AP Jago Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "149990": {
+    "asn": "149990",
+    "name": "SHEREBANGLA-AS-AP Sher-e-Bangla Agricultural University",
+    "holder": "SHEREBANGLA-AS-AP Sher-e-Bangla Agricultural University",
+    "announced": true,
+    "country": "BD"
+  },
+  "139611": {
+    "asn": "139611",
+    "name": "BHARARINET-AS-AP Bharari.net",
+    "holder": "BHARARINET-AS-AP Bharari.net",
+    "announced": true,
+    "country": "BD"
+  },
+  "139680": {
+    "asn": "139680",
+    "name": "RUMELIT-AS-AP Rumel IT",
+    "holder": "RUMELIT-AS-AP Rumel IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "142021": {
+    "asn": "142021",
+    "name": "NBORB-AS-AP National Board of Revenue",
+    "holder": "NBORB-AS-AP National Board of Revenue",
+    "announced": true,
+    "country": "BD"
+  },
+  "149770": {
+    "asn": "149770",
+    "name": "LBN-AS-AP L.J Broadband Network",
+    "holder": "LBN-AS-AP L.J Broadband Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "151957": {
+    "asn": "151957",
+    "name": "GLOBALONLINE-AS-AP GLOBAL ONLINE",
+    "holder": "GLOBALONLINE-AS-AP GLOBAL ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "138903": {
+    "asn": "138903",
+    "name": "PROMEE-AS-AP PROMEE INTERNATIONAL",
+    "holder": "PROMEE-AS-AP PROMEE INTERNATIONAL",
+    "announced": true,
+    "country": "BD"
+  },
+  "134186": {
+    "asn": "134186",
+    "name": "PARADISETEC-AS-AP Paradise Technologies Limited",
+    "holder": "PARADISETEC-AS-AP Paradise Technologies Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "38303": {
+    "asn": "38303",
+    "name": "BKASHLIMITED-AS-AP bKash Limited",
+    "holder": "BKASHLIMITED-AS-AP bKash Limited",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.114.174.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.219.114.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "149414": {
+    "asn": "149414",
+    "name": "NARIA-AS-AP Naria Online",
+    "holder": "NARIA-AS-AP Naria Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "139854": {
+    "asn": "139854",
+    "name": "DIGINET-AS-AP Digi Net",
+    "holder": "DIGINET-AS-AP Digi Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "142593": {
+    "asn": "142593",
+    "name": "LCN-AS-AP Lakshmipur Communication Network",
+    "holder": "LCN-AS-AP Lakshmipur Communication Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "134424": {
+    "asn": "134424",
+    "name": "ORANGE-3-AS-AP Orange Communication",
+    "holder": "ORANGE-3-AS-AP Orange Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "135584": {
+    "asn": "135584",
+    "name": "PVMBPL-AS-AP Perfetti Van Melle Bangladesh Private Limited",
+    "holder": "PVMBPL-AS-AP Perfetti Van Melle Bangladesh Private Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "138412": {
+    "asn": "138412",
+    "name": "ASIANCOMMUNICATION-AS-AP Golam Rabbani Chowdhury",
+    "holder": "ASIANCOMMUNICATION-AS-AP Golam Rabbani Chowdhury",
+    "announced": true,
+    "country": "BD"
+  },
+  "142123": {
+    "asn": "142123",
+    "name": "CNBN1-AS-AP Central Net Broadband Network",
+    "holder": "CNBN1-AS-AP Central Net Broadband Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "138953": {
+    "asn": "138953",
+    "name": "TOPNETWORK-AS-AP Top Network",
+    "holder": "TOPNETWORK-AS-AP Top Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "139270": {
+    "asn": "139270",
+    "name": "ACCESS4-AS-AP ACCESS COMMUNICATION",
+    "holder": "ACCESS4-AS-AP ACCESS COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "153755": {
+    "asn": "153755",
+    "name": "HOSTERCUBE-AS-AP HosterCube",
+    "holder": "HOSTERCUBE-AS-AP HosterCube",
+    "announced": true,
+    "country": "BD"
+  },
+  "55344": {
+    "asn": "55344",
+    "name": "MTBSYSADMIN-BD Head Office",
+    "holder": "MTBSYSADMIN-BD Head Office",
+    "announced": true,
+    "country": "BD"
+  },
+  "154356": {
+    "asn": "154356",
+    "name": "NEXTSYSTEM-AS-AP NEXT SYSTEM",
+    "holder": "NEXTSYSTEM-AS-AP NEXT SYSTEM",
+    "announced": true,
+    "country": "BD"
+  },
+  "139278": {
+    "asn": "139278",
+    "name": "DATAEDGELIMITED-AS-AP Data Edge Limited",
+    "holder": "DATAEDGELIMITED-AS-AP Data Edge Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "149978": {
+    "asn": "149978",
+    "name": "SPNHOST-AS-AP SPNHOST",
+    "holder": "SPNHOST-AS-AP SPNHOST",
+    "announced": true,
+    "country": "BD"
+  },
+  "135590": {
+    "asn": "135590",
+    "name": "SEBANET-AS-AP Md. Aminur Rahman Khan TA Seba Net",
+    "holder": "SEBANET-AS-AP Md. Aminur Rahman Khan TA Seba Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "137550": {
+    "asn": "137550",
+    "name": "POWERLINK-AS-AP Power Link Dot Net",
+    "holder": "POWERLINK-AS-AP Power Link Dot Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "138619": {
+    "asn": "138619",
+    "name": "NH-AS-AP Net @ Home",
+    "holder": "NH-AS-AP Net @ Home",
+    "announced": true,
+    "country": "BD"
+  },
+  "58926": {
+    "asn": "58926",
+    "name": "BANGLANET-BD Banglanet",
+    "holder": "BANGLANET-BD Banglanet",
+    "announced": true,
+    "country": "BD"
+  },
+  "154199": {
+    "asn": "154199",
+    "name": "SRSCOMMUNICATION-AS-AP SRS COMMUNICATION",
+    "holder": "SRSCOMMUNICATION-AS-AP SRS COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "138474": {
+    "asn": "138474",
+    "name": "ASHULIANETWORK-AS-AP Ashulia Network",
+    "holder": "ASHULIANETWORK-AS-AP Ashulia Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "137987": {
+    "asn": "137987",
+    "name": "SK1-AS-AP Md. Shohidul Islam TA SK Link",
+    "holder": "SK1-AS-AP Md. Shohidul Islam TA SK Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "134790": {
+    "asn": "134790",
+    "name": "UIU-AS-AP United International University",
+    "holder": "UIU-AS-AP United International University",
+    "announced": true,
+    "country": "BD"
+  },
+  "150708": {
+    "asn": "150708",
+    "name": "MASTERIT-AS-AP Master IT",
+    "holder": "MASTERIT-AS-AP Master IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "151323": {
+    "asn": "151323",
+    "name": "NAMEPART-AS-AP Namepart",
+    "holder": "NAMEPART-AS-AP Namepart",
+    "announced": true,
+    "country": "BD"
+  },
+  "150731": {
+    "asn": "150731",
+    "name": "SKYVIEWONLINE-AS-AP Skyview Online Ltd",
+    "holder": "SKYVIEWONLINE-AS-AP Skyview Online Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "136395": {
+    "asn": "136395",
+    "name": "EXPERT-AS-AP Mahfujul Haque ta Expert Online",
+    "holder": "EXPERT-AS-AP Mahfujul Haque ta Expert Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "18109": {
+    "asn": "18109",
+    "name": "MAISHANET-AS-AP MAISHA NET",
+    "holder": "MAISHANET-AS-AP MAISHA NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "137959": {
+    "asn": "137959",
+    "name": "VTL-AS-AP Vision Technologies Ltd.",
+    "holder": "VTL-AS-AP Vision Technologies Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "131247": {
+    "asn": "131247",
+    "name": "INFOBD24SYSTEMS-AS-AP Infobd24 Systems",
+    "holder": "INFOBD24SYSTEMS-AS-AP Infobd24 Systems",
+    "announced": true,
+    "country": "BD"
+  },
+  "136406": {
+    "asn": "136406",
+    "name": "SPEED-LINK-AS-AP SPEED LINK",
+    "holder": "SPEED-LINK-AS-AP SPEED LINK",
+    "announced": true,
+    "country": "BD"
+  },
+  "148986": {
+    "asn": "148986",
+    "name": "NET2BD-AS-AP Net 2",
+    "holder": "NET2BD-AS-AP Net 2",
+    "announced": true,
+    "country": "BD"
+  },
+  "150442": {
+    "asn": "150442",
+    "name": "BFSACD-AS-AP Bangladesh Fire Service and Civil Defense",
+    "holder": "BFSACD-AS-AP Bangladesh Fire Service and Civil Defense",
+    "announced": true,
+    "country": "BD"
+  },
+  "138198": {
+    "asn": "138198",
+    "name": "BENGAL-BROADBAND-AS-AP Bengal Broadband Limited",
+    "holder": "BENGAL-BROADBAND-AS-AP Bengal Broadband Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "133368": {
+    "asn": "133368",
+    "name": "NET3LINK-AS-AP Net 3 Link",
+    "holder": "NET3LINK-AS-AP Net 3 Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "141351": {
+    "asn": "141351",
+    "name": "RDPN-AS-AP Rural Development Project Network",
+    "holder": "RDPN-AS-AP Rural Development Project Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "142037": {
+    "asn": "142037",
+    "name": "JBI-AS-AP Janany Broadband Internet",
+    "holder": "JBI-AS-AP Janany Broadband Internet",
+    "announced": true,
+    "country": "BD"
+  },
+  "133770": {
+    "asn": "133770",
+    "name": "HMCOMMUNICATION-AS-AP H M COMMUNICATION",
+    "holder": "HMCOMMUNICATION-AS-AP H M COMMUNICATION",
+    "announced": true,
+    "country": "BD"
+  },
+  "142031": {
+    "asn": "142031",
+    "name": "JUNAIRANETWORK-AS-AP Junaira Network",
+    "holder": "JUNAIRANETWORK-AS-AP Junaira Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "149499": {
+    "asn": "149499",
+    "name": "MAHINONLINE-AS-AP Mahin Online",
+    "holder": "MAHINONLINE-AS-AP Mahin Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "152160": {
+    "asn": "152160",
+    "name": "GENIOUSNET-AS-AP Geniousnet Bangladesh",
+    "holder": "GENIOUSNET-AS-AP Geniousnet Bangladesh",
+    "announced": true,
+    "country": "BD"
+  },
+  "141765": {
+    "asn": "141765",
+    "name": "FZ-AS-AP FZ Online",
+    "holder": "FZ-AS-AP FZ Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "146953": {
+    "asn": "146953",
+    "name": "TBC-AS-AP Touch Communications",
+    "holder": "TBC-AS-AP Touch Communications",
+    "announced": true,
+    "country": "BD"
+  },
+  "139616": {
+    "asn": "139616",
+    "name": "BBICTIMMD-AS-AP The Central Bank of Bangladesh",
+    "holder": "BBICTIMMD-AS-AP The Central Bank of Bangladesh",
+    "announced": true,
+    "country": "BD"
+  },
+  "136248": {
+    "asn": "136248",
+    "name": "FASTNETBD-AS-AP Abdur Rahim Bishas ta FAST NET",
+    "holder": "FASTNETBD-AS-AP Abdur Rahim Bishas ta FAST NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "140544": {
+    "asn": "140544",
+    "name": "ITE-AS-AP INNOVATIVE TECHNOLOGY & ENGINEERING",
+    "holder": "ITE-AS-AP INNOVATIVE TECHNOLOGY & ENGINEERING",
+    "announced": true,
+    "country": "BD"
+  },
+  "153487": {
+    "asn": "153487",
+    "name": "DWSSA-AS-AP DWASA",
+    "holder": "DWSSA-AS-AP DWASA",
+    "announced": true,
+    "country": "BD"
+  },
+  "140088": {
+    "asn": "140088",
+    "name": "TCL-AS-AP Telebangla Communications Ltd",
+    "holder": "TCL-AS-AP Telebangla Communications Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "153879": {
+    "asn": "153879",
+    "name": "HOMELINK-AS-AP Home Link",
+    "holder": "HOMELINK-AS-AP Home Link",
+    "announced": true,
+    "country": "BD"
+  },
+  "147033": {
+    "asn": "147033",
+    "name": "LIZAONLINEBD-AS-AP Liza Online",
+    "holder": "LIZAONLINEBD-AS-AP Liza Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "150744": {
+    "asn": "150744",
+    "name": "MAXHUBLTD2-AS-AP Max Hub Limited",
+    "holder": "MAXHUBLTD2-AS-AP Max Hub Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "139004": {
+    "asn": "139004",
+    "name": "RLCAFENET-AS-AP RL CAFE NET",
+    "holder": "RLCAFENET-AS-AP RL CAFE NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "137815": {
+    "asn": "137815",
+    "name": "SUPER-AS-AP SUPER STAR ELECTRONICS LIMITED",
+    "holder": "SUPER-AS-AP SUPER STAR ELECTRONICS LIMITED",
+    "announced": true,
+    "country": "BD"
+  },
+  "134801": {
+    "asn": "134801",
+    "name": "HIS-AS-AP Himel Internet Service",
+    "holder": "HIS-AS-AP Himel Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "134971": {
+    "asn": "134971",
+    "name": "DOLYITCORNER-AS-AP Md. Maniruzzaman Manir ta Doly IT Corner",
+    "holder": "DOLYITCORNER-AS-AP Md. Maniruzzaman Manir ta Doly IT Corner",
+    "announced": true,
+    "country": "BD"
+  },
+  "142633": {
+    "asn": "142633",
+    "name": "NETDUNIA-AS-AP NET DUNIA",
+    "holder": "NETDUNIA-AS-AP NET DUNIA",
+    "announced": true,
+    "country": "BD"
+  },
+  "38556": {
+    "asn": "38556",
+    "name": "NARAENETWORKS-AS-AP Narae Networks",
+    "holder": "NARAENETWORKS-AS-AP Narae Networks",
+    "announced": true,
+    "country": "BD"
+  },
+  "138397": {
+    "asn": "138397",
+    "name": "SAVARNETWORK-AS-AP Md. Shazzad Hossain",
+    "holder": "SAVARNETWORK-AS-AP Md. Shazzad Hossain",
+    "announced": true,
+    "country": "BD"
+  },
+  "138611": {
+    "asn": "138611",
+    "name": "UNITECHINTERNET-AS-AP Unitech Internet",
+    "holder": "UNITECHINTERNET-AS-AP Unitech Internet",
+    "announced": true,
+    "country": "BD"
+  },
+  "140103": {
+    "asn": "140103",
+    "name": "ITL-AS-AP Invention Technologies Limited",
+    "holder": "ITL-AS-AP Invention Technologies Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "136813": {
+    "asn": "136813",
+    "name": "NBB-AS-AP NCC Bank",
+    "holder": "NBB-AS-AP NCC Bank",
+    "announced": true,
+    "country": "BD"
+  },
+  "133209": {
+    "asn": "133209",
+    "name": "SATURN-AS-AP Saturn Internet Service",
+    "holder": "SATURN-AS-AP Saturn Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "142124": {
+    "asn": "142124",
+    "name": "SBIS-AS-AP Shubas Broadband Internet Service",
+    "holder": "SBIS-AS-AP Shubas Broadband Internet Service",
+    "announced": true,
+    "country": "BD"
+  },
+  "152857": {
+    "asn": "152857",
+    "name": "KHS-AS-AP Karim Hosting Services",
+    "holder": "KHS-AS-AP Karim Hosting Services",
+    "announced": true,
+    "country": "BD"
+  },
+  "151184": {
+    "asn": "151184",
+    "name": "KINGSNET-AS-AP Kings Net",
+    "holder": "KINGSNET-AS-AP Kings Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "137947": {
+    "asn": "137947",
+    "name": "PRIMEBANK-AS-AP Prime Bank Ltd",
+    "holder": "PRIMEBANK-AS-AP Prime Bank Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "150005": {
+    "asn": "150005",
+    "name": "MARUF-AS-AP Maruf Online",
+    "holder": "MARUF-AS-AP Maruf Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "149636": {
+    "asn": "149636",
+    "name": "HASANBROADBANDNET-AS-AP Hasan Broadband Net",
+    "holder": "HASANBROADBANDNET-AS-AP Hasan Broadband Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "141220": {
+    "asn": "141220",
+    "name": "DISCOVERY24ONLINE-AS-AP Discovery 24 Online",
+    "holder": "DISCOVERY24ONLINE-AS-AP Discovery 24 Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "45326": {
+    "asn": "45326",
+    "name": "BBTS-AS-AP Broad Band Telecom Services Ltd",
+    "holder": "BBTS-AS-AP Broad Band Telecom Services Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "139039": {
+    "asn": "139039",
+    "name": "JKNETWORK-AS-AP JK Network",
+    "holder": "JKNETWORK-AS-AP JK Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "137585": {
+    "asn": "137585",
+    "name": "CYBERLINKCOMPUTER-AS-AP Cyber Link Computer",
+    "holder": "CYBERLINKCOMPUTER-AS-AP Cyber Link Computer",
+    "announced": true,
+    "country": "BD"
+  },
+  "140611": {
+    "asn": "140611",
+    "name": "RED-AS-AP RED ONLINE",
+    "holder": "RED-AS-AP RED ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "138358": {
+    "asn": "138358",
+    "name": "PURPLEITLTD-AS-AP Purple IT Ltd",
+    "holder": "PURPLEITLTD-AS-AP Purple IT Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "142122": {
+    "asn": "142122",
+    "name": "NETZONECOMPUTERS-AS-AP Netzone Computers",
+    "holder": "NETZONECOMPUTERS-AS-AP Netzone Computers",
+    "announced": true,
+    "country": "BD"
+  },
+  "59236": {
+    "asn": "59236",
+    "name": "MEGHNA-BD Meghna Bank Limited",
+    "holder": "MEGHNA-BD Meghna Bank Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "141026": {
+    "asn": "141026",
+    "name": "ADN-AS-AP A Dot Net",
+    "holder": "ADN-AS-AP A Dot Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "153623": {
+    "asn": "153623",
+    "name": "BANGLADESH11-AS-AP Bangladesh NAVY",
+    "holder": "BANGLADESH11-AS-AP Bangladesh NAVY",
+    "announced": true,
+    "country": "BD"
+  },
+  "135124": {
+    "asn": "135124",
+    "name": "GSC-AS-AP Green Surma Communications",
+    "holder": "GSC-AS-AP Green Surma Communications",
+    "announced": true,
+    "country": "BD"
+  },
+  "139813": {
+    "asn": "139813",
+    "name": "SMARTONLINE-AS-AP Smart Online",
+    "holder": "SMARTONLINE-AS-AP Smart Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "150397": {
+    "asn": "150397",
+    "name": "UNIVERSE-AS-AP UNIVERSE LINK",
+    "holder": "UNIVERSE-AS-AP UNIVERSE LINK",
+    "announced": true,
+    "country": "BD"
+  },
+  "59341": {
+    "asn": "59341",
+    "name": "SINETEN-BD SINE-10 BD LIMITED",
+    "holder": "SINETEN-BD SINE-10 BD LIMITED",
+    "announced": true,
+    "country": "BD"
+  },
+  "137997": {
+    "asn": "137997",
+    "name": "SUPERNETTECHNOLOGY-AS-AP MD ABDUL AZIZ ta SUPERNET TECHNOLOGY",
+    "holder": "SUPERNETTECHNOLOGY-AS-AP MD ABDUL AZIZ ta SUPERNET TECHNOLOGY",
+    "announced": true,
+    "country": "BD"
+  },
+  "137921": {
+    "asn": "137921",
+    "name": "RAIHANINTERNET-AS-AP RAIHAN INTERNET",
+    "holder": "RAIHANINTERNET-AS-AP RAIHAN INTERNET",
+    "announced": true,
+    "country": "BD"
   }
 }
