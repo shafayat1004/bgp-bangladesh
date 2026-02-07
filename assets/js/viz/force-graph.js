@@ -8,13 +8,17 @@ import { countryToFlag } from '../api/ripestat.js';
 const TYPE_COLORS = {
   'outside': '#ff6b6b',
   'iig': '#51cf66',
+  'detected-iig': '#fcc419',
+  'offshore-peer': '#ffa94d',
   'local-isp': '#4dabf7',
   'inside': '#51cf66',  // backward compat
 };
 
 const TYPE_LABELS = {
   'outside': 'Outside BD (Intl Feeder)',
-  'iig': 'IIG (Border Gateway)',
+  'iig': 'IIG (Licensed Gateway)',
+  'detected-iig': 'Detected Gateway',
+  'offshore-peer': 'BD Offshore Peer',
   'local-isp': 'Local ISP',
   'inside': 'Inside BD (Gateway)',
 };
@@ -150,7 +154,8 @@ export function loadData(data, options = {}) {
     .force('collision', d3.forceCollide().radius(30))
     .force('y', d3.forceY(d => {
       if (d.type === 'local-isp') return height * 0.15;
-      if (d.type === 'iig' || d.type === 'inside') return height * 0.5;
+      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.45;
+      if (d.type === 'offshore-peer') return height * 0.6;
       return height * 0.85;
     }).strength(0.4));
 
@@ -234,7 +239,7 @@ function buildTooltipHtml(d) {
     ${d.description ? `<div class="tooltip-row"><span class="tooltip-label">Org:</span><span class="tooltip-value">${d.description}</span></div>` : ''}
     ${d.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${flag} ${d.country}</span></div>` : ''}
     <div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${TYPE_LABELS[d.type] || d.type}</span></div>
-    <div class="tooltip-row"><span class="tooltip-label">Traffic:</span><span class="tooltip-value">${d.traffic.toLocaleString()} routes</span></div>
+    <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${d.traffic.toLocaleString()}</span></div>
     <div class="tooltip-row"><span class="tooltip-label">Rank:</span><span class="tooltip-value">#${d.rank}</span></div>
     <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(d.percentage || 0).toFixed(1)}%</span></div>
   `;
@@ -319,6 +324,16 @@ export function setNodeSize(size) {
 }
 export function toggleLabelsVisibility() { showLabels = !showLabels; d3.selectAll('.node-label').style('display', showLabels ? 'block' : 'none'); }
 export function resetView() { if (svg) svg.transition().duration(750).call(d3.zoom().transform, d3.zoomIdentity); clearHighlight(); }
+
+export function filterByTypes(activeTypes) {
+  if (!nodes || !links) return;
+  nodes.style('display', d => activeTypes.has(d.type) ? 'block' : 'none');
+  links.style('display', d => {
+    const srcNode = currentData.nodes.find(n => n.asn === (d.source?.asn || d.source));
+    const tgtNode = currentData.nodes.find(n => n.asn === (d.target?.asn || d.target));
+    return (srcNode && activeTypes.has(srcNode.type) && tgtNode && activeTypes.has(tgtNode.type)) ? 'block' : 'none';
+  });
+}
 
 function dragStart(event, d) { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; }
 function dragging(event, d) { d.fx = event.x; d.fy = event.y; }

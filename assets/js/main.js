@@ -22,6 +22,16 @@ let currentData = null;
 let rawRoutes = null;  // Store raw BGP routes for export
 let activeTab = 'force-graph';
 let ripeClient = new RIPEStatClient();
+let btrcLicensedASNs = new Set();
+
+// Type labels for toast/tooltip
+const TYPE_LABEL_MAP = {
+  'iig': 'IIG (Licensed Gateway)',
+  'detected-iig': 'Detected Gateway',
+  'offshore-peer': 'BD Offshore Peer',
+  'local-isp': 'Local ISP',
+  'outside': 'International Transit',
+};
 
 const vizModules = {
   'force-graph': ForceGraph,
@@ -42,7 +52,26 @@ async function init() {
   setupTabs();
   setupButtons();
   setupFilters();
+  setupTypeFilters();
+  await loadLicenseData();
   await loadStaticData();
+}
+
+// ────────────────────────────────────────
+// License Data Loading
+// ────────────────────────────────────────
+
+async function loadLicenseData() {
+  try {
+    const resp = await fetch('data/btrc_iig_licenses.json');
+    if (resp.ok) {
+      const raw = await resp.json();
+      btrcLicensedASNs = new Set(Object.keys(raw).filter(k => !k.startsWith('_')));
+      console.log(`Loaded ${btrcLicensedASNs.size} BTRC-licensed IIG ASNs`);
+    }
+  } catch (err) {
+    console.warn('Could not load BTRC IIG license list:', err);
+  }
 }
 
 // ────────────────────────────────────────
@@ -66,8 +95,7 @@ async function loadStaticData() {
       ? new Date(meta.last_updated).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
       : 'Unknown';
 
-    const model = meta.model === '3-layer' ? ' (3-layer)' : '';
-    setDataSourceLabel(`Static data from: ${dateStr}${model}`);
+    setDataSourceLabel(`Static data from: ${dateStr}`);
     onDataLoaded();
   } catch (err) {
     console.error('Failed to load static data:', err);
@@ -199,14 +227,12 @@ async function detectMyASN() {
     if (currentData) {
       const found = currentData.nodes.find(n => n.asn === result.asn);
       if (found) {
-        const typeLabel = found.type === 'iig' ? 'Border Gateway (IIG)' : 
-                         found.type === 'local-isp' ? 'Local ISP' : 
-                         found.type === 'outside' ? 'International Transit' : 'node';
+        const typeLabel = TYPE_LABEL_MAP[found.type] || found.type;
         showToast('success', `Your ASN (AS${result.asn}) is visible as a ${typeLabel}!`, 8000);
         const mod = vizModules[activeTab];
         if (mod?.highlightASN) mod.highlightASN(result.asn);
       } else {
-        showToast('info', `Your ASN (AS${result.asn}) is not in the visible data. Your traffic likely routes through one of the ${currentData.stats.total_iig} IIGs displayed (green nodes). Try lowering the Min Traffic filter to 0 to see smaller ISPs.`, 10000);
+        showToast('info', `Your ASN (AS${result.asn}) is not in the visible data. Your traffic likely routes through one of the ${currentData.stats.total_iig + (currentData.stats.total_detected_iig || 0)} gateways displayed. Try lowering the "Min Routes" filter to 0 to see smaller ISPs.`, 10000);
       }
     }
   } catch (err) {
@@ -313,6 +339,53 @@ function setupFilters() {
 }
 
 // ────────────────────────────────────────
+// Type Filters (new category checkboxes)
+// ────────────────────────────────────────
+
+let activeTypeFilters = new Set(['outside', 'iig', 'detected-iig', 'offshore-peer', 'local-isp']);
+
+function setupTypeFilters() {
+  const container = document.getElementById('type-filter-checks');
+  if (!container) return;
+
+  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const type = cb.dataset.type;
+      if (cb.checked) activeTypeFilters.add(type);
+      else activeTypeFilters.delete(type);
+      applyTypeFilter();
+    });
+  });
+}
+
+function applyTypeFilter() {
+  if (!currentData) return;
+  const mod = vizModules[activeTab];
+  if (mod?.filterByTypes) {
+    mod.filterByTypes(activeTypeFilters);
+  }
+}
+
+// Public: called from table module for cross-viz filtering
+window._bgpHighlightASN = function(asn) {
+  if (!currentData) return;
+  // Switch to force-graph tab and highlight
+  const targetTab = activeTab === 'table' ? 'force-graph' : activeTab;
+  if (targetTab !== activeTab) {
+    switchTab(targetTab);
+  }
+  const mod = vizModules[targetTab];
+  if (mod?.highlightASN) {
+    mod.highlightASN(asn);
+    const node = currentData.nodes.find(n => n.asn === asn);
+    if (node) {
+      const typeLabel = TYPE_LABEL_MAP[node.type] || node.type;
+      showToast('info', `Focused: ${node.name || `AS${asn}`} (${typeLabel})`, 3000);
+    }
+  }
+};
+
+// ────────────────────────────────────────
 // Live Data Fetching (3-layer)
 // ────────────────────────────────────────
 
@@ -352,16 +425,17 @@ async function fetchLiveData() {
     });
     const asnInfo = await ripeClient.fetchASNInfo([...neededASNs], countryASNs, (p) => updateProgress(p));
 
-    // Build visualization data
-    const vizData = buildVisualizationData(analysis, asnInfo, countryASNs);
+    // Build visualization data (license-aware)
+    const vizData = buildVisualizationData(analysis, asnInfo, countryASNs, 1000, btrcLicensedASNs);
     updateProgress({ step: 4, totalSteps: 4, message: 'Done!', progress: 1, complete: true });
 
     currentData = vizData;
-    setDataSourceLabel(`Live data from: ${new Date().toLocaleString()} (3-layer)`);
+    setDataSourceLabel(`Live data from: ${new Date().toLocaleString()}`);
     onDataLoaded();
 
     hideProgress();
-    showToast('success', `Live data loaded! ${analysis.validObservations.toLocaleString()} observations, ${vizData.stats.total_iig} IIGs, ${vizData.stats.total_local_isp} Local ISPs.`);
+    const iigCount = vizData.stats.total_iig + (vizData.stats.total_detected_iig || 0);
+    showToast('success', `Live data loaded! ${analysis.validObservations.toLocaleString()} observations, ${iigCount} gateways, ${vizData.stats.total_local_isp} Local ISPs.`);
 
   } catch (err) {
     hideProgress();

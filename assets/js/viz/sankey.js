@@ -5,7 +5,7 @@
 
 import { countryToFlag } from '../api/ripestat.js';
 
-const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
+const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -106,7 +106,7 @@ function render() {
   const nodeWidth = 18;
   const columns = hasLocalISP && localISPASNs.length > 0
     ? [{ asns: outsideSorted, x: 0, color: TYPE_COLORS.outside, label: 'Outside' },
-       { asns: iigSorted, x: w / 2 - nodeWidth / 2, color: TYPE_COLORS.iig, label: 'IIGs' },
+       { asns: iigSorted, x: w / 2 - nodeWidth / 2, color: TYPE_COLORS.iig, label: 'Gateways' },
        { asns: ispSorted, x: w - nodeWidth, color: TYPE_COLORS['local-isp'], label: 'Local ISPs' }]
     : [{ asns: outsideSorted, x: 0, color: TYPE_COLORS.outside, label: 'Outside' },
        { asns: iigSorted, x: w - nodeWidth, color: TYPE_COLORS.iig, label: 'Inside BD' }];
@@ -130,7 +130,8 @@ function render() {
     col.asns.forEach(({ asn, total }) => {
       const fraction = total / colTotal;
       const nodeH = Math.max(minNodeHeight, fraction * available);
-      positions[`${asn}_${col.label}`] = { x: col.x, y, h: nodeH, asn, color: col.color };
+      const nodeColor = (nodeMap[asn] && TYPE_COLORS[nodeMap[asn].type]) || col.color;
+      positions[`${asn}_${col.label}`] = { x: col.x, y, h: nodeH, asn, color: nodeColor };
       y += nodeH + padding;
     });
   });
@@ -185,8 +186,8 @@ function render() {
     if (skipped > 0) console.warn(`Sankey: Drew ${drawn} ${srcCol}→${tgtCol} edges, skipped ${skipped} (missing positions)`);
   }
 
-  drawEdges(intlEdges, 'Outside', columns.length > 2 ? 'IIGs' : 'Inside BD', '#4fc3f7');
-  if (domEdges.length > 0) drawEdges(domEdges, 'Local ISPs', 'IIGs', '#4dabf7');
+  drawEdges(intlEdges, 'Outside', columns.length > 2 ? 'Gateways' : 'Inside BD', '#4fc3f7');
+  if (domEdges.length > 0) drawEdges(domEdges, 'Local ISPs', 'Gateways', '#4dabf7');
 
   // Add zoom hint
   g.append('text')
@@ -212,7 +213,7 @@ function render() {
       g.append('rect').attr('class', 'sankey-node').attr('data-asn', asn)
         .attr('x', pos.x).attr('y', pos.y)
         .attr('width', nodeWidth).attr('height', pos.h)
-        .attr('fill', col.color).attr('rx', 2);
+        .attr('fill', pos.color).attr('rx', 2);
 
       if (pos.h > 10) {
         const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
@@ -258,4 +259,27 @@ export function updateFilter(minVal, maxVal) {
   if (minVal !== undefined) currentOptions.minTraffic = minVal;
   if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render();
+}
+export function filterByTypes(activeTypes) {
+  if (!currentData) return;
+  // Hide/show nodes and links based on type
+  const svg = d3.select('#sankey-svg');
+  if (svg.empty()) return;
+  svg.selectAll('.sankey-node').attr('display', function() {
+    const asn = d3.select(this).attr('data-asn');
+    const node = currentData.nodes.find(n => n.asn === asn);
+    return node && activeTypes.has(node.type) ? null : 'none';
+  });
+  svg.selectAll('.sankey-label').attr('display', function() {
+    const asn = d3.select(this).attr('data-asn');
+    const node = currentData.nodes.find(n => n.asn === asn);
+    return node && activeTypes.has(node.type) ? null : 'none';
+  });
+  svg.selectAll('.sankey-link').attr('display', function() {
+    const src = d3.select(this).attr('data-source');
+    const tgt = d3.select(this).attr('data-target');
+    const srcNode = currentData.nodes.find(n => n.asn === src);
+    const tgtNode = currentData.nodes.find(n => n.asn === tgt);
+    return (srcNode && activeTypes.has(srcNode.type) && tgtNode && activeTypes.has(tgtNode.type)) ? null : 'none';
+  });
 }

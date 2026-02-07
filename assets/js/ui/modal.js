@@ -62,7 +62,7 @@ export function showModal(force = false) {
           </div>
           <div class="modal-arrow">&#8595; Domestic BGP Peering &#8595;</div>
           <div class="modal-layer modal-layer-inside">
-            <div class="modal-layer-label">Layer 2: IIGs (International Internet Gateways)</div>
+            <div class="modal-layer-label">Layer 2: Border Gateways</div>
             <div class="modal-layer-desc">Summit Communications, Fiber@Home, Level3, Earth Telecom, Windstream...</div>
           </div>
           <div class="modal-arrow">&#8595; International BGP Peering &#8595;</div>
@@ -80,7 +80,7 @@ export function showModal(force = false) {
           <h3>Key Concepts</h3>
           <dl class="modal-terms">
             <dt>ASN (Autonomous System Number)</dt>
-            <dd>A unique identifier for a network (e.g., AS58717 = BTCL). Think of it as a "network ID".</dd>
+            <dd>A unique identifier for a network (e.g., AS58717 = Summit). Think of it as a "network ID".</dd>
 
             <dt>BGP Route</dt>
             <dd>A path that internet traffic follows between networks. Like a road between cities.</dd>
@@ -89,7 +89,13 @@ export function showModal(force = false) {
             <dd>Your local Bangladeshi ISP that originates the route to your network.</dd>
 
             <dt>IIG - International Internet Gateway (Green nodes)</dt>
-            <dd>Licensed border gateway operators in Bangladesh. They peer with international networks and carry your traffic abroad.</dd>
+            <dd>Border gateway operators in Bangladesh that peer with international networks and provide transit for domestic ISPs. Cross-referenced against the known BTRC IIG list.</dd>
+
+            <dt>Detected Gateway (Amber nodes)</dt>
+            <dd>An ASN observed acting as a border gateway for other BD networks, but not found in the known IIG list. This may indicate a new operator, a subsidiary, or a data mapping gap.</dd>
+
+            <dt>BD Offshore Peer (Orange nodes)</dt>
+            <dd>A BD-registered ASN with international peering infrastructure located outside Bangladesh. These have no domestic gateway function.</dd>
 
             <dt>Outside BD (Red nodes)</dt>
             <dd>International transit networks that connect Bangladesh to the world. These are your international feeders.</dd>

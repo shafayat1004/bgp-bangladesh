@@ -22,7 +22,7 @@ function moveTooltipSmart(event) {
   tooltip.style('left', `${left}px`).style('top', `${top}px`);
 }
 
-const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
+const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
 let currentData = null;
 let currentOptions = {};
 let chordASNList = [];
@@ -96,7 +96,7 @@ function render() {
     .on('mouseover', function (event, d) {
       const asn = asnList[d.index]; const node = nodeMap[asn];
       const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
-      d3.select('#tooltip').html(`<div class="tooltip-title">${flag}${node?.name || `AS${asn}`}</div><div class="tooltip-row"><span class="tooltip-label">Traffic:</span><span class="tooltip-value">${(node?.traffic || 0).toLocaleString()}</span></div>`).style('display', 'block');
+      d3.select('#tooltip').html(`<div class="tooltip-title">${flag}${node?.name || `AS${asn}`}</div><div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${(node?.traffic || 0).toLocaleString()}</span></div>`).style('display', 'block');
       chordRibbons.attr('opacity', r => (r.source.index === d.index || r.target.index === d.index) ? 0.8 : 0.08);
     })
     .on('mousemove', moveTooltipSmart)
@@ -162,4 +162,14 @@ export function updateFilter(minVal, maxVal) {
   if (minVal !== undefined) currentOptions.minTraffic = minVal;
   if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render(); 
+}
+export function filterByTypes(activeTypes) {
+  if (!currentData) return;
+  const svg = d3.select('#chord-svg');
+  if (svg.empty()) return;
+  svg.selectAll('.chord-arc').attr('display', function() {
+    const asn = d3.select(this).attr('data-asn');
+    const node = currentData.nodes.find(n => n.asn === asn);
+    return node && activeTypes.has(node.type) ? null : 'none';
+  });
 }

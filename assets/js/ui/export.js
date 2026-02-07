@@ -27,8 +27,8 @@ function dateStamp() {
  */
 export function exportNodesCSV(data) {
   const BOM = '\uFEFF';
-  const typeOrder = { 'iig': 0, 'local-isp': 1, 'inside': 0, 'outside': 2 };
-  const header = 'rank,asn,name,type,country,traffic,percentage,description';
+  const typeOrder = { 'iig': 0, 'detected-iig': 1, 'offshore-peer': 2, 'local-isp': 3, 'inside': 0, 'outside': 4 };
+  const header = 'rank,asn,name,type,licensed,country,traffic,percentage,description';
   const rows = data.nodes
     .sort((a, b) => {
       const ta = typeOrder[a.type] ?? 9;
@@ -39,7 +39,7 @@ export function exportNodesCSV(data) {
     .map(n => {
       const name = (n.name || '').replace(/"/g, '""');
       const desc = (n.description || '').replace(/"/g, '""');
-      return `${n.rank || ''},${n.asn},"${name}",${n.type},${n.country || ''},${n.traffic},${(n.percentage || 0).toFixed(2)},"${desc}"`;
+      return `${n.rank || ''},${n.asn},"${name}",${n.type},${n.licensed ? 'yes' : 'no'},${n.country || ''},${n.traffic},${(n.percentage || 0).toFixed(2)},"${desc}"`;
     });
 
   const csv = BOM + header + '\n' + rows.join('\n');

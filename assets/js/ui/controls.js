@@ -53,6 +53,8 @@ export function populateSidebar(data, onNodeClick) {
   const statsEl = document.getElementById('stats-container');
   if (statsEl) {
     const s = data.stats;
+    const detectedCount = s.total_detected_iig || 0;
+    const offshoreCount = s.total_offshore_peer || 0;
     statsEl.innerHTML = `
       <div class="stat">
         <div class="stat-label">Observations</div>
@@ -72,6 +74,11 @@ export function populateSidebar(data, onNodeClick) {
           <div class="stat-value">${s.total_outside || 0}</div>
         </div>
       </div>
+      ${(detectedCount > 0 || offshoreCount > 0) ? `
+      <div class="stat-row">
+        ${detectedCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Detected Gateways</div><div class="stat-value">${detectedCount}</div></div>` : ''}
+        ${offshoreCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Offshore Peers</div><div class="stat-value">${offshoreCount}</div></div>` : ''}
+      </div>` : ''}
       <div class="stat">
         <div class="stat-label">Connections</div>
         <div class="stat-value">${s.total_edges || 0}</div>
@@ -79,8 +86,14 @@ export function populateSidebar(data, onNodeClick) {
     `;
   }
 
-  // IIG list (border gateways)
+  // IIG list (licensed border gateways)
   populateList('iig-list', data, 'iig', 'iig', onNodeClick);
+
+  // Detected Gateways list
+  populateList('detected-iig-list', data, 'detected-iig', 'detected-iig', onNodeClick);
+
+  // Offshore Peers list
+  populateList('offshore-peer-list', data, 'offshore-peer', 'offshore-peer', onNodeClick);
 
   // Local ISP list
   populateList('local-isp-list', data, 'local-isp', 'local-isp', onNodeClick);

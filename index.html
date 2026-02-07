@@ -25,7 +25,7 @@
         <div class="controls-section my-asn-section">
           <button class="btn btn-my-asn" id="btn-my-asn">What's My ASN?</button>
           <div id="my-asn-result"></div>
-          <div class="my-asn-note">Note: Default filter shows routes with 500+ traffic. Lower the "Min Traffic" slider to 0 to see smaller ISPs.</div>
+          <div class="my-asn-note">Note: Default filter shows routes with 100+ observations. Lower the "Min Routes" slider to 0 to see smaller ISPs.</div>
         </div>
 
         <!-- Stats -->
@@ -54,16 +54,28 @@
         <!-- Filters -->
         <div class="controls-section">
           <div class="control-group">
-            <label>Min Traffic: <span class="filter-value" id="filter-min-traffic-label">100</span></label>
+            <label>Min Routes: <span class="filter-value" id="filter-min-traffic-label">100</span></label>
             <input type="range" id="filter-min-traffic" min="0" max="40000" value="100" step="100">
           </div>
           <div class="control-group">
-            <label>Max Traffic: <span class="filter-value" id="filter-max-traffic-label">∞</span></label>
+            <label>Max Routes: <span class="filter-value" id="filter-max-traffic-label">∞</span></label>
             <input type="range" id="filter-max-traffic" min="0" max="40000" value="40000" step="500">
           </div>
           <div class="control-group">
             <label>Node Size</label>
             <input type="range" id="filter-node-size" min="5" max="30" value="15" step="1">
+          </div>
+        </div>
+
+        <!-- Type Filters -->
+        <div class="controls-section">
+          <div class="sidebar-section-title" style="color: var(--text-muted);">Show Types</div>
+          <div class="type-filter-group" id="type-filter-checks">
+            <label><input type="checkbox" data-type="local-isp" checked> <span style="color:#4dabf7">Local ISPs</span></label>
+            <label><input type="checkbox" data-type="iig" checked> <span style="color:#51cf66">IIGs</span></label>
+            <label><input type="checkbox" data-type="detected-iig" checked> <span style="color:#fcc419">Detected</span></label>
+            <label><input type="checkbox" data-type="offshore-peer" checked> <span style="color:#ffa94d">Offshore</span></label>
+            <label><input type="checkbox" data-type="outside" checked> <span style="color:#ff6b6b">Outside</span></label>
           </div>
         </div>
 
@@ -83,14 +95,24 @@
           <div class="sidebar-section-title" style="color: var(--text-muted);">Legend</div>
           <div class="legend-items">
             <div class="legend-item"><span class="legend-dot" style="background:#4dabf7;"></span> Local ISPs</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#51cf66;"></span> IIGs (Border Gateways)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#51cf66;"></span> IIGs (Licensed Gateways)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#fcc419;"></span> Detected Gateways</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ffa94d;"></span> BD Offshore Peers</div>
             <div class="legend-item"><span class="legend-dot" style="background:#ff6b6b;"></span> Outside BD (International)</div>
           </div>
         </div>
 
-        <!-- IIG list (border gateways) -->
-        <div class="sidebar-section-title iig">IIGs (Border Gateways)</div>
+        <!-- IIG list (licensed border gateways) -->
+        <div class="sidebar-section-title iig">IIGs (Licensed Gateways)</div>
         <div id="iig-list"></div>
+
+        <!-- Detected Gateways list -->
+        <div class="sidebar-section-title detected-iig">Detected Gateways</div>
+        <div id="detected-iig-list"></div>
+
+        <!-- BD Offshore Peers list -->
+        <div class="sidebar-section-title offshore-peer">BD Offshore Peers</div>
+        <div id="offshore-peer-list"></div>
 
         <!-- Local ISP list -->
         <div class="sidebar-section-title local-isp">Local ISPs</div>
@@ -124,7 +146,7 @@
 
       <!-- Footer -->
       <div id="app-footer">
-        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a> | 3-layer model: Local ISP &rarr; IIG &rarr; International</span>
+        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a> | Local ISP &rarr; Gateway &rarr; International</span>
         <span><a href="#" id="btn-show-intro">About this project</a></span>
       </div>
     </div>

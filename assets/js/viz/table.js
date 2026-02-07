@@ -4,8 +4,8 @@
 
 import { countryToFlag } from '../api/ripestat.js';
 
-const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG', 'local-isp': 'Local ISP', 'inside': 'Inside BD' };
-const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'local-isp': 'type-local-isp', 'inside': 'type-iig' };
+const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP', 'inside': 'Inside BD' };
+const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-peer': 'type-offshore-peer', 'local-isp': 'type-local-isp', 'inside': 'type-iig' };
 
 let currentData = null;
 let currentOptions = {};
@@ -14,6 +14,7 @@ let searchQuery = '';
 let currentPage = 0;
 let pageSize = 50;
 let showEdges = false;
+let activeTypeFilters = null; // null = show all
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -96,6 +97,11 @@ function renderNodesTable() {
   const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
   let rows = currentData.nodes.filter(n => n.traffic >= minTraffic && n.traffic <= maxTraffic);
   
+  // Apply type filters
+  if (activeTypeFilters) {
+    rows = rows.filter(n => activeTypeFilters.has(n.type));
+  }
+  
   if (searchQuery) {
     rows = rows.filter(n =>
       n.asn.includes(searchQuery) ||
@@ -122,16 +128,27 @@ function renderNodesTable() {
 
   tbody.innerHTML = pageRows.map(n => {
     const flag = n.country ? countryToFlag(n.country) : '';
-    return `<tr data-asn="${n.asn}">
+    const licenseBadge = n.licensed ? ' <span class="license-badge">BTRC</span>' : '';
+    return `<tr data-asn="${n.asn}" class="clickable-row">
       <td>${n.rank || '-'}</td>
       <td>AS${n.asn}</td>
-      <td>${flag} ${n.name || '-'}</td>
+      <td>${flag} ${n.name || '-'}${licenseBadge}</td>
       <td>${flag} ${n.country || '-'}</td>
       <td><span class="type-badge ${TYPE_CLASSES[n.type] || ''}">${TYPE_LABELS[n.type] || n.type}</span></td>
       <td class="num">${(n.traffic || 0).toLocaleString()}</td>
       <td class="num">${(n.percentage || 0).toFixed(2)}%</td>
     </tr>`;
   }).join('');
+
+  // Click-to-filter: clicking a row highlights that ASN across visualizations
+  tbody.querySelectorAll('tr.clickable-row').forEach(tr => {
+    tr.addEventListener('click', () => {
+      const asn = tr.dataset.asn;
+      if (asn && window._bgpHighlightASN) {
+        window._bgpHighlightASN(asn);
+      }
+    });
+  });
 
   footer.innerHTML = `
     <span>Showing ${rows.length > 0 ? currentPage * pageSize + 1 : 0}-${Math.min((currentPage + 1) * pageSize, rows.length)} of ${rows.length}</span>
@@ -257,4 +274,9 @@ export function updateFilter(minVal, maxVal) {
   if (minVal !== undefined) currentOptions.minTraffic = minVal;
   if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render(); 
+}
+export function filterByTypes(activeTypes) {
+  activeTypeFilters = activeTypes;
+  currentPage = 0;
+  render();
 }

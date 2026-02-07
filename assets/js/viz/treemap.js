@@ -23,7 +23,9 @@ function moveTooltipSmart(event) {
 }
 
 const TYPE_CONFIG = {
-  'iig': { color: '#51cf66', label: 'IIGs (Border Gateways)' },
+  'iig': { color: '#51cf66', label: 'IIGs (Licensed Gateways)' },
+  'detected-iig': { color: '#fcc419', label: 'Detected Gateways' },
+  'offshore-peer': { color: '#ffa94d', label: 'BD Offshore Peers' },
   'local-isp': { color: '#4dabf7', label: 'Local ISPs' },
   'outside': { color: '#ff6b6b', label: 'Outside BD (International)' },
   'inside': { color: '#51cf66', label: 'Inside BD (Gateways)' },
@@ -111,7 +113,7 @@ function renderTreemap(containerId, type) {
         <div class="tooltip-title">${flag}${d.data.name || `AS${d.data.asn}`}</div>
         <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${d.data.asn}</span></div>
         ${d.data.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${flag}${d.data.country}</span></div>` : ''}
-        <div class="tooltip-row"><span class="tooltip-label">Traffic:</span><span class="tooltip-value">${d.data.traffic.toLocaleString()}</span></div>
+        <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${d.data.traffic.toLocaleString()}</span></div>
         <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(d.data.percentage || 0).toFixed(1)}%</span></div>
         <div class="tooltip-row"><span class="tooltip-label">Rank:</span><span class="tooltip-value">#${d.data.rank}</span></div>
       `).style('display', 'block');
@@ -177,4 +179,14 @@ export function updateFilter(minVal, maxVal) {
   if (minVal !== undefined) currentOptions.minTraffic = minVal;
   if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render(); 
+}
+export function filterByTypes(activeTypes) {
+  if (!currentData) return;
+  d3.selectAll('.treemap-rect').each(function() {
+    const el = d3.select(this);
+    const asn = el.attr('data-asn');
+    const node = currentData.nodes.find(n => n.asn === asn);
+    const parent = d3.select(this.parentNode);
+    parent.attr('display', node && activeTypes.has(node.type) ? null : 'none');
+  });
 }

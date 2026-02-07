@@ -22,8 +22,8 @@ function moveTooltipSmart(event) {
   tooltip.style('left', `${left}px`).style('top', `${top}px`);
 }
 
-const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
-const TYPE_LABELS = { 'local-isp': 'Local ISPs (Origin Networks)', 'iig': 'IIGs (Border Gateways)', 'outside': 'Outside BD (International Feeders)', 'inside': 'Inside BD (Gateways)' };
+const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
+const TYPE_LABELS = { 'local-isp': 'Local ISPs (Origin Networks)', 'iig': 'IIGs (Licensed Gateways)', 'detected-iig': 'Detected Gateways', 'offshore-peer': 'BD Offshore Peers', 'outside': 'Outside BD (International Feeders)', 'inside': 'Inside BD (Gateways)' };
 
 let currentData = null;
 let currentOptions = {};
@@ -77,7 +77,7 @@ function render() {
     usedASNs.add(e.target?.asn || e.target);
   });
 
-  // Determine layers
+  // Determine layers (top to bottom: Local ISPs → IIGs → Detected Gateways → Offshore Peers → Outside)
   const layers = [];
   if (hasLocalISP) {
     const localISPs = currentData.nodes.filter(n => n.type === 'local-isp' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
@@ -86,6 +86,12 @@ function render() {
 
   const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
   if (iigs.length > 0) layers.push({ type: 'iig', nodes: iigs });
+
+  const detectedIigs = currentData.nodes.filter(n => n.type === 'detected-iig' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+  if (detectedIigs.length > 0) layers.push({ type: 'detected-iig', nodes: detectedIigs });
+
+  const offshorePeers = currentData.nodes.filter(n => n.type === 'offshore-peer' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+  if (offshorePeers.length > 0) layers.push({ type: 'offshore-peer', nodes: offshorePeers });
 
   const outside = currentData.nodes.filter(n => n.type === 'outside' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
   if (outside.length > 0) layers.push({ type: 'outside', nodes: outside });
@@ -173,7 +179,7 @@ function render() {
         <div class="tooltip-title">${f}${n.name || `AS${n.asn}`}</div>
         <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${n.asn}</span></div>
         ${n.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${f}${n.country}</span></div>` : ''}
-        <div class="tooltip-row"><span class="tooltip-label">Traffic:</span><span class="tooltip-value">${n.traffic.toLocaleString()}</span></div>
+        <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${n.traffic.toLocaleString()}</span></div>
         <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(n.percentage || 0).toFixed(1)}%</span></div>
       `).style('display', 'block');
     })
@@ -216,4 +222,21 @@ export function updateFilter(minVal, maxVal) {
   if (minVal !== undefined) currentOptions.minTraffic = minVal;
   if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
   render(); 
+}
+export function filterByTypes(activeTypes) {
+  if (!currentData) return;
+  const svg = d3.select('#hier-svg');
+  if (svg.empty()) return;
+  svg.selectAll('.hier-node').attr('display', function() {
+    const asn = d3.select(this).attr('data-asn');
+    const node = currentData.nodes.find(n => n.asn === asn);
+    return node && activeTypes.has(node.type) ? null : 'none';
+  });
+  svg.selectAll('.hier-link').attr('display', function() {
+    const src = d3.select(this).attr('data-source');
+    const tgt = d3.select(this).attr('data-target');
+    const srcNode = currentData.nodes.find(n => n.asn === src);
+    const tgtNode = currentData.nodes.find(n => n.asn === tgt);
+    return (srcNode && activeTypes.has(srcNode.type) && tgtNode && activeTypes.has(tgtNode.type)) ? null : 'none';
+  });
 }

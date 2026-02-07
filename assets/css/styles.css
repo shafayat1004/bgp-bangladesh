@@ -633,17 +633,23 @@ input[type="range"]::-webkit-slider-thumb {
 #app-footer a { color: var(--accent); text-decoration: none; }
 #app-footer a:hover { text-decoration: underline; }
 
-/* ── 3-Layer Type Colors ── */
+/* ── Type Colors ── */
 .sidebar-section-title.iig { color: #51cf66; }
+.sidebar-section-title.detected-iig { color: #fcc419; }
+.sidebar-section-title.offshore-peer { color: #ffa94d; }
 .sidebar-section-title.local-isp { color: #4dabf7; }
 .sidebar-section-title.outside { color: #ff6b6b; }
 
 .asn-item.iig { border-left-color: #51cf66; }
+.asn-item.detected-iig { border-left-color: #fcc419; }
+.asn-item.offshore-peer { border-left-color: #ffa94d; }
 .asn-item.local-isp { border-left-color: #4dabf7; }
 .asn-item.outside { border-left-color: #ff6b6b; }
 .asn-item.inside { border-left-color: #51cf66; }
 
 .type-iig { background: rgba(81, 207, 102, 0.2); color: #51cf66; }
+.type-detected-iig { background: rgba(252, 196, 25, 0.2); color: #fcc419; }
+.type-offshore-peer { background: rgba(255, 169, 77, 0.2); color: #ffa94d; }
 .type-local-isp { background: rgba(77, 171, 247, 0.2); color: #4dabf7; }
 .type-outside { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
 .type-inside { background: rgba(81, 207, 102, 0.2); color: #51cf66; }
@@ -746,6 +752,43 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 50%;
   margin-right: 8px;
   flex-shrink: 0;
+}
+
+/* ── Clickable Table Rows ── */
+.clickable-row { cursor: pointer; transition: background 0.15s; }
+.clickable-row:hover { background: rgba(79, 195, 247, 0.1); }
+
+/* ── License Badge (table) ── */
+.license-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(81, 207, 102, 0.2);
+  color: #51cf66;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* ── Type Filter Checkboxes ── */
+.type-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+.type-filter-group label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.type-filter-group input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
 }
 
 /* ── Responsive ── */
