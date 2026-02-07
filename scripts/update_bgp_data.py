@@ -1032,7 +1032,7 @@ def main():
     # Only query geolocation for BD ASNs that appear as tentative gateways and are Not in my datasets BTRC list
     tentative_iig_asns = set()
     for (outside, iig), count in analysis["edge_intl"].most_common(1000):
-        if iig in country_asns and iig Not in my datasets BTRC_licensed_asns:
+        if iig in country_asns and iig not in btrc_licensed_asns:
             tentative_iig_asns.add(iig)
     
     offshore_asns_geo = {}  # ASN → geo dominant country (for offshore ASNs only)
