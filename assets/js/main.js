@@ -28,8 +28,9 @@ let btrcLicensedASNs = new Set();
 const TYPE_LABEL_MAP = {
   'iig': 'IIG (Licensed Gateway)',
   'detected-iig': 'Detected Gateway',
-  'offshore-peer': 'BD Offshore Peer',
-  'local-isp': 'Local ISP',
+  'offshore-enterprise': 'Offshore Enterprise',
+  'offshore-gateway': 'Offshore Gateway',
+  'local-company': 'Local Company',
   'outside': 'International Transit',
 };
 
@@ -152,7 +153,7 @@ function switchTab(tabId, options = {}) {
     mod.loadData(currentData, loadOptions);
     
     // Re-apply type filter if not all types are selected
-    if (activeTypeFilters.size < 5 && mod.filterByTypes) {
+    if (activeTypeFilters.size < 6 && mod.filterByTypes) {
       mod.filterByTypes(activeTypeFilters);
     }
   }
@@ -347,7 +348,7 @@ function setupFilters() {
 // Type Filters (new category checkboxes)
 // ────────────────────────────────────────
 
-let activeTypeFilters = new Set(['outside', 'iig', 'detected-iig', 'offshore-peer', 'local-isp']);
+let activeTypeFilters = new Set(['outside', 'iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway', 'local-company']);
 
 function setupTypeFilters() {
   const container = document.getElementById('type-filter-checks');
@@ -430,7 +431,25 @@ async function fetchLiveData() {
     });
     const asnInfo = await ripeClient.fetchASNInfo([...neededASNs], countryASNs, (p) => updateProgress(p));
 
-    // Build visualization data (license-aware)
+    // Step 4b: Fetch geolocation for BD-registered tentative IIGs (offshore detection)
+    const tentativeIIGs = [];
+    const sortedIntl = [...analysis.edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, 1000);
+    for (const [edgeKey] of sortedIntl) {
+      const tgt = edgeKey.split('|')[1];
+      if (countryASNs.has(tgt) && !btrcLicensedASNs.has(tgt) && !tentativeIIGs.includes(tgt)) {
+        tentativeIIGs.push(tgt);
+      }
+    }
+    if (tentativeIIGs.length > 0) {
+      const geoResults = await ripeClient.fetchGeoCountries(tentativeIIGs, (p) => updateProgress(p));
+      for (const [asn, geoCC] of Object.entries(geoResults)) {
+        if (asnInfo[asn]) {
+          asnInfo[asn].geo_country = geoCC;
+        }
+      }
+    }
+
+    // Build visualization data (license-aware, 6-category)
     const vizData = buildVisualizationData(analysis, asnInfo, countryASNs, 1000, btrcLicensedASNs);
     updateProgress({ step: 4, totalSteps: 4, message: 'Done!', progress: 1, complete: true });
 
@@ -440,7 +459,8 @@ async function fetchLiveData() {
 
     hideProgress();
     const iigCount = vizData.stats.total_iig + (vizData.stats.total_detected_iig || 0);
-    showToast('success', `Live data loaded! ${analysis.validObservations.toLocaleString()} observations, ${iigCount} gateways, ${vizData.stats.total_local_isp} Local ISPs.`);
+    const offshoreCount = (vizData.stats.total_offshore_enterprise || 0) + (vizData.stats.total_offshore_gateway || 0);
+    showToast('success', `Live data loaded! ${analysis.validObservations.toLocaleString()} observations, ${iigCount} gateways, ${offshoreCount} offshore, ${vizData.stats.total_local_company} Local Companies.`);
 
   } catch (err) {
     hideProgress();

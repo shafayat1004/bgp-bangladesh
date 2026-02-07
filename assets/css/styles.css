@@ -195,7 +195,7 @@ body {
 .sidebar-section-title.outside { color: var(--red); }
 
 /* Scrollable ASN lists */
-#local-isp-list, #iig-list, #outside-list {
+#local-company-list, #iig-list, #outside-list {
   max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -636,21 +636,24 @@ input[type="range"]::-webkit-slider-thumb {
 /* ── Type Colors ── */
 .sidebar-section-title.iig { color: #51cf66; }
 .sidebar-section-title.detected-iig { color: #fcc419; }
-.sidebar-section-title.offshore-peer { color: #ffa94d; }
-.sidebar-section-title.local-isp { color: #4dabf7; }
+.sidebar-section-title.offshore-enterprise { color: #17a2b8; }
+.sidebar-section-title.offshore-gateway { color: #e64980; }
+.sidebar-section-title.local-company { color: #4dabf7; }
 .sidebar-section-title.outside { color: #ff6b6b; }
 
 .asn-item.iig { border-left-color: #51cf66; }
 .asn-item.detected-iig { border-left-color: #fcc419; }
-.asn-item.offshore-peer { border-left-color: #ffa94d; }
-.asn-item.local-isp { border-left-color: #4dabf7; }
+.asn-item.offshore-enterprise { border-left-color: #17a2b8; }
+.asn-item.offshore-gateway { border-left-color: #e64980; }
+.asn-item.local-company { border-left-color: #4dabf7; }
 .asn-item.outside { border-left-color: #ff6b6b; }
 .asn-item.inside { border-left-color: #51cf66; }
 
 .type-iig { background: rgba(81, 207, 102, 0.2); color: #51cf66; }
 .type-detected-iig { background: rgba(252, 196, 25, 0.2); color: #fcc419; }
-.type-offshore-peer { background: rgba(255, 169, 77, 0.2); color: #ffa94d; }
-.type-local-isp { background: rgba(77, 171, 247, 0.2); color: #4dabf7; }
+.type-offshore-enterprise { background: rgba(23, 162, 184, 0.2); color: #17a2b8; }
+.type-offshore-gateway { background: rgba(230, 73, 128, 0.2); color: #e64980; }
+.type-local-company { background: rgba(77, 171, 247, 0.2); color: #4dabf7; }
 .type-outside { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
 .type-inside { background: rgba(81, 207, 102, 0.2); color: #51cf66; }
 

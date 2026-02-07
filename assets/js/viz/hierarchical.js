@@ -22,8 +22,8 @@ function moveTooltipSmart(event) {
   tooltip.style('left', `${left}px`).style('top', `${top}px`);
 }
 
-const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
-const TYPE_LABELS = { 'local-isp': 'Local ISPs (Origin Networks)', 'iig': 'IIGs (Licensed Gateways)', 'detected-iig': 'Detected Gateways', 'offshore-peer': 'BD Offshore Peers', 'outside': 'Outside BD (International Feeders)', 'inside': 'Inside BD (Gateways)' };
+const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-enterprise': '#17a2b8', 'offshore-gateway': '#e64980', 'local-company': '#4dabf7', 'inside': '#51cf66', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7' };
+const TYPE_LABELS = { 'local-company': 'Local Companies (Origin Networks)', 'iig': 'IIGs (Licensed Gateways)', 'detected-iig': 'Detected Gateways', 'offshore-enterprise': 'Offshore Enterprises', 'offshore-gateway': 'Offshore Gateways', 'outside': 'Outside BD (International Feeders)', 'inside': 'Inside BD (Gateways)', 'local-isp': 'Local ISPs', 'offshore-peer': 'BD Offshore Peers' };
 
 let currentData = null;
 let currentOptions = {};
@@ -61,7 +61,7 @@ function render() {
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
 
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
-  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-isp');
+  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-company' || n.type === 'local-isp');
 
   // Filter edges by traffic range (no arbitrary limits)
   const filteredIntl = currentData.edges
@@ -77,23 +77,28 @@ function render() {
     usedASNs.add(e.target?.asn || e.target);
   });
 
-  // Determine layers (top to bottom: Local ISPs → IIGs → Detected Gateways → Offshore Peers → Outside)
+  // Determine layers (top to bottom: Local Companies → IIGs → Detected → Offshore → Outside)
   const layers = [];
+  const filterNodes = (type) => currentData.nodes.filter(n => n.type === type && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+  
   if (hasLocalISP) {
-    const localISPs = currentData.nodes.filter(n => n.type === 'local-isp' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
-    if (localISPs.length > 0) layers.push({ type: 'local-isp', nodes: localISPs });
+    const localCompanies = currentData.nodes.filter(n => (n.type === 'local-company' || n.type === 'local-isp') && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+    if (localCompanies.length > 0) layers.push({ type: 'local-company', nodes: localCompanies });
   }
 
   const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
   if (iigs.length > 0) layers.push({ type: 'iig', nodes: iigs });
 
-  const detectedIigs = currentData.nodes.filter(n => n.type === 'detected-iig' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+  const detectedIigs = filterNodes('detected-iig');
   if (detectedIigs.length > 0) layers.push({ type: 'detected-iig', nodes: detectedIigs });
 
-  const offshorePeers = currentData.nodes.filter(n => n.type === 'offshore-peer' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
-  if (offshorePeers.length > 0) layers.push({ type: 'offshore-peer', nodes: offshorePeers });
+  const offshoreEnt = filterNodes('offshore-enterprise');
+  if (offshoreEnt.length > 0) layers.push({ type: 'offshore-enterprise', nodes: offshoreEnt });
 
-  const outside = currentData.nodes.filter(n => n.type === 'outside' && usedASNs.has(n.asn) && n.traffic >= minTraffic && n.traffic <= maxTraffic).sort((a, b) => b.traffic - a.traffic);
+  const offshoreGw = filterNodes('offshore-gateway');
+  if (offshoreGw.length > 0) layers.push({ type: 'offshore-gateway', nodes: offshoreGw });
+
+  const outside = filterNodes('outside');
   if (outside.length > 0) layers.push({ type: 'outside', nodes: outside });
 
   const margin = { top: 60, bottom: 60, left: 40, right: 40 };

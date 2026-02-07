@@ -9,18 +9,24 @@ const TYPE_COLORS = {
   'outside': '#ff6b6b',
   'iig': '#51cf66',
   'detected-iig': '#fcc419',
-  'offshore-peer': '#ffa94d',
-  'local-isp': '#4dabf7',
+  'offshore-enterprise': '#17a2b8',
+  'offshore-gateway': '#e64980',
+  'local-company': '#4dabf7',
   'inside': '#51cf66',  // backward compat
+  'offshore-peer': '#ffa94d',  // backward compat
+  'local-isp': '#4dabf7',  // backward compat
 };
 
 const TYPE_LABELS = {
   'outside': 'Outside BD (Intl Feeder)',
   'iig': 'IIG (Licensed Gateway)',
   'detected-iig': 'Detected Gateway',
-  'offshore-peer': 'BD Offshore Peer',
-  'local-isp': 'Local ISP',
+  'offshore-enterprise': 'Offshore Enterprise',
+  'offshore-gateway': 'Offshore Gateway',
+  'local-company': 'Local Company',
   'inside': 'Inside BD (Gateway)',
+  'offshore-peer': 'BD Offshore Peer',  // backward compat
+  'local-isp': 'Local ISP',  // backward compat
 };
 
 let svg, g, simulation, nodes, links, tooltip;
@@ -113,14 +119,15 @@ export function loadData(data, options = {}) {
     .attr('x', 45).attr('y', 39)
     .attr('fill', '#ccc')
     .attr('font-size', '10px')
-    .text('Domestic (Local ISP → Gateway)');
+    .text('Domestic (Local Company → Gateway)');
 
-  // Node type legend - all 5 types
+  // Node type legend - all 6 types
   const typeLegend = [
-    { color: '#4dabf7', label: 'Local ISP' },
+    { color: '#4dabf7', label: 'Local Co.' },
     { color: '#51cf66', label: 'IIG' },
     { color: '#fcc419', label: 'Detected' },
-    { color: '#ffa94d', label: 'Offshore' },
+    { color: '#17a2b8', label: 'Offshore Ent.' },
+    { color: '#e64980', label: 'Offshore GW' },
     { color: '#ff6b6b', label: 'Outside' },
   ];
   let legendX = 0;
@@ -130,16 +137,16 @@ export function loadData(data, options = {}) {
     legendX += label.length * 5 + 20;
   });
 
-  // 5-type Y positioning (local-isp top, gateways middle, outside bottom)
+  // 6-type Y positioning (local-company top, gateways middle, outside bottom)
   simulation = d3.forceSimulation()
     .force('link', d3.forceLink().id(d => d.asn).distance(120))
     .force('charge', d3.forceManyBody().strength(-150))
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force('collision', d3.forceCollide().radius(30))
     .force('y', d3.forceY(d => {
-      if (d.type === 'local-isp') return height * 0.15;
-      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.45;
-      if (d.type === 'offshore-peer') return height * 0.6;
+      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.15;
+      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.4;
+      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.6;
       return height * 0.85;
     }).strength(0.4));
 

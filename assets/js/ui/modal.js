@@ -57,7 +57,7 @@ export function showModal(force = false) {
 
         <div class="modal-diagram">
           <div class="modal-layer" style="background:rgba(66,165,245,0.15);border:1px solid #42a5f5;">
-            <div class="modal-layer-label">Layer 1: Your Local ISP</div>
+            <div class="modal-layer-label">Layer 1: Your Local Company / ISP</div>
             <div class="modal-layer-desc">ADN Telecom, Triangle Services, KS Network, Dot Internet, Mazeda Networks...</div>
           </div>
           <div class="modal-arrow">&#8595; Domestic BGP Peering &#8595;</div>
@@ -85,8 +85,8 @@ export function showModal(force = false) {
             <dt>BGP Route</dt>
             <dd>A path that internet traffic follows between networks. Like a road between cities.</dd>
 
-            <dt>Local ISP (Blue nodes)</dt>
-            <dd>Your local Bangladeshi ISP that originates the route to your network.</dd>
+            <dt>Local Company (Blue nodes)</dt>
+            <dd>Your local Bangladeshi company or ISP that originates the route to your network.</dd>
 
             <dt>IIG - International Internet Gateway (Green nodes)</dt>
             <dd>Border gateway operators in Bangladesh that peer with international networks and provide transit for domestic ISPs. Cross-referenced against the known BTRC IIG list.</dd>
@@ -94,8 +94,11 @@ export function showModal(force = false) {
             <dt>Detected Gateway (Amber nodes)</dt>
             <dd>An ASN observed acting as a border gateway for other BD networks, but not found in the known IIG list. This may indicate a new operator, a subsidiary, or a data mapping gap.</dd>
 
-            <dt>BD Offshore Peer (Orange nodes)</dt>
-            <dd>A BD-registered ASN with international peering infrastructure located outside Bangladesh. These have no domestic gateway function.</dd>
+            <dt>Offshore Enterprise (Cyan nodes)</dt>
+            <dd>A BD-registered ASN with infrastructure located outside Bangladesh, but no downstream BD customers. Typically tech companies or cloud users (e.g., Chaldal). Detected via IP geolocation.</dd>
+
+            <dt>Offshore Gateway (Pink nodes)</dt>
+            <dd>A BD-registered ASN with infrastructure abroad that is also providing transit to other BD networks. This is a potential regulatory concern. Detected via IP geolocation + transit analysis.</dd>
 
             <dt>Outside BD (Red nodes)</dt>
             <dd>International transit networks that connect Bangladesh to the world. These are your international feeders.</dd>

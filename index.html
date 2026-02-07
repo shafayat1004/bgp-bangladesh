@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BGP Bangladesh - Internet Path Visualization</title>
-  <meta name="description" content="Interactive visualization of Bangladesh's internet connectivity: Local ISPs, Licensed IIGs, Detected Gateways, and International Transit via BGP routing.">
+  <meta name="description" content="Interactive visualization of Bangladesh's internet connectivity: Local Companies, Licensed IIGs, Detected Gateways, Offshore Detection, and International Transit via BGP routing.">
   <meta property="og:title" content="BGP Bangladesh - Internet Path Visualization">
   <meta property="og:description" content="Explore Bangladesh's BGP routing paths and internet bottlenecks interactively.">
   <meta property="og:type" content="website">
@@ -71,10 +71,11 @@
         <div class="controls-section">
           <div class="sidebar-section-title" style="color: var(--text-muted);">Show Types</div>
           <div class="type-filter-group" id="type-filter-checks">
-            <label><input type="checkbox" data-type="local-isp" checked> <span style="color:#4dabf7">Local ISPs</span></label>
+            <label><input type="checkbox" data-type="local-company" checked> <span style="color:#4dabf7">Local Companies</span></label>
             <label><input type="checkbox" data-type="iig" checked> <span style="color:#51cf66">IIGs</span></label>
             <label><input type="checkbox" data-type="detected-iig" checked> <span style="color:#fcc419">Detected</span></label>
-            <label><input type="checkbox" data-type="offshore-peer" checked> <span style="color:#ffa94d">Offshore</span></label>
+            <label><input type="checkbox" data-type="offshore-enterprise" checked> <span style="color:#17a2b8">Offshore Ent.</span></label>
+            <label><input type="checkbox" data-type="offshore-gateway" checked> <span style="color:#e64980">Offshore GW</span></label>
             <label><input type="checkbox" data-type="outside" checked> <span style="color:#ff6b6b">Outside</span></label>
           </div>
         </div>
@@ -94,10 +95,11 @@
         <div class="controls-section legend-section">
           <div class="sidebar-section-title" style="color: var(--text-muted);">Legend</div>
           <div class="legend-items">
-            <div class="legend-item"><span class="legend-dot" style="background:#4dabf7;"></span> Local ISPs</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#4dabf7;"></span> Local Companies</div>
             <div class="legend-item"><span class="legend-dot" style="background:#51cf66;"></span> IIGs (Licensed Gateways)</div>
             <div class="legend-item"><span class="legend-dot" style="background:#fcc419;"></span> Detected Gateways</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#ffa94d;"></span> BD Offshore Peers</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#17a2b8;"></span> Offshore Enterprises</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#e64980;"></span> Offshore Gateways</div>
             <div class="legend-item"><span class="legend-dot" style="background:#ff6b6b;"></span> Outside BD (International)</div>
           </div>
         </div>
@@ -110,13 +112,17 @@
         <div class="sidebar-section-title detected-iig">Detected Gateways</div>
         <div id="detected-iig-list"></div>
 
-        <!-- BD Offshore Peers list -->
-        <div class="sidebar-section-title offshore-peer">BD Offshore Peers</div>
-        <div id="offshore-peer-list"></div>
+        <!-- Offshore Enterprise list -->
+        <div class="sidebar-section-title offshore-enterprise">Offshore Enterprises</div>
+        <div id="offshore-enterprise-list"></div>
 
-        <!-- Local ISP list -->
-        <div class="sidebar-section-title local-isp">Local ISPs</div>
-        <div id="local-isp-list"></div>
+        <!-- Offshore Gateway list -->
+        <div class="sidebar-section-title offshore-gateway">Offshore Gateways</div>
+        <div id="offshore-gateway-list"></div>
+
+        <!-- Local Company list -->
+        <div class="sidebar-section-title local-company">Local Companies</div>
+        <div id="local-company-list"></div>
 
         <!-- Outside ASN list -->
         <div class="sidebar-section-title outside">Outside BD (International)</div>
@@ -146,7 +152,7 @@
 
       <!-- Footer -->
       <div id="app-footer">
-        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a> | Local ISP &rarr; Gateway &rarr; International</span>
+        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a> | Local Company &rarr; Gateway &rarr; International</span>
         <span><a href="#" id="btn-show-intro">About this project</a></span>
       </div>
     </div>

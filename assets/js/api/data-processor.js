@@ -1,10 +1,11 @@
 /**
  * Data Processor
- * Converts raw BGP routes into visualization-ready format with license-aware classification:
- *   - Local ISPs (origin ASNs within the country)
+ * Converts raw BGP routes into visualization-ready format with license-aware 6-category classification:
+ *   - Local Companies (origin ASNs within the country)
  *   - IIGs (BTRC-licensed border gateway ASNs)
  *   - Detected Gateways (acting as gateway but not in known IIG list)
- *   - Offshore Peers (BD-registered ASNs with infrastructure abroad)
+ *   - Offshore Enterprises (BD-registered, abroad, no downstream BD customers)
+ *   - Offshore Gateways (BD-registered, abroad, has downstream BD customers)
  *   - Outside ASNs (international feeders)
  */
 
@@ -24,7 +25,7 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
   const iigCounts = new Map();
   const localISPCounts = new Map();
   const edgeIntl = new Map();      // "outside|iig" → count
-  const edgeDomestic = new Map();  // "local-isp|iig" → count
+  const edgeDomestic = new Map();  // "local-company|iig" → count
 
   let validObservations = 0;
   const total = routes.length;
@@ -118,20 +119,26 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges 
   function ensureNode(asn, type) {
     if (!nodeMap[asn]) {
       const info = asnInfo[asn] || {};
+      const geoCountry = info.geo_country || '';
       const detectedCountry = info.country || '';
       const isBDRegistered = countryASNs.has(asn);
       const country = detectedCountry || (isBDRegistered ? 'BD' : '');
 
-      // Reclassify tentative IIGs based on license list
+      // Reclassify tentative IIGs based on license list + geolocation
       if (type === 'iig') {
         if (btrcLicensedASNs.has(asn)) {
           type = 'iig'; // Confirmed: in BTRC license list
-        } else if (isBDRegistered && detectedCountry && detectedCountry !== 'BD') {
-          type = 'offshore-peer'; // BD-registered but located abroad
+        } else if (isBDRegistered && geoCountry && geoCountry !== 'BD') {
+          // Offshore BD ASN - split by transit role
+          if (iigsWithDomestic.has(asn)) {
+            type = 'offshore-gateway'; // Abroad + selling transit (potential rogue)
+          } else {
+            type = 'offshore-enterprise'; // Abroad + no customers (harmless)
+          }
         } else if (iigsWithDomestic.has(asn)) {
           type = 'detected-iig'; // Acting as gateway, not in known IIG list
         } else {
-          type = 'local-isp'; // No domestic customers, demote
+          type = 'local-company'; // No domestic customers, demote
         }
       }
 
@@ -142,6 +149,7 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges 
         name: info.name || info.holder || `AS${asn}`,
         description: info.holder || info.name || '',
         country,
+        geo_country: geoCountry,
         announced: info.announced || false,
         traffic: 0,
       };
@@ -156,10 +164,10 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges 
     edges.push({ source, target, count, type: 'international' });
   }
 
-  // Domestic edges: local-isp → iig
+  // Domestic edges: local-company → iig
   for (const [edgeKey, count] of sortedDomestic) {
     const [source, target] = edgeKey.split('|');
-    ensureNode(source, 'local-isp');
+    ensureNode(source, 'local-company');
     ensureNode(target, 'iig');
     edges.push({ source, target, count, type: 'domestic' });
   }
@@ -173,7 +181,7 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges 
   // Calculate rankings per type
   const totalIntlTraffic = sortedIntl.reduce((s, [, c]) => s + c, 0) || 1;
 
-  for (const ntype of ['outside', 'iig', 'detected-iig', 'offshore-peer', 'local-isp']) {
+  for (const ntype of ['outside', 'iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway', 'local-company']) {
     const typed = Object.values(nodeMap)
       .filter(n => n.type === ntype)
       .sort((a, b) => b.traffic - a.traffic);
@@ -192,8 +200,9 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topEdges 
       total_outside: nodes.filter(n => n.type === 'outside').length,
       total_iig: nodes.filter(n => n.type === 'iig').length,
       total_detected_iig: nodes.filter(n => n.type === 'detected-iig').length,
-      total_offshore_peer: nodes.filter(n => n.type === 'offshore-peer').length,
-      total_local_isp: nodes.filter(n => n.type === 'local-isp').length,
+      total_offshore_enterprise: nodes.filter(n => n.type === 'offshore-enterprise').length,
+      total_offshore_gateway: nodes.filter(n => n.type === 'offshore-gateway').length,
+      total_local_company: nodes.filter(n => n.type === 'local-company').length,
       total_edges: edges.length,
       total_intl_edges: edges.filter(e => e.type === 'international').length,
       total_domestic_edges: edges.filter(e => e.type === 'domestic').length,

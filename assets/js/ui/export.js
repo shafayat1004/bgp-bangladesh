@@ -27,7 +27,7 @@ function dateStamp() {
  */
 export function exportNodesCSV(data) {
   const BOM = '\uFEFF';
-  const typeOrder = { 'iig': 0, 'detected-iig': 1, 'offshore-peer': 2, 'local-isp': 3, 'inside': 0, 'outside': 4 };
+  const typeOrder = { 'iig': 0, 'detected-iig': 1, 'offshore-enterprise': 2, 'offshore-gateway': 3, 'local-company': 4, 'inside': 0, 'outside': 5 };
   const header = 'rank,asn,name,type,licensed,country,traffic,percentage,description';
   const rows = data.nodes
     .sort((a, b) => {

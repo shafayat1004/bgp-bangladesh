@@ -54,7 +54,7 @@ for edge in viz_data["edges"]:
 print(f"  {len(iigs_with_domestic)} gateway ASNs serve domestic customers")
 
 # Reclassify nodes
-reclassified = {"iig": 0, "detected-iig": 0, "offshore-peer": 0, "demoted": 0}
+reclassified = {"iig": 0, "detected-iig": 0, "offshore-enterprise": 0, "demoted": 0}
 for node in viz_data["nodes"]:
     asn = str(node["asn"])
     old_type = node["type"]
@@ -74,27 +74,27 @@ for node in viz_data["nodes"]:
         node["type"] = "iig"
         reclassified["iig"] += 1
     elif is_bd_registered and detected_country and detected_country != "BD":
-        node["type"] = "offshore-peer"
-        reclassified["offshore-peer"] += 1
+        node["type"] = "offshore-enterprise"
+        reclassified["offshore-enterprise"] += 1
     elif asn in iigs_with_domestic:
         node["type"] = "detected-iig"
         reclassified["detected-iig"] += 1
     else:
-        node["type"] = "local-isp"
+        node["type"] = "local-company"
         reclassified["demoted"] += 1
 
 print(f"\nReclassification results:")
 print(f"  Confirmed IIGs (BTRC licensed):  {reclassified['iig']}")
 print(f"  Detected Gateways:               {reclassified['detected-iig']}")
-print(f"  BD Offshore Peers:               {reclassified['offshore-peer']}")
-print(f"  Demoted to Local ISP:            {reclassified['demoted']}")
+print(f"  Offshore Enterprises:               {reclassified['offshore-peer']}")
+print(f"  Demoted to Local Company:            {reclassified['demoted']}")
 
 # Recalculate rankings per type
 total_intl_traffic = sum(
     e["count"] for e in viz_data["edges"] if e.get("type") == "international"
 ) or 1
 
-for ntype in ["outside", "iig", "detected-iig", "offshore-peer", "local-isp"]:
+for ntype in ["outside", "iig", "detected-iig", "offshore-enterprise", "local-company"]:
     typed_nodes = sorted(
         [n for n in viz_data["nodes"] if n["type"] == ntype],
         key=lambda n: n["traffic"], reverse=True
@@ -109,8 +109,8 @@ viz_data["stats"] = {
     "total_outside": len([n for n in nodes if n["type"] == "outside"]),
     "total_iig": len([n for n in nodes if n["type"] == "iig"]),
     "total_detected_iig": len([n for n in nodes if n["type"] == "detected-iig"]),
-    "total_offshore_peer": len([n for n in nodes if n["type"] == "offshore-peer"]),
-    "total_local_isp": len([n for n in nodes if n["type"] == "local-isp"]),
+    "total_offshore_enterprise": len([n for n in nodes if n["type"] == "offshore-enterprise"]),
+    "total_local_company": len([n for n in nodes if n["type"] == "local-company"]),
     "total_edges": len(viz_data["edges"]),
     "total_intl_edges": len([e for e in viz_data["edges"] if e["type"] == "international"]),
     "total_domestic_edges": len([e for e in viz_data["edges"] if e["type"] == "domestic"]),
@@ -147,8 +147,8 @@ print(f"{'='*50}")
 print(f"Outside ASNs (International):  {viz_data['stats']['total_outside']}")
 print(f"Known IIGs (BTRC Licensed):    {viz_data['stats']['total_iig']}")
 print(f"Detected Gateways:             {viz_data['stats']['total_detected_iig']}")
-print(f"BD Offshore Peers:             {viz_data['stats']['total_offshore_peer']}")
-print(f"Local ISPs:                    {viz_data['stats']['total_local_isp']}")
+print(f"Offshore Enterprises:             {viz_data['stats']['total_offshore_enterprise']}")
+print(f"Local Companys:                    {viz_data['stats']['total_local_company']}")
 print(f"Total edges:                   {viz_data['stats']['total_edges']}")
 
 print(f"\nTop Known IIGs:")
@@ -162,11 +162,11 @@ if detected:
     for n in detected:
         print(f"  AS{n['asn']} {n['name']} - {n['traffic']:,} routes")
 
-offshore = [n for n in nodes if n["type"] == "offshore-peer"]
+offshore = [n for n in nodes if n["type"] == "offshore-enterprise"]
 if offshore:
-    print(f"\nBD Offshore Peers:")
+    print(f"\nOffshore Enterprises:")
     for n in offshore:
         print(f"  AS{n['asn']} {n['name']} (country={n.get('country', '?')})")
 
-demoted = [n for n in nodes if n.get("licensed") is False and n["type"] == "local-isp" and n["asn"] not in {nn["asn"] for nn in nodes if nn["type"] in ("outside",)}]
+demoted = [n for n in nodes if n.get("licensed") is False and n["type"] == "local-company" and n["asn"] not in {nn["asn"] for nn in nodes if nn["type"] in ("outside",)}]
 print(f"\nDone! Static data is now using the license-aware classification.")

@@ -5,7 +5,15 @@ Fetches live BGP routes from RIPEstat and processes them into visualization data
 
 This script combines the functionality of:
 - fetch_bgp_routes.py (fetches raw BGP routes in parallel)
-- reprocess into license-aware 5-category classification model
+- reprocess into license-aware 6-category classification model
+
+Categories:
+  - outside: International transit providers
+  - iig: BTRC-licensed border gateways
+  - detected-iig: Acting as gateway but not in BTRC list
+  - offshore-enterprise: BD-registered, abroad, no downstream BD customers (harmless)
+  - offshore-gateway: BD-registered, abroad, has downstream BD customers (potential rogue)
+  - local-company: Domestic origin networks
 
 Usage:
     python3 scripts/update_bgp_data.py
@@ -205,7 +213,7 @@ def fetch_bgp_routes(prefixes, rate_limiter):
 def analyze_routes(routes, country_asns):
     """
     Analyze BGP routes to find border crossings and domestic peering.
-    Extracts gateway structure: Local ISP → Gateway → Outside ASN.
+    Extracts gateway structure: Local Company → Gateway → Outside ASN.
     """
     print(f"\n[3/4] Analyzing routes for gateway structure...")
     
@@ -214,7 +222,7 @@ def analyze_routes(routes, country_asns):
     iig_counts = collections.Counter()
     local_isp_counts = collections.Counter()
     edge_intl = collections.Counter()      # "outside|iig" → count
-    edge_domestic = collections.Counter()  # "local-isp|iig" → count
+    edge_domestic = collections.Counter()  # "local-company|iig" → count
     valid_obs = 0
     
     for idx, rt in enumerate(routes):
@@ -265,7 +273,7 @@ def analyze_routes(routes, country_asns):
     print(f"      Valid observations: {valid_obs:,}")
     print(f"      Outside ASNs: {len(outside_counts)}")
     print(f"      IIG ASNs: {len(iig_counts)}")
-    print(f"      Local ISP ASNs: {len(local_isp_counts)}")
+    print(f"      Local Company ASNs: {len(local_isp_counts)}")
     print(f"      International edges: {len(edge_intl)}")
     print(f"      Domestic edges: {len(edge_domestic)}")
     
@@ -405,15 +413,99 @@ def fetch_asn_info(asn_list, country_asns, rate_limiter, existing_asn_names=None
 
 
 # ═══════════════════════════════════════════════════════════════════════════
+# Step 4b: Fetch Geolocation for Offshore Peer Detection
+# ═══════════════════════════════════════════════════════════════════════════
+
+def fetch_geo_country(asn, rate_limiter):
+    """
+    Query RIPEstat MaxMind GeoLite to determine the physical location of an ASN's prefixes.
+    Returns the dominant non-BD country if BD coverage < 80%, otherwise 'BD'.
+    """
+    try:
+        rate_limiter.acquire()
+        r = requests.get(
+            f"{BASE}/maxmind-geo-lite-announced-by-as/data.json",
+            params={"resource": f"AS{asn}"},
+            headers=UA, timeout=30
+        )
+        r.raise_for_status()
+        data = r.json()
+
+        if data.get("status") != "ok":
+            return "BD"
+
+        total_pct = 0
+        bd_pct = 0
+        country_pcts = {}
+
+        for resource in data.get("data", {}).get("located_resources", []):
+            for loc in resource.get("locations", []):
+                pct = loc.get("covered_percentage", 0)
+                cc = loc.get("country", "")
+                if not cc:
+                    continue
+                total_pct += pct
+                if cc == "BD":
+                    bd_pct += pct
+                else:
+                    country_pcts[cc] = country_pcts.get(cc, 0) + pct
+
+        if total_pct <= 0:
+            return "BD"
+
+        # If > 80% is in BD, treat as domestic
+        if (bd_pct / total_pct) > 0.8:
+            return "BD"
+
+        # Return the dominant non-BD country
+        if country_pcts:
+            return max(country_pcts, key=country_pcts.get)
+        return "BD"
+
+    except Exception as e:
+        print(f"      Warning: Geo fetch failed for AS{asn}: {e}")
+        return "BD"  # Safe fallback
+
+
+def fetch_geo_countries(asn_list, rate_limiter, concurrency=10):
+    """Fetch geolocation for multiple ASNs in parallel."""
+    print(f"\n[4b] Fetching geolocation for {len(asn_list)} ASNs (offshore peer detection)...")
+    results = {}
+    completed = 0
+
+    for i in range(0, len(asn_list), concurrency):
+        batch = asn_list[i:i + concurrency]
+
+        with ThreadPoolExecutor(max_workers=concurrency) as executor:
+            futures = {executor.submit(fetch_geo_country, asn, rate_limiter): asn for asn in batch}
+
+            for future in as_completed(futures):
+                asn = futures[future]
+                try:
+                    results[asn] = future.result()
+                    completed += 1
+                except Exception:
+                    results[asn] = "BD"
+                    completed += 1
+
+    non_bd = {asn: cc for asn, cc in results.items() if cc != "BD"}
+    print(f"      Geolocation complete: {len(results)} ASNs checked, {len(non_bd)} with non-BD infrastructure")
+    for asn, cc in non_bd.items():
+        print(f"        AS{asn}: geolocated to {cc}")
+
+    return results
+
+
+# ═══════════════════════════════════════════════════════════════════════════
 # Build Visualization Data
 # ═══════════════════════════════════════════════════════════════════════════
 
 def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
-    """Build visualization data with license-aware classification."""
+    """Build visualization data with license-aware 6-category classification."""
     if btrc_licensed_asns is None:
         btrc_licensed_asns = set()
     
-    print(f"\nBuilding visualization data (license-aware)...")
+    print(f"\nBuilding visualization data (license-aware, 6-category)...")
     print(f"      Known IIG ASNs from BTRC list: {len(btrc_licensed_asns)}")
     
     # Top edges (matching website: increased from 300 to 1000)
@@ -422,7 +514,7 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
     
     # Pre-compute which tentative IIGs have domestic customers
     iigs_with_domestic = set()
-    for (local_isp, iig), count in top_domestic_edges:
+    for (local_company, iig), count in top_domestic_edges:
         iigs_with_domestic.add(iig)
     
     node_map = {}
@@ -430,19 +522,23 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
     def ensure_node(asn, node_type):
         if asn not in node_map:
             info = asn_info.get(asn, {})
-            detected_country = info.get("country", "")
+            geo_country = info.get("geo_country", "")
             is_bd_registered = asn in country_asns
             
-            # Reclassify tentative IIGs based on license list
+            # Reclassify tentative IIGs based on license list + geolocation
             if node_type == "iig":
                 if asn in btrc_licensed_asns:
                     node_type = "iig"  # Confirmed: in BTRC license list
-                elif is_bd_registered and detected_country and detected_country != "BD":
-                    node_type = "offshore-peer"  # BD-registered but located abroad
+                elif is_bd_registered and geo_country and geo_country != "BD":
+                    # Offshore BD ASN - split by transit role
+                    if asn in iigs_with_domestic:
+                        node_type = "offshore-gateway"  # Abroad + selling transit (potential rogue)
+                    else:
+                        node_type = "offshore-enterprise"  # Abroad + no customers (harmless)
                 elif asn in iigs_with_domestic:
                     node_type = "detected-iig"  # Acting as gateway, not in known IIG list
                 else:
-                    node_type = "local-isp"  # No domestic customers, demote
+                    node_type = "local-company"  # No domestic customers, demote
             
             node_map[asn] = {
                 "asn": asn,
@@ -451,6 +547,7 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
                 "name": info.get("name", f"AS{asn}"),
                 "description": info.get("holder", info.get("name", "")),
                 "country": info.get("country", "BD" if asn in country_asns else ""),
+                "geo_country": geo_country,
                 "announced": info.get("announced", False),
                 "traffic": 0,
             }
@@ -464,10 +561,10 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
         edges.append({"source": outside, "target": iig, "count": count, "type": "international"})
     
     # Domestic edges
-    for (local_isp, iig), count in top_domestic_edges:
-        ensure_node(local_isp, "local-isp")
+    for (local_company, iig), count in top_domestic_edges:
+        ensure_node(local_company, "local-company")
         ensure_node(iig, "iig")
-        edges.append({"source": local_isp, "target": iig, "count": count, "type": "domestic"})
+        edges.append({"source": local_company, "target": iig, "count": count, "type": "domestic"})
     
     # Calculate traffic per node
     for edge in edges:
@@ -479,7 +576,7 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
     # Calculate rankings per type
     total_intl_traffic = sum(c for (_, _), c in top_intl_edges) or 1
     
-    for ntype in ["outside", "iig", "detected-iig", "offshore-peer", "local-isp"]:
+    for ntype in ["outside", "iig", "detected-iig", "offshore-enterprise", "offshore-gateway", "local-company"]:
         typed_nodes = sorted(
             [n for n in node_map.values() if n["type"] == ntype],
             key=lambda n: n["traffic"], reverse=True
@@ -497,8 +594,9 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None):
             "total_outside": len([n for n in nodes if n["type"] == "outside"]),
             "total_iig": len([n for n in nodes if n["type"] == "iig"]),
             "total_detected_iig": len([n for n in nodes if n["type"] == "detected-iig"]),
-            "total_offshore_peer": len([n for n in nodes if n["type"] == "offshore-peer"]),
-            "total_local_isp": len([n for n in nodes if n["type"] == "local-isp"]),
+            "total_offshore_enterprise": len([n for n in nodes if n["type"] == "offshore-enterprise"]),
+            "total_offshore_gateway": len([n for n in nodes if n["type"] == "offshore-gateway"]),
+            "total_local_company": len([n for n in nodes if n["type"] == "local-company"]),
             "total_edges": len(edges),
             "total_intl_edges": len([e for e in edges if e["type"] == "international"]),
             "total_domestic_edges": len([e for e in edges if e["type"] == "domestic"]),
@@ -579,7 +677,22 @@ def main():
     all_asns |= set(existing_asn_names.keys())  # Keep existing ASN data
     asn_info = fetch_asn_info(list(all_asns), country_asns, rate_limiter, existing_asn_names)
     
-    # Build visualization data (license-aware)
+    # Step 4b: Fetch geolocation for BD-registered tentative IIGs (offshore peer detection)
+    # Only query geolocation for BD ASNs that appear as tentative gateways and are NOT in BTRC list
+    tentative_iig_asns = set()
+    for (outside, iig), count in analysis["edge_intl"].most_common(1000):
+        if iig in country_asns and iig not in btrc_licensed_asns:
+            tentative_iig_asns.add(iig)
+    
+    if tentative_iig_asns:
+        geo_results = fetch_geo_countries(list(tentative_iig_asns), rate_limiter)
+        for asn, geo_cc in geo_results.items():
+            if asn in asn_info:
+                asn_info[asn]["geo_country"] = geo_cc
+            else:
+                asn_info[asn] = {"asn": asn, "name": f"AS{asn}", "holder": "", "announced": False, "country": "BD", "geo_country": geo_cc}
+    
+    # Build visualization data (license-aware, 6-category)
     viz_data = build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns)
     
     # Save all outputs
@@ -607,17 +720,18 @@ def main():
     
     # Print summary
     print("\n" + "═" * 70)
-    print("CLASSIFICATION SUMMARY")
+    print("CLASSIFICATION SUMMARY (6-Category Model)")
     print("═" * 70)
-    print(f"Outside ASNs (International):  {viz_data['stats']['total_outside']}")
-    print(f"Known IIGs (BTRC Licensed):    {viz_data['stats']['total_iig']}")
-    print(f"Detected Gateways:             {viz_data['stats']['total_detected_iig']}")
-    print(f"BD Offshore Peers:             {viz_data['stats']['total_offshore_peer']}")
-    print(f"Local ISP ASNs (Origins):      {viz_data['stats']['total_local_isp']}")
-    print(f"International edges:           {viz_data['stats']['total_intl_edges']}")
-    print(f"Domestic edges:                {viz_data['stats']['total_domestic_edges']}")
-    print(f"Total edges:                   {viz_data['stats']['total_edges']}")
-    print(f"Valid observations:            {viz_data['stats']['valid_observations']:,}")
+    print(f"Outside ASNs (International):    {viz_data['stats']['total_outside']}")
+    print(f"Known IIGs (BTRC Licensed):      {viz_data['stats']['total_iig']}")
+    print(f"Detected Gateways:               {viz_data['stats']['total_detected_iig']}")
+    print(f"Offshore Enterprises (harmless): {viz_data['stats']['total_offshore_enterprise']}")
+    print(f"Offshore Gateways (rogue):       {viz_data['stats']['total_offshore_gateway']}")
+    print(f"Local Companies (Origins):       {viz_data['stats']['total_local_company']}")
+    print(f"International edges:             {viz_data['stats']['total_intl_edges']}")
+    print(f"Domestic edges:                  {viz_data['stats']['total_domestic_edges']}")
+    print(f"Total edges:                     {viz_data['stats']['total_edges']}")
+    print(f"Valid observations:              {viz_data['stats']['valid_observations']:,}")
     
     print(f"\nTop 5 Known IIGs:")
     iigs = sorted([n for n in viz_data["nodes"] if n["type"] == "iig"], key=lambda n: n["traffic"], reverse=True)
@@ -630,15 +744,21 @@ def main():
         for n in detected[:10]:
             print(f"  AS{n['asn']} {n['name']} - {n['traffic']:,} routes")
     
-    offshore = [n for n in viz_data["nodes"] if n["type"] == "offshore-peer"]
-    if offshore:
-        print(f"\nBD Offshore Peers:")
-        for n in offshore:
-            print(f"  AS{n['asn']} {n['name']} ({n['country']})")
+    offshore_ent = [n for n in viz_data["nodes"] if n["type"] == "offshore-enterprise"]
+    if offshore_ent:
+        print(f"\nOffshore Enterprises (BD-registered, abroad, no transit):")
+        for n in offshore_ent:
+            print(f"  AS{n['asn']} {n['name']} (registered: {n['country']}, geo: {n.get('geo_country', '?')})")
     
-    print(f"\nTop 5 Local ISPs:")
-    isps = sorted([n for n in viz_data["nodes"] if n["type"] == "local-isp"], key=lambda n: n["traffic"], reverse=True)
-    for n in isps[:5]:
+    offshore_gw = [n for n in viz_data["nodes"] if n["type"] == "offshore-gateway"]
+    if offshore_gw:
+        print(f"\nOffshore Gateways (BD-registered, abroad, selling transit):")
+        for n in offshore_gw:
+            print(f"  AS{n['asn']} {n['name']} (registered: {n['country']}, geo: {n.get('geo_country', '?')})")
+    
+    print(f"\nTop 5 Local Companies:")
+    companies = sorted([n for n in viz_data["nodes"] if n["type"] == "local-company"], key=lambda n: n["traffic"], reverse=True)
+    for n in companies[:5]:
         print(f"  AS{n['asn']} {n['name']} - {n['traffic']:,} routes")
     
     print(f"\n{'═' * 70}")

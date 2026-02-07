@@ -194,6 +194,53 @@ function parseCountryFromHolder(holder) {
 }
 
 /**
+ * Fetch geolocation for a single ASN using MaxMind GeoLite data via RIPEstat.
+ * Returns the dominant non-BD country if BD coverage < 80%, otherwise 'BD'.
+ */
+async function fetchGeoCountrySingle(asn, rateLimiter) {
+  try {
+    const url = `${RIPESTAT_BASE}/maxmind-geo-lite-announced-by-as/data.json?resource=AS${asn}`;
+    const data = await fetchWithRetry(url, {
+      rateLimiter,
+      maxRetries: 2,
+      timeout: 30000,
+    });
+
+    if (data.status !== 'ok') return 'BD';
+
+    let totalPct = 0;
+    let bdPct = 0;
+    const countryPcts = {};
+
+    for (const resource of (data.data?.located_resources || [])) {
+      for (const loc of (resource.locations || [])) {
+        const pct = loc.covered_percentage || 0;
+        const cc = loc.country || '';
+        if (!cc) continue;
+        totalPct += pct;
+        if (cc === 'BD') {
+          bdPct += pct;
+        } else {
+          countryPcts[cc] = (countryPcts[cc] || 0) + pct;
+        }
+      }
+    }
+
+    if (totalPct <= 0) return 'BD';
+    if ((bdPct / totalPct) > 0.8) return 'BD';
+
+    // Return dominant non-BD country
+    const entries = Object.entries(countryPcts);
+    if (entries.length > 0) {
+      return entries.sort((a, b) => b[1] - a[1])[0][0];
+    }
+    return 'BD';
+  } catch {
+    return 'BD'; // Safe fallback
+  }
+}
+
+/**
  * Main RIPEStatClient class
  */
 export class RIPEStatClient {
@@ -518,6 +565,45 @@ export class RIPEStatClient {
         message: `ASN names resolved: ${completed} succeeded` + (failed > 0 ? `, ${failed} failed` : ''),
         progress: 1, complete: true,
       });
+    }
+
+    return results;
+  }
+
+  /**
+   * Fetch geolocation for multiple ASNs to detect offshore peers.
+   * Returns a Map of ASN → geo_country code.
+   */
+  async fetchGeoCountries(asnList, onProgress) {
+    const results = {};
+    const total = asnList.length;
+    let completed = 0;
+    const concurrency = 10;
+
+    if (onProgress) {
+      onProgress({
+        step: 3, totalSteps: 4,
+        message: `Checking geolocation for ${total} ASNs (offshore detection)...`,
+        progress: 0.85,
+      });
+    }
+
+    for (let i = 0; i < asnList.length; i += concurrency) {
+      if (this.abortController?.signal.aborted) break;
+
+      const batch = asnList.slice(i, i + concurrency);
+      const promises = batch.map(async (asn) => {
+        const geo = await fetchGeoCountrySingle(asn, this.rateLimiter);
+        results[asn] = geo;
+        completed++;
+      });
+
+      await Promise.all(promises);
+    }
+
+    const nonBD = Object.entries(results).filter(([, cc]) => cc !== 'BD');
+    if (nonBD.length > 0) {
+      console.log(`Geolocation: ${nonBD.length} ASNs with non-BD infrastructure:`, nonBD.map(([asn, cc]) => `AS${asn}=${cc}`).join(', '));
     }
 
     return results;

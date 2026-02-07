@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 Reprocess raw BGP data into license-aware classification model:
-  Local ISPs (origin ASNs within the country)
+  Local Companys (origin ASNs within the country)
   IIGs (BTRC-licensed border gateway ASNs)
   Detected Gateways (acting as gateway but not in known license list)
-  BD Offshore Peers (BD-registered ASNs with infrastructure abroad)
+  Offshore Enterprises (BD-registered ASNs with infrastructure abroad)
   Outside ASNs (international feeders)
 
 Also fetches country info for all ASNs from RIPEstat.
@@ -153,7 +153,7 @@ for idx, rt in enumerate(routes):
 print(f"  Valid observations: {valid_obs}")
 print(f"  Outside ASNs: {len(outside_counts)}")
 print(f"  IIG ASNs: {len(iig_counts)}")
-print(f"  Local ISP ASNs: {len(local_isp_counts)}")
+print(f"  Local Company ASNs: {len(local_isp_counts)}")
 print(f"  International edges: {len(edge_intl)}")
 print(f"  Domestic edges: {len(edge_domestic)}")
 
@@ -300,11 +300,11 @@ def ensure_node(asn, node_type):
             if asn in btrc_licensed_asns:
                 node_type = "iig"  # Confirmed licensed
             elif is_bd_registered and detected_country and detected_country != "BD":
-                node_type = "offshore-peer"
+                node_type = "offshore-enterprise"
             elif asn in iigs_with_domestic:
                 node_type = "detected-iig"
             else:
-                node_type = "local-isp"  # Demote: no domestic customers
+                node_type = "local-company"  # Demote: no domestic customers
         
         node_map[asn] = {
             "asn": asn,
@@ -333,7 +333,7 @@ for (outside, iig), count in top_intl_edges:
 
 # Add domestic edges
 for (local_isp, iig), count in top_domestic_edges:
-    ensure_node(local_isp, "local-isp")
+    ensure_node(local_isp, "local-company")
     ensure_node(iig, "iig")
     edges.append({"source": local_isp, "target": iig, "count": count, "type": "domestic"})
 
@@ -350,7 +350,7 @@ for edge in edges:
 total_intl_traffic = sum(c for (_, _), c in top_intl_edges) or 1
 total_domestic_traffic = sum(c for (_, _), c in top_domestic_edges) or 1
 
-for ntype in ["outside", "iig", "detected-iig", "offshore-peer", "local-isp"]:
+for ntype in ["outside", "iig", "detected-iig", "offshore-enterprise", "local-company"]:
     typed_nodes = sorted(
         [n for n in node_map.values() if n["type"] == ntype],
         key=lambda n: n["traffic"], reverse=True
@@ -369,8 +369,8 @@ viz_data = {
         "total_outside": len([n for n in nodes if n["type"] == "outside"]),
         "total_iig": len([n for n in nodes if n["type"] == "iig"]),
         "total_detected_iig": len([n for n in nodes if n["type"] == "detected-iig"]),
-        "total_offshore_peer": len([n for n in nodes if n["type"] == "offshore-peer"]),
-        "total_local_isp": len([n for n in nodes if n["type"] == "local-isp"]),
+        "total_offshore_enterprise": len([n for n in nodes if n["type"] == "offshore-enterprise"]),
+        "total_local_company": len([n for n in nodes if n["type"] == "local-company"]),
         "total_edges": len(edges),
         "total_intl_edges": len([e for e in edges if e["type"] == "international"]),
         "total_domestic_edges": len([e for e in edges if e["type"] == "domestic"]),
@@ -416,8 +416,8 @@ print(f"{'='*50}")
 print(f"Outside ASNs (International):  {viz_data['stats']['total_outside']}")
 print(f"Known IIGs (BTRC Licensed):    {viz_data['stats']['total_iig']}")
 print(f"Detected Gateways:             {viz_data['stats']['total_detected_iig']}")
-print(f"BD Offshore Peers:             {viz_data['stats']['total_offshore_peer']}")
-print(f"Local ISP ASNs (Origins):      {viz_data['stats']['total_local_isp']}")
+print(f"Offshore Enterprises:             {viz_data['stats']['total_offshore_enterprise']}")
+print(f"Local Company ASNs (Origins):      {viz_data['stats']['total_local_company']}")
 print(f"International edges:           {viz_data['stats']['total_intl_edges']}")
 print(f"Domestic edges:                {viz_data['stats']['total_domestic_edges']}")
 print(f"Total edges:                   {viz_data['stats']['total_edges']}")
@@ -433,14 +433,14 @@ if detected:
     for n in detected[:10]:
         print(f"  AS{n['asn']} {n['name']} - {n['traffic']} routes")
 
-offshore = [n for n in nodes if n["type"] == "offshore-peer"]
+offshore = [n for n in nodes if n["type"] == "offshore-enterprise"]
 if offshore:
-    print(f"\nBD Offshore Peers:")
+    print(f"\nOffshore Enterprises:")
     for n in offshore:
         print(f"  AS{n['asn']} {n['name']} ({n['country']})")
 
-print(f"\nTop 5 Local ISPs:")
-isps = sorted([n for n in nodes if n["type"] == "local-isp"], key=lambda n: n["traffic"], reverse=True)
+print(f"\nTop 5 Local Companys:")
+isps = sorted([n for n in nodes if n["type"] == "local-company"], key=lambda n: n["traffic"], reverse=True)
 for n in isps[:5]:
     print(f"  AS{n['asn']} {n['name']} - {n['traffic']} routes")
 print(f"\nDone!")

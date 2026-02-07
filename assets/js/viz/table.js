@@ -4,8 +4,8 @@
 
 import { countryToFlag } from '../api/ripestat.js';
 
-const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP', 'inside': 'Inside BD' };
-const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-peer': 'type-offshore-peer', 'local-isp': 'type-local-isp', 'inside': 'type-iig' };
+const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-enterprise': 'Offshore Enterprise', 'offshore-gateway': 'Offshore Gateway', 'local-company': 'Local Company', 'inside': 'Inside BD', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP' };
+const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-enterprise': 'type-offshore-enterprise', 'offshore-gateway': 'type-offshore-gateway', 'local-company': 'type-local-company', 'inside': 'type-iig', 'offshore-peer': 'type-offshore-peer', 'local-isp': 'type-local-company' };
 
 let currentData = null;
 let currentOptions = {};
@@ -237,7 +237,7 @@ function renderEdgesTable() {
   tbody.innerHTML = pageRows.map(r => {
     const sf = r.source_country ? countryToFlag(r.source_country) + ' ' : '';
     const tf = r.target_country ? countryToFlag(r.target_country) + ' ' : '';
-    const typeCls = r.edge_type === 'domestic' ? 'type-local-isp' : 'type-outside';
+    const typeCls = r.edge_type === 'domestic' ? 'type-local-company' : 'type-outside';
     return `<tr>
       <td>${sf}AS${r.source}</td>
       <td>${sf}${r.source_name || '-'}</td>

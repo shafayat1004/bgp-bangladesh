@@ -5,8 +5,8 @@
 
 import { countryToFlag } from '../api/ripestat.js';
 
-const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
-const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP', 'inside': 'Inside BD' };
+const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-enterprise': '#17a2b8', 'offshore-gateway': '#e64980', 'local-company': '#4dabf7', 'inside': '#51cf66', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7' };
+const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-enterprise': 'Offshore Enterprise', 'offshore-gateway': 'Offshore Gateway', 'local-company': 'Local Company', 'inside': 'Inside BD', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP' };
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -68,7 +68,7 @@ function render() {
 
   // Check if we have domestic edges (full model) or international-only
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
-  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-isp');
+  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-company' || n.type === 'local-isp');
 
   // Filter by traffic range - no arbitrary limits, only user-controlled filtering
   const intlEdges = currentData.edges
@@ -108,7 +108,7 @@ function render() {
   const columns = hasLocalISP && localISPASNs.length > 0
     ? [{ asns: outsideSorted, x: 0, color: TYPE_COLORS.outside, label: 'Outside' },
        { asns: iigSorted, x: w / 2 - nodeWidth / 2, color: TYPE_COLORS.iig, label: 'Gateways' },
-       { asns: ispSorted, x: w - nodeWidth, color: TYPE_COLORS['local-isp'], label: 'Local ISPs' }]
+       { asns: ispSorted, x: w - nodeWidth, color: TYPE_COLORS['local-company'], label: 'Local Companies' }]
     : [{ asns: outsideSorted, x: 0, color: TYPE_COLORS.outside, label: 'Outside' },
        { asns: iigSorted, x: w - nodeWidth, color: TYPE_COLORS.iig, label: 'Inside BD' }];
 
@@ -188,7 +188,7 @@ function render() {
   }
 
   drawEdges(intlEdges, 'Outside', columns.length > 2 ? 'Gateways' : 'Inside BD', '#4fc3f7');
-  if (domEdges.length > 0) drawEdges(domEdges, 'Local ISPs', 'Gateways', '#4dabf7');
+  if (domEdges.length > 0) drawEdges(domEdges, 'Local Companies', 'Gateways', '#4dabf7');
 
   // Add zoom hint
   g.append('text')

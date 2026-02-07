@@ -25,10 +25,13 @@ function moveTooltipSmart(event) {
 const TYPE_CONFIG = {
   'iig': { color: '#51cf66', label: 'IIGs (Licensed Gateways)' },
   'detected-iig': { color: '#fcc419', label: 'Detected Gateways' },
-  'offshore-peer': { color: '#ffa94d', label: 'BD Offshore Peers' },
-  'local-isp': { color: '#4dabf7', label: 'Local ISPs' },
+  'offshore-enterprise': { color: '#17a2b8', label: 'Offshore Enterprises' },
+  'offshore-gateway': { color: '#e64980', label: 'Offshore Gateways' },
+  'local-company': { color: '#4dabf7', label: 'Local Companies' },
   'outside': { color: '#ff6b6b', label: 'Outside BD (International)' },
   'inside': { color: '#51cf66', label: 'Inside BD (Gateways)' },
+  'offshore-peer': { color: '#ffa94d', label: 'BD Offshore Peers' },
+  'local-isp': { color: '#4dabf7', label: 'Local ISPs' },
 };
 
 let currentOptions = {};

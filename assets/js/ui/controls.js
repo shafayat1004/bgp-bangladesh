@@ -54,7 +54,8 @@ export function populateSidebar(data, onNodeClick) {
   if (statsEl) {
     const s = data.stats;
     const detectedCount = s.total_detected_iig || 0;
-    const offshoreCount = s.total_offshore_peer || 0;
+    const offshoreEntCount = s.total_offshore_enterprise || s.total_offshore_peer || 0;
+    const offshoreGwCount = s.total_offshore_gateway || 0;
     statsEl.innerHTML = `
       <div class="stat">
         <div class="stat-label">Observations</div>
@@ -62,8 +63,8 @@ export function populateSidebar(data, onNodeClick) {
       </div>
       <div class="stat-row">
         <div class="stat stat-mini">
-          <div class="stat-label">Local ISPs</div>
-          <div class="stat-value">${s.total_local_isp || 0}</div>
+          <div class="stat-label">Local Companies</div>
+          <div class="stat-value">${s.total_local_company || s.total_local_isp || 0}</div>
         </div>
         <div class="stat stat-mini">
           <div class="stat-label">IIGs</div>
@@ -74,10 +75,11 @@ export function populateSidebar(data, onNodeClick) {
           <div class="stat-value">${s.total_outside || 0}</div>
         </div>
       </div>
-      ${(detectedCount > 0 || offshoreCount > 0) ? `
+      ${(detectedCount > 0 || offshoreEntCount > 0 || offshoreGwCount > 0) ? `
       <div class="stat-row">
         ${detectedCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Detected Gateways</div><div class="stat-value">${detectedCount}</div></div>` : ''}
-        ${offshoreCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Offshore Peers</div><div class="stat-value">${offshoreCount}</div></div>` : ''}
+        ${offshoreEntCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Offshore Ent.</div><div class="stat-value">${offshoreEntCount}</div></div>` : ''}
+        ${offshoreGwCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Offshore GW</div><div class="stat-value">${offshoreGwCount}</div></div>` : ''}
       </div>` : ''}
       <div class="stat">
         <div class="stat-label">Connections</div>
@@ -92,11 +94,14 @@ export function populateSidebar(data, onNodeClick) {
   // Detected Gateways list
   populateList('detected-iig-list', data, 'detected-iig', 'detected-iig', onNodeClick);
 
-  // Offshore Peers list
-  populateList('offshore-peer-list', data, 'offshore-peer', 'offshore-peer', onNodeClick);
+  // Offshore Enterprise list
+  populateList('offshore-enterprise-list', data, 'offshore-enterprise', 'offshore-enterprise', onNodeClick);
 
-  // Local ISP list
-  populateList('local-isp-list', data, 'local-isp', 'local-isp', onNodeClick);
+  // Offshore Gateway list
+  populateList('offshore-gateway-list', data, 'offshore-gateway', 'offshore-gateway', onNodeClick);
+
+  // Local Company list
+  populateList('local-company-list', data, 'local-company', 'local-company', onNodeClick);
 
   // Outside ASN list
   populateList('outside-list', data, 'outside', 'outside', onNodeClick);

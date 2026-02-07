@@ -214,7 +214,8 @@
     "name": "BTTB-AS-AP Telecom Operator & Internet Service Provider as well",
     "holder": "BTTB-AS-AP Telecom Operator & Internet Service Provider as well",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "14840": {
     "asn": "14840",
@@ -550,7 +551,8 @@
     "name": "MIRTELECOM-AS-AP Mir Telecom",
     "holder": "MIRTELECOM-AS-AP Mir Telecom",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "39351": {
     "asn": "39351",
@@ -669,7 +671,8 @@
     "name": "BAN-TEL-BD Bangla Tel Ltd",
     "holder": "BAN-TEL-BD Bangla Tel Ltd",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "58682": {
     "asn": "58682",
@@ -683,7 +686,8 @@
     "name": "UIL-NET-BD Unique Infoway Limited",
     "holder": "UIL-NET-BD Unique Infoway Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "58945": {
     "asn": "58945",
@@ -753,7 +757,8 @@
     "name": "DZCRD-AS-AP DZCRD Networks Ltd",
     "holder": "DZCRD-AS-AP DZCRD Networks Ltd",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "SG"
   },
   "64475": {
     "asn": "64475",
@@ -788,7 +793,8 @@
     "name": "DIGICON-IGW-BD Digicon Telecommunication Ltd",
     "holder": "DIGICON-IGW-BD Digicon Telecommunication Ltd",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "134734": {
     "asn": "134734",
@@ -823,7 +829,8 @@
     "name": "SUMMIT-BD Summit Communications Limited",
     "holder": "SUMMIT-BD Summit Communications Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "136557": {
     "asn": "136557",
@@ -851,7 +858,8 @@
     "name": "APPLE1-AS-AP Apple Communication Ltd.",
     "holder": "APPLE1-AS-AP Apple Communication Ltd.",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "141731": {
     "asn": "141731",
@@ -872,7 +880,8 @@
     "name": "CHALDALLIMITED-AS-AP Chaldal Limited",
     "holder": "CHALDALLIMITED-AS-AP Chaldal Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "IN"
   },
   "142271": {
     "asn": "142271",
@@ -900,14 +909,16 @@
     "name": "FLAREZENLTD-AS-AP Flarezen Ltd.",
     "holder": "FLAREZENLTD-AS-AP Flarezen Ltd.",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "SG"
   },
   "150178": {
     "asn": "150178",
     "name": "EXABYTELTD-AS-AP EXABYTE LTD",
     "holder": "EXABYTELTD-AS-AP EXABYTE LTD",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "152144": {
     "asn": "152144",
@@ -921,7 +932,8 @@
     "name": "BD-LINK-AS-AP BD Link Communication Ltd",
     "holder": "BD-LINK-AS-AP BD Link Communication Ltd",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "205112": {
     "asn": "205112",
@@ -942,21 +954,24 @@
     "name": "ETL-AS-AP Extent Technologies Limited",
     "holder": "ETL-AS-AP Extent Technologies Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "154112": {
     "asn": "154112",
     "name": "NEXELOGYLTD-AS-AP Nexelogy Ltd.",
     "holder": "NEXELOGYLTD-AS-AP Nexelogy Ltd.",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "US"
   },
   "152726": {
     "asn": "152726",
     "name": "DREAMENGINEERING-AS-AP Dream Engineering",
     "holder": "DREAMENGINEERING-AS-AP Dream Engineering",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "199524": {
     "asn": "199524",
@@ -2545,7 +2560,8 @@
     "name": "AYSHAITSOLUTIONS-AS-AP Aysha IT Solutions",
     "holder": "AYSHAITSOLUTIONS-AS-AP Aysha IT Solutions",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "149168": {
     "asn": "149168",
@@ -2713,7 +2729,8 @@
     "name": "DOTINTERNET-AS-AP Dot Internet",
     "holder": "DOTINTERNET-AS-AP Dot Internet",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "55850": {
     "asn": "55850",
@@ -5723,7 +5740,8 @@
     "name": "APONIT-AS-AP Evan Ahmed Bhuiyan ta APON IT",
     "holder": "APONIT-AS-AP Evan Ahmed Bhuiyan ta APON IT",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "149517": {
     "asn": "149517",
@@ -6213,7 +6231,8 @@
     "name": "MANGOTELESERVICES-ITC-AS-BD Mango Teleservices Limited for ITC",
     "holder": "MANGOTELESERVICES-ITC-AS-BD Mango Teleservices Limited for ITC",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "138574": {
     "asn": "138574",
@@ -6521,7 +6540,8 @@
     "name": "BANGLADESH-AS-AP Bangladesh Submarine Cable Company Limited BSCCL",
     "holder": "BANGLADESH-AS-AP Bangladesh Submarine Cable Company Limited BSCCL",
     "announced": false,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD"
   },
   "137425": {
     "asn": "137425",
