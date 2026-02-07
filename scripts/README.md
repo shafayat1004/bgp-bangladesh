@@ -12,8 +12,8 @@ python3 scripts/update_bgp_data.py
 
 This single command:
 - ✓ Fetches country resources (ASNs and prefixes)
-- ✓ Downloads BGP routes in parallel (5 concurrent batches)
-- ✓ Saves raw routes to `bgp_routes_raw.json`
+- ✓ Downloads BGP routes in parallel (8 concurrent batches)
+- ✓ Deduplicates and saves raw routes to `bgp_routes_raw.jsonl` (JSONL format)
 - ✓ Classifies ASNs using license-aware 5-category model (cross-references BTRC IIG list)
 - ✓ Fetches ASN names and countries in parallel (20 concurrent)
 - ✓ Generates all output files (viz_data.json, asn_names.json, metadata.json)
@@ -35,7 +35,7 @@ python3 scripts/update_bgp_data.py --country IN
 ```
 
 **Output files:**
-- `data/BD/bgp_routes_raw.json` - Raw BGP routes (~90MB)
+- `data/BD/bgp_routes_raw.jsonl` - Raw BGP routes, JSONL format (~150MB)
 - `data/BD/viz_data.json` - Processed visualization data (~3MB)
 - `data/BD/asn_names.json` - ASN names and countries (~50KB)
 - `data/BD/metadata.json` - Timestamp and statistics
@@ -73,7 +73,7 @@ python3 scripts/fetch_bgp_routes.py --country BD --output data/BD/bgp_routes_raw
 python3 scripts/reprocess_3layer.py
 ```
 
-**Input:** Requires `data/BD/bgp_routes_raw.json` and `data/btrc_iig_licenses.json` to exist.
+**Input:** Requires `data/BD/bgp_routes_raw.jsonl` (or legacy `.json`) and `data/btrc_iig_licenses.json` to exist.
 
 **Output:** Updates `viz_data.json`, `asn_names.json`, and `metadata.json`.
 

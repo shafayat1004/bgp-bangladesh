@@ -10,7 +10,7 @@ data/
 └── BD/                           # Bangladesh
     ├── viz_data.json             # Processed visualization data with 6 types
     ├── asn_names.json            # ASN name/organization/country lookup
-    ├── bgp_routes_raw.json       # Raw BGP route snapshot (~90MB)
+    ├── bgp_routes_raw.jsonl      # Raw BGP route snapshot, JSONL format (~150MB)
     └── metadata.json             # Timestamp, stats, schema version
 ```
 

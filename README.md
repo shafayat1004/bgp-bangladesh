@@ -128,8 +128,8 @@ python3 scripts/update_bgp_data.py --country IN  # For other countries
 
 **What the script does:**
 - ✓ Fetches Bangladesh ASNs and prefixes from RIPEstat
-- ✓ Downloads BGP routes in parallel (5 concurrent batches, matching website)
-- ✓ Saves raw routes to `bgp_routes_raw.json` (~90MB)
+- ✓ Downloads BGP routes in parallel (8 concurrent batches, matching RIPEstat limit)
+- ✓ Deduplicates and saves raw routes to `bgp_routes_raw.jsonl` (JSONL format, ~150MB)
 - ✓ Classifies ASNs using license-aware model (cross-references BTRC IIG list)
 - ✓ Fetches ASN info in parallel (20 concurrent, matching website)
 - ✓ Applies country detection and well-known ASN overrides
@@ -178,7 +178,7 @@ bgp-bangladesh/
 │   └── BD/                          # Static data for Bangladesh
 │       ├── viz_data.json            # Processed visualization data with 6 types (~3MB)
 │       ├── asn_names.json           # ASN names + countries (~50KB)
-│       ├── bgp_routes_raw.json      # Raw BGP route snapshot (~90MB, optional)
+│       ├── bgp_routes_raw.jsonl     # Raw BGP route snapshot, JSONL (~150MB, optional)
 │       └── metadata.json            # Timestamp, schema version, stats
 ├── assets/
 │   ├── css/styles.css               # All styles (dark theme, responsive)

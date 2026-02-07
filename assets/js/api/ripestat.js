@@ -409,7 +409,7 @@ export class RIPEStatClient {
     const allPrefixes = new Set();
     let completed = 0;
     let failed = 0;
-    const concurrency = 20;
+    const concurrency = 8; // RIPEstat allows 8 concurrent requests
     const startTime = Date.now();
 
     for (let i = 0; i < asnList.length; i += concurrency) {
@@ -461,16 +461,24 @@ export class RIPEStatClient {
 
   /**
    * Fetch BGP routes in parallel batches for better performance.
+   * If onBatch is provided, routes are passed incrementally per-batch and not accumulated.
+   * This avoids holding millions of route objects in memory simultaneously.
+   *
+   * @param {Array} prefixes - List of prefix strings
+   * @param {Function} onProgress - Progress callback
+   * @param {Function} [onBatch] - Optional callback receiving routes per batch for incremental processing
+   * @returns {Array} All routes if onBatch is not provided; empty array if onBatch consumes them
    */
-  async fetchBGPRoutes(prefixes, onProgress) {
+  async fetchBGPRoutes(prefixes, onProgress, onBatch) {
     if (!this.abortController) this.abortController = new AbortController();
     const batches = chunkPrefixes(prefixes);
     const totalBatches = batches.length;
-    const allRoutes = [];
+    const allRoutes = onBatch ? null : []; // Only accumulate if no incremental callback
+    let totalRouteCount = 0;
     let completed = 0;
     let failed = 0;
     const startTime = Date.now();
-    const concurrency = 5; // Fetch 5 batches in parallel
+    const concurrency = 8; // RIPEstat allows 8 concurrent requests
 
     if (onProgress) {
       onProgress({
@@ -510,8 +518,18 @@ export class RIPEStatClient {
 
           const routes = data.data?.bgp_state || [];
           
+          // Strip community field — never used in analysis, saves ~40% browser memory
+          for (const rt of routes) {
+            delete rt.community;
+          }
+          
           // Update progress immediately when this batch completes
-          allRoutes.push(...routes);
+          totalRouteCount += routes.length;
+          if (onBatch) {
+            onBatch(routes);
+          } else {
+            allRoutes.push(...routes);
+          }
           completed++;
           
           const elapsed = (Date.now() - startTime) / 1000;
@@ -521,7 +539,7 @@ export class RIPEStatClient {
           if (onProgress) {
             onProgress({
               step: 2, totalSteps: 4,
-              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${concurrency} parallel)...`,
+              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${totalRouteCount.toLocaleString()} routes)...`,
               progress: (completed + failed) / totalBatches,
               completed, failed, total: totalBatches,
               eta: Math.ceil(remaining),
@@ -543,7 +561,7 @@ export class RIPEStatClient {
           if (onProgress) {
             onProgress({
               step: 2, totalSteps: 4,
-              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${concurrency} parallel)...`,
+              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${totalRouteCount.toLocaleString()} routes)...`,
               progress: (completed + failed) / totalBatches,
               completed, failed, total: totalBatches,
               eta: Math.ceil(remaining),
@@ -561,13 +579,13 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 2, totalSteps: 4,
-        message: `BGP routes fetched: ${allRoutes.length.toLocaleString()} routes from ${completed} batches` +
+        message: `BGP routes fetched: ${totalRouteCount.toLocaleString()} routes from ${completed} batches` +
           (failed > 0 ? ` (${failed} batches failed)` : ''),
         progress: 1, complete: true,
       });
     }
 
-    return allRoutes;
+    return allRoutes || [];
   }
 
   /**
@@ -578,7 +596,7 @@ export class RIPEStatClient {
     const total = asnList.length;
     let completed = 0;
     let failed = 0;
-    const concurrency = 20;
+    const concurrency = 8; // RIPEstat allows 8 concurrent requests
     const startTime = Date.now();
 
     if (onProgress) {
@@ -678,7 +696,7 @@ export class RIPEStatClient {
     const results = {};
     const total = asnList.length;
     let completed = 0;
-    const concurrency = 10;
+    const concurrency = 8; // RIPEstat allows 8 concurrent requests
 
     if (onProgress) {
       onProgress({

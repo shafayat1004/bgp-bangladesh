@@ -4,7 +4,7 @@
  */
 
 import { RIPEStatClient } from './api/ripestat.js';
-import { analyzeGateways, buildVisualizationData } from './api/data-processor.js';
+import { analyzeGateways, buildVisualizationData, createAnalysisState, analyzeRoutesBatch, finalizeAnalysis } from './api/data-processor.js';
 import { showModal, resetModal } from './ui/modal.js';
 import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, loadPreferences, savePreferences, showMyASNResult } from './ui/controls.js';
 import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel } from './ui/loading.js';
@@ -496,13 +496,23 @@ async function fetchLiveData() {
     // Step 1: Country resources
     const { countryASNs, prefixes } = await ripeClient.getCountryResources(COUNTRY, (p) => updateProgress({ ...p, totalSteps: 5 }));
 
-    // Step 2: BGP routes
-    const routes = await ripeClient.fetchBGPRoutes(prefixes, (p) => updateProgress({ ...p, totalSteps: 5 }));
-    rawRoutes = routes;  // Store for raw export
+    // Step 2: BGP routes — process incrementally as batches arrive to save memory
+    const analysisState = createAnalysisState();
+    rawRoutes = [];  // Accumulate for raw export (stripped of community field by fetchBGPRoutes)
+    
+    await ripeClient.fetchBGPRoutes(
+      prefixes,
+      (p) => updateProgress({ ...p, totalSteps: 5 }),
+      (batchRoutes) => {
+        // Incremental analysis: process each batch as it arrives
+        analyzeRoutesBatch(batchRoutes, countryASNs, analysisState);
+        rawRoutes.push(...batchRoutes);
+      }
+    );
 
-    // Step 3: Analyze gateway structure (includes direct peer tracking)
-    updateProgress({ step: 3, totalSteps: 5, message: 'Analyzing gateway structure...', progress: 0 });
-    const analysis = analyzeGateways(routes, countryASNs, (p) => updateProgress({ ...p, totalSteps: 5 }));
+    // Step 3: Finalize analysis (builds directPeersMap, frees dedup set)
+    updateProgress({ step: 3, totalSteps: 5, message: 'Finalizing gateway analysis...', progress: 0 });
+    const analysis = finalizeAnalysis(analysisState, countryASNs);
     
     // Step 3b: Fetch ASN names only for ASNs that appear in top edges
     const neededASNs = new Set();

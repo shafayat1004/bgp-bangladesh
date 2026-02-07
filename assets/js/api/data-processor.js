@@ -12,24 +12,33 @@
 import { countryToFlag } from './ripestat.js';
 
 /**
- * Analyze BGP routes to find border crossings and domestic peering.
- *
- * @param {Array} routes - Raw BGP route objects from RIPEstat
- * @param {Set} countryASNs - Set of ASN strings belonging to the country
- * @param {Function} onProgress - Progress callback
- * @returns {{ outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, validObservations }}
+ * Create a fresh analysis accumulator for incremental route processing.
+ * @returns {Object} Empty analysis state
  */
-export function analyzeGateways(routes, countryASNs, onProgress) {
-  const seen = new Set();
-  const outsideCounts = new Map();
-  const iigCounts = new Map();
-  const localISPCounts = new Map();
-  const edgeIntl = new Map();      // "outside|iig" → count
-  const edgeDomestic = new Map();  // "local-company|iig" → count
-  const directPeers = new Map();   // "a|b" → count for direct adjacency
+export function createAnalysisState() {
+  return {
+    seen: new Set(),
+    outsideCounts: new Map(),
+    iigCounts: new Map(),
+    localISPCounts: new Map(),
+    edgeIntl: new Map(),
+    edgeDomestic: new Map(),
+    directPeers: new Map(),
+    validObservations: 0,
+  };
+}
 
-  let validObservations = 0;
-  const total = routes.length;
+/**
+ * Process a batch of routes into an existing analysis state (incremental).
+ * Can be called multiple times as batches arrive from the API.
+ *
+ * @param {Array} routes - Batch of raw BGP route objects from RIPEstat
+ * @param {Set} countryASNs - Set of ASN strings belonging to the country
+ * @param {Object} state - Analysis state from createAnalysisState() or a previous call
+ * @returns {Object} The same state object, mutated with new data
+ */
+export function analyzeRoutesBatch(routes, countryASNs, state) {
+  const { seen, outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, directPeers } = state;
 
   for (let idx = 0; idx < routes.length; idx++) {
     const rt = routes[idx];
@@ -37,7 +46,6 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
     const sourceId = rt.source_id;
     const pathRaw = rt.path || [];
 
-    // Clean path: deduplicate consecutive ASNs (AS prepending), convert to string
     const path = [];
     for (const x of pathRaw) {
       const s = String(x).trim();
@@ -51,9 +59,8 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
     const key = `${target}|${sourceId}`;
     if (seen.has(key)) continue;
     seen.add(key);
-    validObservations++;
+    state.validObservations++;
 
-    // Track direct adjacency for BD ASNs
     for (let pi = 0; pi < path.length - 1; pi++) {
       const a = path[pi], b = path[pi + 1];
       if (countryASNs.has(a) || countryASNs.has(b)) {
@@ -62,7 +69,6 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
       }
     }
 
-    // Walk backwards from origin
     let i = path.length - 1;
     while (i >= 0 && countryASNs.has(path[i])) {
       i--;
@@ -78,7 +84,6 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
       const intlKey = `${outside}|${iig}`;
       edgeIntl.set(intlKey, (edgeIntl.get(intlKey) || 0) + 1);
 
-      // Domestic edge: origin → IIG
       if (origin !== iig && countryASNs.has(origin)) {
         localISPCounts.set(origin, (localISPCounts.get(origin) || 0) + 1);
         const domKey = `${origin}|${iig}`;
@@ -87,17 +92,22 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
         localISPCounts.set(origin, (localISPCounts.get(origin) || 0) + 1);
       }
     }
-
-    if (onProgress && idx % 10000 === 0) {
-      onProgress({
-        step: 4, totalSteps: 5,
-        message: `Processing routes (${idx.toLocaleString()}/${total.toLocaleString()})...`,
-        progress: idx / total,
-      });
-    }
   }
 
-  // Build direct peers map: for each BD ASN, list its non-BD upstream neighbors
+  return state;
+}
+
+/**
+ * Finalize an analysis state into the result format expected by buildVisualizationData().
+ * Builds the directPeersMap and converts internal Sets to Arrays.
+ *
+ * @param {Object} state - Accumulated analysis state
+ * @param {Set} countryASNs - Set of ASN strings belonging to the country
+ * @returns {{ outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, directPeersMap, validObservations }}
+ */
+export function finalizeAnalysis(state, countryASNs) {
+  const { outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, directPeers, validObservations } = state;
+
   const directPeersMap = {};
   for (const [dpKey] of directPeers) {
     const [a, b] = dpKey.split('|');
@@ -110,13 +120,47 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
       directPeersMap[a].add(b);
     }
   }
-  // Convert sets to arrays
   const directPeersMapArray = {};
   for (const [asn, peers] of Object.entries(directPeersMap)) {
     directPeersMapArray[asn] = [...peers];
   }
 
+  // Free the large seen set to reclaim memory
+  state.seen.clear();
+
   return { outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, directPeersMap: directPeersMapArray, validObservations };
+}
+
+/**
+ * Analyze BGP routes to find border crossings and domestic peering.
+ * Convenience wrapper that processes all routes at once (non-incremental).
+ *
+ * @param {Array} routes - Raw BGP route objects from RIPEstat
+ * @param {Set} countryASNs - Set of ASN strings belonging to the country
+ * @param {Function} onProgress - Progress callback
+ * @returns {{ outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, validObservations }}
+ */
+export function analyzeGateways(routes, countryASNs, onProgress) {
+  const state = createAnalysisState();
+
+  // Process in chunks of 50k to allow progress updates
+  const chunkSize = 50000;
+  const total = routes.length;
+  for (let start = 0; start < total; start += chunkSize) {
+    const chunk = routes.slice(start, Math.min(start + chunkSize, total));
+    analyzeRoutesBatch(chunk, countryASNs, state);
+
+    if (onProgress) {
+      const done = Math.min(start + chunkSize, total);
+      onProgress({
+        step: 4, totalSteps: 5,
+        message: `Processing routes (${done.toLocaleString()}/${total.toLocaleString()})...`,
+        progress: done / total,
+      });
+    }
+  }
+
+  return finalizeAnalysis(state, countryASNs);
 }
 
 /**

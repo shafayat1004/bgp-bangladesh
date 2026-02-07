@@ -12,7 +12,7 @@ Also fetches country info for all ASNs from RIPEstat.
 NOTE: This is a legacy script. For a unified all-in-one updater, use:
     python3 scripts/update_bgp_data.py
 
-This script requires bgp_routes_raw.json to already exist.
+This script requires bgp_routes_raw.jsonl (or legacy bgp_routes_raw.json) to already exist.
 """
 
 import json
@@ -55,9 +55,23 @@ class RateLimiter:
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "BD")
 
 print("Loading raw BGP routes...")
-with open(os.path.join(DATA_DIR, "bgp_routes_raw.json")) as f:
-    routes = json.load(f)
-print(f"  Loaded {len(routes)} routes")
+jsonl_path = os.path.join(DATA_DIR, "bgp_routes_raw.jsonl")
+json_path = os.path.join(DATA_DIR, "bgp_routes_raw.json")
+if os.path.exists(jsonl_path):
+    routes = []
+    with open(jsonl_path) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                routes.append(json.loads(line))
+    print(f"  Loaded {len(routes)} routes (JSONL format)")
+elif os.path.exists(json_path):
+    with open(json_path) as f:
+        routes = json.load(f)
+    print(f"  Loaded {len(routes)} routes (legacy JSON format)")
+else:
+    print("ERROR: No raw routes found. Run update_bgp_data.py first.")
+    sys.exit(1)
 
 print("Loading existing ASN names...")
 with open(os.path.join(DATA_DIR, "asn_names.json")) as f:

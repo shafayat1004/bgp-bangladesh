@@ -30,8 +30,24 @@ import requests
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+# Use orjson for 10-50x faster JSON serialization when available
+try:
+    import orjson
+    def fast_json_dumps(obj):
+        return orjson.dumps(obj)
+    def fast_json_loads(data):
+        return orjson.loads(data)
+    JSON_ENGINE = "orjson"
+except ImportError:
+    def fast_json_dumps(obj):
+        return json.dumps(obj, separators=(',', ':')).encode('utf-8')
+    def fast_json_loads(data):
+        return json.loads(data)
+    JSON_ENGINE = "stdlib json"
+
 BASE = "https://stat.ripe.net/data"
 UA = {"User-Agent": "bgp-bangladesh-viz/1.0 (https://github.com/bgp-bangladesh)"}
+CONCURRENCY = 8  # RIPEstat allows 8 concurrent requests per IP
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -107,7 +123,7 @@ def fetch_announced_prefixes(asns, rate_limiter):
     all_prefixes = set()
     completed = 0
     failed = 0
-    concurrency = 20  # Match ASN info concurrency
+    concurrency = CONCURRENCY
     
     print(f"\n[1b/4] Fetching announced prefixes for ALL {total} ASNs ({concurrency} parallel)...")
     print("       This captures more-specific subnets not in allocation list.")
@@ -202,19 +218,19 @@ def chunk_prefixes(prefixes, max_len=1800):
 
 
 def fetch_bgp_routes(prefixes, rate_limiter):
-    """Fetch BGP routes for all prefixes from RIPEstat in parallel (matching website behavior)."""
+    """Fetch BGP routes for all prefixes from RIPEstat in parallel."""
     batches = chunk_prefixes(prefixes)
     total_batches = len(batches)
     all_routes = []
     
-    print(f"\n[2/4] Fetching BGP routes in {total_batches} batches (5 parallel)...")
-    print("      This will take 5-15 minutes depending on API speed.")
+    concurrency = CONCURRENCY
+    print(f"\n[2/4] Fetching BGP routes in {total_batches} batches ({concurrency} parallel)...")
+    print("      This will take 3-10 minutes depending on API speed.")
     print("      Press Ctrl+C to abort.\n")
     
     start_time = time.time()
     completed = 0
     failed = 0
-    concurrency = 5  # Match website: fetch 5 batches in parallel
     
     def fetch_batch_with_retry(batch_idx, batch, max_retries=3):
         """Fetch a single batch with rate limiting and retry logic."""
@@ -237,6 +253,10 @@ def fetch_bgp_routes(prefixes, rate_limiter):
                 r.raise_for_status()
                 data = r.json()
                 routes = data.get("data", {}).get("bgp_state", [])
+                
+                # Strip community field — never used in analysis, saves ~40% memory/disk
+                for rt in routes:
+                    rt.pop("community", None)
                 
                 # Success - log if this was after retries
                 if attempt > 0:
@@ -294,73 +314,61 @@ def fetch_bgp_routes(prefixes, rate_limiter):
 # Step 3: Analyze Routes (Gateway Detection)
 # ═══════════════════════════════════════════════════════════════════════════
 
-def analyze_routes(routes, country_asns):
-    """
-    Analyze BGP routes to find border crossings and domestic peering.
-    Extracts gateway structure: Local Company → Gateway → Outside ASN.
-    """
-    print(f"\n[3/4] Analyzing routes for gateway structure...")
+def _process_single_route(rt, country_asns, seen, outside_counts, iig_counts,
+                          local_isp_counts, edge_intl, edge_domestic, direct_peers):
+    """Process a single route record. Shared by both list-based and streaming analysis."""
+    target = rt.get("target_prefix")
+    source_id = rt.get("source_id")
+    path_raw = rt.get("path") or []
     
-    seen = set()
-    outside_counts = collections.Counter()
-    iig_counts = collections.Counter()
-    local_isp_counts = collections.Counter()
-    edge_intl = collections.Counter()      # "outside|iig" → count
-    edge_domestic = collections.Counter()  # "local-company|iig" → count
-    direct_peers = collections.Counter()   # (asn_a, asn_b) → count for direct adjacency
-    valid_obs = 0
+    # Clean path: deduplicate consecutive ASNs (AS prepending), convert to string
+    path = []
+    for x in path_raw:
+        s = str(x).strip()
+        if s.isdigit() and (not path or path[-1] != s):
+            path.append(s)
     
-    for idx, rt in enumerate(routes):
-        if idx % 50000 == 0 and idx > 0:
-            print(f"      Processing route {idx:,}/{len(routes):,}...")
-        
-        target = rt.get("target_prefix")
-        source_id = rt.get("source_id")
-        path_raw = rt.get("path") or []
-        
-        # Clean path: deduplicate consecutive ASNs (AS prepending), convert to string
-        path = []
-        for x in path_raw:
-            s = str(x).strip()
-            if s.isdigit() and (not path or path[-1] != s):
-                path.append(s)
-        
-        if not target or not source_id or len(path) < 2:
-            continue
-        
-        key = (target, source_id)
-        if key in seen:
-            continue
-        seen.add(key)
-        valid_obs += 1
-        
-        # Walk backwards from origin
-        i = len(path) - 1
-        while i >= 0 and path[i] in country_asns:
-            i -= 1
-        
-        outside = path[i] if i >= 0 else None
-        iig = path[i + 1] if (i + 1) < len(path) else None
-        origin = path[-1]
-        
-        # Track direct adjacency for all BD ASNs in the path
-        for pi in range(len(path) - 1):
-            a, b = path[pi], path[pi + 1]
-            if a in country_asns or b in country_asns:
-                direct_peers[(a, b)] += 1
+    if not target or not source_id or len(path) < 2:
+        return False
+    
+    key = (target, source_id)
+    if key in seen:
+        return False
+    seen.add(key)
+    
+    # Walk backwards from origin
+    i = len(path) - 1
+    while i >= 0 and path[i] in country_asns:
+        i -= 1
+    
+    outside = path[i] if i >= 0 else None
+    iig = path[i + 1] if (i + 1) < len(path) else None
+    origin = path[-1]
+    
+    # Track direct adjacency for all BD ASNs in the path
+    for pi in range(len(path) - 1):
+        a, b = path[pi], path[pi + 1]
+        if a in country_asns or b in country_asns:
+            direct_peers[(a, b)] += 1
 
-        if outside and iig:
-            outside_counts[outside] += 1
-            iig_counts[iig] += 1
-            edge_intl[(outside, iig)] += 1
-            
-            # Domestic edge: origin → IIG
-            if origin != iig and origin in country_asns:
-                local_isp_counts[origin] += 1
-                edge_domestic[(origin, iig)] += 1
-            elif origin == iig:
-                local_isp_counts[origin] += 1
+    if outside and iig:
+        outside_counts[outside] += 1
+        iig_counts[iig] += 1
+        edge_intl[(outside, iig)] += 1
+        
+        # Domestic edge: origin → IIG
+        if origin != iig and origin in country_asns:
+            local_isp_counts[origin] += 1
+            edge_domestic[(origin, iig)] += 1
+        elif origin == iig:
+            local_isp_counts[origin] += 1
     
+    return True
+
+
+def _finalize_analysis(outside_counts, iig_counts, local_isp_counts,
+                       edge_intl, edge_domestic, direct_peers, valid_obs, country_asns):
+    """Build the final analysis result dict from accumulated counters."""
     print(f"      Valid observations: {valid_obs:,}")
     print(f"      Outside ASNs: {len(outside_counts)}")
     print(f"      IIG ASNs: {len(iig_counts)}")
@@ -371,18 +379,15 @@ def analyze_routes(routes, country_asns):
     # Build direct peers map: for each BD ASN, list its non-BD upstream neighbors
     direct_peers_map = {}
     for (a, b), count in direct_peers.items():
-        # a→b adjacency: if b is BD and a is not, a is an upstream of b
         if b in country_asns and a not in country_asns:
             if b not in direct_peers_map:
                 direct_peers_map[b] = []
             direct_peers_map[b].append(a)
-        # Reverse: if a is BD and b is not, b is an upstream of a
         if a in country_asns and b not in country_asns:
             if a not in direct_peers_map:
                 direct_peers_map[a] = []
             direct_peers_map[a].append(b)
 
-    # Deduplicate upstream lists
     for asn in direct_peers_map:
         direct_peers_map[asn] = list(set(direct_peers_map[asn]))
 
@@ -398,6 +403,81 @@ def analyze_routes(routes, country_asns):
         "direct_peers_map": direct_peers_map,
         "valid_obs": valid_obs,
     }
+
+
+def analyze_routes(routes, country_asns):
+    """
+    Analyze BGP routes from an in-memory list.
+    Extracts gateway structure: Local Company → Gateway → Outside ASN.
+    """
+    print(f"\n[3/4] Analyzing {len(routes):,} routes for gateway structure...")
+    
+    seen = set()
+    outside_counts = collections.Counter()
+    iig_counts = collections.Counter()
+    local_isp_counts = collections.Counter()
+    edge_intl = collections.Counter()
+    edge_domestic = collections.Counter()
+    direct_peers = collections.Counter()
+    valid_obs = 0
+    total = len(routes)
+    
+    for idx, rt in enumerate(routes):
+        if idx % 100000 == 0 and idx > 0:
+            print(f"      Processing route {idx:,}/{total:,}...")
+        
+        if _process_single_route(rt, country_asns, seen, outside_counts,
+                                 iig_counts, local_isp_counts, edge_intl,
+                                 edge_domestic, direct_peers):
+            valid_obs += 1
+    
+    return _finalize_analysis(outside_counts, iig_counts, local_isp_counts,
+                              edge_intl, edge_domestic, direct_peers, valid_obs, country_asns)
+
+
+def analyze_routes_streaming(jsonl_path, country_asns):
+    """
+    Analyze BGP routes by streaming from a JSONL file line-by-line.
+    Avoids loading the entire file into memory (~2GB savings).
+    """
+    # Count lines first for progress reporting
+    print(f"\n[3/4] Streaming analysis from {jsonl_path}...")
+    line_count = 0
+    with open(jsonl_path, 'rb') as f:
+        for _ in f:
+            line_count += 1
+    print(f"      {line_count:,} route records to process...")
+    
+    seen = set()
+    outside_counts = collections.Counter()
+    iig_counts = collections.Counter()
+    local_isp_counts = collections.Counter()
+    edge_intl = collections.Counter()
+    edge_domestic = collections.Counter()
+    direct_peers = collections.Counter()
+    valid_obs = 0
+    
+    with open(jsonl_path, 'rb') as f:
+        for idx, line in enumerate(f):
+            if idx % 100000 == 0 and idx > 0:
+                print(f"      Processing route {idx:,}/{line_count:,}...")
+            
+            line = line.strip()
+            if not line:
+                continue
+            
+            try:
+                rt = fast_json_loads(line)
+            except (json.JSONDecodeError, Exception):
+                continue
+            
+            if _process_single_route(rt, country_asns, seen, outside_counts,
+                                     iig_counts, local_isp_counts, edge_intl,
+                                     edge_domestic, direct_peers):
+                valid_obs += 1
+    
+    return _finalize_analysis(outside_counts, iig_counts, local_isp_counts,
+                              edge_intl, edge_domestic, direct_peers, valid_obs, country_asns)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -416,12 +496,12 @@ def fetch_asn_info(asn_list, country_asns, rate_limiter, existing_asn_names=None
         print(f"      All ASN info already cached.")
         return existing_asn_names
     
-    print(f"\n[4/4] Fetching ASN info for {len(need_fetch):,} ASNs (20 parallel)...")
+    concurrency = CONCURRENCY
+    print(f"\n[4/4] Fetching ASN info for {len(need_fetch):,} ASNs ({concurrency} parallel)...")
     
     results = dict(existing_asn_names)  # Start with existing data
     completed = 0
     failed = 0
-    concurrency = 20  # Match website
     start_time = time.time()
     
     # Invalid region codes that should not be treated as countries
@@ -604,7 +684,7 @@ def fetch_geo_country(asn, rate_limiter):
         return fallback
 
 
-def fetch_geo_countries(asn_list, rate_limiter, concurrency=10):
+def fetch_geo_countries(asn_list, rate_limiter, concurrency=CONCURRENCY):
     """Fetch geolocation for multiple ASNs in parallel. Returns dict of ASN → geo data."""
     print(f"\n[4b] Fetching geolocation for {len(asn_list)} ASNs (offshore peer detection)...")
     results = {}
@@ -1041,13 +1121,15 @@ def main():
     data_dir = os.path.join(project_dir, "data", country)
     os.makedirs(data_dir, exist_ok=True)
     
-    out_raw = os.path.join(data_dir, "bgp_routes_raw.json")
+    out_raw = os.path.join(data_dir, "bgp_routes_raw.jsonl")  # JSONL format
+    out_raw_legacy = os.path.join(data_dir, "bgp_routes_raw.json")  # Legacy JSON
     out_viz = os.path.join(data_dir, "viz_data.json")
     out_asn = os.path.join(data_dir, "asn_names.json")
     out_meta = os.path.join(data_dir, "metadata.json")
     
     print("═" * 70)
     print(f"BGP Data Update - {country}")
+    print(f"  JSON engine: {JSON_ENGINE} | Concurrency: {CONCURRENCY}")
     print("═" * 70)
     
     # Load BTRC IIG license list
@@ -1075,21 +1157,27 @@ def main():
     rate_limiter = RateLimiter(requests_per_second=4)
     
     if args.reprocess:
-        # Reprocess mode: load from cached files
+        # Reprocess mode: stream from cached JSONL (or fallback to legacy JSON)
         print(f"\n[REPROCESS] Loading cached data (skipping BGP route fetching)...")
-        
-        if not os.path.exists(out_raw):
-            print(f"ERROR: No cached raw routes found at {out_raw}")
-            print(f"       Run without --reprocess first to fetch data.")
-            sys.exit(1)
-        
-        print(f"Loading raw routes from: {out_raw}")
-        with open(out_raw) as f:
-            routes = json.load(f)
-        print(f"      Loaded {len(routes):,} routes")
         
         # Still need country resources for classification
         country_asns, alloc_prefixes = get_country_resources(args.country)
+        
+        if os.path.exists(out_raw):
+            # Stream analysis from JSONL -- no need to load entire file into memory
+            analysis = analyze_routes_streaming(out_raw, country_asns)
+        elif os.path.exists(out_raw_legacy):
+            # Fallback to legacy JSON array format
+            print(f"Loading raw routes from legacy format: {out_raw_legacy}")
+            with open(out_raw_legacy) as f:
+                routes = json.load(f)
+            print(f"      Loaded {len(routes):,} routes")
+            analysis = analyze_routes(routes, country_asns)
+            del routes  # Free memory
+        else:
+            print(f"ERROR: No cached raw routes found at {out_raw} or {out_raw_legacy}")
+            print(f"       Run without --reprocess first to fetch data.")
+            sys.exit(1)
     else:
         # Step 1: Get country resources (allocation blocks + ASN list)
         country_asns, alloc_prefixes = get_country_resources(args.country)
@@ -1106,15 +1194,53 @@ def main():
         # Step 2: Fetch BGP routes in parallel
         routes = fetch_bgp_routes(list(all_prefixes), rate_limiter)
         
-        # Save raw routes
-        print(f"\nSaving raw routes to: {out_raw}")
-        with open(out_raw, "w") as f:
-            json.dump(routes, f)
+        # Deduplicate routes by (target_prefix, cleaned_path) before saving
+        print(f"\nDeduplicating {len(routes):,} routes by (prefix, path)...")
+        dedup_map = {}  # (target_prefix, path_tuple) → route
+        dedup_counts = {}  # Same key → observation count
+        for rt in routes:
+            target = rt.get("target_prefix", "")
+            path_raw = rt.get("path") or []
+            # Clean path for dedup key
+            path = []
+            for x in path_raw:
+                s = str(x).strip()
+                if s.isdigit() and (not path or path[-1] != s):
+                    path.append(s)
+            key = (target, tuple(path))
+            if key in dedup_map:
+                dedup_counts[key] += 1
+            else:
+                dedup_map[key] = rt
+                dedup_counts[key] = 1
+        
+        deduped_routes = []
+        for key, rt in dedup_map.items():
+            rt["_count"] = dedup_counts[key]
+            deduped_routes.append(rt)
+        
+        saved = len(routes) - len(deduped_routes)
+        print(f"      {len(routes):,} → {len(deduped_routes):,} unique routes ({saved:,} duplicates removed, {saved * 100 // max(len(routes), 1)}% reduction)")
+        
+        # Save raw routes as JSONL (one JSON object per line) for streaming read/write
+        print(f"\nSaving raw routes as JSONL to: {out_raw}")
+        save_start = time.time()
+        with open(out_raw, "wb") as f:
+            for rt in deduped_routes:
+                f.write(fast_json_dumps(rt))
+                f.write(b"\n")
         file_size_mb = os.path.getsize(out_raw) / (1024 * 1024)
-        print(f"      File size: {file_size_mb:.1f} MB")
-    
-    # Step 3: Analyze routes
-    analysis = analyze_routes(routes, country_asns)
+        save_elapsed = time.time() - save_start
+        print(f"      File size: {file_size_mb:.1f} MB (saved in {save_elapsed:.1f}s via {JSON_ENGINE})")
+        
+        # Remove legacy JSON file if it exists to avoid confusion
+        if os.path.exists(out_raw_legacy):
+            os.remove(out_raw_legacy)
+            print(f"      Removed legacy {out_raw_legacy}")
+        
+        # Step 3: Analyze routes from the in-memory list
+        analysis = analyze_routes(deduped_routes, country_asns)
+        del routes, deduped_routes, dedup_map, dedup_counts  # Free memory
     
     # Step 4: Fetch ASN info for all needed ASNs
     all_asns = set(analysis["outside_counts"].keys()) | set(analysis["iig_counts"].keys()) | set(analysis["local_isp_counts"].keys())
@@ -1156,7 +1282,7 @@ def main():
     # Build visualization data (license-aware, 6-category)
     viz_data = build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns, peering_locations)
     
-    # Save all outputs
+    # Save all outputs (use indent=2 for human-readable viz/meta/asn files)
     print(f"\nSaving visualization data to: {out_viz}")
     with open(out_viz, "w") as f:
         json.dump(viz_data, f, indent=2)
@@ -1172,6 +1298,8 @@ def main():
         "last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "schema_version": 3,
         "model": "license-aware",
+        "raw_format": "jsonl",
+        "json_engine": JSON_ENGINE,
         "stats": viz_data["stats"],
         "source": "RIPEstat BGP State API",
         "source_url": "https://stat.ripe.net/data/bgp-state/data.json",
