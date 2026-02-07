@@ -10,7 +10,7 @@ Thumbs.db
 .idea/
 
 # Large raw data (excluded from git - use fetch_bgp_routes.py to regenerate)
-data/BD/bgp_routes_raw.json
+# data/BD/bgp_routes_raw.json
 
 # Node modules (if ever added)
 node_modules/
