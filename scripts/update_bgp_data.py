@@ -555,138 +555,199 @@ def fetch_geo_countries(asn_list, rate_limiter, concurrency=10):
 # ═══════════════════════════════════════════════════════════════════════════
 
 PEERINGDB_BASE = "https://www.peeringdb.com/api"
+PEERINGDB_UA = {"User-Agent": "bgp-bangladesh-viz/1.0"}
 PEERINGDB_DELAY = 3  # Seconds between queries (conservative: 20/min anonymous limit)
 
 
-def fetch_peeringdb_net(asn):
+def peeringdb_batch_fetch_nets(asn_list):
     """
-    Query PeeringDB for an ASN's network record with expanded IX/facility data.
-    Returns the network dict or None on failure.
+    Batch-fetch PeeringDB network records for multiple ASNs in one API call.
+    Uses asn__in parameter (max ~150 ASNs per request).
+    Returns dict of ASN (str) → network record.
     """
-    try:
-        time.sleep(PEERINGDB_DELAY)
-        r = requests.get(
-            f"{PEERINGDB_BASE}/net",
-            params={"asn": asn, "depth": 2},
-            headers={"User-Agent": "bgp-bangladesh-viz/1.0"},
-            timeout=15,
-        )
-        if r.status_code == 429:
-            print(f"      PeeringDB rate limited for AS{asn}, waiting 60s...")
-            time.sleep(60)
+    results = {}
+    # PeeringDB supports up to ~150 ASNs in a batch
+    for i in range(0, len(asn_list), 100):
+        batch = asn_list[i:i + 100]
+        asn_str = ",".join(str(a) for a in batch)
+        try:
+            time.sleep(PEERINGDB_DELAY)
             r = requests.get(
                 f"{PEERINGDB_BASE}/net",
-                params={"asn": asn, "depth": 2},
-                headers={"User-Agent": "bgp-bangladesh-viz/1.0"},
-                timeout=15,
+                params={"asn__in": asn_str, "depth": 2},
+                headers=PEERINGDB_UA,
+                timeout=30,
             )
-        r.raise_for_status()
-        data = r.json()
-        nets = data.get("data", [])
-        return nets[0] if nets else None
-    except Exception as e:
-        print(f"      Warning: PeeringDB fetch failed for AS{asn}: {e}")
-        return None
+            if r.status_code == 429:
+                print(f"      PeeringDB rate limited, waiting 60s...")
+                time.sleep(60)
+                r = requests.get(
+                    f"{PEERINGDB_BASE}/net",
+                    params={"asn__in": asn_str, "depth": 2},
+                    headers=PEERINGDB_UA,
+                    timeout=30,
+                )
+            r.raise_for_status()
+            data = r.json()
+            for net in data.get("data", []):
+                results[str(net.get("asn", ""))] = net
+            print(f"      PeeringDB batch: requested {len(batch)} ASNs, got {len(data.get('data', []))} records")
+        except Exception as e:
+            print(f"      Warning: PeeringDB batch fetch failed: {e}")
+
+    return results
 
 
-def extract_peering_countries(net_record):
+def peeringdb_batch_fetch_ixs(ix_ids):
     """
-    Extract peering countries from a PeeringDB network record.
-    Returns list of dicts: [{'country': 'SG', 'ix_name': '...', 'speed': 10000}, ...]
+    Batch-fetch IX records to get their countries.
+    Returns dict of ix_id → {'country': '..', 'name': '..', 'city': '..'}.
     """
-    if not net_record:
-        return []
+    results = {}
+    ix_list = list(set(ix_ids))
+    if not ix_list:
+        return results
 
-    ix_entries = []
-    for ix in net_record.get("netixlan_set", []):
-        ix_data = ix.get("ix", {}) if isinstance(ix.get("ix"), dict) else {}
-        country = ix_data.get("country", "")
-        ix_name = ix_data.get("name", "")
-        city = ix_data.get("city", "")
-        speed = ix.get("speed", 0) or 0
-        if country:
-            ix_entries.append({
-                "country": country,
-                "ix_name": ix_name,
-                "city": city,
-                "speed": speed,
-            })
+    for i in range(0, len(ix_list), 100):
+        batch = ix_list[i:i + 100]
+        id_str = ",".join(str(x) for x in batch)
+        try:
+            time.sleep(PEERINGDB_DELAY)
+            r = requests.get(
+                f"{PEERINGDB_BASE}/ix",
+                params={"id__in": id_str},
+                headers=PEERINGDB_UA,
+                timeout=30,
+            )
+            if r.status_code == 429:
+                print(f"      PeeringDB rate limited (IX fetch), waiting 60s...")
+                time.sleep(60)
+                r = requests.get(
+                    f"{PEERINGDB_BASE}/ix",
+                    params={"id__in": id_str},
+                    headers=PEERINGDB_UA,
+                    timeout=30,
+                )
+            r.raise_for_status()
+            data = r.json()
+            for ix in data.get("data", []):
+                results[ix["id"]] = {
+                    "country": ix.get("country", ""),
+                    "name": ix.get("name", ""),
+                    "city": ix.get("city", ""),
+                }
+            print(f"      PeeringDB IX batch: requested {len(batch)}, got {len(data.get('data', []))} records")
+        except Exception as e:
+            print(f"      Warning: PeeringDB IX batch fetch failed: {e}")
 
-    fac_entries = []
+    return results
+
+
+def analyze_peering_from_peeringdb(net_record, ix_cache):
+    """
+    Extract peering country info from a PeeringDB network record.
+    Uses facility data (has country directly) and IXP data (via ix_cache).
+    Returns: {'countries': {cc: {'weight': N, 'details': [...]}}, ...}
+    """
+    countries = {}
+
+    # Facilities: country is directly on the record
     for fac in net_record.get("netfac_set", []):
-        fac_data = fac.get("fac", {}) if isinstance(fac.get("fac"), dict) else {}
-        country = fac_data.get("country", "")
-        fac_name = fac_data.get("name", "")
-        city = fac_data.get("city", "")
-        if country:
-            fac_entries.append({
-                "country": country,
-                "fac_name": fac_name,
-                "city": city,
-            })
+        cc = fac.get("country", "")
+        fac_name = fac.get("name", "")
+        city = fac.get("city", "")
+        if not cc:
+            continue
+        if cc not in countries:
+            countries[cc] = {"weight": 0, "details": []}
+        countries[cc]["weight"] += 1000  # Facilities are strong signal
+        if fac_name:
+            detail = fac_name
+            if city:
+                detail += f" ({city})"
+            countries[cc]["details"].append(detail)
 
-    return ix_entries, fac_entries
+    # IXPs: look up country via ix_cache
+    for ix_entry in net_record.get("netixlan_set", []):
+        ix_id = ix_entry.get("ix_id")
+        ix_name = ix_entry.get("name", "")
+        speed = ix_entry.get("speed", 0) or 0
+        ix_info = ix_cache.get(ix_id, {})
+        cc = ix_info.get("country", "")
+        if not cc:
+            continue
+        if cc not in countries:
+            countries[cc] = {"weight": 0, "details": []}
+        countries[cc]["weight"] += max(speed, 1)
+        if ix_name and ix_name not in countries[cc]["details"]:
+            countries[cc]["details"].append(ix_name)
+
+    return countries
 
 
-def determine_peering_location(target_asn, upstream_asns, geo_dominant):
+def determine_peering_location(target_asn, upstream_asns, geo_dominant, pdb_cache, ix_cache):
     """
     Determine physical peering location for an offshore ASN.
+    Uses pre-fetched PeeringDB data (batch-queried).
     Strategy:
-      1. Query PeeringDB for the target ASN directly
-      2. If no data, query upstream ASNs to find intersection
+      1. Check target ASN's PeeringDB record (facilities + IXPs)
+      2. If no clear non-BD location, check upstream intersection
       3. Fallback to geo_dominant country
-    Returns dict: {'country': 'SG', 'details': [...], 'source': 'peeringdb'|'fallback-geo'}
+    Returns dict or None.
     """
-    # Step 1: Check target ASN in PeeringDB
-    net = fetch_peeringdb_net(target_asn)
-    if net:
-        ix_entries, fac_entries = extract_peering_countries(net)
-        if ix_entries or fac_entries:
-            # Weight countries by port speed for IX, count for facilities
-            country_weights = {}
-            country_details = {}
-            for ix in ix_entries:
-                cc = ix["country"]
-                country_weights[cc] = country_weights.get(cc, 0) + max(ix["speed"], 1)
-                if cc not in country_details:
-                    country_details[cc] = []
-                if ix["ix_name"]:
-                    country_details[cc].append(ix["ix_name"])
-            for fac in fac_entries:
-                cc = fac["country"]
-                country_weights[cc] = country_weights.get(cc, 0) + 100  # Base weight for facility
-                if cc not in country_details:
-                    country_details[cc] = []
-                if fac["fac_name"]:
-                    country_details[cc].append(fac["fac_name"])
+    target_net = pdb_cache.get(target_asn)
 
-            if country_weights:
-                dominant = max(country_weights, key=country_weights.get)
-                details = list(dict.fromkeys(country_details.get(dominant, [])))  # Deduplicate
+    # Step 1: Direct PeeringDB data for target ASN
+    if target_net:
+        countries = analyze_peering_from_peeringdb(target_net, ix_cache)
+        # Filter out home country (BD) — we want non-BD peering locations
+        non_bd = {cc: data for cc, data in countries.items() if cc != "BD"}
+        if non_bd:
+            dominant = max(non_bd, key=lambda c: non_bd[c]["weight"])
+            details = list(dict.fromkeys(non_bd[dominant]["details"]))
+            return {
+                "country": dominant,
+                "details": details[:5],
+                "source": "peeringdb",
+            }
+
+    # Step 2: Upstream intersection — find common non-BD peering countries
+    if upstream_asns:
+        upstream_country_sets = []
+        upstream_country_details = {}
+        for up_asn in upstream_asns:
+            up_net = pdb_cache.get(up_asn)
+            if not up_net:
+                continue
+            up_countries = analyze_peering_from_peeringdb(up_net, ix_cache)
+            non_bd_up = {cc for cc in up_countries if cc != "BD"}
+            upstream_country_sets.append(non_bd_up)
+            for cc, data in up_countries.items():
+                if cc != "BD":
+                    if cc not in upstream_country_details:
+                        upstream_country_details[cc] = {"weight": 0, "details": []}
+                    upstream_country_details[cc]["weight"] += data["weight"]
+                    upstream_country_details[cc]["details"].extend(data["details"])
+
+        if len(upstream_country_sets) >= 2:
+            # Find countries where multiple upstreams co-exist
+            common = upstream_country_sets[0]
+            for s in upstream_country_sets[1:]:
+                common = common & s
+            if common:
+                # Rank common countries by combined weight
+                dominant = max(common, key=lambda c: upstream_country_details.get(c, {}).get("weight", 0))
+                details = list(dict.fromkeys(upstream_country_details.get(dominant, {}).get("details", [])))
                 return {
                     "country": dominant,
                     "details": details[:5],
-                    "source": "peeringdb",
+                    "source": "peeringdb-upstream",
                 }
 
-    # Step 2: Query upstream ASNs for common peering locations
-    if upstream_asns:
-        upstream_countries = {}
-        for up_asn in upstream_asns[:3]:  # Check top 3 upstreams only
-            up_net = fetch_peeringdb_net(up_asn)
-            if up_net:
-                ix_entries, fac_entries = extract_peering_countries(up_net)
-                for ix in ix_entries:
-                    cc = ix["country"]
-                    if cc not in upstream_countries:
-                        upstream_countries[cc] = {"weight": 0, "details": []}
-                    upstream_countries[cc]["weight"] += max(ix["speed"], 1)
-                    if ix["ix_name"]:
-                        upstream_countries[cc]["details"].append(ix["ix_name"])
-
-        if upstream_countries:
-            dominant = max(upstream_countries, key=lambda c: upstream_countries[c]["weight"])
-            details = list(dict.fromkeys(upstream_countries[dominant]["details"]))
+        # If no intersection, use highest-weighted upstream country
+        if upstream_country_details:
+            dominant = max(upstream_country_details, key=lambda c: upstream_country_details[c]["weight"])
+            details = list(dict.fromkeys(upstream_country_details[dominant]["details"]))
             return {
                 "country": dominant,
                 "details": details[:5],
@@ -706,24 +767,50 @@ def determine_peering_location(target_asn, upstream_asns, geo_dominant):
 
 def fetch_peering_locations(offshore_asns, direct_peers_map, rate_limiter):
     """
-    Fetch peering locations for offshore ASNs using PeeringDB.
+    Fetch peering locations for offshore ASNs using PeeringDB batch queries.
+    Uses 2-3 API calls total (not one per ASN), avoiding rate limits.
     Returns dict of ASN → peering location info.
     """
     if not offshore_asns:
         return {}
 
     print(f"\n[4c] Fetching PeeringDB peering locations for {len(offshore_asns)} offshore ASNs...")
-    print(f"      Using {PEERINGDB_DELAY}s delay between queries (rate limit safe)")
 
+    # Collect ALL ASNs we need: targets + their upstream peers
+    all_needed_asns = set()
+    for asn in offshore_asns:
+        all_needed_asns.add(asn)
+        for up_asn in direct_peers_map.get(asn, []):
+            all_needed_asns.add(up_asn)
+
+    print(f"      Querying PeeringDB for {len(all_needed_asns)} ASNs (targets + upstreams) in batch...")
+
+    # Step 1: Batch fetch all network records (1-2 API calls)
+    pdb_cache = peeringdb_batch_fetch_nets(list(all_needed_asns))
+
+    # Step 2: Collect unique IX IDs from all fetched records, then batch-fetch IX info
+    all_ix_ids = set()
+    for net in pdb_cache.values():
+        for ix_entry in net.get("netixlan_set", []):
+            ix_id = ix_entry.get("ix_id")
+            if ix_id:
+                all_ix_ids.add(ix_id)
+
+    ix_cache = {}
+    if all_ix_ids:
+        print(f"      Fetching country info for {len(all_ix_ids)} IXPs...")
+        ix_cache = peeringdb_batch_fetch_ixs(list(all_ix_ids))
+
+    # Step 3: Determine peering location for each offshore ASN
     results = {}
     for asn in offshore_asns:
         upstream = direct_peers_map.get(asn, [])
         geo_dominant = offshore_asns[asn] if isinstance(offshore_asns, dict) else None
-        peering = determine_peering_location(asn, upstream, geo_dominant)
+        peering = determine_peering_location(asn, upstream, geo_dominant, pdb_cache, ix_cache)
         if peering:
             results[asn] = peering
             src = peering["source"]
-            details_str = ", ".join(peering["details"][:2]) if peering["details"] else "no details"
+            details_str = ", ".join(peering["details"][:2]) if peering["details"] else "no specific details"
             print(f"        AS{asn}: peers in {peering['country']} ({details_str}) [source: {src}]")
         else:
             print(f"        AS{asn}: no peering location found")

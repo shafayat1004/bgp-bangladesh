@@ -624,6 +624,247 @@ export class RIPEStatClient {
 
     return results;
   }
+
+  /**
+   * Fetch PeeringDB peering locations for offshore ASNs.
+   * Uses batch queries to minimize API calls.
+   * @param {Object} offshoreASNs - { asn: geo_dominant_country }
+   * @param {Object} directPeersMap - { asn: [upstream_asn, ...] }
+   * @param {Function} onProgress - Progress callback
+   * @returns {Object} { asn: { country, details: [], source } }
+   */
+  async fetchPeeringDBLocations(offshoreASNs, directPeersMap, onProgress) {
+    const offshoreList = Object.keys(offshoreASNs);
+    if (offshoreList.length === 0) return {};
+
+    if (onProgress) {
+      onProgress({
+        step: 4, totalSteps: 5,
+        message: `Fetching PeeringDB locations for ${offshoreList.length} offshore ASNs...`,
+        progress: 0,
+      });
+    }
+
+    // Collect all ASNs needed: targets + upstreams
+    const allNeeded = new Set(offshoreList);
+    for (const asn of offshoreList) {
+      for (const up of (directPeersMap[asn] || [])) {
+        allNeeded.add(up);
+      }
+    }
+
+    // Step 1: Batch fetch network records from PeeringDB
+    if (onProgress) {
+      onProgress({
+        step: 4, totalSteps: 5,
+        message: `Querying PeeringDB for ${allNeeded.size} ASNs (batch)...`,
+        progress: 0.2,
+      });
+    }
+
+    const pdbCache = {};
+    const asnArray = [...allNeeded];
+    for (let i = 0; i < asnArray.length; i += 100) {
+      const batch = asnArray.slice(i, i + 100);
+      try {
+        const url = `https://www.peeringdb.com/api/net?asn__in=${batch.join(',')}&depth=2`;
+        const resp = await fetch(url, {
+          signal: this.abortController?.signal,
+          headers: { 'Accept': 'application/json' },
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          for (const net of (data.data || [])) {
+            pdbCache[String(net.asn)] = net;
+          }
+        }
+      } catch (err) {
+        if (err.name === 'AbortError') throw err;
+        console.warn('PeeringDB batch fetch failed:', err.message);
+      }
+    }
+
+    // Step 2: Collect IX IDs and fetch their countries
+    if (onProgress) {
+      onProgress({
+        step: 4, totalSteps: 5,
+        message: 'Resolving IXP countries from PeeringDB...',
+        progress: 0.5,
+      });
+    }
+
+    const allIxIds = new Set();
+    for (const net of Object.values(pdbCache)) {
+      for (const ix of (net.netixlan_set || [])) {
+        if (ix.ix_id) allIxIds.add(ix.ix_id);
+      }
+    }
+
+    const ixCache = {};
+    if (allIxIds.size > 0) {
+      const ixArray = [...allIxIds];
+      for (let i = 0; i < ixArray.length; i += 100) {
+        const batch = ixArray.slice(i, i + 100);
+        try {
+          const url = `https://www.peeringdb.com/api/ix?id__in=${batch.join(',')}`;
+          const resp = await fetch(url, {
+            signal: this.abortController?.signal,
+            headers: { 'Accept': 'application/json' },
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            for (const ix of (data.data || [])) {
+              ixCache[ix.id] = { country: ix.country || '', name: ix.name || '', city: ix.city || '' };
+            }
+          }
+        } catch (err) {
+          if (err.name === 'AbortError') throw err;
+          console.warn('PeeringDB IX fetch failed:', err.message);
+        }
+      }
+    }
+
+    // Step 3: Determine peering location per offshore ASN
+    if (onProgress) {
+      onProgress({
+        step: 4, totalSteps: 5,
+        message: 'Analyzing peering locations...',
+        progress: 0.8,
+      });
+    }
+
+    const results = {};
+    for (const asn of offshoreList) {
+      const peering = this._determinePeeringLocation(
+        asn, directPeersMap[asn] || [], offshoreASNs[asn], pdbCache, ixCache
+      );
+      if (peering) results[asn] = peering;
+    }
+
+    const found = Object.keys(results).length;
+    if (onProgress) {
+      onProgress({
+        step: 4, totalSteps: 5,
+        message: `PeeringDB: resolved ${found}/${offshoreList.length} offshore peering locations`,
+        progress: 1, complete: true,
+      });
+    }
+
+    console.log('PeeringDB results:', Object.entries(results).map(
+      ([asn, p]) => `AS${asn}=${p.country} (${p.source})`
+    ).join(', '));
+
+    return results;
+  }
+
+  /**
+   * Analyze PeeringDB data to extract peering countries for a network.
+   * @private
+   */
+  _analyzePeeringCountries(net, ixCache) {
+    const countries = {};
+
+    // Facilities (have country directly)
+    for (const fac of (net.netfac_set || [])) {
+      const cc = fac.country || '';
+      const facName = fac.name || '';
+      const city = fac.city || '';
+      if (!cc) continue;
+      if (!countries[cc]) countries[cc] = { weight: 0, details: [] };
+      countries[cc].weight += 1000;
+      if (facName) {
+        countries[cc].details.push(city ? `${facName} (${city})` : facName);
+      }
+    }
+
+    // IXPs (country from ixCache)
+    for (const ix of (net.netixlan_set || [])) {
+      const ixInfo = ixCache[ix.ix_id] || {};
+      const cc = ixInfo.country || '';
+      const ixName = ix.name || ixInfo.name || '';
+      const speed = ix.speed || 0;
+      if (!cc) continue;
+      if (!countries[cc]) countries[cc] = { weight: 0, details: [] };
+      countries[cc].weight += Math.max(speed, 1);
+      if (ixName && !countries[cc].details.includes(ixName)) {
+        countries[cc].details.push(ixName);
+      }
+    }
+
+    return countries;
+  }
+
+  /**
+   * Determine peering location for a single offshore ASN.
+   * @private
+   */
+  _determinePeeringLocation(asn, upstreamASNs, geoDominant, pdbCache, ixCache) {
+    // Step 1: Direct PeeringDB data
+    const targetNet = pdbCache[asn];
+    if (targetNet) {
+      const countries = this._analyzePeeringCountries(targetNet, ixCache);
+      const nonBD = Object.entries(countries).filter(([cc]) => cc !== 'BD');
+      if (nonBD.length > 0) {
+        nonBD.sort((a, b) => b[1].weight - a[1].weight);
+        const [cc, data] = nonBD[0];
+        return { country: cc, details: [...new Set(data.details)].slice(0, 5), source: 'peeringdb' };
+      }
+    }
+
+    // Step 2: Upstream intersection
+    if (upstreamASNs.length > 0) {
+      const upCountrySets = [];
+      const upCountryDetails = {};
+      for (const upAsn of upstreamASNs) {
+        const upNet = pdbCache[upAsn];
+        if (!upNet) continue;
+        const upCountries = this._analyzePeeringCountries(upNet, ixCache);
+        const nonBDUp = new Set(Object.keys(upCountries).filter(cc => cc !== 'BD'));
+        upCountrySets.push(nonBDUp);
+        for (const [cc, data] of Object.entries(upCountries)) {
+          if (cc === 'BD') continue;
+          if (!upCountryDetails[cc]) upCountryDetails[cc] = { weight: 0, details: [] };
+          upCountryDetails[cc].weight += data.weight;
+          upCountryDetails[cc].details.push(...data.details);
+        }
+      }
+
+      if (upCountrySets.length >= 2) {
+        let common = upCountrySets[0];
+        for (const s of upCountrySets.slice(1)) {
+          common = new Set([...common].filter(x => s.has(x)));
+        }
+        if (common.size > 0) {
+          const sorted = [...common].sort((a, b) =>
+            (upCountryDetails[b]?.weight || 0) - (upCountryDetails[a]?.weight || 0)
+          );
+          const cc = sorted[0];
+          return {
+            country: cc,
+            details: [...new Set(upCountryDetails[cc]?.details || [])].slice(0, 5),
+            source: 'peeringdb-upstream',
+          };
+        }
+      }
+
+      const topCountries = Object.entries(upCountryDetails).sort((a, b) => b[1].weight - a[1].weight);
+      if (topCountries.length > 0) {
+        const [cc, data] = topCountries[0];
+        return {
+          country: cc,
+          details: [...new Set(data.details)].slice(0, 5),
+          source: 'peeringdb-upstream',
+        };
+      }
+    }
+
+    // Step 3: Fallback to geo
+    if (geoDominant && geoDominant !== 'BD') {
+      return { country: geoDominant, details: [], source: 'fallback-geo' };
+    }
+
+    return null;
+  }
 }
 
 /**

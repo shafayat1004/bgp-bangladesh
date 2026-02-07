@@ -407,17 +407,17 @@ async function fetchLiveData() {
 
   try {
     // Step 1: Country resources
-    const { countryASNs, prefixes } = await ripeClient.getCountryResources(COUNTRY, (p) => updateProgress(p));
+    const { countryASNs, prefixes } = await ripeClient.getCountryResources(COUNTRY, (p) => updateProgress({ ...p, totalSteps: 5 }));
 
     // Step 2: BGP routes
-    const routes = await ripeClient.fetchBGPRoutes(prefixes, (p) => updateProgress(p));
+    const routes = await ripeClient.fetchBGPRoutes(prefixes, (p) => updateProgress({ ...p, totalSteps: 5 }));
     rawRoutes = routes;  // Store for raw export
 
-    // Step 3: Analyze gateway structure
-    updateProgress({ step: 3, totalSteps: 4, message: 'Analyzing gateway structure...', progress: 0 });
-    const analysis = analyzeGateways(routes, countryASNs, (p) => updateProgress(p));
+    // Step 3: Analyze gateway structure (includes direct peer tracking)
+    updateProgress({ step: 3, totalSteps: 5, message: 'Analyzing gateway structure...', progress: 0 });
+    const analysis = analyzeGateways(routes, countryASNs, (p) => updateProgress({ ...p, totalSteps: 5 }));
     
-    // Step 4: Fetch ASN names only for ASNs that appear in top edges (much more efficient)
+    // Step 3b: Fetch ASN names only for ASNs that appear in top edges
     const neededASNs = new Set();
     analysis.edgeIntl.forEach((_, key) => {
       const [src, tgt] = key.split('|');
@@ -429,9 +429,10 @@ async function fetchLiveData() {
       neededASNs.add(src);
       neededASNs.add(tgt);
     });
-    const asnInfo = await ripeClient.fetchASNInfo([...neededASNs], countryASNs, (p) => updateProgress(p));
+    const asnInfo = await ripeClient.fetchASNInfo([...neededASNs], countryASNs, (p) => updateProgress({ ...p, totalSteps: 5 }));
 
-    // Step 4b: Fetch geolocation for BD-registered tentative IIGs (offshore detection)
+    // Step 3c: Fetch geolocation for BD-registered tentative IIGs (offshore detection)
+    updateProgress({ step: 3, totalSteps: 5, message: 'Detecting offshore ASNs via geolocation...', progress: 0.85 });
     const tentativeIIGs = [];
     const sortedIntl = [...analysis.edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, 1000);
     for (const [edgeKey] of sortedIntl) {
@@ -440,19 +441,42 @@ async function fetchLiveData() {
         tentativeIIGs.push(tgt);
       }
     }
+    const offshoreASNs = {};
     if (tentativeIIGs.length > 0) {
-      const geoResults = await ripeClient.fetchGeoCountries(tentativeIIGs, (p) => updateProgress(p));
+      const geoResults = await ripeClient.fetchGeoCountries(tentativeIIGs, (p) => updateProgress({ ...p, totalSteps: 5 }));
       for (const [asn, geoData] of Object.entries(geoResults)) {
         if (asnInfo[asn]) {
           asnInfo[asn].geo_country = geoData.dominant_country;
           asnInfo[asn].geo_breakdown = geoData.breakdown || [];
         }
+        if (geoData.dominant_country !== 'BD') {
+          offshoreASNs[asn] = geoData.dominant_country;
+        }
       }
     }
 
-    // Build visualization data (license-aware, 6-category)
+    // Step 4: PeeringDB — fetch physical peering locations for offshore ASNs
+    if (Object.keys(offshoreASNs).length > 0) {
+      const peeringResults = await ripeClient.fetchPeeringDBLocations(
+        offshoreASNs,
+        analysis.directPeersMap || {},
+        (p) => updateProgress(p)
+      );
+      for (const [asn, peering] of Object.entries(peeringResults)) {
+        if (asnInfo[asn]) {
+          asnInfo[asn].peering_country = peering.country;
+          asnInfo[asn].peering_details = peering.details;
+          asnInfo[asn].peering_source = peering.source;
+        }
+      }
+    } else {
+      updateProgress({ step: 4, totalSteps: 5, message: 'No offshore ASNs detected — skipping PeeringDB.', progress: 1, complete: true });
+    }
+
+    // Step 5: Build visualization data (license-aware, 6-category)
+    updateProgress({ step: 5, totalSteps: 5, message: 'Building visualization...', progress: 0.5 });
     const vizData = buildVisualizationData(analysis, asnInfo, countryASNs, 1000, btrcLicensedASNs);
-    updateProgress({ step: 4, totalSteps: 4, message: 'Done!', progress: 1, complete: true });
+    updateProgress({ step: 5, totalSteps: 5, message: 'Done!', progress: 1, complete: true });
 
     currentData = vizData;
     setDataSourceLabel(`Live data from: ${new Date().toLocaleString()}`);

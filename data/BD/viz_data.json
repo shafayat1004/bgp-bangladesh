@@ -819,9 +819,15 @@
           ]
         }
       ],
-      "peering_country": "SG",
-      "peering_details": [],
-      "peering_source": "fallback-geo",
+      "peering_country": "JP",
+      "peering_details": [
+        "Telehouse \u2013 TOKYO Otemachi (KDDI Otemachi) (Tokyo)",
+        "Equinix TY8 - Tokyo (Tokyo)",
+        "JPNAP Tokyo: Peering",
+        "BBIX Tokyo",
+        "Equinix TY6 - Tokyo (Tokyo)"
+      ],
+      "peering_source": "peeringdb-upstream",
       "announced": true,
       "traffic": 6212,
       "rank": 1,
@@ -1224,9 +1230,15 @@
           ]
         }
       ],
-      "peering_country": "SG",
-      "peering_details": [],
-      "peering_source": "fallback-geo",
+      "peering_country": "AU",
+      "peering_details": [
+        "NEXTDC M1 (Melbourne)",
+        "NEXTDC B1 (Brisbane)",
+        "Equinix SY3 - Sydney (Sydney)",
+        "NEXTDC S1 (Sydney)",
+        "NEXTDC P1 (M\u00e1laga)"
+      ],
+      "peering_source": "peeringdb-upstream",
       "announced": true,
       "traffic": 2094,
       "rank": 2,
@@ -1581,8 +1593,14 @@
         }
       ],
       "peering_country": "US",
-      "peering_details": [],
-      "peering_source": "fallback-geo",
+      "peering_details": [
+        "Equinix NY1 - New York, Newark (Newark)",
+        "CoreSite - Los Angeles (LA1) One Wilshire (Los Angeles)",
+        "165 Halsey Meet-Me Room (Newark)",
+        "CoreSite - Los Angeles (LA2) (Los Angeles)",
+        "CoreSite - Chicago (CH1) (Chicago)"
+      ],
+      "peering_source": "peeringdb-upstream",
       "announced": true,
       "traffic": 362,
       "rank": 4,
@@ -1705,9 +1723,11 @@
           ]
         }
       ],
-      "peering_country": "IN",
-      "peering_details": [],
-      "peering_source": "fallback-geo",
+      "peering_country": "SG",
+      "peering_details": [
+        "Epsilon Global Hubs Singapore (Singapore)"
+      ],
+      "peering_source": "peeringdb",
       "announced": true,
       "traffic": 373,
       "rank": 3,

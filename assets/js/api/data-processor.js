@@ -26,6 +26,7 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
   const localISPCounts = new Map();
   const edgeIntl = new Map();      // "outside|iig" → count
   const edgeDomestic = new Map();  // "local-company|iig" → count
+  const directPeers = new Map();   // "a|b" → count for direct adjacency
 
   let validObservations = 0;
   const total = routes.length;
@@ -51,6 +52,15 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
     if (seen.has(key)) continue;
     seen.add(key);
     validObservations++;
+
+    // Track direct adjacency for BD ASNs
+    for (let pi = 0; pi < path.length - 1; pi++) {
+      const a = path[pi], b = path[pi + 1];
+      if (countryASNs.has(a) || countryASNs.has(b)) {
+        const dpKey = `${a}|${b}`;
+        directPeers.set(dpKey, (directPeers.get(dpKey) || 0) + 1);
+      }
+    }
 
     // Walk backwards from origin
     let i = path.length - 1;
@@ -80,14 +90,33 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
 
     if (onProgress && idx % 10000 === 0) {
       onProgress({
-        step: 4, totalSteps: 4,
+        step: 4, totalSteps: 5,
         message: `Processing routes (${idx.toLocaleString()}/${total.toLocaleString()})...`,
         progress: idx / total,
       });
     }
   }
 
-  return { outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, validObservations };
+  // Build direct peers map: for each BD ASN, list its non-BD upstream neighbors
+  const directPeersMap = {};
+  for (const [dpKey] of directPeers) {
+    const [a, b] = dpKey.split('|');
+    if (countryASNs.has(b) && !countryASNs.has(a)) {
+      if (!directPeersMap[b]) directPeersMap[b] = new Set();
+      directPeersMap[b].add(a);
+    }
+    if (countryASNs.has(a) && !countryASNs.has(b)) {
+      if (!directPeersMap[a]) directPeersMap[a] = new Set();
+      directPeersMap[a].add(b);
+    }
+  }
+  // Convert sets to arrays
+  const directPeersMapArray = {};
+  for (const [asn, peers] of Object.entries(directPeersMap)) {
+    directPeersMapArray[asn] = [...peers];
+  }
+
+  return { outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, directPeersMap: directPeersMapArray, validObservations };
 }
 
 /**

@@ -93,7 +93,7 @@ export function updateProgress(options = {}) {
   // Update steps indicator
   const stepsEl = overlay.querySelector('.progress-steps');
   if (step && totalSteps) {
-    const stepNames = ['Country Resources', 'BGP Routes', 'ASN Names', 'Processing'];
+    const stepNames = ['Country Resources', 'BGP Routes', 'Analysis & ASN Info', 'PeeringDB Locations', 'Build Visualization'];
     let stepsHtml = '';
     for (let i = 1; i <= totalSteps; i++) {
       const cls = i < step ? 'step-done' : i === step ? 'step-active' : 'step-pending';
