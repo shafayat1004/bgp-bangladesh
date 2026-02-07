@@ -56,9 +56,13 @@ function render() {
   const svg = d3.select('#hier-svg').attr('width', width).attr('height', height);
   svg.selectAll('*').remove();
 
-  const zoom = d3.zoom().scaleExtent([0.2, 4]).on('zoom', (event) => g.attr('transform', event.transform));
-  svg.call(zoom);
   const g = svg.append('g');
+  const zoom = d3.zoom().scaleExtent([0.1, 4]).on('zoom', (event) => g.attr('transform', event.transform));
+  svg.call(zoom);
+  
+  // Start zoomed out to show the entire dense layout
+  const initialScale = 0.3;
+  svg.call(zoom.transform, d3.zoomIdentity.scale(initialScale).translate(width / 2 / initialScale, height / 2 / initialScale));
 
   const nodeMap = {};
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
@@ -107,28 +111,63 @@ function render() {
   const margin = { top: 60, bottom: 60, left: 40, right: 40 };
   const w = width - margin.left - margin.right;
   const h = height - margin.top - margin.bottom;
-  const boxW = 80;
-  const boxH = 32;
+  const boxW = 70;  // Slightly narrower boxes
+  const boxH = 28;  // Slightly shorter boxes
 
-  // Position each layer
+  // Pack nodes VERY densely - zero spacing, maximize nodes per row
+  const minSpacing = boxW;
+  const maxNodesPerRow = Math.max(50, Math.floor(w / minSpacing));  // At least 50 per row
+
+  // Position each layer with multi-row zigzag layout
   const positions = {};
+  let currentLayerY = margin.top;
+  
   layers.forEach((layer, li) => {
-    const y = margin.top + (h / (layers.length - 1 || 1)) * li;
-    const spacing = Math.min(w / layer.nodes.length, boxW + 8);
-    const startX = margin.left + (w - layer.nodes.length * spacing) / 2;
-
-    // Draw layer label
+    const nodeCount = layer.nodes.length;
+    const nodesPerRow = Math.min(maxNodesPerRow, nodeCount);
+    const numRows = Math.ceil(nodeCount / nodesPerRow);
+    const rowSpacing = boxH + 2;  // Extremely minimal vertical spacing
+    const layerHeight = numRows * rowSpacing;
+    
+    // Draw layer label at the top of this layer's vertical space
     g.append('text')
-      .attr('x', margin.left).attr('y', y - boxH / 2 - 8)
-      .attr('fill', TYPE_COLORS[layer.type]).attr('font-size', '12px').attr('font-weight', 'bold')
+      .attr('x', margin.left)
+      .attr('y', currentLayerY - 8)
+      .attr('fill', TYPE_COLORS[layer.type])
+      .attr('font-size', '12px')
+      .attr('font-weight', 'bold')
       .text(TYPE_LABELS[layer.type] || layer.type);
 
+    // Layout nodes in zigzag pattern
     layer.nodes.forEach((n, i) => {
-      positions[n.asn] = { x: startX + i * spacing + spacing / 2, y, type: layer.type };
+      const row = Math.floor(i / nodesPerRow);
+      const colInRow = i % nodesPerRow;
+      const actualNodesInThisRow = Math.min(nodesPerRow, nodeCount - row * nodesPerRow);
+      
+      // Calculate horizontal spacing for this row
+      const rowWidth = actualNodesInThisRow * minSpacing;
+      const startX = margin.left + (w - rowWidth) / 2;
+      
+      // Zigzag: even rows left-to-right, odd rows offset by half-spacing for zigzag effect
+      let x;
+      if (row % 2 === 0) {
+        // Even row: normal left-to-right
+        x = startX + colInRow * minSpacing + minSpacing / 2;
+      } else {
+        // Odd row: offset by half-spacing for zigzag, and optionally reverse order
+        const offset = minSpacing / 2;
+        x = startX + colInRow * minSpacing + minSpacing / 2 + offset;
+      }
+      
+      const y = currentLayerY + row * rowSpacing + boxH / 2;
+      positions[n.asn] = { x, y, type: layer.type };
     });
+    
+    // Move to next layer's vertical position (minimal spacing between layers)
+    currentLayerY += layerHeight + 20;
   });
 
-  // Draw edges (use filtered edges)
+  // Draw edges (use filtered edges with adaptive curves for multi-row layout)
   const allEdges = [...filteredIntl, ...filteredDom];
   const maxCount = Math.max(...allEdges.map(e => e.count), 1);
 
@@ -141,11 +180,23 @@ function render() {
 
     const opacity = 0.08 + (edge.count / maxCount) * 0.45;
     const strokeW = Math.max(0.5, (edge.count / maxCount) * 3.5);
-      const color = edge.type === 'domestic' ? '#4dabf7' : '#4fc3f7';
+    const color = edge.type === 'domestic' ? '#4dabf7' : '#4fc3f7';
+
+    // Calculate control points for smoother curves in multi-row layout
+    const dx = tgtPos.x - srcPos.x;
+    const dy = tgtPos.y - srcPos.y;
+    const midY = (srcPos.y + tgtPos.y) / 2;
+    
+    // Add horizontal offset to control points for better curve separation
+    const horizontalOffset = Math.abs(dx) > 100 ? dx * 0.3 : 0;
+    const cp1x = srcPos.x + horizontalOffset;
+    const cp1y = srcPos.y + dy * 0.25;
+    const cp2x = tgtPos.x - horizontalOffset;
+    const cp2y = tgtPos.y - dy * 0.25;
 
     g.append('path')
       .attr('class', 'hier-link').attr('data-source', src).attr('data-target', tgt)
-      .attr('d', `M${srcPos.x},${srcPos.y - boxH / 2} C${srcPos.x},${(srcPos.y + tgtPos.y) / 2} ${tgtPos.x},${(srcPos.y + tgtPos.y) / 2} ${tgtPos.x},${tgtPos.y + boxH / 2}`)
+      .attr('d', `M${srcPos.x},${srcPos.y} C${cp1x},${cp1y} ${cp2x},${cp2y} ${tgtPos.x},${tgtPos.y}`)
       .attr('fill', 'none').attr('stroke', color).attr('stroke-opacity', opacity).attr('stroke-width', strokeW)
       .attr('data-original-opacity', opacity).attr('data-original-width', strokeW)  // Store originals
       .on('mouseover', function (event) {
