@@ -299,8 +299,11 @@ function renderNodesTable() {
   }
   
   if (searchQuery) {
+    // Normalize search: strip "AS" prefix if present
+    const normalizedQuery = searchQuery.replace(/^as/i, '');
+    
     rows = rows.filter(n =>
-      n.asn.includes(searchQuery) ||
+      n.asn.includes(normalizedQuery) ||
       (n.name || '').toLowerCase().includes(searchQuery) ||
       (n.description || '').toLowerCase().includes(searchQuery) ||
       (n.country || '').toLowerCase().includes(searchQuery) ||
@@ -445,8 +448,11 @@ function renderEdgesTable() {
     });
 
   if (searchQuery) {
+    // Normalize search: strip "AS" prefix if present
+    const normalizedQuery = searchQuery.replace(/^as/i, '');
+    
     rows = rows.filter(r =>
-      r.source.includes(searchQuery) || r.target.includes(searchQuery) ||
+      r.source.includes(normalizedQuery) || r.target.includes(normalizedQuery) ||
       r.source_name.toLowerCase().includes(searchQuery) || r.target_name.toLowerCase().includes(searchQuery) ||
       r.edge_type.toLowerCase().includes(searchQuery)
     );

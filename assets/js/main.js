@@ -323,9 +323,12 @@ function setupFilters() {
         const query = e.target.value.trim().toLowerCase();
         if (!query || !currentData) return;
 
+        // Normalize search: strip "AS" prefix if present for ASN matching
+        const normalizedQuery = query.replace(/^as/i, '');
+
         // Search for matching ASNs
         const matches = currentData.nodes.filter(n => 
-          n.asn.includes(query) ||
+          n.asn.includes(normalizedQuery) ||
           (n.name || '').toLowerCase().includes(query) ||
           (n.description || '').toLowerCase().includes(query)
         );
