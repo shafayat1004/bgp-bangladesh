@@ -1,6 +1,6 @@
 /**
- * Hierarchical Layered View - 3-layer model
- * Top: Local ISPs | Middle: IIGs | Bottom: Outside ASNs
+ * Hierarchical Layered View
+ * Top: Local ISPs | Middle: Gateways | Bottom: Outside ASNs
  */
 
 import { countryToFlag } from '../api/ripestat.js';
@@ -175,9 +175,12 @@ function render() {
 
     group.on('mouseover', function (event) {
       const f = n.country ? countryToFlag(n.country) + ' ' : '';
+      const typeLabel = TYPE_LABELS[n.type] || n.type || '';
+      const licenseBadge = n.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC]</span>' : '';
       d3.select('#tooltip').html(`
-        <div class="tooltip-title">${f}${n.name || `AS${n.asn}`}</div>
+        <div class="tooltip-title">${f}${n.name || `AS${n.asn}`}${licenseBadge}</div>
         <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${n.asn}</span></div>
+        <div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div>
         ${n.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${f}${n.country}</span></div>` : ''}
         <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${n.traffic.toLocaleString()}</span></div>
         <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(n.percentage || 0).toFixed(1)}%</span></div>
@@ -227,16 +230,18 @@ export function filterByTypes(activeTypes) {
   if (!currentData) return;
   const svg = d3.select('#hier-svg');
   if (svg.empty()) return;
+  
+  // Build lookup map for performance
+  const nodeTypeMap = {};
+  currentData.nodes.forEach(n => { nodeTypeMap[n.asn] = n.type; });
+  
   svg.selectAll('.hier-node').attr('display', function() {
     const asn = d3.select(this).attr('data-asn');
-    const node = currentData.nodes.find(n => n.asn === asn);
-    return node && activeTypes.has(node.type) ? null : 'none';
+    return nodeTypeMap[asn] && activeTypes.has(nodeTypeMap[asn]) ? null : 'none';
   });
   svg.selectAll('.hier-link').attr('display', function() {
     const src = d3.select(this).attr('data-source');
     const tgt = d3.select(this).attr('data-target');
-    const srcNode = currentData.nodes.find(n => n.asn === src);
-    const tgtNode = currentData.nodes.find(n => n.asn === tgt);
-    return (srcNode && activeTypes.has(srcNode.type) && tgtNode && activeTypes.has(tgtNode.type)) ? null : 'none';
+    return (nodeTypeMap[src] && activeTypes.has(nodeTypeMap[src]) && nodeTypeMap[tgt] && activeTypes.has(nodeTypeMap[tgt])) ? null : 'none';
   });
 }

@@ -1,5 +1,5 @@
 /**
- * Interactive Data Table - 3-layer model with country flags
+ * Interactive Data Table with country flags and license badges
  */
 
 import { countryToFlag } from '../api/ripestat.js';

@@ -14,7 +14,7 @@ This single command:
 - ✓ Fetches country resources (ASNs and prefixes)
 - ✓ Downloads BGP routes in parallel (5 concurrent batches)
 - ✓ Saves raw routes to `bgp_routes_raw.json`
-- ✓ Analyzes routes into 3-layer model
+- ✓ Classifies ASNs using license-aware 5-category model (cross-references BTRC IIG list)
 - ✓ Fetches ASN names and countries in parallel (20 concurrent)
 - ✓ Generates all output files (viz_data.json, asn_names.json, metadata.json)
 
@@ -66,20 +66,20 @@ python3 scripts/fetch_bgp_routes.py --country BD --output data/BD/bgp_routes_raw
 ---
 
 ### `reprocess_3layer.py` (Legacy)
-**Purpose:** Reprocess existing raw BGP data into 3-layer visualization format.
+**Purpose:** Reprocess existing raw BGP data into visualization format with license-aware classification.
 
 **Usage:**
 ```bash
 python3 scripts/reprocess_3layer.py
 ```
 
-**Input:** Requires `data/BD/bgp_routes_raw.json` to exist.
+**Input:** Requires `data/BD/bgp_routes_raw.json` and `data/btrc_iig_licenses.json` to exist.
 
 **Output:** Updates `viz_data.json`, `asn_names.json`, and `metadata.json`.
 
 **When to use:** 
 - Reprocessing existing raw data without re-fetching
-- Tweaking the 3-layer model algorithm
+- Tweaking the classification algorithm
 - Debugging visualization data generation
 
 ---
@@ -118,21 +118,29 @@ Both the new unified script and the website use the same parallel fetching strat
 
 This ensures the Python scripts produce identical results to the website's "Fetch Live Data" button.
 
-### 3-Layer Model
+### 5-Category Classification Model
 
-The scripts analyze BGP AS paths to classify networks into three layers:
+The scripts analyze BGP AS paths and cross-reference the BTRC IIG license list to classify networks:
 
-**Layer 1: Local ISPs (Blue 🔵)**
+**Local ISPs (Blue 🔵)**
 - Origin ASNs that announce prefixes
 - May not have direct international peering
 - Examples: ADN Telecom, Dot Internet
 
-**Layer 2: IIGs / Border Gateways (Green 🟢)**
-- First Bangladesh ASN encountered after crossing the border
+**IIGs - Licensed Gateways (Green 🟢)**
+- BTRC-licensed border gateways confirmed in `data/btrc_iig_licenses.json`
 - Have direct international peering
 - Examples: Summit Communications, Fiber@Home, Grameenphone
 
-**Layer 3: Outside / International (Red 🔴)**
+**Detected Gateways (Amber 🟡)**
+- ASNs observed acting as border gateways but NOT in the BTRC license list
+- Neutral term - no legal claims made
+
+**BD Offshore Peers (Orange 🟠)**
+- BD-registered ASNs with peering infrastructure located outside Bangladesh
+- No domestic gateway function (e.g., Chaldal peering in Singapore)
+
+**Outside / International (Red 🔴)**
 - Non-Bangladesh networks
 - International transit providers
 - Examples: Bharti Airtel (India), Hurricane Electric (USA), NTT (Japan)
@@ -142,8 +150,9 @@ For each BGP path like `[Cloudflare, NTT, Bharti, Summit, ADN]`:
 1. Walk backwards from origin (ADN)
 2. Skip all BD ASNs (ADN, Summit)
 3. First non-BD ASN = Outside (Bharti)
-4. Next BD ASN = IIG (Summit)
+4. Next BD ASN = tentative gateway (Summit)
 5. Origin = Local ISP (ADN)
+6. Reclassify gateway: check BTRC list → if licensed → IIG; if BD-registered abroad → Offshore Peer; if has domestic customers → Detected Gateway; else demote to Local ISP
 
 ### Edge Types
 - **International edges:** Outside → IIG (cyan lines)

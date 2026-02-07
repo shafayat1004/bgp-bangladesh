@@ -1,6 +1,6 @@
 /**
- * Treemap Visualization - 3-layer model
- * Side-by-side treemaps for each layer.
+ * Treemap Visualization
+ * Side-by-side treemaps for each node type.
  */
 
 import { countryToFlag } from '../api/ripestat.js';
@@ -109,9 +109,12 @@ function renderTreemap(containerId, type) {
     .on('mouseover', function (event, d) {
       d3.select(this).attr('stroke', '#fff').attr('stroke-width', 2);
       const flag = d.data.country ? countryToFlag(d.data.country) + ' ' : '';
+      const typeLabel = TYPE_CONFIG[d.data.type]?.label || d.data.type || '';
+      const licenseBadge = d.data.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC]</span>' : '';
       d3.select('#tooltip').html(`
-        <div class="tooltip-title">${flag}${d.data.name || `AS${d.data.asn}`}</div>
+        <div class="tooltip-title">${flag}${d.data.name || `AS${d.data.asn}`}${licenseBadge}</div>
         <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${d.data.asn}</span></div>
+        <div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div>
         ${d.data.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${flag}${d.data.country}</span></div>` : ''}
         <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${d.data.traffic.toLocaleString()}</span></div>
         <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(d.data.percentage || 0).toFixed(1)}%</span></div>
@@ -182,11 +185,12 @@ export function updateFilter(minVal, maxVal) {
 }
 export function filterByTypes(activeTypes) {
   if (!currentData) return;
-  d3.selectAll('.treemap-rect').each(function() {
-    const el = d3.select(this);
-    const asn = el.attr('data-asn');
-    const node = currentData.nodes.find(n => n.asn === asn);
-    const parent = d3.select(this.parentNode);
-    parent.attr('display', node && activeTypes.has(node.type) ? null : 'none');
+  // Hide/show entire type pane containers
+  const types = [...new Set(currentData.nodes.map(n => n.type))].filter(t => TYPE_CONFIG[t]);
+  types.forEach(t => {
+    const pane = document.getElementById(`treemap-${t}`);
+    if (pane) {
+      pane.style.display = activeTypes.has(t) ? '' : 'none';
+    }
   });
 }

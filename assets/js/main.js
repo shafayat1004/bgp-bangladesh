@@ -1,6 +1,6 @@
 /**
  * Main Application Orchestrator
- * Wires together: data loading, 3-layer model, UI, visualizations, live fetch, and ASN lookup.
+ * Wires together: data loading, license-aware classification, UI, visualizations, live fetch, and ASN lookup.
  */
 
 import { RIPEStatClient } from './api/ripestat.js';
@@ -150,6 +150,11 @@ function switchTab(tabId, options = {}) {
       ...options
     };
     mod.loadData(currentData, loadOptions);
+    
+    // Re-apply type filter if not all types are selected
+    if (activeTypeFilters.size < 5 && mod.filterByTypes) {
+      mod.filterByTypes(activeTypeFilters);
+    }
   }
 }
 
@@ -386,7 +391,7 @@ window._bgpHighlightASN = function(asn) {
 };
 
 // ────────────────────────────────────────
-// Live Data Fetching (3-layer)
+// Live Data Fetching
 // ────────────────────────────────────────
 
 async function fetchLiveData() {
@@ -407,8 +412,8 @@ async function fetchLiveData() {
     const routes = await ripeClient.fetchBGPRoutes(prefixes, (p) => updateProgress(p));
     rawRoutes = routes;  // Store for raw export
 
-    // Step 3: Process into 3-layer model (to identify which ASNs we actually need)
-    updateProgress({ step: 3, totalSteps: 4, message: 'Processing 3-layer model...', progress: 0 });
+    // Step 3: Analyze gateway structure
+    updateProgress({ step: 3, totalSteps: 4, message: 'Analyzing gateway structure...', progress: 0 });
     const analysis = analyzeGateways(routes, countryASNs, (p) => updateProgress(p));
     
     // Step 4: Fetch ASN names only for ASNs that appear in top edges (much more efficient)

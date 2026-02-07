@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
-Reprocess raw BGP data into 3-layer model:
-  Layer 1: Local ISPs (origin ASNs within the country)
-  Layer 2: IIGs (border gateway ASNs - first inside ASN after border crossing)
-  Layer 3: Outside ASNs (international feeders)
+Reprocess raw BGP data into license-aware classification model:
+  Local ISPs (origin ASNs within the country)
+  IIGs (BTRC-licensed border gateway ASNs)
+  Detected Gateways (acting as gateway but not in known license list)
+  BD Offshore Peers (BD-registered ASNs with infrastructure abroad)
+  Outside ASNs (international feeders)
 
 Also fetches country info for all ASNs from RIPEstat.
 
@@ -84,10 +86,10 @@ except Exception as e:
     print(f"  Using {len(country_asns)} BD ASNs from existing data")
 
 # ─────────────────────────────────────────────
-# Step 3: Analyze routes for 3-layer model
+# Step 3: Analyze routes for gateway structure
 # ─────────────────────────────────────────────
 
-print("Analyzing routes for 3-layer model...")
+print("Analyzing routes for gateway structure...")
 seen = set()
 outside_counts = collections.Counter()
 iig_counts = collections.Counter()     # Border gateway ASN (first inside after border)
@@ -257,7 +259,7 @@ with_country = sum(1 for v in asn_names.values() if v.get("country"))
 print(f"  ASNs with country: {with_country}/{len(asn_names)}")
 
 # ─────────────────────────────────────────────
-# Step 5: Build 3-layer viz_data.json
+# Step 5: Build viz_data.json (license-aware)
 # ─────────────────────────────────────────────
 
 # Load BTRC IIG license list
@@ -398,8 +400,8 @@ metadata = {
     "country": "BD",
     "country_name": "Bangladesh",
     "last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-    "schema_version": 2,
-    "model": "3-layer",
+    "schema_version": 3,
+    "model": "license-aware",
     "stats": viz_data["stats"],
     "source": "RIPEstat BGP State API",
     "source_url": "https://stat.ripe.net/data/bgp-state/data.json",

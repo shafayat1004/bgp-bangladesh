@@ -1,5 +1,5 @@
 /**
- * Chord Diagram - 3-layer model
+ * Chord Diagram
  * Circular view of connections between ASNs with country flags.
  */
 
@@ -23,6 +23,7 @@ function moveTooltipSmart(event) {
 }
 
 const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
+const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP', 'inside': 'Inside BD' };
 let currentData = null;
 let currentOptions = {};
 let chordASNList = [];
@@ -96,7 +97,8 @@ function render() {
     .on('mouseover', function (event, d) {
       const asn = asnList[d.index]; const node = nodeMap[asn];
       const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
-      d3.select('#tooltip').html(`<div class="tooltip-title">${flag}${node?.name || `AS${asn}`}</div><div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${(node?.traffic || 0).toLocaleString()}</span></div>`).style('display', 'block');
+      const typeLabel = TYPE_LABELS[node?.type] || node?.type || '';
+      d3.select('#tooltip').html(`<div class="tooltip-title">${flag}${node?.name || `AS${asn}`}</div><div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div><div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${(node?.traffic || 0).toLocaleString()}</span></div>`).style('display', 'block');
       chordRibbons.attr('opacity', r => (r.source.index === d.index || r.target.index === d.index) ? 0.8 : 0.08);
     })
     .on('mousemove', moveTooltipSmart)
@@ -104,6 +106,8 @@ function render() {
 
   // Labels with flags
   g.append('g').selectAll('text').data(chords.groups).enter().append('text')
+    .attr('class', 'chord-label')
+    .attr('data-asn', d => asnList[d.index])
     .each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
     .attr('dy', '0.35em')
     .attr('transform', d => `rotate(${(d.angle * 180 / Math.PI - 90)}) translate(${outerRadius + 8}) ${d.angle > Math.PI ? 'rotate(180)' : ''}`)
@@ -118,6 +122,9 @@ function render() {
 
   // Ribbons
   chordRibbons = g.append('g').selectAll('path').data(chords).enter().append('path')
+    .attr('class', 'chord-ribbon')
+    .attr('data-source', d => asnList[d.source.index])
+    .attr('data-target', d => asnList[d.target.index])
     .attr('d', ribbon)
     .attr('fill', d => (TYPE_COLORS[nodeMap[asnList[d.source.index]]?.type] || '#888') + '55')
     .attr('stroke', '#4fc3f722').attr('opacity', 0.45)
@@ -167,9 +174,29 @@ export function filterByTypes(activeTypes) {
   if (!currentData) return;
   const svg = d3.select('#chord-svg');
   if (svg.empty()) return;
+  
+  // Build lookup map for performance
+  const nodeTypeMap = {};
+  currentData.nodes.forEach(n => { nodeTypeMap[n.asn] = n.type; });
+  
+  // Hide/show arcs
   svg.selectAll('.chord-arc').attr('display', function() {
     const asn = d3.select(this).attr('data-asn');
-    const node = currentData.nodes.find(n => n.asn === asn);
-    return node && activeTypes.has(node.type) ? null : 'none';
+    return nodeTypeMap[asn] && activeTypes.has(nodeTypeMap[asn]) ? null : 'none';
+  });
+  
+  // Hide/show labels
+  svg.selectAll('.chord-label').attr('display', function() {
+    const asn = d3.select(this).attr('data-asn');
+    return nodeTypeMap[asn] && activeTypes.has(nodeTypeMap[asn]) ? null : 'none';
+  });
+  
+  // Hide/show ribbons (hide if either source or target type is hidden)
+  svg.selectAll('.chord-ribbon').attr('display', function() {
+    const src = d3.select(this).attr('data-source');
+    const tgt = d3.select(this).attr('data-target');
+    const srcVisible = nodeTypeMap[src] && activeTypes.has(nodeTypeMap[src]);
+    const tgtVisible = nodeTypeMap[tgt] && activeTypes.has(nodeTypeMap[tgt]);
+    return (srcVisible && tgtVisible) ? null : 'none';
   });
 }

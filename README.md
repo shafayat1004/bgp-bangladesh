@@ -1,6 +1,6 @@
 # BGP Bangladesh - Internet Path Visualization
 
-An interactive visualization platform showing how Bangladesh's internet connects to the global network via BGP routing. Understand the **3-layer structure** of internet connectivity: Local ISPs → IIGs (Border Gateways) → International Transit.
+An interactive visualization platform showing how Bangladesh's internet connects to the global network via BGP routing. Understand the **license-aware gateway structure** of internet connectivity: Local ISPs → Gateways (Licensed IIGs + Detected Gateways) → International Transit.
 
 **[Live Demo](https://yourusername.github.io/bgp-bangladesh/)** (replace with your GitHub Pages URL)
 
@@ -15,7 +15,7 @@ Local ISP  →  IIG (Border Gateway)  →  International Transit  →  The World
 
 This tool visualizes those paths using real BGP (Border Gateway Protocol) routing data from [RIPEstat](https://stat.ripe.net/). It reveals:
 
-- **3-Layer Network Structure**: See how Local ISPs connect to IIGs, and IIGs peer with international networks
+- **5-Category Classification**: See Licensed IIGs, Detected Gateways, BD Offshore Peers, Local ISPs, and International Transit
 - **Traffic Distribution**: Which networks carry the most routes (Summit, Fiber@Home, Level3, etc.)
 - **International Dependencies**: Which foreign ASNs Bangladesh relies on (Bharti Airtel, Hurricane Electric, NTT, etc.)
 - **Path Diversity**: How resilient the country's internet connectivity is
@@ -25,7 +25,7 @@ This tool visualizes those paths using real BGP (Border Gateway Protocol) routin
 
 ### 🎨 Visualizations
 - **6 Interactive Views**: Network graph, Sankey flow, treemap, chord diagram, hierarchical view, and data table
-- **3-Layer Model**: Clearly distinguishes Local ISPs (blue 🔵), IIGs (green 🟢), and Outside networks (red 🔴)
+- **5 Node Types**: Local ISPs (blue 🔵), IIGs (green 🟢), Detected Gateways (amber 🟡), Offshore Peers (orange 🟠), Outside (red 🔴)
 - **Edge Types**: Visual distinction between domestic peering (blue dashed) and international peering (cyan)
 - **Country Flags**: Every ASN shows its country flag emoji (🇧🇩 🇮🇳 🇺🇸 etc.)
 - **Smart Highlighting**: Click any ASN to highlight its connections across all visualizations
@@ -48,7 +48,7 @@ This tool visualizes those paths using real BGP (Border Gateway Protocol) routin
 ### 📚 Educational
 - **Interactive Modal**: Explains BGP concepts, IIGs vs Local ISPs, and how internet routing works
 - **Tooltip Details**: Hover over any element for detailed stats
-- **3-Layer Explanation**: Clear distinction between different network roles
+- **Category Explanation**: Clear distinction between Licensed IIGs, Detected Gateways, and other roles
 
 ## How It Works
 
@@ -59,21 +59,23 @@ All data fetching and processing happens **100% in your browser**. No backend se
    - Fetches Bangladesh ASNs and prefixes
    - Retrieves BGP routes (5 batches in parallel)
    - Resolves ASN names and countries (20 in parallel)
-   - Processes 3-layer model (Local ISP → IIG → Outside)
-3. All analysis happens client-side using the 3-layer BGP model
+   - Classifies ASNs using license-aware model (cross-references BTRC IIG list)
+3. All analysis happens client-side using the license-aware classification model
 4. Switch between 6 visualization types to explore the data from different angles
 
-### The 3-Layer Model
+### The 5-Category Classification Model
 
-The app analyzes BGP AS paths to identify:
+The app analyzes BGP AS paths and cross-references the BTRC IIG license list to classify ASNs:
 
 - **Local ISPs** (blue 🔵): Origin networks that announce prefixes but don't have direct international peering
-- **IIGs** (green 🟢): Border gateways that peer directly with international networks (first BD ASN after crossing the border)
+- **IIGs - Licensed Gateways** (green 🟢): BTRC-licensed border gateways confirmed in the official IIG license list
+- **Detected Gateways** (amber 🟡): ASNs observed acting as border gateways for other BD networks, but not found in the known IIG license list
+- **BD Offshore Peers** (orange 🟠): BD-registered ASNs with international peering infrastructure located abroad (no domestic gateway function)
 - **Outside ASNs** (red 🔴): International transit providers and content networks
 
 **Example AS path**: `[Cloudflare, NTT, Bharti Airtel, Summit, ADN Telecom]`
 - Outside: Cloudflare, NTT, Bharti Airtel (🔴)
-- IIG: Summit (🟢) - first BD ASN after the border
+- IIG: Summit (🟢) - first BD ASN after the border, confirmed on BTRC license list
 - Local ISP: ADN Telecom (🔵) - origin announcing the prefix
 
 ## Visualizations
@@ -81,7 +83,7 @@ The app analyzes BGP AS paths to identify:
 | Tab | Purpose | Best For |
 |---|---|---|
 | **Network Graph** | Force-directed graph with color-coded layers | Exploring clusters and overall topology |
-| **Traffic Flow** | Sankey diagram showing 3-layer traffic flow | Understanding bottlenecks and volume distribution |
+| **Traffic Flow** | Sankey diagram showing route flow through gateways | Understanding bottlenecks and volume distribution |
 | **Market Share** | Treemap showing each ASN's market share per layer | Comparing relative sizes and dominance |
 | **Chord Diagram** | Circular view of pairwise connections | Seeing all interconnections at once |
 | **Layered View** | Top-to-bottom hierarchical layout (zoomable) | Following specific paths through layers |
@@ -127,7 +129,7 @@ python3 scripts/update_bgp_data.py --country IN  # For other countries
 - ✓ Fetches Bangladesh ASNs and prefixes from RIPEstat
 - ✓ Downloads BGP routes in parallel (5 concurrent batches, matching website)
 - ✓ Saves raw routes to `bgp_routes_raw.json` (~90MB)
-- ✓ Analyzes routes into 3-layer model (Local ISP → IIG → Outside)
+- ✓ Classifies ASNs using license-aware model (cross-references BTRC IIG list)
 - ✓ Fetches ASN info in parallel (20 concurrent, matching website)
 - ✓ Applies country detection and well-known ASN overrides
 - ✓ Generates visualization data (`viz_data.json`)
@@ -170,23 +172,25 @@ python3 scripts/reprocess_3layer.py  # Updates viz_data.json, asn_names.json, me
 ```
 bgp-bangladesh/
 ├── index.html                       # Main entry point
-├── data/BD/                         # Static data for Bangladesh
-│   ├── viz_data.json                # Processed 3-layer visualization data (~3MB)
-│   ├── asn_names.json               # ASN names + countries (~50KB)
-│   ├── bgp_routes_raw.json          # Raw BGP route snapshot (~90MB, optional)
-│   └── metadata.json                # Timestamp, schema version, stats
+├── data/
+│   ├── btrc_iig_licenses.json       # BTRC-licensed IIG operators (contributor-editable)
+│   └── BD/                          # Static data for Bangladesh
+│       ├── viz_data.json            # Processed visualization data with 5 types (~3MB)
+│       ├── asn_names.json           # ASN names + countries (~50KB)
+│       ├── bgp_routes_raw.json      # Raw BGP route snapshot (~90MB, optional)
+│       └── metadata.json            # Timestamp, schema version, stats
 ├── assets/
 │   ├── css/styles.css               # All styles (dark theme, responsive)
 │   └── js/
 │       ├── main.js                  # App orchestrator, event handling
 │       ├── api/
 │       │   ├── ripestat.js          # RIPEstat client (5x parallel, retry logic, rate limiting)
-│       │   └── data-processor.js    # 3-layer model analyzer
+│       │   └── data-processor.js    # License-aware classification engine
 │       ├── ui/
-│       │   ├── modal.js             # Educational modal (3-layer explanation)
+│       │   ├── modal.js             # Educational modal (BGP concepts)
 │       │   ├── controls.js          # Sidebar (ASN lists, filters, "What's My ASN?")
 │       │   ├── loading.js           # Progress bar, toast notifications
-│       │   └── export.js            # CSV/JSON export with 3-layer metadata
+│       │   └── export.js            # CSV/JSON export with license metadata
 │       └── viz/                     # 6 visualization modules
 │           ├── force-graph.js       # Network graph (D3 force simulation)
 │           ├── sankey.js            # Traffic flow (zoomable, 3 columns)
@@ -206,9 +210,9 @@ bgp-bangladesh/
 
 ## Key Differences from Traditional BGP Visualizations
 
-1. **3-Layer Classification**: Most BGP visualizers show a simple "inside vs outside" view. This tool distinguishes between Local ISPs (endpoints), IIGs (actual border gateways), and Outside networks.
+1. **5-Category Classification**: Most BGP visualizers show a simple "inside vs outside" view. This tool distinguishes Licensed IIGs, Detected Gateways, BD Offshore Peers, Local ISPs, and Outside networks.
 
-2. **Topological, Not Regulatory**: IIGs are identified by their position in BGP AS paths (first BD ASN after the border), not by BTRC license lists. This shows **actual** connectivity.
+2. **License-Aware**: Gateway ASNs are cross-referenced against the BTRC IIG license list. Those not found are labeled as "Detected Gateways" (a neutral term) rather than making legal claims.
 
 3. **Both Edge Types**: Visualizes both international peering (Outside → IIG) and domestic peering (Local ISP → IIG) with different visual styles.
 

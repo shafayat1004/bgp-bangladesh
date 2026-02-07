@@ -1,6 +1,6 @@
 /**
  * Controls Module
- * Manages sidebar controls: data source indicator, 3-layer ASN lists, filters.
+ * Manages sidebar controls: data source indicator, ASN lists by type, filters.
  */
 
 import { countryToFlag } from '../api/ripestat.js';
@@ -47,7 +47,7 @@ function formatASNItem(n) {
 }
 
 /**
- * Populate the sidebar with 3-layer ASN lists
+ * Populate the sidebar with ASN lists for all 5 types
  */
 export function populateSidebar(data, onNodeClick) {
   const statsEl = document.getElementById('stats-container');

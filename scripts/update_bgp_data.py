@@ -5,7 +5,7 @@ Fetches live BGP routes from RIPEstat and processes them into visualization data
 
 This script combines the functionality of:
 - fetch_bgp_routes.py (fetches raw BGP routes in parallel)
-- reprocess_3layer.py (processes routes into 3-layer model)
+- reprocess into license-aware 5-category classification model
 
 Usage:
     python3 scripts/update_bgp_data.py
@@ -199,15 +199,15 @@ def fetch_bgp_routes(prefixes, rate_limiter):
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# Step 3: Process Routes into 3-Layer Model
+# Step 3: Analyze Routes (Gateway Detection)
 # ═══════════════════════════════════════════════════════════════════════════
 
-def analyze_routes_3layer(routes, country_asns):
+def analyze_routes(routes, country_asns):
     """
     Analyze BGP routes to find border crossings and domestic peering.
-    Extracts the 3-layer model: Local ISP → IIG → Outside ASN.
+    Extracts gateway structure: Local ISP → Gateway → Outside ASN.
     """
-    print(f"\n[3/4] Analyzing routes for 3-layer model...")
+    print(f"\n[3/4] Analyzing routes for gateway structure...")
     
     seen = set()
     outside_counts = collections.Counter()
@@ -572,7 +572,7 @@ def main():
     print(f"      File size: {file_size_mb:.1f} MB")
     
     # Step 3: Analyze routes
-    analysis = analyze_routes_3layer(routes, country_asns)
+    analysis = analyze_routes(routes, country_asns)
     
     # Step 4: Fetch ASN info for all needed ASNs
     all_asns = set(analysis["outside_counts"].keys()) | set(analysis["iig_counts"].keys()) | set(analysis["local_isp_counts"].keys())
@@ -596,8 +596,8 @@ def main():
         "country": country,
         "country_name": "Bangladesh" if country == "BD" else country,
         "last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "schema_version": 2,
-        "model": "3-layer",
+        "schema_version": 3,
+        "model": "license-aware",
         "stats": viz_data["stats"],
         "source": "RIPEstat BGP State API",
         "source_url": "https://stat.ripe.net/data/bgp-state/data.json",

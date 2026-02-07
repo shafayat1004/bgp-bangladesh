@@ -1,11 +1,12 @@
 /**
- * Sankey Flow Diagram - 3-layer model
- * Shows traffic: Local ISPs → IIGs → Outside ASNs
+ * Sankey Flow Diagram
+ * Shows route flow: Local ISPs → Gateways → Outside ASNs
  */
 
 import { countryToFlag } from '../api/ripestat.js';
 
 const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7', 'inside': '#51cf66' };
+const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP', 'inside': 'Inside BD' };
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -65,7 +66,7 @@ function render() {
   const nodeMap = {};
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
 
-  // Check if we have 3-layer or 2-layer data
+  // Check if we have domestic edges (full model) or international-only
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
   const hasLocalISP = currentData.nodes.some(n => n.type === 'local-isp');
 
@@ -213,7 +214,21 @@ function render() {
       g.append('rect').attr('class', 'sankey-node').attr('data-asn', asn)
         .attr('x', pos.x).attr('y', pos.y)
         .attr('width', nodeWidth).attr('height', pos.h)
-        .attr('fill', pos.color).attr('rx', 2);
+        .attr('fill', pos.color).attr('rx', 2)
+        .on('mouseover', function (event) {
+          const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
+          const typeLabel = TYPE_LABELS[node?.type] || node?.type || '';
+          const licenseBadge = node?.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC]</span>' : '';
+          d3.select('#tooltip').html(`
+            <div class="tooltip-title">${flag}${node?.name || `AS${asn}`}${licenseBadge}</div>
+            <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${asn}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${(node?.traffic || 0).toLocaleString()}</span></div>
+            <div class="tooltip-row"><span class="tooltip-label">Share:</span><span class="tooltip-value">${(node?.percentage || 0).toFixed(1)}%</span></div>
+          `).style('display', 'block');
+        })
+        .on('mousemove', moveTooltipSmart)
+        .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); });
 
       if (pos.h > 10) {
         const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
@@ -262,24 +277,24 @@ export function updateFilter(minVal, maxVal) {
 }
 export function filterByTypes(activeTypes) {
   if (!currentData) return;
-  // Hide/show nodes and links based on type
   const svg = d3.select('#sankey-svg');
   if (svg.empty()) return;
+  
+  // Build lookup map for performance
+  const nodeTypeMap = {};
+  currentData.nodes.forEach(n => { nodeTypeMap[n.asn] = n.type; });
+  
   svg.selectAll('.sankey-node').attr('display', function() {
     const asn = d3.select(this).attr('data-asn');
-    const node = currentData.nodes.find(n => n.asn === asn);
-    return node && activeTypes.has(node.type) ? null : 'none';
+    return nodeTypeMap[asn] && activeTypes.has(nodeTypeMap[asn]) ? null : 'none';
   });
   svg.selectAll('.sankey-label').attr('display', function() {
     const asn = d3.select(this).attr('data-asn');
-    const node = currentData.nodes.find(n => n.asn === asn);
-    return node && activeTypes.has(node.type) ? null : 'none';
+    return nodeTypeMap[asn] && activeTypes.has(nodeTypeMap[asn]) ? null : 'none';
   });
   svg.selectAll('.sankey-link').attr('display', function() {
     const src = d3.select(this).attr('data-source');
     const tgt = d3.select(this).attr('data-target');
-    const srcNode = currentData.nodes.find(n => n.asn === src);
-    const tgtNode = currentData.nodes.find(n => n.asn === tgt);
-    return (srcNode && activeTypes.has(srcNode.type) && tgtNode && activeTypes.has(tgtNode.type)) ? null : 'none';
+    return (nodeTypeMap[src] && activeTypes.has(nodeTypeMap[src]) && nodeTypeMap[tgt] && activeTypes.has(nodeTypeMap[tgt])) ? null : 'none';
   });
 }

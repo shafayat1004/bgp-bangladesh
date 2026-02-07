@@ -1,6 +1,6 @@
 /**
  * Force-Directed Network Graph Visualization
- * Supports 3-layer model: local-isp (blue), iig (green), outside (red).
+ * Supports 5 node types: local-isp (blue), iig (green), detected-iig (amber), offshore-peer (orange), outside (red).
  */
 
 import { countryToFlag } from '../api/ripestat.js';
@@ -78,7 +78,7 @@ export function loadData(data, options = {}) {
 
   legend.append('rect')
     .attr('x', -10).attr('y', -10)
-    .attr('width', 220).attr('height', 70)
+    .attr('width', 300).attr('height', 70)
     .attr('fill', 'rgba(26, 31, 58, 0.9)')
     .attr('stroke', '#2a3f5f')
     .attr('rx', 4);
@@ -100,7 +100,7 @@ export function loadData(data, options = {}) {
     .attr('x', 45).attr('y', 19)
     .attr('fill', '#ccc')
     .attr('font-size', '10px')
-    .text('International (IIG ← Outside)');
+    .text('International (Gateway ← Outside)');
 
   // Domestic edge example
   legend.append('line')
@@ -113,40 +113,24 @@ export function loadData(data, options = {}) {
     .attr('x', 45).attr('y', 39)
     .attr('fill', '#ccc')
     .attr('font-size', '10px')
-    .text('Domestic (Local ISP → IIG)');
+    .text('Domestic (Local ISP → Gateway)');
 
-  // Node type legend
-  legend.append('circle')
-    .attr('cx', 5).attr('cy', 52)
-    .attr('r', 4)
-    .attr('fill', '#4dabf7');
-  legend.append('text')
-    .attr('x', 12).attr('y', 56)
-    .attr('fill', '#ccc')
-    .attr('font-size', '9px')
-    .text('Local ISP');
+  // Node type legend - all 5 types
+  const typeLegend = [
+    { color: '#4dabf7', label: 'Local ISP' },
+    { color: '#51cf66', label: 'IIG' },
+    { color: '#fcc419', label: 'Detected' },
+    { color: '#ffa94d', label: 'Offshore' },
+    { color: '#ff6b6b', label: 'Outside' },
+  ];
+  let legendX = 0;
+  typeLegend.forEach(({ color, label }) => {
+    legend.append('circle').attr('cx', legendX + 5).attr('cy', 52).attr('r', 4).attr('fill', color);
+    legend.append('text').attr('x', legendX + 12).attr('y', 56).attr('fill', '#ccc').attr('font-size', '8px').text(label);
+    legendX += label.length * 5 + 20;
+  });
 
-  legend.append('circle')
-    .attr('cx', 70).attr('cy', 52)
-    .attr('r', 4)
-    .attr('fill', '#51cf66');
-  legend.append('text')
-    .attr('x', 77).attr('y', 56)
-    .attr('fill', '#ccc')
-    .attr('font-size', '9px')
-    .text('IIG');
-
-  legend.append('circle')
-    .attr('cx', 115).attr('cy', 52)
-    .attr('r', 4)
-    .attr('fill', '#ff6b6b');
-  legend.append('text')
-    .attr('x', 122).attr('y', 56)
-    .attr('fill', '#ccc')
-    .attr('font-size', '9px')
-    .text('Outside');
-
-  // 3-layer Y positioning
+  // 5-type Y positioning (local-isp top, gateways middle, outside bottom)
   simulation = d3.forceSimulation()
     .force('link', d3.forceLink().id(d => d.asn).distance(120))
     .force('charge', d3.forceManyBody().strength(-150))
@@ -233,8 +217,9 @@ function ticked() {
 
 function buildTooltipHtml(d) {
   const flag = d.country ? countryToFlag(d.country) : '';
+  const licenseBadge = d.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC Licensed]</span>' : '';
   return `
-    <div class="tooltip-title">${flag} ${d.name || `AS${d.asn}`}</div>
+    <div class="tooltip-title">${flag} ${d.name || `AS${d.asn}`}${licenseBadge}</div>
     <div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${d.asn}</span></div>
     ${d.description ? `<div class="tooltip-row"><span class="tooltip-label">Org:</span><span class="tooltip-value">${d.description}</span></div>` : ''}
     ${d.country ? `<div class="tooltip-row"><span class="tooltip-label">Country:</span><span class="tooltip-value">${flag} ${d.country}</span></div>` : ''}
@@ -327,11 +312,17 @@ export function resetView() { if (svg) svg.transition().duration(750).call(d3.zo
 
 export function filterByTypes(activeTypes) {
   if (!nodes || !links) return;
-  nodes.style('display', d => activeTypes.has(d.type) ? 'block' : 'none');
-  links.style('display', d => {
-    const srcNode = currentData.nodes.find(n => n.asn === (d.source?.asn || d.source));
-    const tgtNode = currentData.nodes.find(n => n.asn === (d.target?.asn || d.target));
-    return (srcNode && activeTypes.has(srcNode.type) && tgtNode && activeTypes.has(tgtNode.type)) ? 'block' : 'none';
+  // Build lookup map for performance
+  const nodeTypeMap = {};
+  currentData.nodes.forEach(n => { nodeTypeMap[n.asn] = n.type; });
+  
+  nodes.attr('display', d => activeTypes.has(d.type) ? null : 'none');
+  links.attr('display', d => {
+    const srcASN = d.source?.asn || d.source;
+    const tgtASN = d.target?.asn || d.target;
+    const srcType = nodeTypeMap[srcASN];
+    const tgtType = nodeTypeMap[tgtASN];
+    return (srcType && activeTypes.has(srcType) && tgtType && activeTypes.has(tgtType)) ? null : 'none';
   });
 }
 
