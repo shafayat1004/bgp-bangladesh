@@ -190,18 +190,18 @@ function render() {
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
 export function highlightASN(asn) {
   const svg = d3.select('#hier-svg');
-  // Dim everything
-  svg.selectAll('.hier-node').attr('opacity', 0.15);
-  svg.selectAll('.hier-link').attr('stroke-opacity', 0.02);
-  // Highlight matching node
+  // Dim everything more (lower opacity)
+  svg.selectAll('.hier-node').attr('opacity', 0.08);
+  svg.selectAll('.hier-link').attr('stroke-opacity', 0.01);
+  // Highlight matching node (full visibility)
   svg.selectAll(`.hier-node[data-asn="${asn}"]`).attr('opacity', 1);
-  // Highlight connected links and their partner nodes
+  // Highlight connected links and their partner nodes (full visibility)
   svg.selectAll('.hier-link').each(function() {
     const link = d3.select(this);
     const src = link.attr('data-source');
     const tgt = link.attr('data-target');
     if (src === asn || tgt === asn) {
-      link.attr('stroke-opacity', 0.8).attr('stroke-width', parseFloat(link.attr('stroke-width')) + 2);
+      link.attr('stroke-opacity', 0.95).attr('stroke-width', parseFloat(link.attr('stroke-width')) + 2);
       const other = src === asn ? tgt : src;
       svg.selectAll(`.hier-node[data-asn="${other}"]`).attr('opacity', 1);
     }
