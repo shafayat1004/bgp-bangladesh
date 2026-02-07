@@ -67,7 +67,10 @@ class RateLimiter:
 # ═══════════════════════════════════════════════════════════════════════════
 
 def get_country_resources(country_code):
-    """Fetch ASNs and prefixes for a country from RIPEstat."""
+    """Fetch ASNs and prefixes for a country from RIPEstat.
+    Also queries announced prefixes for ALL country ASNs in parallel to catch
+    more-specific announcements (e.g. /24 subnets of /23 allocations).
+    """
     print(f"[1/4] Fetching country resources for {country_code.upper()}...")
     
     try:
@@ -81,14 +84,95 @@ def get_country_resources(country_code):
         data = r.json()["data"]["resources"]
         
         asns = set(str(a) for a in data.get("asn", []))
-        prefixes = data.get("ipv4", []) + data.get("ipv6", [])
+        alloc_prefixes = data.get("ipv4", []) + data.get("ipv6", [])
         
-        print(f"      Found {len(asns)} ASNs and {len(prefixes)} prefixes")
-        return asns, prefixes
+        print(f"      Found {len(asns)} ASNs and {len(alloc_prefixes)} allocation prefixes")
+        
+        return asns, alloc_prefixes
         
     except Exception as e:
         print(f"ERROR: Failed to fetch country resources: {e}")
         sys.exit(1)
+
+
+def fetch_announced_prefixes(asns, rate_limiter):
+    """Fetch actually-announced prefixes for ALL country ASNs in parallel.
+    
+    The country-resource-list API returns allocated IP blocks, but ASNs may announce
+    more-specific subnets (e.g. /24 out of a /23 allocation). Querying the
+    announced-prefixes API per ASN captures these.
+    """
+    asn_list = list(asns)
+    total = len(asn_list)
+    all_prefixes = set()
+    completed = 0
+    failed = 0
+    concurrency = 20  # Match ASN info concurrency
+    
+    print(f"\n[1b/4] Fetching announced prefixes for ALL {total} ASNs ({concurrency} parallel)...")
+    print("       This captures more-specific subnets not in allocation list.")
+    start_time = time.time()
+    
+    def fetch_one(asn, max_retries=2):
+        """Fetch announced prefixes for a single ASN with retries."""
+        for attempt in range(max_retries + 1):
+            try:
+                rate_limiter.acquire()
+                resp = requests.get(
+                    f"{BASE}/announced-prefixes/data.json",
+                    params={"resource": f"AS{asn}"},
+                    headers=UA,
+                    timeout=30
+                )
+                
+                if resp.status_code == 429:
+                    retry_after = int(resp.headers.get('Retry-After', 30))
+                    if attempt < max_retries:
+                        time.sleep(retry_after)
+                        continue
+                    return {"success": False, "prefixes": [], "asn": asn}
+                
+                resp.raise_for_status()
+                asn_data = resp.json().get("data", {})
+                pfxs = [p["prefix"] for p in asn_data.get("prefixes", []) if p.get("prefix")]
+                return {"success": True, "prefixes": pfxs, "asn": asn}
+                
+            except requests.RequestException:
+                if attempt < max_retries:
+                    time.sleep(2 ** attempt)
+                    continue
+                return {"success": False, "prefixes": [], "asn": asn}
+        
+        return {"success": False, "prefixes": [], "asn": asn}
+    
+    # Process in parallel waves
+    for i in range(0, total, concurrency):
+        batch = asn_list[i:i + concurrency]
+        
+        with ThreadPoolExecutor(max_workers=concurrency) as executor:
+            futures = {executor.submit(fetch_one, asn): asn for asn in batch}
+            
+            for future in as_completed(futures):
+                result = future.result()
+                if result["success"]:
+                    all_prefixes.update(result["prefixes"])
+                    completed += 1
+                else:
+                    failed += 1
+        
+        # Progress update every wave
+        elapsed = time.time() - start_time
+        done = completed + failed
+        if done > 0:
+            eta = (total - done) * (elapsed / done)
+            print(f"      Progress: {done}/{total} ASNs ({completed} ok, {failed} failed) - ETA {eta:.0f}s")
+    
+    elapsed = time.time() - start_time
+    print(f"      Done: {len(all_prefixes)} announced prefixes from {completed} ASNs in {elapsed:.1f}s")
+    if failed > 0:
+        print(f"      WARNING: {failed} ASNs failed to fetch announced prefixes")
+    
+    return all_prefixes
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1005,13 +1089,22 @@ def main():
         print(f"      Loaded {len(routes):,} routes")
         
         # Still need country resources for classification
-        country_asns, prefixes = get_country_resources(args.country)
+        country_asns, alloc_prefixes = get_country_resources(args.country)
     else:
-        # Step 1: Get country resources
-        country_asns, prefixes = get_country_resources(args.country)
+        # Step 1: Get country resources (allocation blocks + ASN list)
+        country_asns, alloc_prefixes = get_country_resources(args.country)
+        
+        # Step 1b: Fetch actually-announced prefixes for ALL country ASNs
+        # This catches more-specific subnets (e.g. /24 from /23 allocation)
+        announced = fetch_announced_prefixes(country_asns, rate_limiter)
+        
+        # Merge allocation prefixes + announced prefixes for complete coverage
+        all_prefixes = set(alloc_prefixes) | announced
+        added = len(all_prefixes) - len(alloc_prefixes)
+        print(f"\n      Merged prefix list: {len(all_prefixes)} total ({len(alloc_prefixes)} allocations + {added} additional announced)")
         
         # Step 2: Fetch BGP routes in parallel
-        routes = fetch_bgp_routes(prefixes, rate_limiter)
+        routes = fetch_bgp_routes(list(all_prefixes), rate_limiter)
         
         # Save raw routes
         print(f"\nSaving raw routes to: {out_raw}")

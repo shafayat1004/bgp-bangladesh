@@ -348,37 +348,122 @@ export class RIPEStatClient {
 
   /**
    * Fetch country resources (ASNs and prefixes).
+   * Also fetches actually-announced prefixes for ALL country ASNs in parallel
+   * to catch more-specific subnets not in the allocation list.
    */
   async getCountryResources(countryCode, onProgress) {
+    this.abortController = new AbortController();
     if (onProgress) onProgress({ step: 1, totalSteps: 4, message: `Fetching country resources for ${countryCode}...` });
 
     const url = `${RIPESTAT_BASE}/country-resource-list/data.json?resource=${countryCode.toLowerCase()}&v4_format=prefix`;
     const data = await fetchWithRetry(url, {
       rateLimiter: this.rateLimiter,
-      signal: this.abortController?.signal,
+      signal: this.abortController.signal,
       timeout: 60000,
     });
 
     const resources = data.data.resources;
     const countryASNs = new Set((resources.asn || []).map(a => String(a)));
-    const prefixes = [...(resources.ipv4 || []), ...(resources.ipv6 || [])];
+    const allocPrefixes = [...(resources.ipv4 || []), ...(resources.ipv6 || [])];
 
     if (onProgress) {
       onProgress({
         step: 1, totalSteps: 4,
-        message: `Found ${countryASNs.size} ASNs and ${prefixes.length} prefixes for ${countryCode}`,
+        message: `Found ${countryASNs.size} ASNs and ${allocPrefixes.length} allocation prefixes. Fetching announced prefixes for all ASNs...`,
+      });
+    }
+
+    // Fetch actually-announced prefixes for ALL country ASNs (parallel, batched)
+    const announcedPrefixes = await this.fetchAnnouncedPrefixes(countryASNs, onProgress);
+
+    // Merge allocation + announced for complete coverage
+    const allPrefixes = new Set(allocPrefixes);
+    for (const pfx of announcedPrefixes) {
+      allPrefixes.add(pfx);
+    }
+    const added = allPrefixes.size - allocPrefixes.length;
+
+    if (onProgress) {
+      onProgress({
+        step: 1, totalSteps: 4,
+        message: `Prefixes ready: ${allPrefixes.size} total (${allocPrefixes.length} allocations + ${added} more-specific announced)`,
         complete: true,
       });
     }
 
-    return { countryASNs, prefixes };
+    return { countryASNs, prefixes: [...allPrefixes] };
+  }
+
+  /**
+   * Fetch actually-announced prefixes for ALL country ASNs in parallel.
+   * Catches more-specific subnets (e.g. /24 from a /23 allocation block) that
+   * wouldn't be returned by the country-resource-list API.
+   *
+   * @param {Set} countryASNs - Set of ASN strings
+   * @param {Function} onProgress - Progress callback
+   * @returns {Set} Set of announced prefix strings
+   */
+  async fetchAnnouncedPrefixes(countryASNs, onProgress) {
+    const asnList = [...countryASNs];
+    const total = asnList.length;
+    const allPrefixes = new Set();
+    let completed = 0;
+    let failed = 0;
+    const concurrency = 20;
+    const startTime = Date.now();
+
+    for (let i = 0; i < asnList.length; i += concurrency) {
+      if (this.abortController?.signal.aborted) break;
+
+      const batch = asnList.slice(i, i + concurrency);
+      const promises = batch.map(async (asn) => {
+        const url = `${RIPESTAT_BASE}/announced-prefixes/data.json?resource=AS${asn}`;
+        try {
+          const data = await fetchWithRetry(url, {
+            rateLimiter: this.rateLimiter,
+            signal: this.abortController?.signal,
+            maxRetries: 2,
+            timeout: 30000,
+          });
+
+          if (data.status === 'ok') {
+            for (const pfxObj of (data.data?.prefixes || [])) {
+              if (pfxObj.prefix) allPrefixes.add(pfxObj.prefix);
+            }
+            completed++;
+          } else {
+            failed++;
+          }
+        } catch (err) {
+          if (err.name === 'AbortError') throw err;
+          failed++;
+        }
+      });
+
+      await Promise.all(promises);
+
+      // Progress update every wave
+      const done = completed + failed;
+      if (onProgress && done > 0) {
+        const elapsed = (Date.now() - startTime) / 1000;
+        const eta = Math.ceil((total - done) * (elapsed / done));
+        onProgress({
+          step: 1, totalSteps: 4,
+          message: `Fetching announced prefixes: ${done}/${total} ASNs (${completed} ok, ${failed} failed, ETA ${eta}s)...`,
+          progress: done / total,
+        });
+      }
+    }
+
+    console.log(`Announced prefixes: ${allPrefixes.size} from ${completed} ASNs (${failed} failed)`);
+    return allPrefixes;
   }
 
   /**
    * Fetch BGP routes in parallel batches for better performance.
    */
   async fetchBGPRoutes(prefixes, onProgress) {
-    this.abortController = new AbortController();
+    if (!this.abortController) this.abortController = new AbortController();
     const batches = chunkPrefixes(prefixes);
     const totalBatches = batches.length;
     const allRoutes = [];
