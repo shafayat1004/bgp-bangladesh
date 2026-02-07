@@ -382,6 +382,32 @@ input[type="range"]::-webkit-slider-thumb {
 
 .modal-section-why p { color: var(--text); }
 
+.modal-disclaimer {
+  background: rgba(255, 193, 7, 0.12);
+  border: 1px solid rgba(255, 193, 7, 0.5);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.modal-section-algorithm {
+  background: var(--bg-card);
+  padding: 14px;
+  border-radius: var(--radius);
+  border-left: 3px solid var(--accent);
+}
+
+.modal-section-contact {
+  text-align: center;
+  padding: 10px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
 .modal-diagram { margin: 20px 0; text-align: center; }
 
 .modal-layer {

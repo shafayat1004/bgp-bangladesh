@@ -45,6 +45,10 @@ export function showModal(force = false) {
     <div class="modal-card">
       <button class="modal-close" aria-label="Close">&times;</button>
 
+      <div class="modal-disclaimer">
+        <strong>⚠️ Disclaimer:</strong> This is a <strong>hobby project</strong> that analyses <strong>publicly available BGP peering information</strong>. It is intended <strong>purely for educational purposes</strong> and does not represent any official or authoritative assessment.
+      </div>
+
       <h2 class="modal-title">How Does Bangladesh's Internet Connect to the World?</h2>
 
       <div class="modal-body">
@@ -124,6 +128,20 @@ export function showModal(force = false) {
           <p>Understanding these paths reveals <strong>bottlenecks</strong> and <strong>single points of failure</strong>.
           If a major gateway goes down, whether intentionally or due to a submarine cable cut,
           it affects millions of users. This tool helps visualize that dependency.</p>
+        </div>
+
+        <div class="modal-section modal-section-algorithm">
+          <h3>How Classification Works</h3>
+          <p>Every ASN is classified through a multi-step pipeline: external BGP data is fetched from
+          <strong>RIPEstat</strong> and <strong>PeeringDB</strong>, AS paths are analysed to identify border crossings,
+          and gateways are categorised using BTRC license data, IP geolocation, and transit analysis.
+          For the full algorithm, see the
+          <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/classification-pipeline.md" target="_blank" style="color:#51cf66">Classification Pipeline Documentation</a>.</p>
+        </div>
+
+        <div class="modal-section modal-section-contact">
+          <p>Spotted a mistake or misclassification? Please reach out at
+          <a href="mailto:shafayat1004@gmail.com" style="color:#51cf66">shafayat1004@gmail.com</a>.</p>
         </div>
       </div>
 
