@@ -235,17 +235,17 @@ export function destroy() { const c = document.getElementById('viz-panel'); if (
 export function highlightASN(asn) {
   if (!currentData) return;
   const svg = d3.select('#sankey-svg');
-  // Dim everything first
-  svg.selectAll('.sankey-node').attr('opacity', 0.15);
-  svg.selectAll('.sankey-label').attr('opacity', 0.15);
-  svg.selectAll('.sankey-link').attr('stroke-opacity', 0.05);
+  // Dim everything more
+  svg.selectAll('.sankey-node').attr('opacity', 0.08);
+  svg.selectAll('.sankey-label').attr('opacity', 0.08);
+  svg.selectAll('.sankey-link').attr('stroke-opacity', 0.01);
   // Highlight the matching node
   svg.selectAll(`.sankey-node[data-asn="${asn}"]`).attr('opacity', 1).attr('stroke', '#fff').attr('stroke-width', 2);
   svg.selectAll(`.sankey-label[data-asn="${asn}"]`).attr('opacity', 1).attr('fill', '#fff').attr('font-weight', 'bold');
   // Highlight connected links and their target/source nodes
   svg.selectAll(`.sankey-link[data-source="${asn}"], .sankey-link[data-target="${asn}"]`).each(function() {
     const link = d3.select(this);
-    link.attr('stroke-opacity', 0.7).attr('stroke-width', parseFloat(link.attr('stroke-width')) + 1);
+    link.attr('stroke-opacity', 0.95).attr('stroke-width', parseFloat(link.attr('stroke-width')) + 1);
     const other = link.attr('data-source') === asn ? link.attr('data-target') : link.attr('data-source');
     svg.selectAll(`.sankey-node[data-asn="${other}"]`).attr('opacity', 1);
     svg.selectAll(`.sankey-label[data-asn="${other}"]`).attr('opacity', 1);

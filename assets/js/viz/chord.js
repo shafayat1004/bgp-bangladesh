@@ -162,15 +162,15 @@ export function highlightASN(asn) {
   const idx = chordIndexMap[asn];
   if (idx === undefined || !chordRibbons) return;
   const svg = d3.select('#chord-svg');
-  // Dim all arcs and ribbons
-  svg.selectAll('.chord-arc').attr('opacity', 0.15);
-  chordRibbons.attr('opacity', 0.05);
+  // Dim all arcs and ribbons more
+  svg.selectAll('.chord-arc').attr('opacity', 0.08);
+  chordRibbons.attr('opacity', 0.01);
   // Highlight matching arc
   svg.selectAll(`.chord-arc[data-asn="${asn}"]`).attr('opacity', 1).attr('stroke', '#fff').attr('stroke-width', 2);
   // Highlight connected ribbons and their partner arcs
   chordRibbons.each(function(d) {
     if (d.source.index === idx || d.target.index === idx) {
-      d3.select(this).attr('opacity', 0.8);
+      d3.select(this).attr('opacity', 0.95);
       const otherIdx = d.source.index === idx ? d.target.index : d.source.index;
       const otherASN = chordASNList[otherIdx];
       svg.selectAll(`.chord-arc[data-asn="${otherASN}"]`).attr('opacity', 1);

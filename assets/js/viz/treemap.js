@@ -154,8 +154,8 @@ function renderTreemap(containerId, type) {
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
 export function highlightASN(asn) {
-  // Dim all cells, highlight the matching one
-  d3.selectAll('.treemap-rect').attr('opacity', 0.2).attr('stroke', '#0a0e27').attr('stroke-width', 1);
+  // Dim all cells more, highlight the matching one
+  d3.selectAll('.treemap-rect').attr('opacity', 0.08).attr('stroke', '#0a0e27').attr('stroke-width', 1);
   d3.selectAll(`.treemap-rect[data-asn="${asn}"]`).attr('opacity', 1).attr('stroke', '#fff').attr('stroke-width', 3);
   // Scroll into view if needed
   const el = document.querySelector(`.treemap-rect[data-asn="${asn}"]`);
