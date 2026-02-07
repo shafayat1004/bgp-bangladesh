@@ -167,13 +167,13 @@
       "peering_source": "",
       "announced": true,
       "traffic": 38839,
-      "rank": 6,
+      "rank": 7,
       "percentage": 8.50078903536323
     },
     {
       "asn": "17494",
-      "type": "detected-iig",
-      "licensed": false,
+      "type": "iig",
+      "licensed": true,
       "name": "BTTB-AS-AP Telecom Operator & Internet Service Provider as well",
       "description": "BTTB-AS-AP Telecom Operator & Internet Service Provider as well",
       "country": "BD",
@@ -284,7 +284,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 47957,
-      "rank": 1,
+      "rank": 6,
       "percentage": 10.496468492209234
     },
     {
@@ -306,8 +306,8 @@
     },
     {
       "asn": "132884",
-      "type": "detected-iig",
-      "licensed": false,
+      "type": "iig",
+      "licensed": true,
       "name": "SUMMIT-BD Summit Communications Limited",
       "description": "SUMMIT-BD Summit Communications Limited",
       "country": "BD",
@@ -335,7 +335,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 21277,
-      "rank": 4,
+      "rank": 9,
       "percentage": 4.656950186807679
     },
     {
@@ -418,7 +418,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 41816,
-      "rank": 2,
+      "rank": 1,
       "percentage": 9.152372468465945
     },
     {
@@ -435,7 +435,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 14700,
-      "rank": 7,
+      "rank": 10,
       "percentage": 3.217425752976119
     },
     {
@@ -452,13 +452,13 @@
       "peering_source": "",
       "announced": true,
       "traffic": 12951,
-      "rank": 9,
+      "rank": 12,
       "percentage": 2.8346177501220216
     },
     {
       "asn": "150178",
-      "type": "detected-iig",
-      "licensed": false,
+      "type": "iig",
+      "licensed": true,
       "name": "EXABYTELTD-AS-AP EXABYTE LTD",
       "description": "EXABYTELTD-AS-AP EXABYTE LTD",
       "country": "BD",
@@ -502,7 +502,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 25749,
-      "rank": 3,
+      "rank": 8,
       "percentage": 5.635748007713067
     },
     {
@@ -553,7 +553,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 13884,
-      "rank": 8,
+      "rank": 11,
       "percentage": 3.038825792810914
     },
     {
@@ -570,7 +570,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 9690,
-      "rank": 11,
+      "rank": 14,
       "percentage": 2.120874526961809
     },
     {
@@ -881,7 +881,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 11154,
-      "rank": 10,
+      "rank": 13,
       "percentage": 2.441303867258206
     },
     {
@@ -932,7 +932,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 9089,
-      "rank": 12,
+      "rank": 15,
       "percentage": 1.9893321543401323
     },
     {
@@ -966,7 +966,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 6845,
-      "rank": 13,
+      "rank": 16,
       "percentage": 1.4981822638858187
     },
     {
@@ -983,7 +983,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 6212,
-      "rank": 14,
+      "rank": 17,
       "percentage": 1.3596359712576631
     },
     {
@@ -1017,7 +1017,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 5547,
-      "rank": 15,
+      "rank": 18,
       "percentage": 1.2140857586230294
     },
     {
@@ -1034,7 +1034,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 4159,
-      "rank": 16,
+      "rank": 19,
       "percentage": 0.9102907283420189
     },
     {
@@ -1322,8 +1322,8 @@
     },
     {
       "asn": "151624",
-      "type": "detected-iig",
-      "licensed": false,
+      "type": "iig",
+      "licensed": true,
       "name": "BD-LINK-AS-AP BD Link Communication Ltd",
       "description": "BD-LINK-AS-AP BD Link Communication Ltd",
       "country": "BD",
@@ -1343,7 +1343,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 800,
-      "rank": 5,
+      "rank": 20,
       "percentage": 0.17509800016196564
     },
     {
@@ -2420,7 +2420,7 @@
       "peering_source": "",
       "announced": true,
       "traffic": 644,
-      "rank": 17,
+      "rank": 21,
       "percentage": 0.14095389013038237
     },
     {
@@ -28999,8 +28999,8 @@
   ],
   "stats": {
     "total_outside": 211,
-    "total_iig": 17,
-    "total_detected_iig": 5,
+    "total_iig": 21,
+    "total_detected_iig": 1,
     "total_offshore_enterprise": 4,
     "total_offshore_gateway": 0,
     "total_local_company": 753,
