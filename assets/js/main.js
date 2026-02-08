@@ -9,6 +9,7 @@ import { showModal, resetModal } from './ui/modal.js';
 import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, loadPreferences, savePreferences, showMyASNResult } from './ui/controls.js';
 import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel } from './ui/loading.js';
 import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './ui/export.js';
+import { wasmSupported, createAnalysisWorker } from './wasm-bridge.js';
 
 import * as ForceGraph from './viz/force-graph.js';
 import * as Sankey from './viz/sankey.js';
@@ -23,6 +24,7 @@ let rawRoutes = null;  // Store raw BGP routes for export
 let activeTab = 'force-graph';
 let ripeClient = new RIPEStatClient();
 let btrcLicensedASNs = new Set();
+let wasmWorker = null;  // WASM analysis worker (created lazily)
 
 // Type labels for toast/tooltip
 const TYPE_LABEL_MAP = {
@@ -55,6 +57,15 @@ async function init() {
   setupMobileMenu();
   setupFilters();
   setupTypeFilters();
+  
+  // Start WASM loading in parallel with data loading (non-blocking)
+  if (wasmSupported) {
+    createAnalysisWorker().then(w => {
+      wasmWorker = w;
+      if (w) console.log('[WASM] Route analysis worker ready');
+    }).catch(() => {});
+  }
+  
   await loadLicenseData();
   await loadStaticData();
 }
@@ -152,6 +163,13 @@ function switchTab(tabId, options = {}) {
       ...options
     };
     mod.loadData(currentData, loadOptions);
+    
+    // Capture current dimensions for resize detection
+    const vizPanel = document.getElementById('viz-panel');
+    if (vizPanel) {
+      lastWidth = vizPanel.clientWidth;
+      lastHeight = vizPanel.clientHeight;
+    }
     
     // Re-apply type filter if not all types are selected
     if (activeTypeFilters.size < 6 && mod.filterByTypes) {
@@ -480,6 +498,50 @@ window._bgpHighlightASN = function(asn) {
 };
 
 // ────────────────────────────────────────
+// WASM Result Conversion
+// ────────────────────────────────────────
+
+/**
+ * Convert WASM analysis results (arrays of [key, value]) back into the Map-based
+ * format expected by buildVisualizationData() and the rest of the pipeline.
+ *
+ * @param {Object} wasmData - { outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, directPeers, validObservations }
+ * @param {Set} countryASNs
+ * @returns {Object} Analysis object compatible with buildVisualizationData()
+ */
+function convertWasmResults(wasmData, countryASNs) {
+  const outsideCounts = new Map(wasmData.outsideCounts);
+  const iigCounts = new Map(wasmData.iigCounts);
+  const localISPCounts = new Map(wasmData.localISPCounts);
+  const edgeIntl = new Map(wasmData.edgeIntl);
+  const edgeDomestic = new Map(wasmData.edgeDomestic);
+
+  // Build directPeersMap from direct_peers pairs
+  const directPeersMap = {};
+  for (const [dpKey] of wasmData.directPeers) {
+    const [a, b] = dpKey.split('|');
+    if (countryASNs.has(b) && !countryASNs.has(a)) {
+      if (!directPeersMap[b]) directPeersMap[b] = [];
+      if (!directPeersMap[b].includes(a)) directPeersMap[b].push(a);
+    }
+    if (countryASNs.has(a) && !countryASNs.has(b)) {
+      if (!directPeersMap[a]) directPeersMap[a] = [];
+      if (!directPeersMap[a].includes(b)) directPeersMap[a].push(b);
+    }
+  }
+
+  return {
+    outsideCounts,
+    iigCounts,
+    localISPCounts,
+    edgeIntl,
+    edgeDomestic,
+    directPeersMap,
+    validObservations: wasmData.validObservations,
+  };
+}
+
+// ────────────────────────────────────────
 // Live Data Fetching
 // ────────────────────────────────────────
 
@@ -497,23 +559,56 @@ async function fetchLiveData() {
     // Step 1: Country resources
     const { countryASNs, prefixes } = await ripeClient.getCountryResources(COUNTRY, (p) => updateProgress({ ...p, totalSteps: 5 }));
 
-    // Step 2: BGP routes — process incrementally as batches arrive to save memory
-    const analysisState = createAnalysisState();
-    rawRoutes = [];  // Accumulate for raw export (stripped of community field by fetchBGPRoutes)
+    // Step 2: BGP routes — process incrementally as batches arrive
+    // Use WASM Worker if available, otherwise fall back to JS
+    const useWasm = !!wasmWorker;
+    let analysisState = null;
+    rawRoutes = [];  // Accumulate for raw export
+    
+    if (useWasm) {
+      // WASM path: initialize worker with country ASNs
+      await wasmWorker.init([...countryASNs]);
+      console.log('[WASM] Route analyzer initialized, processing batches...');
+    } else {
+      // JS fallback
+      analysisState = createAnalysisState();
+    }
+    
+    // Collect WASM batch promises to ensure all are processed before finalizing
+    const wasmBatchPromises = [];
     
     await ripeClient.fetchBGPRoutes(
       prefixes,
       (p) => updateProgress({ ...p, totalSteps: 5 }),
       (batchRoutes) => {
-        // Incremental analysis: process each batch as it arrives
-        analyzeRoutesBatch(batchRoutes, countryASNs, analysisState);
         rawRoutes.push(...batchRoutes);
+        if (useWasm) {
+          // Queue batch to WASM worker (off main thread)
+          // Batches are serialized by the worker's message queue
+          wasmBatchPromises.push(wasmWorker.processBatch(batchRoutes));
+        } else {
+          // JS fallback: process on main thread
+          analyzeRoutesBatch(batchRoutes, countryASNs, analysisState);
+        }
       }
     );
+    
+    // Wait for all WASM batch processing to complete
+    if (useWasm && wasmBatchPromises.length > 0) {
+      await Promise.all(wasmBatchPromises);
+    }
 
-    // Step 3: Finalize analysis (builds directPeersMap, frees dedup set)
+    // Step 3: Finalize analysis
     updateProgress({ step: 3, totalSteps: 5, message: 'Finalizing gateway analysis...', progress: 0 });
-    const analysis = finalizeAnalysis(analysisState, countryASNs);
+    let analysis;
+    if (useWasm) {
+      const result = await wasmWorker.finalize();
+      // Convert WASM output format to JS Map format expected by buildVisualizationData
+      analysis = convertWasmResults(result.data, countryASNs);
+      console.log(`[WASM] Analysis complete: ${analysis.validObservations.toLocaleString()} valid observations`);
+    } else {
+      analysis = finalizeAnalysis(analysisState, countryASNs);
+    }
     
     // Step 3b: Fetch ASN names only for ASNs that appear in top edges
     const neededASNs = new Set();
@@ -601,13 +696,32 @@ async function fetchLiveData() {
 // ────────────────────────────────────────
 
 let resizeTimer;
+let lastWidth = 0;
+let lastHeight = 0;
+
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    if (currentData && vizModules[activeTab]) {
-      vizModules[activeTab].destroy?.();
-      vizModules[activeTab].init('viz-panel');
-      vizModules[activeTab].loadData(currentData);
+    const vizPanel = document.getElementById('viz-panel');
+    if (!vizPanel) return;
+    
+    const currentWidth = vizPanel.clientWidth;
+    const currentHeight = vizPanel.clientHeight;
+    
+    // Only re-render if dimensions changed significantly (>50px in either direction)
+    // This prevents spurious re-renders when switching tabs or refocusing window
+    const widthDiff = Math.abs(currentWidth - lastWidth);
+    const heightDiff = Math.abs(currentHeight - lastHeight);
+    
+    if (widthDiff > 50 || heightDiff > 50) {
+      lastWidth = currentWidth;
+      lastHeight = currentHeight;
+      
+      if (currentData && vizModules[activeTab]) {
+        vizModules[activeTab].destroy?.();
+        vizModules[activeTab].init('viz-panel');
+        vizModules[activeTab].loadData(currentData);
+      }
     }
   }, 300);
 });

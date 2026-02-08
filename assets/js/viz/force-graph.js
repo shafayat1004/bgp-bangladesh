@@ -1,9 +1,10 @@
 /**
  * Force-Directed Network Graph Visualization
  * Supports 5 node types: local-isp (blue), iig (green), detected-iig (amber), offshore-peer (orange), outside (red).
+ * Standard D3.js implementation.
  */
 
-import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
+import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
 
 const TYPE_COLORS = {
   'outside': '#ff6b6b',
@@ -36,10 +37,8 @@ let currentNodeSize = 15;
 let currentData = null;
 let minTraffic = 100;
 let maxTraffic = Infinity;
-let renderedEdges = [];  // Track which edges are actually rendered
-let tickScheduled = false;  // rAF throttle flag for simulation ticks
-let edgeFrameCount = 0;  // Frame counter for edge curve throttling
-let stopTimer = null;  // Safety stop timer
+let renderedEdges = [];
+let stopTimer = null;
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -63,19 +62,44 @@ export function loadData(data, options = {}) {
   svg = d3.select('#force-svg').attr('width', width).attr('height', height);
   svg.selectAll('*').remove();
 
-  // Create g element first, before setting up zoom
   g = svg.append('g');
 
   const zoom = d3.zoom().scaleExtent([0.1, 5])
     .on('zoom', (event) => g.attr('transform', event.transform));
   svg.call(zoom);
   
-  // Set initial zoom to 0.6x to show the full graph
   svg.call(zoom.transform, d3.zoomIdentity.scale(0.6).translate(width * 0.33, height * 0.33));
   
   svg.on('click', () => clearHighlight());
 
-  // Add edge type legend
+  createLegend(height);
+
+  simulation = d3.forceSimulation()
+    .force('link', d3.forceLink().id(d => d.asn).distance(180).strength(0.08))
+    .force('charge', d3.forceManyBody().strength(-400).distanceMax(450))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide().radius(d => Math.max(8, Math.sqrt(d.traffic / 100) * 2 + 5)).strength(0.9))
+    .force('x', d3.forceX(d => {
+      if (d.type === 'local-company' || d.type === 'local-isp') return width * 0.15;
+      if (d.type === 'iig' || d.type === 'inside') return width * 0.32;
+      if (d.type === 'detected-iig') return width * 0.5;
+      if (d.type === 'offshore-enterprise') return width * 0.68;
+      if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') return width * 0.78;
+      return width * 0.88;
+    }).strength(0.35))
+    .force('y', d3.forceY(d => {
+      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.1;
+      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.35;
+      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.65;
+      return height * 0.9;
+    }).strength(0.85))
+    .velocityDecay(0.55)
+    .alphaDecay(0.02);
+
+  render();
+}
+
+function createLegend(height) {
   const legend = svg.append('g')
     .attr('class', 'edge-legend')
     .attr('transform', `translate(20, ${height - 80})`);
@@ -94,7 +118,6 @@ export function loadData(data, options = {}) {
     .attr('font-weight', 'bold')
     .text('Edge Types:');
 
-  // International edge example
   legend.append('line')
     .attr('x1', 0).attr('y1', 15)
     .attr('x2', 40).attr('y2', 15)
@@ -106,7 +129,6 @@ export function loadData(data, options = {}) {
     .attr('font-size', '10px')
     .text('International (Gateway - Outside)');
 
-  // Domestic edge example
   legend.append('line')
     .attr('x1', 0).attr('y1', 35)
     .attr('x2', 40).attr('y2', 35)
@@ -119,7 +141,6 @@ export function loadData(data, options = {}) {
     .attr('font-size', '10px')
     .text('Domestic (Local Company - Gateway)');
 
-  // Node type legend - all 6 types
   const typeLegend = [
     { color: '#4dabf7', label: 'Local Co.' },
     { color: '#51cf66', label: 'IIG' },
@@ -134,35 +155,6 @@ export function loadData(data, options = {}) {
     legend.append('text').attr('x', legendX + 12).attr('y', 56).attr('fill', '#ccc').attr('font-size', '8px').text(label);
     legendX += label.length * 5 + 20;
   });
-
-  // 6-type Y positioning (local-company top, gateways middle, outside bottom)
-  // X and Y forces create distinct type-based clusters with strong separation
-  simulation = d3.forceSimulation()
-    .force('link', d3.forceLink().id(d => d.asn).distance(180).strength(0.08))
-    .force('charge', d3.forceManyBody().strength(-400).distanceMax(450))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide().radius(d => Math.max(8, Math.sqrt(d.traffic / 100) * 2 + 5)).strength(0.9))
-    .force('x', d3.forceX(d => {
-      // Much wider horizontal cluster spacing for better separation
-      if (d.type === 'local-company' || d.type === 'local-isp') return width * 0.15;
-      if (d.type === 'iig' || d.type === 'inside') return width * 0.32;
-      if (d.type === 'detected-iig') return width * 0.5;
-      if (d.type === 'offshore-enterprise') return width * 0.68;
-      if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') return width * 0.78;
-      return width * 0.88;  // outside
-    }).strength(0.35))
-    .force('y', d3.forceY(d => {
-      // Very strong Y-force for distinct layers with maximum spacing
-      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.1;
-      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.35;
-      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.65;
-      return height * 0.9;
-    }).strength(0.85))
-    .velocityDecay(0.55)
-    .alphaDecay(0.05)  // Fast convergence: ~60 ticks instead of ~300
-    .alphaMin(0.01);   // Stop sooner
-
-  render();
 }
 
 function render() {
@@ -180,12 +172,10 @@ function render() {
     usedNodes.add(e.target?.asn || e.target);
   });
   const filteredNodes = currentData.nodes.filter(n => usedNodes.has(n.asn));
-  
-  // Pre-position nodes based on type to reduce initial bouncing
-  // Position in well-separated type-specific clusters
+
+  // Pre-position nodes
   filteredNodes.forEach(d => {
     if (d.x === undefined || d.y === undefined) {
-      // Initial X and Y positions with wide separation between types
       if (d.type === 'local-company' || d.type === 'local-isp') {
         d.x = width * 0.15 + (Math.random() - 0.5) * width * 0.12;
         d.y = height * 0.1 + (Math.random() - 0.5) * 50;
@@ -210,7 +200,6 @@ function render() {
 
   g.selectAll('*').remove();
 
-  // Links - color by type (no arrows)
   links = g.append('g').selectAll('path')
     .data(renderedEdges)
     .enter().append('path')
@@ -219,7 +208,6 @@ function render() {
     .attr('stroke-width', d => Math.max(0.5, Math.sqrt(d.count / 500)))
     .attr('stroke-dasharray', d => d.type === 'domestic' ? '4,2' : 'none');
 
-  // Nodes
   nodes = g.append('g').selectAll('g')
     .data(filteredNodes)
     .enter().append('g')
@@ -235,8 +223,6 @@ function render() {
     .attr('stroke', '#fff')
     .attr('stroke-width', 1.5);
 
-  // Only create labels for top 30 nodes per type to keep DOM lightweight
-  // All other nodes still show full info via tooltip on hover
   const TOP_LABELS_PER_TYPE = 30;
   const labelASNs = new Set();
   const byType = {};
@@ -257,68 +243,50 @@ function render() {
       const flag = d.country ? countryToFlag(d.country) : '';
       return `${flag} ${d.name || `AS${d.asn}`}`;
     })
-    .style('display', 'none');  // Hidden during simulation for performance
+    .style('display', 'none');
 
   nodes.on('mouseover', showTooltipHandler)
     .on('mousemove', moveTooltipHandler)
     .on('mouseout', hideTooltipHandler)
     .on('click', highlightNodeHandler);
 
-  // Adjust forces based on graph size for better performance
   const nodeCount = filteredNodes.length;
   const chargeStrength = Math.max(-600, -350 - nodeCount * 2.5);
   const distMax = nodeCount > 500 ? 300 : 450;
-  simulation.force('charge').strength(chargeStrength).distanceMax(distMax);
-  
-  // Weaken collision for large graphs to reduce per-tick computation
-  simulation.force('collision').strength(nodeCount > 500 ? 0.5 : 0.9);
+  const collStrength = nodeCount > 500 ? 0.5 : 0.9;
 
-  // Decouple simulation ticks from DOM updates via requestAnimationFrame
-  // The simulation can fire multiple ticks between frames; only render once per frame
-  edgeFrameCount = 0;
-  tickScheduled = false;
-  simulation.nodes(filteredNodes).on('tick', () => {
-    if (!tickScheduled) {
-      tickScheduled = true;
-      requestAnimationFrame(() => { ticked(); tickScheduled = false; });
-    }
-  });
+  simulation.force('charge').strength(chargeStrength).distanceMax(distMax);
+  simulation.force('collision').strength(collStrength);
+
+  simulation.nodes(filteredNodes).on('tick', ticked);
   simulation.force('link').links(renderedEdges);
   
-  // Show labels once simulation settles
+  simulation.alpha(1).restart();
+  
   simulation.on('end', () => {
     if (showLabels) d3.selectAll('.node-label').style('display', 'block');
   });
-  
-  // Low initial alpha for calm settling
-  simulation.alpha(0.1).restart();
-  
-  // Auto-stop simulation after 3 seconds (safety net)
+
   if (stopTimer) clearTimeout(stopTimer);
   stopTimer = setTimeout(() => {
     if (simulation) {
       simulation.stop();
-      // Show labels if they should be visible
       if (showLabels) d3.selectAll('.node-label').style('display', 'block');
     }
-  }, 3000);
+  }, 4000);
 }
 
 function ticked() {
-  // Nodes update every frame (cheap: just translate transform)
   nodes.attr('transform', d => `translate(${d.x},${d.y})`);
   
-  // Edge curves update every 3rd frame (expensive: path string rebuild for 3000+ edges)
-  // The ~50ms lag is imperceptible but saves ~66% of path recomputations
-  if (++edgeFrameCount % 3 === 0) {
-    links.attr('d', d => {
-      const s = typeof d.source === 'object' ? d.source : { x: 0, y: 0 };
-      const t = typeof d.target === 'object' ? d.target : { x: 0, y: 0 };
-      const dx = t.x - s.x, dy = t.y - s.y;
-      const dr = Math.sqrt(dx * dx + dy * dy) * 1.5;
-      return `M${s.x},${s.y}A${dr},${dr} 0 0,1 ${t.x},${t.y}`;
-    });
-  }
+  links.attr('d', d => {
+    const s = d.source;
+    const t = d.target;
+    if (!s || !t || isNaN(s.x) || isNaN(t.x)) return '';
+    const dx = t.x - s.x, dy = t.y - s.y;
+    const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; 
+    return `M${s.x},${s.y}A${dr},${dr} 0 0,1 ${t.x},${t.y}`;
+  });
 }
 
 function buildTooltipHtml(d) {
@@ -328,30 +296,20 @@ function buildTooltipHtml(d) {
 function showTooltipHandler(event, d) { if (tooltip) tooltip.html(buildTooltipHtml(d)).style('display', 'block'); }
 function moveTooltipHandler(event) {
   if (!tooltip) return;
-  // On mobile, tooltip is a CSS bottom sheet — skip coordinate positioning
   if (window.innerWidth <= 900) return;
   const offset = 15;
   let left = event.pageX + offset;
   let top = event.pageY + offset;
   
-  // Get tooltip dimensions
   const tooltipNode = tooltip.node();
   if (tooltipNode) {
     const rect = tooltipNode.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     
-    // Adjust if going off right edge
-    if (left + rect.width > viewportWidth) {
-      left = event.pageX - rect.width - offset;
-    }
+    if (left + rect.width > viewportWidth) left = event.pageX - rect.width - offset;
+    if (top + rect.height > viewportHeight) top = event.pageY - rect.height - offset;
     
-    // Adjust if going off bottom edge
-    if (top + rect.height > viewportHeight) {
-      top = event.pageY - rect.height - offset;
-    }
-    
-    // Ensure minimum positioning
     left = Math.max(5, left);
     top = Math.max(5, top);
   }
@@ -366,7 +324,6 @@ function highlightNodeHandler(event, d) {
   highlightedNode = d.asn;
   const connectedNodes = new Set([d.asn]);
   const connectedEdges = new Set();
-  // Only highlight connections that are actually rendered (respects filter)
   renderedEdges.forEach(e => {
     const src = e.source?.asn || e.source;
     const tgt = e.target?.asn || e.target;
@@ -406,10 +363,11 @@ export function setNodeSize(size) {
 }
 export function toggleLabelsVisibility() {
   showLabels = !showLabels;
-  // Only show immediately if simulation has stopped; otherwise they appear on 'end'
-  if (showLabels && simulation && simulation.alpha() < simulation.alphaMin()) {
-    d3.selectAll('.node-label').style('display', 'block');
-  } else if (!showLabels) {
+  if (showLabels) {
+    if (!simulation || simulation.alpha() < 0.1) {
+      d3.selectAll('.node-label').style('display', 'block');
+    }
+  } else {
     d3.selectAll('.node-label').style('display', 'none');
   }
 }
@@ -417,23 +375,36 @@ export function resetView() { if (svg) svg.transition().duration(750).call(d3.zo
 
 export function filterByTypes(activeTypes) {
   if (!nodes || !links) return;
-  // Build lookup map for performance
   const nodeTypeMap = {};
   currentData.nodes.forEach(n => { nodeTypeMap[n.asn] = n.type; });
   
   nodes.attr('display', d => activeTypes.has(d.type) ? null : 'none');
   links.attr('display', d => {
-    const srcASN = d.source?.asn || d.source;
-    const tgtASN = d.target?.asn || d.target;
-    const srcType = nodeTypeMap[srcASN];
-    const tgtType = nodeTypeMap[tgtASN];
+    const sAsn = (d.source && d.source.asn) ? d.source.asn : d.source;
+    const tAsn = (d.target && d.target.asn) ? d.target.asn : d.target;
+    
+    const srcType = nodeTypeMap[sAsn];
+    const tgtType = nodeTypeMap[tAsn];
     return (srcType && activeTypes.has(srcType) && tgtType && activeTypes.has(tgtType)) ? null : 'none';
   });
 }
 
-function dragStart(event, d) { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; }
-function dragging(event, d) { d.fx = event.x; d.fy = event.y; }
-function dragEnd(event, d) { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }
+function dragStart(event, d) {
+  if (!event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragging(event, d) {
+  d.fx = event.x;
+  d.fy = event.y;
+}
+
+function dragEnd(event, d) {
+  if (!event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
 
 export function destroy() {
   if (stopTimer) { clearTimeout(stopTimer); stopTimer = null; }

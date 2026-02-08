@@ -15,3 +15,7 @@ Thumbs.db
 
 # Node modules (if ever added)
 node_modules/
+
+# Rust/WASM build artifacts (the compiled pkg/ is committed, target/ is not)
+wasm/bgp-wasm/target/
+wasm/bgp-wasm/pkg/.gitignore
