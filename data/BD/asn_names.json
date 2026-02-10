@@ -1325,6 +1325,14 @@
           "prefixes": [
             "103.189.10.0/24"
           ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:fffc::/48"
+          ]
         }
       ],
       "bd_percentage": 200.0
@@ -8161,17 +8169,9 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 66.67,
+          "percentage": 100.0,
           "prefixes": [
-            "103.85.216.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "103.85.219.0/24"
+            "103.85.216.0/22"
           ]
         }
       ],
@@ -8377,7 +8377,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "151.158.87.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -13532,6 +13541,34 @@
     "asn": "263152",
     "name": "MIGO TELECOM",
     "holder": "MIGO TELECOM",
+    "announced": true,
+    "country": ""
+  },
+  "133599": {
+    "asn": "133599",
+    "name": "DAYANNET-AS-AP DAYAN NET",
+    "holder": "DAYANNET-AS-AP DAYAN NET",
+    "announced": true,
+    "country": "BD"
+  },
+  "64126": {
+    "asn": "64126",
+    "name": "DOMINICAN TELECOM PRIME",
+    "holder": "DOMINICAN TELECOM PRIME",
+    "announced": true,
+    "country": ""
+  },
+  "20080": {
+    "asn": "20080",
+    "name": "AMPATH - Florida International University",
+    "holder": "AMPATH - Florida International University",
+    "announced": true,
+    "country": ""
+  },
+  "1916": {
+    "asn": "1916",
+    "name": "Rede Nacional de Ensino e Pesquisa",
+    "holder": "Rede Nacional de Ensino e Pesquisa",
     "announced": true,
     "country": ""
   }
