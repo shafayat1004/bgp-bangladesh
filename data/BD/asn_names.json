@@ -1689,35 +1689,19 @@
           "city": "Salt Lake City",
           "percentage": 100.0,
           "prefixes": [
-            "2001:df5:f241::/48"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 64.0,
-          "prefixes": [
-            "38.242.32.0/20"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "Sutr\u0101pur",
-          "percentage": 32.0,
-          "prefixes": [
-            "38.19.160.0/21"
+            "203.9.215.0/24"
           ]
         },
         {
           "country": "US",
           "city": "Salt Lake City",
-          "percentage": 4.0,
+          "percentage": 100.0,
           "prefixes": [
-            "203.9.215.0/24"
+            "2001:df5:f241::/48"
           ]
         }
       ],
-      "bd_percentage": 96.0
+      "bd_percentage": 0
     }
   },
   "152726": {
@@ -3572,7 +3556,9 @@
           "city": "Dhaka",
           "percentage": 12.5,
           "prefixes": [
-            "103.217.108.0/22"
+            "103.217.108.0/23",
+            "103.217.110.0/24",
+            "103.217.111.0/25"
           ]
         },
         {
@@ -13569,6 +13555,48 @@
     "asn": "1916",
     "name": "Rede Nacional de Ensino e Pesquisa",
     "holder": "Rede Nacional de Ensino e Pesquisa",
+    "announced": true,
+    "country": ""
+  },
+  "852": {
+    "asn": "852",
+    "name": "TELUS Communications",
+    "holder": "TELUS Communications",
+    "announced": true,
+    "country": ""
+  },
+  "264479": {
+    "asn": "264479",
+    "name": "Turbozone Internet",
+    "holder": "Turbozone Internet",
+    "announced": true,
+    "country": ""
+  },
+  "142252": {
+    "asn": "142252",
+    "name": "TDN-AS-AP T dot net",
+    "holder": "TDN-AS-AP T dot net",
+    "announced": true,
+    "country": "BD"
+  },
+  "213241": {
+    "asn": "213241",
+    "name": "TECHIT - TECHIT.BE SRL",
+    "holder": "TECHIT - TECHIT.BE SRL",
+    "announced": true,
+    "country": ""
+  },
+  "263444": {
+    "asn": "263444",
+    "name": "Open X Tecnologia Ltda",
+    "holder": "Open X Tecnologia Ltda",
+    "announced": true,
+    "country": ""
+  },
+  "12637": {
+    "asn": "12637",
+    "name": "SEEWEB - SEEWEB s.r.l.",
+    "holder": "SEEWEB - SEEWEB s.r.l.",
     "announced": true,
     "country": ""
   }
