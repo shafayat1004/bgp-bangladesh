@@ -3556,9 +3556,7 @@
           "city": "Dhaka",
           "percentage": 12.5,
           "prefixes": [
-            "103.217.108.0/23",
-            "103.217.110.0/24",
-            "103.217.111.0/25"
+            "103.217.108.0/22"
           ]
         },
         {
@@ -4228,7 +4226,78 @@
     "name": "BDREN-UGC-AS-AP Bangladesh Research and Education Network BdREN",
     "holder": "BDREN-UGC-AS-AP Bangladesh Research and Education Network BdREN",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2402:f500::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 22.22,
+          "prefixes": [
+            "103.28.120.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 22.22,
+          "prefixes": [
+            "163.47.36.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 22.22,
+          "prefixes": [
+            "203.96.188.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "103.147.242.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "103.157.134.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.56,
+          "prefixes": [
+            "103.140.181.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.56,
+          "prefixes": [
+            "103.159.2.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "151615": {
     "asn": "151615",
@@ -6659,7 +6728,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "",
+          "city": "Chittagong",
           "percentage": 100.0,
           "prefixes": [
             "103.73.44.0/23"
@@ -6913,7 +6982,46 @@
     "name": "AFRENIT-AS-AP AFREN IT",
     "holder": "AFRENIT-AS-AP AFREN IT",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 28.57,
+          "prefixes": [
+            "103.209.92.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 28.57,
+          "prefixes": [
+            "157.10.174.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 28.57,
+          "prefixes": [
+            "160.187.118.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "157.20.74.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "136556": {
     "asn": "136556",
@@ -8360,12 +8468,12 @@
     "holder": "TSTNETWORK-AS-AP TST Network",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "IN",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "IN",
       "breakdown": [
         {
-          "country": "BD",
+          "country": "IN",
           "city": "",
           "percentage": 100.0,
           "prefixes": [
@@ -8373,7 +8481,7 @@
           ]
         }
       ],
-      "bd_percentage": 100.0
+      "bd_percentage": 0
     }
   },
   "140889": {
@@ -11338,23 +11446,16 @@
     "holder": "BENGALHOST-AS-AP BengalHost",
     "announced": true,
     "country": "BD",
-    "geo_country": "CN",
+    "geo_country": "HK",
     "geo_country_data": {
-      "dominant_country": "CN",
+      "dominant_country": "HK",
       "breakdown": [
-        {
-          "country": "CN",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "23.129.76.0/24"
-          ]
-        },
         {
           "country": "HK",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
+            "23.129.76.0/24",
             "23.129.77.0/24"
           ]
         }
@@ -13597,6 +13698,139 @@
     "asn": "12637",
     "name": "SEEWEB - SEEWEB s.r.l.",
     "holder": "SEEWEB - SEEWEB s.r.l.",
+    "announced": true,
+    "country": ""
+  },
+  "39249": {
+    "asn": "39249",
+    "name": "KICUA-AS - Netassist International EOOD",
+    "holder": "KICUA-AS - Netassist International EOOD",
+    "announced": true,
+    "country": ""
+  },
+  "137007": {
+    "asn": "137007",
+    "name": "PENTAGLOBALLIMITED-AS-AP Penta Global Limited",
+    "holder": "PENTAGLOBALLIMITED-AS-AP Penta Global Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "149300": {
+    "asn": "149300",
+    "name": "DNFONLINE-AS-AP DNF ONLINE",
+    "holder": "DNFONLINE-AS-AP DNF ONLINE",
+    "announced": true,
+    "country": "BD"
+  },
+  "50629": {
+    "asn": "50629",
+    "name": "LWLCOM - LWLcom GmbH",
+    "holder": "LWLCOM - LWLcom GmbH",
+    "announced": true,
+    "country": ""
+  },
+  "149508": {
+    "asn": "149508",
+    "name": "SSNETWORK-AS-AP SS NETWORK",
+    "holder": "SSNETWORK-AS-AP SS NETWORK",
+    "announced": true,
+    "country": "BD"
+  },
+  "24490": {
+    "asn": "24490",
+    "name": "TEIN2-SG-AP Trans-Eurasia Information Network TEIN2 - SG",
+    "holder": "TEIN2-SG-AP Trans-Eurasia Information Network TEIN2 - SG",
+    "announced": false,
+    "country": ""
+  },
+  "140058": {
+    "asn": "140058",
+    "name": "AZAANENTERPRISE-AS-AP Azaan Enterprise",
+    "holder": "AZAANENTERPRISE-AS-AP Azaan Enterprise",
+    "announced": true,
+    "country": "BD"
+  },
+  "154514": {
+    "asn": "154514",
+    "name": "AS154514",
+    "holder": "AS154514",
+    "announced": true,
+    "country": "BD"
+  },
+  "149783": {
+    "asn": "149783",
+    "name": "INTELWEBHOSTLTD-AS-AP Intelwebhost Ltd",
+    "holder": "INTELWEBHOSTLTD-AS-AP Intelwebhost Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "154352": {
+    "asn": "154352",
+    "name": "DIGONTO-AS-AP Digonto Communication Network",
+    "holder": "DIGONTO-AS-AP Digonto Communication Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "154420": {
+    "asn": "154420",
+    "name": "STAR7-AS-AP Star Tech & Engineering Ltd.",
+    "holder": "STAR7-AS-AP Star Tech & Engineering Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "150176": {
+    "asn": "150176",
+    "name": "TLN-AS-AP Thunder link Network",
+    "holder": "TLN-AS-AP Thunder link Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "264409": {
+    "asn": "264409",
+    "name": "GRUPO YAX",
+    "holder": "GRUPO YAX",
+    "announced": true,
+    "country": ""
+  },
+  "153884": {
+    "asn": "153884",
+    "name": "UMMAHHOST-AS-AP UMMAH HOST",
+    "holder": "UMMAHHOST-AS-AP UMMAH HOST",
+    "announced": true,
+    "country": "BD"
+  },
+  "154489": {
+    "asn": "154489",
+    "name": "MAGNET1-AS-AP Magnet Telecommunication",
+    "holder": "MAGNET1-AS-AP Magnet Telecommunication",
+    "announced": true,
+    "country": "BD"
+  },
+  "140684": {
+    "asn": "140684",
+    "name": "BDIX-AS-AP Bangladesh Internet Exchange Trust",
+    "holder": "BDIX-AS-AP Bangladesh Internet Exchange Trust",
+    "announced": true,
+    "country": "BD"
+  },
+  "31133": {
+    "asn": "31133",
+    "name": "MF-MGSM-AS - PJSC MegaFon",
+    "holder": "MF-MGSM-AS - PJSC MegaFon",
+    "announced": true,
+    "country": ""
+  },
+  "65521": {
+    "asn": "65521",
+    "name": "-Private Use AS-",
+    "holder": "-Private Use AS-",
+    "announced": false,
+    "country": ""
+  },
+  "134148": {
+    "asn": "134148",
+    "name": "SINGAREN-GIX-AS-AP-2 SingAREN",
+    "holder": "SINGAREN-GIX-AS-AP-2 SingAREN",
     "announced": true,
     "country": ""
   }
