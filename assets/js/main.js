@@ -21,10 +21,11 @@ import * as BarCountry from './viz/bar-country.js';
 const COUNTRY = 'BD';
 let currentData = null;
 let rawRoutes = null;  // Store raw BGP routes for export
-let activeTab = 'force-graph';
+let activeTab = 'hierarchical';
 let ripeClient = new RIPEStatClient();
 let btrcLicensedASNs = new Set();
 let wasmWorker = null;  // WASM analysis worker (created lazily)
+let forceGraphWarningShown = false;  // Track if CPU warning was shown for network graph
 
 // Type labels for toast/tooltip
 const TYPE_LABEL_MAP = {
@@ -147,6 +148,22 @@ function setupTabs() {
 
 function switchTab(tabId, options = {}) {
   if (!currentData) return;
+
+  // Show CPU warning for network graph view (only once per session)
+  if (tabId === 'force-graph' && !forceGraphWarningShown) {
+    const confirmed = confirm(
+      'Warning: The Network Graph view is CPU-intensive due to the large number of nodes and edges. ' +
+      'It requires a decent machine to render smoothly.\n\n' +
+      'Note: The "Min Routes" filter is currently set to 100 by default. ' +
+      'To see more nodes and the absolutely complete picture, you can lower the slider to 0 in the sidebar.\n\n' +
+      'Do you want to proceed?'
+    );
+    if (!confirmed) {
+      return;  // Stay on current tab
+    }
+    forceGraphWarningShown = true;
+  }
+
   const prevMod = vizModules[activeTab];
   if (prevMod?.destroy) prevMod.destroy();
   activeTab = tabId;
@@ -163,14 +180,14 @@ function switchTab(tabId, options = {}) {
       ...options
     };
     mod.loadData(currentData, loadOptions);
-    
+
     // Capture current dimensions for resize detection
     const vizPanel = document.getElementById('viz-panel');
     if (vizPanel) {
       lastWidth = vizPanel.clientWidth;
       lastHeight = vizPanel.clientHeight;
     }
-    
+
     // Re-apply type filter if not all types are selected
     if (activeTypeFilters.size < 6 && mod.filterByTypes) {
       mod.filterByTypes(activeTypeFilters);
@@ -189,7 +206,12 @@ function highlightTab(tabId) {
 // ────────────────────────────────────────
 
 function setupButtons() {
-  document.getElementById('btn-fetch-live')?.addEventListener('click', fetchLiveData);
+  document.getElementById('btn-fetch-live')?.addEventListener('click', () => {
+    const confirmed = confirm('Fetching the latest routes can take 15-20 minutes to complete. Do you want to proceed?');
+    if (confirmed) {
+      fetchLiveData();
+    }
+  });
 
   document.getElementById('btn-revert-static')?.addEventListener('click', async () => {
     ripeClient.cancel();
@@ -213,7 +235,7 @@ function setupButtons() {
       exportRawRoutes(rawRoutes);
       showToast('success', `Raw routes downloaded (${rawRoutes.length.toLocaleString()} routes, ~${(JSON.stringify(rawRoutes).length / 1024 / 1024).toFixed(1)}MB).`);
     } else {
-      showToast('warning', 'No raw routes available. Click "Fetch Live Data" first to download raw routes.');
+      showToast('warning', 'No raw routes available. Click "Fetch Latest Routes" first to download raw routes.');
     }
   });
 

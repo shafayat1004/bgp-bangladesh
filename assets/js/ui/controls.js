@@ -20,7 +20,7 @@ export function savePreferences(prefs) {
 }
 
 export function getActiveTab() {
-  try { return localStorage.getItem(TAB_KEY) || 'force-graph'; } catch { return 'force-graph'; }
+  try { return localStorage.getItem(TAB_KEY) || 'hierarchical'; } catch { return 'hierarchical'; }
 }
 
 export function saveActiveTab(tabId) {

@@ -4,6 +4,41 @@ An interactive visualization platform showing how Bangladesh's internet connects
 
 **[Live Demo](https://yourusername.github.io/bgp-bangladesh/)** (replace with your GitHub Pages URL)
 
+## Quick Start
+
+### Update BGP Data (Get Latest Routes)
+
+**Option 1: Python Script (Recommended)**
+```bash
+# Fetch and process latest BGP data (5-15 minutes)
+python3 scripts/update_bgp_data.py
+
+# Commit and push
+git add data/BD/*.json
+git commit -m "Update BGP data: $(date +%Y-%m-%d)"
+git push
+```
+
+**Option 2: Browser (Manual)**
+1. Open the live site and click **"Fetch Latest Routes"** (~15-20 minutes)
+2. Click **"JSON"** export to download `viz_data.json`
+3. Replace `data/BD/viz_data.json` with the downloaded file
+4. Commit and push
+
+### Run Locally
+
+```bash
+# Serve the site locally (Python 3)
+python3 -m http.server 8000
+
+# Or with Node.js
+npx serve .
+
+# Then open http://localhost:8000
+```
+
+---
+
 ## What Is This?
 
 Every time you visit a website from Bangladesh, your data travels through a chain of networks:
