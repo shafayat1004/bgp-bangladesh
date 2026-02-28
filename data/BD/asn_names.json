@@ -13833,5 +13833,40 @@
     "holder": "SINGAREN-GIX-AS-AP-2 SingAREN",
     "announced": true,
     "country": ""
+  },
+  "136952": {
+    "asn": "136952",
+    "name": "RAMGONJONLINE-AS-AP Ramgonj Online",
+    "holder": "RAMGONJONLINE-AS-AP Ramgonj Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "18155": {
+    "asn": "18155",
+    "name": "BISPIET-AS-AP Bangladesh Internet Service Provider Internet Exchange Trust",
+    "holder": "BISPIET-AS-AP Bangladesh Internet Service Provider Internet Exchange Trust",
+    "announced": true,
+    "country": "BD"
+  },
+  "55518": {
+    "asn": "55518",
+    "name": "SGIX-SG Singapore Internet Exchange Limited",
+    "holder": "SGIX-SG Singapore Internet Exchange Limited",
+    "announced": false,
+    "country": "SG"
+  },
+  "7575": {
+    "asn": "7575",
+    "name": "AARNET-AS-AP Australian Academic and Research Network AARNet",
+    "holder": "AARNET-AS-AP Australian Academic and Research Network AARNet",
+    "announced": true,
+    "country": ""
+  },
+  "16735": {
+    "asn": "16735",
+    "name": "ALGAR TELECOM SA",
+    "holder": "ALGAR TELECOM SA",
+    "announced": true,
+    "country": ""
   }
 }
