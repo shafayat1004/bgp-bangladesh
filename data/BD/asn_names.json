@@ -928,6 +928,14 @@
         {
           "country": "BD",
           "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2402:54c0::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
           "percentage": 5.0,
           "prefixes": [
             "43.242.0.0/22"
@@ -1128,7 +1136,7 @@
           ]
         }
       ],
-      "bd_percentage": 53.75
+      "bd_percentage": 153.75
     }
   },
   "64475": {
@@ -1416,7 +1424,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 22.22,
+          "percentage": 20.0,
           "prefixes": [
             "103.42.4.0/23"
           ]
@@ -1424,7 +1432,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 22.22,
+          "percentage": 20.0,
           "prefixes": [
             "103.174.50.0/23"
           ]
@@ -1432,7 +1440,7 @@
         {
           "country": "SG",
           "city": "Singapore",
-          "percentage": 22.22,
+          "percentage": 20.0,
           "prefixes": [
             "103.191.50.0/23"
           ]
@@ -1463,14 +1471,6 @@
         },
         {
           "country": "BD",
-          "city": "",
-          "percentage": 20.0,
-          "prefixes": [
-            "2001:df5:f240::/48"
-          ]
-        },
-        {
-          "country": "BD",
           "city": "Dhaka",
           "percentage": 20.0,
           "prefixes": [
@@ -1479,16 +1479,32 @@
         },
         {
           "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "2401:fba0:1::/48"
+          ]
+        },
+        {
+          "country": "BD",
           "city": "Dhaka",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "163.227.6.0/24"
           ]
         },
         {
           "country": "BD",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "163.227.7.0/24"
+          ]
+        },
+        {
+          "country": "BD",
           "city": "Dhaka",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "203.9.214.0/24"
           ]
@@ -1496,7 +1512,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 11.07,
+          "percentage": 9.96,
           "prefixes": [
             "163.223.240.0/26",
             "163.223.240.64/27",
@@ -1512,7 +1528,7 @@
           ]
         }
       ],
-      "bd_percentage": 157.77
+      "bd_percentage": 160.0
     }
   },
   "150178": {
@@ -1616,18 +1632,10 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "Dhanmondi",
-          "percentage": 33.33,
+          "city": "",
+          "percentage": 40.0,
           "prefixes": [
             "103.173.84.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "Dhanmondi",
-          "percentage": 33.33,
-          "prefixes": [
-            "163.61.236.0/23"
           ]
         },
         {
@@ -1657,7 +1665,7 @@
         {
           "country": "BD",
           "city": "Dhanmondi",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "160.191.80.0/24"
           ]
@@ -1665,13 +1673,21 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "160.191.81.0/24"
           ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhanmondi",
+          "percentage": 20.0,
+          "prefixes": [
+            "163.61.237.0/24"
+          ]
         }
       ],
-      "bd_percentage": 183.32
+      "bd_percentage": 179.99
     }
   },
   "154112": {
@@ -2389,7 +2405,78 @@
     "name": "WOLAST-AS-AP Wolast Technologies",
     "holder": "WOLAST-AS-AP Wolast Technologies",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df1:9c0::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.191.240.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.213.38.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "163.227.238.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "49.143.249.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "49.213.52.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 10.0,
+          "prefixes": [
+            "160.187.130.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "203.26.151.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "132169": {
     "asn": "132169",
@@ -6539,7 +6626,22 @@
     "name": "CODENEXT-AS-AP CodeNext IT Solution",
     "holder": "CODENEXT-AS-AP CodeNext IT Solution",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "US",
+    "geo_country_data": {
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "Piscataway",
+          "percentage": 100.0,
+          "prefixes": [
+            "163.61.236.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
+    }
   },
   "136911": {
     "asn": "136911",
@@ -8477,7 +8579,7 @@
           "city": "",
           "percentage": 100.0,
           "prefixes": [
-            "151.158.87.0/24"
+            "151.158.86.0/23"
           ]
         }
       ],
@@ -12082,16 +12184,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.132.42.0/24"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -13867,6 +13960,196 @@
     "name": "ALGAR TELECOM SA",
     "holder": "ALGAR TELECOM SA",
     "announced": true,
+    "country": ""
+  },
+  "4788": {
+    "asn": "4788",
+    "name": "TTSSB-MY TM TECHNOLOGY SERVICES SDN. BHD.",
+    "holder": "TTSSB-MY TM TECHNOLOGY SERVICES SDN. BHD.",
+    "announced": true,
+    "country": "MY"
+  },
+  "152305": {
+    "asn": "152305",
+    "name": "EASYNETWORK-AS-AP Easy Network",
+    "holder": "EASYNETWORK-AS-AP Easy Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "43727": {
+    "asn": "43727",
+    "name": "KVANT-TELECOM - JSC KVANT-TELEKOM",
+    "holder": "KVANT-TELECOM - JSC KVANT-TELEKOM",
+    "announced": true,
+    "country": ""
+  },
+  "154579": {
+    "asn": "154579",
+    "name": "AUTOMAS-AS-AP Automas Technologies",
+    "holder": "AUTOMAS-AS-AP Automas Technologies",
+    "announced": true,
+    "country": "BD"
+  },
+  "31500": {
+    "asn": "31500",
+    "name": "GNM-AS - Global Network Management Inc",
+    "holder": "GNM-AS - Global Network Management Inc",
+    "announced": true,
+    "country": ""
+  },
+  "16265": {
+    "asn": "16265",
+    "name": "LEASEWEB-NETWORK - LeaseWeb Network B.V.",
+    "holder": "LEASEWEB-NETWORK - LeaseWeb Network B.V.",
+    "announced": false,
+    "country": ""
+  },
+  "215638": {
+    "asn": "215638",
+    "name": "AS-CILIX-LIMITED - Cilix Limited",
+    "holder": "AS-CILIX-LIMITED - Cilix Limited",
+    "announced": true,
+    "country": ""
+  },
+  "131474": {
+    "asn": "131474",
+    "name": "NETX-AS-AP NETX",
+    "holder": "NETX-AS-AP NETX",
+    "announced": true,
+    "country": "BD"
+  },
+  "212635": {
+    "asn": "212635",
+    "name": "AS212635 - Jurrian van Iersel",
+    "holder": "AS212635 - Jurrian van Iersel",
+    "announced": true,
+    "country": ""
+  },
+  "142217": {
+    "asn": "142217",
+    "name": "KENDROO-AS-AP Kendroo Limited",
+    "holder": "KENDROO-AS-AP Kendroo Limited",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "151.158.51.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
+  },
+  "151840": {
+    "asn": "151840",
+    "name": "KURIGRAMONLINE-AS-AP Kurigram Online",
+    "holder": "KURIGRAMONLINE-AS-AP Kurigram Online",
+    "announced": true,
+    "country": "BD"
+  },
+  "200612": {
+    "asn": "200612",
+    "name": "GULFBRIDGEINTERNATIONAL - Gulf Bridge International Inc.",
+    "holder": "GULFBRIDGEINTERNATIONAL - Gulf Bridge International Inc.",
+    "announced": true,
+    "country": ""
+  },
+  "58642": {
+    "asn": "58642",
+    "name": "HRCTECHNOLOGIES-BD HRC Technologies Ltd",
+    "holder": "HRCTECHNOLOGIES-BD HRC Technologies Ltd",
+    "announced": true,
+    "country": "BD"
+  },
+  "142248": {
+    "asn": "142248",
+    "name": "MSBINODANNET-AS-AP MS Binodan Net",
+    "holder": "MSBINODANNET-AS-AP MS Binodan Net",
+    "announced": true,
+    "country": "BD"
+  },
+  "201207": {
+    "asn": "201207",
+    "name": "INT-GTB - Getechbrothers, MB",
+    "holder": "INT-GTB - Getechbrothers, MB",
+    "announced": true,
+    "country": ""
+  },
+  "48200": {
+    "asn": "48200",
+    "name": "OPTEAMAX-AS - Opteamax GmbH",
+    "holder": "OPTEAMAX-AS - Opteamax GmbH",
+    "announced": true,
+    "country": ""
+  },
+  "20766": {
+    "asn": "20766",
+    "name": "GITOYEN-MAIN-AS - Association \"Gitoyen\"",
+    "holder": "GITOYEN-MAIN-AS - Association \"Gitoyen\"",
+    "announced": true,
+    "country": ""
+  },
+  "56308": {
+    "asn": "56308",
+    "name": "TELIN-NET-SG TELEKOMUNIKASI INDONESIA INTERNATIONAL",
+    "holder": "TELIN-NET-SG TELEKOMUNIKASI INDONESIA INTERNATIONAL",
+    "announced": true,
+    "country": "SG"
+  },
+  "1442217": {
+    "asn": "1442217",
+    "name": "AS1442217",
+    "holder": "AS1442217",
+    "announced": false,
+    "country": ""
+  },
+  "133323": {
+    "asn": "133323",
+    "name": "AYANNETWORK-AS-AP Ayan Network",
+    "holder": "AYANNETWORK-AS-AP Ayan Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "154554": {
+    "asn": "154554",
+    "name": "TSCOMMUNICATION-AS-AP T S Communication",
+    "holder": "TSCOMMUNICATION-AS-AP T S Communication",
+    "announced": true,
+    "country": "BD"
+  },
+  "30058": {
+    "asn": "30058",
+    "name": "FDCSERVERS - FDCservers.net",
+    "holder": "FDCSERVERS - FDCservers.net",
+    "announced": true,
+    "country": ""
+  },
+  "3399": {
+    "asn": "3399",
+    "name": "OBE-NET - Obenet AB",
+    "holder": "OBE-NET - Obenet AB",
+    "announced": true,
+    "country": ""
+  },
+  "5394": {
+    "asn": "5394",
+    "name": "UNIDATA - UNIDATA S.p.A.",
+    "holder": "UNIDATA - UNIDATA S.p.A.",
+    "announced": true,
+    "country": ""
+  },
+  "8714": {
+    "asn": "8714",
+    "name": "LINX-ROUTESRV - London Internet Exchange Ltd.",
+    "holder": "LINX-ROUTESRV - London Internet Exchange Ltd.",
+    "announced": false,
     "country": ""
   }
 }
