@@ -19,3 +19,4 @@ node_modules/
 # Rust/WASM build artifacts (the compiled pkg/ is committed, target/ is not)
 wasm/bgp-wasm/target/
 wasm/bgp-wasm/pkg/.gitignore
+data/BD/bgp_routes_raw.jsonl
