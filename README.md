@@ -2,7 +2,7 @@
 
 An interactive visualization platform showing how Bangladesh's internet connects to the global network via BGP routing. Understand the **license-aware 6-category model** of internet connectivity: Local Companies → Gateways (Licensed IIGs + Detected Gateways) → International Transit.
 
-**[Live Demo](https://yourusername.github.io/bgp-bangladesh/)** (replace with your GitHub Pages URL)
+**[Live Demo](https://www.shafayat.bd/bgp-bangladesh/)**
 
 ## Quick Start
 
