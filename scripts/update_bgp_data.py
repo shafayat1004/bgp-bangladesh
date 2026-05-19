@@ -1004,6 +1004,9 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, pe
     iigs_with_domestic = set()
     for (local_company, iig), count in top_domestic_edges:
         iigs_with_domestic.add(iig)
+
+    # BD ASNs with direct international peers should remain visible as detected gateways.
+    direct_peers_map = analysis.get("direct_peers_map", {})
     
     node_map = {}
     
@@ -1026,6 +1029,8 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, pe
                     else:
                         node_type = "offshore-enterprise"
                 elif asn in iigs_with_domestic:
+                    node_type = "detected-iig"
+                elif is_bd_registered and direct_peers_map.get(asn):
                     node_type = "detected-iig"
                 else:
                     node_type = "local-company"

@@ -186,6 +186,7 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEd
   for (const [edgeKey] of sortedDomestic) {
     iigsWithDomestic.add(edgeKey.split('|')[1]);
   }
+  const directPeersMap = analysis.directPeersMap || {};
 
   const nodeMap = {};
   const edges = [];
@@ -211,6 +212,8 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEd
           }
         } else if (iigsWithDomestic.has(asn)) {
           type = 'detected-iig'; // Acting as gateway, not in known IIG list
+        } else if (isBDRegistered && directPeersMap[asn]?.length) {
+          type = 'detected-iig'; // Directly peering with international feeders
         } else {
           type = 'local-company'; // No domestic customers, demote
         }

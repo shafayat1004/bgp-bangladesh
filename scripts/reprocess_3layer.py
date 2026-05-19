@@ -111,6 +111,7 @@ local_isp_counts = collections.Counter()  # Origin ASN (last in path)
 edge_intl = collections.Counter()      # outside → iig edges
 edge_domestic = collections.Counter()  # local_isp → iig edges
 valid_obs = 0
+direct_peers = collections.Counter()
 
 for idx, rt in enumerate(routes):
     if idx % 50000 == 0:
@@ -149,6 +150,12 @@ for idx, rt in enumerate(routes):
 
     # Origin ASN = last ASN in path (the one announcing the prefix)
     origin = path[-1]
+
+    # Track direct adjacency for BD ASNs to retain direct international peers as gateways.
+    for pi in range(len(path) - 1):
+        a, b = path[pi], path[pi + 1]
+        if a in country_asns or b in country_asns:
+            direct_peers[(a, b)] += 1
 
     if outside and iig:
         outside_counts[outside] += 1
@@ -300,6 +307,20 @@ iigs_with_domestic = set()
 for (local_isp, iig), count in top_domestic_edges:
     iigs_with_domestic.add(iig)
 
+# Build direct peers map: BD ASN -> non-BD adjacent peers
+direct_peers_map = {}
+for (a, b), count in direct_peers.items():
+    if b in country_asns and a not in country_asns:
+        if b not in direct_peers_map:
+            direct_peers_map[b] = []
+        direct_peers_map[b].append(a)
+    if a in country_asns and b not in country_asns:
+        if a not in direct_peers_map:
+            direct_peers_map[a] = []
+        direct_peers_map[a].append(b)
+for asn in direct_peers_map:
+    direct_peers_map[asn] = list(set(direct_peers_map[asn]))
+
 # Collect all nodes from top edges
 node_map = {}
 
@@ -316,6 +337,8 @@ def ensure_node(asn, node_type):
             elif is_bd_registered and detected_country and detected_country != "BD":
                 node_type = "offshore-enterprise"
             elif asn in iigs_with_domestic:
+                node_type = "detected-iig"
+            elif is_bd_registered and direct_peers_map.get(asn):
                 node_type = "detected-iig"
             else:
                 node_type = "local-company"  # Demote: no domestic customers
