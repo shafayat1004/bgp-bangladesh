@@ -164,6 +164,28 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
 }
 
 /**
+ * Classify a tentative IIG ASN into its final node type.
+ *
+ * @param {Object} args
+ * @param {string} args.asn
+ * @param {boolean} args.isBDRegistered
+ * @param {string} args.geoCountry
+ * @param {Set<string>} args.btrcLicensedASNs
+ * @param {Set<string>} args.iigsWithDomestic
+ * @param {Object<string, string[]>} args.directPeersMap
+ * @returns {'iig'|'detected-iig'|'offshore-enterprise'|'offshore-gateway'|'local-company'}
+ */
+export function classifyTentativeIIGType({ asn, isBDRegistered, geoCountry, btrcLicensedASNs, iigsWithDomestic, directPeersMap }) {
+  if (btrcLicensedASNs.has(asn)) return 'iig';
+  if (isBDRegistered && geoCountry && geoCountry !== 'BD') {
+    return iigsWithDomestic.has(asn) ? 'offshore-gateway' : 'offshore-enterprise';
+  }
+  if (iigsWithDomestic.has(asn)) return 'detected-iig';
+  if (isBDRegistered && directPeersMap[asn]?.length) return 'detected-iig';
+  return 'local-company';
+}
+
+/**
  * Build visualization data with license-aware classification.
  *
  * @param {Object} analysis - Result from analyzeGateways()
@@ -201,22 +223,14 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEd
 
       // Reclassify tentative IIGs based on license list + geolocation
       if (type === 'iig') {
-        if (btrcLicensedASNs.has(asn)) {
-          type = 'iig'; // Confirmed: in BTRC license list
-        } else if (isBDRegistered && geoCountry && geoCountry !== 'BD') {
-          // Offshore BD ASN - split by transit role
-          if (iigsWithDomestic.has(asn)) {
-            type = 'offshore-gateway'; // Abroad + selling transit (potential rogue)
-          } else {
-            type = 'offshore-enterprise'; // Abroad + no customers (harmless)
-          }
-        } else if (iigsWithDomestic.has(asn)) {
-          type = 'detected-iig'; // Acting as gateway, not in known IIG list
-        } else if (isBDRegistered && directPeersMap[asn]?.length) {
-          type = 'detected-iig'; // Directly peering with international feeders
-        } else {
-          type = 'local-company'; // No domestic customers, demote
-        }
+        type = classifyTentativeIIGType({
+          asn,
+          isBDRegistered,
+          geoCountry,
+          btrcLicensedASNs,
+          iigsWithDomestic,
+          directPeersMap,
+        });
       }
 
       nodeMap[asn] = {

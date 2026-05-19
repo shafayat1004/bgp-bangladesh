@@ -986,6 +986,22 @@ def fetch_peering_locations(offshore_asns, direct_peers_map, rate_limiter):
 # Build Visualization Data
 # ═══════════════════════════════════════════════════════════════════════════
 
+def classify_tentative_iig_type(asn, is_bd_registered, geo_country, btrc_licensed_asns,
+                                iigs_with_domestic, direct_peers_map):
+    """Classify a tentative gateway ASN into final node type."""
+    if asn in btrc_licensed_asns:
+        return "iig"
+    if is_bd_registered and geo_country and geo_country != "BD":
+        if asn in iigs_with_domestic:
+            return "offshore-gateway"
+        return "offshore-enterprise"
+    if asn in iigs_with_domestic:
+        return "detected-iig"
+    if is_bd_registered and direct_peers_map.get(asn):
+        return "detected-iig"
+    return "local-company"
+
+
 def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, peering_locations=None):
     """Build visualization data with license-aware 6-category classification."""
     if btrc_licensed_asns is None:
@@ -1018,22 +1034,12 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, pe
             geo_breakdown = geo_data.get("breakdown", []) if isinstance(geo_data, dict) else []
             is_bd_registered = asn in country_asns
             
-            # Reclassify tentative IIGs based on license list + geolocation
+            # Reclassify tentative IIGs based on license list + geolocation.
             if node_type == "iig":
-                if asn in btrc_licensed_asns:
-                    node_type = "iig"  # Confirmed: in BTRC license list
-                elif is_bd_registered and geo_country and geo_country != "BD":
-                    # Offshore BD ASN - split by transit role
-                    if asn in iigs_with_domestic:
-                        node_type = "offshore-gateway"
-                    else:
-                        node_type = "offshore-enterprise"
-                elif asn in iigs_with_domestic:
-                    node_type = "detected-iig"
-                elif is_bd_registered and direct_peers_map.get(asn):
-                    node_type = "detected-iig"
-                else:
-                    node_type = "local-company"
+                node_type = classify_tentative_iig_type(
+                    asn, is_bd_registered, geo_country, btrc_licensed_asns,
+                    iigs_with_domestic, direct_peers_map
+                )
             
             # Get peering location data if available
             peering = peering_locations.get(asn, {})

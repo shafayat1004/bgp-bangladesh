@@ -1,0 +1,8 @@
+{
+  "name": "bgp-bangladesh",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:js": "node --test tests-js/**/*.test.js"
+  }
+}

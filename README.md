@@ -37,6 +37,16 @@ npx serve .
 # Then open http://localhost:8000
 ```
 
+### Run Unit Tests
+
+```bash
+# Python tests (classification + route analysis helpers)
+python3 -m unittest discover -s tests -p "test_*.py" -v
+
+# JavaScript tests (live data processor classification logic)
+npm run test:js
+```
+
 ---
 
 ## What Is This?
