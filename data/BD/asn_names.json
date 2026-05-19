@@ -1417,9 +1417,9 @@
     "holder": "FLAREZENLTD-AS-AP Flarezen Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "SG",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "SG",
+      "dominant_country": "BD",
       "breakdown": [
         {
           "country": "BD",
@@ -1448,7 +1448,7 @@
         {
           "country": "SG",
           "city": "Singapore",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "2001:df0:f7c0::/48"
           ]
@@ -1456,7 +1456,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "2001:df1:8f40::/48"
           ]
@@ -1464,15 +1464,23 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "2001:df5:5140::/48"
           ]
         },
         {
           "country": "BD",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "2001:df5:f240::/48"
+          ]
+        },
+        {
+          "country": "BD",
           "city": "Dhaka",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "2001:df7:b880::/48"
           ]
@@ -1480,7 +1488,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "2401:fba0:1::/48"
           ]
@@ -1528,7 +1536,7 @@
           ]
         }
       ],
-      "bd_percentage": 160.0
+      "bd_percentage": 163.35
     }
   },
   "150178": {
@@ -2421,7 +2429,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "103.191.240.0/23"
           ]
@@ -2429,7 +2437,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "103.213.38.0/23"
           ]
@@ -2437,7 +2445,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "163.227.238.0/23"
           ]
@@ -2445,7 +2453,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 10.0,
+          "percentage": 8.33,
           "prefixes": [
             "49.143.249.0/24"
           ]
@@ -2453,7 +2461,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 10.0,
+          "percentage": 8.33,
           "prefixes": [
             "49.213.52.0/24"
           ]
@@ -2461,21 +2469,37 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 10.0,
+          "percentage": 8.33,
           "prefixes": [
             "160.187.130.0/24"
           ]
         },
         {
+          "country": "SG",
+          "city": "Singapore",
+          "percentage": 8.33,
+          "prefixes": [
+            "163.128.140.0/24"
+          ]
+        },
+        {
           "country": "BD",
           "city": "",
-          "percentage": 10.0,
+          "percentage": 8.33,
+          "prefixes": [
+            "163.128.216.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 8.33,
           "prefixes": [
             "203.26.151.0/24"
           ]
         }
       ],
-      "bd_percentage": 200.0
+      "bd_percentage": 191.66
     }
   },
   "132169": {
@@ -4329,7 +4353,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 22.22,
+          "percentage": 21.05,
           "prefixes": [
             "103.28.120.0/22"
           ]
@@ -4337,7 +4361,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 22.22,
+          "percentage": 21.05,
           "prefixes": [
             "163.47.36.0/22"
           ]
@@ -4345,7 +4369,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 22.22,
+          "percentage": 21.05,
           "prefixes": [
             "203.96.188.0/22"
           ]
@@ -4353,7 +4377,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.53,
           "prefixes": [
             "103.147.242.0/23"
           ]
@@ -4361,7 +4385,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.53,
           "prefixes": [
             "103.157.134.0/23"
           ]
@@ -4369,7 +4393,15 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 5.56,
+          "percentage": 5.26,
+          "prefixes": [
+            "103.84.156.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.26,
           "prefixes": [
             "103.140.181.0/24"
           ]
@@ -4377,13 +4409,13 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 5.56,
+          "percentage": 5.26,
           "prefixes": [
             "103.159.2.0/24"
           ]
         }
       ],
-      "bd_percentage": 200.0
+      "bd_percentage": 199.99
     }
   },
   "151615": {
@@ -6830,7 +6862,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "Chittagong",
+          "city": "",
           "percentage": 100.0,
           "prefixes": [
             "103.73.44.0/23"
@@ -8570,20 +8602,11 @@
     "holder": "TSTNETWORK-AS-AP TST Network",
     "announced": true,
     "country": "BD",
-    "geo_country": "IN",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "IN",
-      "breakdown": [
-        {
-          "country": "IN",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "151.158.86.0/23"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "140889": {
@@ -10257,7 +10280,62 @@
     "name": "WIREITSERVICES-AS-AP Wire IT Services",
     "holder": "WIREITSERVICES-AS-AP Wire IT Services",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "US",
+    "geo_country_data": {
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 32.0,
+          "prefixes": [
+            "74.2.208.0/21"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.0,
+          "prefixes": [
+            "74.2.32.0/22"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.0,
+          "prefixes": [
+            "74.2.40.0/22"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.0,
+          "prefixes": [
+            "74.2.48.0/22"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.0,
+          "prefixes": [
+            "74.2.60.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 4.0,
+          "prefixes": [
+            "103.6.161.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 4.0
+    }
   },
   "140087": {
     "asn": "140087",
@@ -11259,7 +11337,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 100.0,
           "prefixes": [
             "103.131.158.0/24"
@@ -11548,16 +11626,23 @@
     "holder": "BENGALHOST-AS-AP BengalHost",
     "announced": true,
     "country": "BD",
-    "geo_country": "HK",
+    "geo_country": "CN",
     "geo_country_data": {
-      "dominant_country": "HK",
+      "dominant_country": "CN",
       "breakdown": [
+        {
+          "country": "CN",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "23.129.76.0/24"
+          ]
+        },
         {
           "country": "HK",
           "city": "",
-          "percentage": 100.0,
+          "percentage": 50.0,
           "prefixes": [
-            "23.129.76.0/24",
             "23.129.77.0/24"
           ]
         }
@@ -12184,7 +12269,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.132.42.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -14151,5 +14245,294 @@
     "holder": "LINX-ROUTESRV - London Internet Exchange Ltd.",
     "announced": false,
     "country": ""
+  },
+  "134404": {
+    "asn": "134404",
+    "name": "INTRANETBD-AS-AP IBD Communication.",
+    "holder": "INTRANETBD-AS-AP IBD Communication.",
+    "announced": true,
+    "country": "BD"
+  },
+  "39686": {
+    "asn": "39686",
+    "name": "AS-EUROFIBER Eurofiber Nederland BV",
+    "holder": "AS-EUROFIBER Eurofiber Nederland BV",
+    "announced": true,
+    "country": ""
+  },
+  "2500": {
+    "asn": "2500",
+    "name": "WIDE-BB WIDE Project",
+    "holder": "WIDE-BB WIDE Project",
+    "announced": true,
+    "country": "BB"
+  },
+  "138562": {
+    "asn": "138562",
+    "name": "UCD-AS-AP United Communication Dhaka",
+    "holder": "UCD-AS-AP United Communication Dhaka",
+    "announced": true,
+    "country": "BD"
+  },
+  "154580": {
+    "asn": "154580",
+    "name": "LPL-AS-AP Linux Pathshala Limited.",
+    "holder": "LPL-AS-AP Linux Pathshala Limited.",
+    "announced": true,
+    "country": "BD"
+  },
+  "154636": {
+    "asn": "154636",
+    "name": "ULTIMATE-AS-AP Ultimate Solution",
+    "holder": "ULTIMATE-AS-AP Ultimate Solution",
+    "announced": true,
+    "country": "BD"
+  },
+  "154569": {
+    "asn": "154569",
+    "name": "SNSC-AS-AP Speed Net Services@Cyber Cafe",
+    "holder": "SNSC-AS-AP Speed Net Services@Cyber Cafe",
+    "announced": true,
+    "country": "BD"
+  },
+  "28663": {
+    "asn": "28663",
+    "name": "FLYS INTERATIVA LTDA",
+    "holder": "FLYS INTERATIVA LTDA",
+    "announced": true,
+    "country": ""
+  },
+  "152147": {
+    "asn": "152147",
+    "name": "IT-AS-AP IT Connection Network",
+    "holder": "IT-AS-AP IT Connection Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "154497": {
+    "asn": "154497",
+    "name": "TSL-AS-AP Technonext Software Limited",
+    "holder": "TSL-AS-AP Technonext Software Limited",
+    "announced": true,
+    "country": "BD"
+  },
+  "58601": {
+    "asn": "58601",
+    "name": "AAMRA-ATL-BD Aamra technologies limited",
+    "holder": "AAMRA-ATL-BD Aamra technologies limited",
+    "announced": false,
+    "country": "BD"
+  },
+  "154498": {
+    "asn": "154498",
+    "name": "NRBCBANKPLC-AS-AP NRBC Bank PLC",
+    "holder": "NRBCBANKPLC-AS-AP NRBC Bank PLC",
+    "announced": true,
+    "country": "BD"
+  },
+  "154641": {
+    "asn": "154641",
+    "name": "DSMARTIT-AS-AP DSmart IT",
+    "holder": "DSMARTIT-AS-AP DSmart IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "135817": {
+    "asn": "135817",
+    "name": "ESTO-AS-AP ESTO MEDIA PRIVATE LIMITED",
+    "holder": "ESTO-AS-AP ESTO MEDIA PRIVATE LIMITED",
+    "announced": true,
+    "country": ""
+  },
+  "142240": {
+    "asn": "142240",
+    "name": "HOSTNOST-AS-AP HostNost",
+    "holder": "HOSTNOST-AS-AP HostNost",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "AE",
+    "geo_country_data": {
+      "dominant_country": "AE",
+      "breakdown": [
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "77.110.67.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "77.110.69.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "77.110.73.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "77.110.78.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "77.110.86.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "77.110.92.0/24"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 11.11,
+          "prefixes": [
+            "151.244.120.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "212.134.53.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "212.135.18.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
+    }
+  },
+  "14593": {
+    "asn": "14593",
+    "name": "SPACEX-STARLINK - Space Exploration Technologies Corporation",
+    "holder": "SPACEX-STARLINK - Space Exploration Technologies Corporation",
+    "announced": true,
+    "country": ""
+  },
+  "203472": {
+    "asn": "203472",
+    "name": "POEMA-AS-EU PENG YUJEN",
+    "holder": "POEMA-AS-EU PENG YUJEN",
+    "announced": true,
+    "country": ""
+  },
+  "140035": {
+    "asn": "140035",
+    "name": "TSTNETWORK-AS-AP TST Network",
+    "holder": "TSTNETWORK-AS-AP TST Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "32097": {
+    "asn": "32097",
+    "name": "WII - WholeSale Internet, Inc.",
+    "holder": "WII - WholeSale Internet, Inc.",
+    "announced": true,
+    "country": ""
+  },
+  "152322": {
+    "asn": "152322",
+    "name": "HBBN-AS-AP Hilsa BD Broadband Network",
+    "holder": "HBBN-AS-AP Hilsa BD Broadband Network",
+    "announced": true,
+    "country": "BD"
+  },
+  "154655": {
+    "asn": "154655",
+    "name": "PIXELIT-AS-AP Pixel IT",
+    "holder": "PIXELIT-AS-AP Pixel IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "265137": {
+    "asn": "265137",
+    "name": "CONECTIVA TELECOM TECNOLOGIA LTDA - ME",
+    "holder": "CONECTIVA TELECOM TECNOLOGIA LTDA - ME",
+    "announced": true,
+    "country": ""
+  },
+  "154439": {
+    "asn": "154439",
+    "name": "TECHABYTESOLUTIONS-AS-AP Techabyte Solutions",
+    "holder": "TECHABYTESOLUTIONS-AS-AP Techabyte Solutions",
+    "announced": true,
+    "country": "BD"
+  },
+  "152565": {
+    "asn": "152565",
+    "name": "JOYSVC-AS-IN JOY SERVICES",
+    "holder": "JOYSVC-AS-IN JOY SERVICES",
+    "announced": true,
+    "country": "IN"
+  },
+  "150726": {
+    "asn": "150726",
+    "name": "UMAXINTERNET-AS-AP U-MAX INTERNET",
+    "holder": "UMAXINTERNET-AS-AP U-MAX INTERNET",
+    "announced": true,
+    "country": "BD"
+  },
+  "45474": {
+    "asn": "45474",
+    "name": "NEXUSGUARD-AS-AP Nexusguard Pte. Ltd.",
+    "holder": "NEXUSGUARD-AS-AP Nexusguard Pte. Ltd.",
+    "announced": true,
+    "country": ""
+  },
+  "212895": {
+    "asn": "212895",
+    "name": "ROUTE64_ORG Johannes Ernst",
+    "holder": "ROUTE64_ORG Johannes Ernst",
+    "announced": true,
+    "country": ""
+  },
+  "7721": {
+    "asn": "7721",
+    "name": "QC-NET Qin Cloud Networks",
+    "holder": "QC-NET Qin Cloud Networks",
+    "announced": true,
+    "country": ""
+  },
+  "29390": {
+    "asn": "29390",
+    "name": "CTU-AS Netassist International EOOD",
+    "holder": "CTU-AS Netassist International EOOD",
+    "announced": true,
+    "country": ""
+  },
+  "154671": {
+    "asn": "154671",
+    "name": "NURHOST-AS-AP Nur Host",
+    "holder": "NURHOST-AS-AP Nur Host",
+    "announced": true,
+    "country": "BD"
   }
 }
