@@ -32,30 +32,27 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
+          python -m pip install -r requirements.txt
 
       - name: Run BGP data updater
         run: |
           python scripts/update_bgp_data.py --country BD
-      
+
       - name: Remove raw JSONL file
         run: |
           rm -f data/BD/*.jsonl
-      
+
       - name: Commit and push generated JSON files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      
+
           git add data/BD/viz_data.json data/BD/asn_names.json data/BD/metadata.json
-      
+
           if git diff --cached --quiet; then
             echo "No JSON data changes to commit."
             exit 0
           fi
-      
+
           git commit -m "Update BGP data: $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
