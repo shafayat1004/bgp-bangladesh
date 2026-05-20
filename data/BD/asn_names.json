@@ -14510,11 +14510,44 @@
     "holder": "FASTZONEIT-AS-AP FAST ZONE IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "LT",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "89.116.164.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "143.14.18.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "150.241.139.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "151.244.136.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "41095": {
