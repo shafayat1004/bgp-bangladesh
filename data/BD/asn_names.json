@@ -14563,5 +14563,25 @@
     "holder": "CDSC-AS1 - CDS Global Cloud Co., Ltd",
     "announced": true,
     "country": ""
+  },
+  "62610": {
+    "asn": "62610",
+    "name": "ZEN-DPS - Zenlayer Inc",
+    "holder": "ZEN-DPS - Zenlayer Inc",
+    "announced": true,
+    "country": ""
+  },
+  "153810": {
+    "asn": "153810",
+    "name": "MDNTECHNOLOGYLTD-AS-AP MDN TECHNOLOGY LTD",
+    "holder": "MDNTECHNOLOGYLTD-AS-AP MDN TECHNOLOGY LTD",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
