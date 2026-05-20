@@ -14600,5 +14600,12 @@
       ],
       "bd_percentage": 0
     }
+  },
+  "142156": {
+    "asn": "142156",
+    "name": "GOTIONLINE-AS-AP Goti Online",
+    "holder": "GOTIONLINE-AS-AP Goti Online",
+    "announced": true,
+    "country": "BD"
   }
 }
