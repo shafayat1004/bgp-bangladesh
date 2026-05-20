@@ -14577,11 +14577,28 @@
     "holder": "MDNTECHNOLOGYLTD-AS-AP MDN TECHNOLOGY LTD",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "194.231.129.0/24"
+          ]
+        },
+        {
+          "country": "BE",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "212.100.177.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   }
 }
