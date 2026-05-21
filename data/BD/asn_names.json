@@ -14615,5 +14615,12 @@
     "holder": "GOTIONLINE-AS-AP Goti Online",
     "announced": true,
     "country": "BD"
+  },
+  "8359": {
+    "asn": "8359",
+    "name": "MTS MTS PJSC",
+    "holder": "MTS MTS PJSC",
+    "announced": true,
+    "country": ""
   }
 }
