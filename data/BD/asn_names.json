@@ -5739,7 +5739,22 @@
     "name": "JASHORECOLO-AS-AP JASHORE COLO",
     "holder": "JASHORECOLO-AS-AP JASHORE COLO",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df4:8440::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "31742": {
     "asn": "31742",
@@ -14622,5 +14637,31 @@
     "holder": "MTS MTS PJSC",
     "announced": true,
     "country": ""
+  },
+  "153622": {
+    "asn": "153622",
+    "name": "MADINAIT-AS-AP Madina IT",
+    "holder": "MADINAIT-AS-AP Madina IT",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
+  },
+  "154612": {
+    "asn": "154612",
+    "name": "BENGALCLOUD1-AS-AP Bengalcloud International",
+    "holder": "BENGALCLOUD1-AS-AP Bengalcloud International",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
