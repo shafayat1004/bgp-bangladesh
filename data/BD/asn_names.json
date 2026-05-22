@@ -5902,7 +5902,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "64.204.13.0/24"
           ]
@@ -5910,15 +5910,23 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "65.87.8.0/24"
           ]
         },
         {
+          "country": "CA",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "104.234.229.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "107.158.47.0/24"
           ]
@@ -5926,7 +5934,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "143.14.66.0/24"
           ]
@@ -5934,7 +5942,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "155.117.218.0/24"
           ]
