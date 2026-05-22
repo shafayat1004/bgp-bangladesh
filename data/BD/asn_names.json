@@ -4155,7 +4155,13 @@
     "name": "SATISFYSOFT2-AS-AP SatisfySoft",
     "holder": "SATISFYSOFT2-AS-AP SatisfySoft",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   },
   "137449": {
     "asn": "137449",
@@ -11923,16 +11929,23 @@
     "holder": "BENGALHOST-AS-AP BengalHost",
     "announced": true,
     "country": "BD",
-    "geo_country": "HK",
+    "geo_country": "CN",
     "geo_country_data": {
-      "dominant_country": "HK",
+      "dominant_country": "CN",
       "breakdown": [
+        {
+          "country": "CN",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "23.129.76.0/24"
+          ]
+        },
         {
           "country": "HK",
           "city": "",
-          "percentage": 100.0,
+          "percentage": 50.0,
           "prefixes": [
-            "23.129.76.0/24",
             "23.129.77.0/24"
           ]
         }
@@ -15017,13 +15030,13 @@
     "holder": "BENGALCLOUD-AS-AP BengalCloud",
     "announced": true,
     "country": "BD",
-    "geo_country": "NL",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "NL",
+      "dominant_country": "GB",
       "breakdown": [
         {
-          "country": "NL",
-          "city": "Amsterdam",
+          "country": "GB",
+          "city": "",
           "percentage": 33.33,
           "prefixes": [
             "82.22.125.0/24"
