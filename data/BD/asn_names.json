@@ -10185,7 +10185,30 @@
     "name": "ABS1-AS-AP A.B.S. Online Service",
     "holder": "ABS1-AS-AP A.B.S. Online Service",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.156.177.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "122.50.11.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "835": {
     "asn": "835",
@@ -14947,6 +14970,26 @@
         }
       ],
       "bd_percentage": 0
+    }
+  },
+  "1141217": {
+    "asn": "1141217",
+    "name": "AS1141217",
+    "holder": "AS1141217",
+    "announced": false,
+    "country": ""
+  },
+  "153169": {
+    "asn": "153169",
+    "name": "BENGALCLOUD-AS-AP BengalCloud",
+    "holder": "BENGALCLOUD-AS-AP BengalCloud",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   }
 }
