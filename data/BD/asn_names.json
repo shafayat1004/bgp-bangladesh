@@ -9730,15 +9730,23 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 11.11,
           "prefixes": [
             "31.59.110.0/24"
           ]
         },
         {
+          "country": "UA",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "46.202.61.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 11.11,
           "prefixes": [
             "150.241.209.0/24"
           ]
@@ -9746,15 +9754,23 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 11.11,
           "prefixes": [
             "151.243.183.0/24"
           ]
         },
         {
+          "country": "AE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "151.243.234.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 11.11,
           "prefixes": [
             "155.117.16.0/24"
           ]
@@ -9762,13 +9778,29 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 11.11,
           "prefixes": [
             "163.61.188.0/24"
           ]
+        },
+        {
+          "country": "DE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "169.40.43.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "178.83.165.0/24"
+          ]
         }
       ],
-      "bd_percentage": 20.0
+      "bd_percentage": 11.11
     }
   },
   "140711": {
@@ -14985,11 +15017,36 @@
     "holder": "BENGALCLOUD-AS-AP BengalCloud",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "NL",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "NL",
+      "breakdown": [
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 33.33,
+          "prefixes": [
+            "82.22.125.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Los Angeles",
+          "percentage": 33.33,
+          "prefixes": [
+            "141.11.210.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "151.245.143.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   }
 }
