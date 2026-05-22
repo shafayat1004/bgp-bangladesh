@@ -5755,7 +5755,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 20.0,
           "prefixes": [
             "64.204.13.0/24"
           ]
@@ -5763,7 +5763,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 20.0,
           "prefixes": [
             "65.87.8.0/24"
           ]
@@ -5771,7 +5771,23 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 20.0,
+          "prefixes": [
+            "107.158.47.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "143.14.66.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 20.0,
           "prefixes": [
             "155.117.218.0/24"
           ]
@@ -14655,15 +14671,23 @@
         {
           "country": "GB",
           "city": "Stevenage",
-          "percentage": 33.33,
+          "percentage": 25.0,
           "prefixes": [
             "51.194.129.0/24"
           ]
         },
         {
+          "country": "BR",
+          "city": "Bel\u00e9m",
+          "percentage": 25.0,
+          "prefixes": [
+            "189.13.120.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 25.0,
           "prefixes": [
             "194.231.129.0/24"
           ]
@@ -14671,7 +14695,7 @@
         {
           "country": "BE",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 25.0,
           "prefixes": [
             "212.100.177.0/24"
           ]
