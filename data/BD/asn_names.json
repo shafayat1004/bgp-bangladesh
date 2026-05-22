@@ -5424,7 +5424,154 @@
     "name": "LINK3-TECH-AS-BD-AP Link3 Technologies Ltd.",
     "holder": "LINK3-TECH-AS-BD-AP Link3 Technologies Ltd.",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2400:ca00::/28"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 15.24,
+          "prefixes": [
+            "27.147.128.0/20",
+            "27.147.144.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Rajshahi",
+          "percentage": 15.24,
+          "prefixes": [
+            "27.147.192.0/21",
+            "27.147.200.0/24",
+            "27.147.201.0/25"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 15.24,
+          "prefixes": [
+            "123.200.0.0/19"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Tangail",
+          "percentage": 15.24,
+          "prefixes": [
+            "203.76.96.0/19"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Sylhet",
+          "percentage": 11.43,
+          "prefixes": [
+            "27.147.224.0/21",
+            "27.147.240.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 7.62,
+          "prefixes": [
+            "27.147.160.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 7.62,
+          "prefixes": [
+            "27.147.176.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Mymensingh",
+          "percentage": 3.81,
+          "prefixes": [
+            "27.147.232.0/21"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 1.9,
+          "prefixes": [
+            "103.197.152.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 1.9,
+          "prefixes": [
+            "103.232.100.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 1.9,
+          "prefixes": [
+            "163.47.32.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.95,
+          "prefixes": [
+            "103.141.66.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.95,
+          "prefixes": [
+            "103.230.40.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.48,
+          "prefixes": [
+            "43.225.204.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.48,
+          "prefixes": [
+            "103.44.151.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 0.0,
+          "prefixes": [
+            "27.147.201.145/32"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "149649": {
     "asn": "149649",
