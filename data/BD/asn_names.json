@@ -4156,11 +4156,36 @@
     "holder": "SATISFYSOFT2-AS-AP SatisfySoft",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "AE",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "AE",
+      "breakdown": [
+        {
+          "country": "BR",
+          "city": "Vitorino Freire",
+          "percentage": 33.33,
+          "prefixes": [
+            "178.95.10.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "179.61.170.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "181.215.64.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "137449": {
@@ -9736,7 +9761,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "31.59.110.0/24"
           ]
@@ -9744,15 +9769,23 @@
         {
           "country": "UA",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "46.202.61.0/24"
           ]
         },
         {
+          "country": "GB",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "84.75.145.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "150.241.209.0/24"
           ]
@@ -9760,7 +9793,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "151.243.183.0/24"
           ]
@@ -9768,7 +9801,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "151.243.234.0/24"
           ]
@@ -9776,7 +9809,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "155.117.16.0/24"
           ]
@@ -9784,7 +9817,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "163.61.188.0/24"
           ]
@@ -9792,7 +9825,7 @@
         {
           "country": "DE",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "169.40.43.0/24"
           ]
@@ -9800,13 +9833,13 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 11.11,
+          "percentage": 10.0,
           "prefixes": [
             "178.83.165.0/24"
           ]
         }
       ],
-      "bd_percentage": 11.11
+      "bd_percentage": 10.0
     }
   },
   "140711": {
@@ -15030,14 +15063,14 @@
     "holder": "BENGALCLOUD-AS-AP BengalCloud",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "GB",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "GB",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 25.0,
           "prefixes": [
             "82.22.125.0/24"
           ]
@@ -15045,15 +15078,23 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 33.33,
+          "percentage": 25.0,
           "prefixes": [
             "141.11.210.0/24"
           ]
         },
         {
+          "country": "US",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "143.14.33.0/24"
+          ]
+        },
+        {
           "country": "AE",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 25.0,
           "prefixes": [
             "151.245.143.0/24"
           ]
