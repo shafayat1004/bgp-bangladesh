@@ -15063,14 +15063,22 @@
     "holder": "BENGALCLOUD-AS-AP BengalCloud",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "AE",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "AE",
       "breakdown": [
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "31.57.238.0/24"
+          ]
+        },
         {
           "country": "GB",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 20.0,
           "prefixes": [
             "82.22.125.0/24"
           ]
@@ -15078,7 +15086,7 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 25.0,
+          "percentage": 20.0,
           "prefixes": [
             "141.11.210.0/24"
           ]
@@ -15086,7 +15094,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 20.0,
           "prefixes": [
             "143.14.33.0/24"
           ]
@@ -15094,7 +15102,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 20.0,
           "prefixes": [
             "151.245.143.0/24"
           ]
@@ -15102,5 +15110,12 @@
       ],
       "bd_percentage": 0
     }
+  },
+  "17686": {
+    "asn": "17686",
+    "name": "ACCELIA ACCELIA",
+    "holder": "ACCELIA ACCELIA",
+    "announced": true,
+    "country": ""
   }
 }
