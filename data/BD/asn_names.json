@@ -2429,7 +2429,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 15.38,
           "prefixes": [
             "103.191.240.0/23"
           ]
@@ -2437,7 +2437,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 15.38,
           "prefixes": [
             "103.213.38.0/23"
           ]
@@ -2445,7 +2445,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 15.38,
           "prefixes": [
             "163.227.238.0/23"
           ]
@@ -2453,7 +2453,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 7.69,
           "prefixes": [
             "49.143.249.0/24"
           ]
@@ -2461,15 +2461,23 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 7.69,
           "prefixes": [
             "49.213.52.0/24"
           ]
         },
         {
           "country": "BD",
+          "city": "Khulna",
+          "percentage": 7.69,
+          "prefixes": [
+            "144.79.249.0/24"
+          ]
+        },
+        {
+          "country": "BD",
           "city": "Dhaka",
-          "percentage": 8.33,
+          "percentage": 7.69,
           "prefixes": [
             "160.187.130.0/24"
           ]
@@ -2477,7 +2485,7 @@
         {
           "country": "SG",
           "city": "Singapore",
-          "percentage": 8.33,
+          "percentage": 7.69,
           "prefixes": [
             "163.128.140.0/24"
           ]
@@ -2485,7 +2493,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 7.69,
           "prefixes": [
             "163.128.216.0/24"
           ]
@@ -2493,13 +2501,13 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 7.69,
           "prefixes": [
             "203.26.151.0/24"
           ]
         }
       ],
-      "bd_percentage": 191.66
+      "bd_percentage": 192.28
     }
   },
   "132169": {
