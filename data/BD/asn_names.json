@@ -9769,7 +9769,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "31.59.110.0/24"
           ]
@@ -9777,7 +9777,7 @@
         {
           "country": "UA",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "46.202.61.0/24"
           ]
@@ -9785,7 +9785,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "84.75.145.0/24"
           ]
@@ -9793,7 +9793,7 @@
         {
           "country": "TW",
           "city": "Taipei",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "145.79.148.0/24"
           ]
@@ -9801,7 +9801,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "150.241.209.0/24"
           ]
@@ -9809,7 +9809,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "151.243.183.0/24"
           ]
@@ -9817,7 +9817,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "151.243.234.0/24"
           ]
@@ -9825,15 +9825,23 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "155.117.16.0/24"
           ]
         },
         {
+          "country": "FR",
+          "city": "",
+          "percentage": 8.33,
+          "prefixes": [
+            "163.5.148.0/24"
+          ]
+        },
+        {
           "country": "BD",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "163.61.188.0/24"
           ]
@@ -9841,7 +9849,7 @@
         {
           "country": "DE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "169.40.43.0/24"
           ]
@@ -9849,13 +9857,13 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "178.83.165.0/24"
           ]
         }
       ],
-      "bd_percentage": 9.09
+      "bd_percentage": 8.33
     }
   },
   "140711": {
@@ -14936,16 +14944,32 @@
     "holder": "MDNTECHNOLOGYLTD-AS-AP MDN TECHNOLOGY LTD",
     "announced": true,
     "country": "BD",
-    "geo_country": "BR",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "BR",
+      "dominant_country": "GB",
       "breakdown": [
+        {
+          "country": "GB",
+          "city": "Stevenage",
+          "percentage": 33.33,
+          "prefixes": [
+            "51.194.129.0/24"
+          ]
+        },
         {
           "country": "BR",
           "city": "Bel\u00e9m",
-          "percentage": 100.0,
+          "percentage": 33.33,
           "prefixes": [
             "189.13.120.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "194.231.129.0/24"
           ]
         }
       ],
