@@ -15134,5 +15134,19 @@
     "holder": "ACCELIA ACCELIA",
     "announced": true,
     "country": ""
+  },
+  "21859": {
+    "asn": "21859",
+    "name": "ZEN-ECN - Zenlayer Inc",
+    "holder": "ZEN-ECN - Zenlayer Inc",
+    "announced": true,
+    "country": ""
+  },
+  "12577": {
+    "asn": "12577",
+    "name": "MMC-AT-AS MMC GmbH",
+    "holder": "MMC-AT-AS MMC GmbH",
+    "announced": true,
+    "country": ""
   }
 }
