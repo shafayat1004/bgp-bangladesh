@@ -6892,11 +6892,20 @@
     "holder": "CODENEXT-AS-AP CodeNext IT Solution",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "Piscataway",
+          "percentage": 100.0,
+          "prefixes": [
+            "163.61.236.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "136911": {
@@ -14998,7 +15007,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "31.57.238.0/24"
           ]
@@ -15006,23 +15015,15 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "31.58.221.0/24"
           ]
         },
         {
-          "country": "US",
-          "city": "",
-          "percentage": 9.09,
-          "prefixes": [
-            "31.77.242.0/24"
-          ]
-        },
-        {
           "country": "GB",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "82.22.125.0/24"
           ]
@@ -15030,7 +15031,7 @@
         {
           "country": "ES",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "83.147.4.0/24"
           ]
@@ -15038,7 +15039,7 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "141.11.210.0/24"
           ]
@@ -15046,7 +15047,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "143.14.33.0/24"
           ]
@@ -15054,7 +15055,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "151.245.143.0/24"
           ]
@@ -15062,7 +15063,7 @@
         {
           "country": "US",
           "city": "Staten Island",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "163.123.132.0/24"
           ]
@@ -15070,7 +15071,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "167.148.85.0/24"
           ]
@@ -15078,7 +15079,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 10.0,
           "prefixes": [
             "209.92.169.0/24"
           ]
