@@ -4172,14 +4172,14 @@
     "holder": "SATISFYSOFT2-AS-AP SatisfySoft",
     "announced": true,
     "country": "BD",
-    "geo_country": "AE",
+    "geo_country": "BR",
     "geo_country_data": {
-      "dominant_country": "AE",
+      "dominant_country": "BR",
       "breakdown": [
         {
           "country": "BR",
           "city": "Vitorino Freire",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "178.95.10.0/24"
           ]
@@ -4187,17 +4187,9 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "179.61.170.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "181.215.64.0/24"
           ]
         }
       ],
@@ -14888,23 +14880,15 @@
         {
           "country": "GB",
           "city": "Stevenage",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "51.194.129.0/24"
           ]
         },
         {
-          "country": "BR",
-          "city": "Bel\u00e9m",
-          "percentage": 33.33,
-          "prefixes": [
-            "189.13.120.0/24"
-          ]
-        },
-        {
           "country": "US",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "194.231.129.0/24"
           ]
