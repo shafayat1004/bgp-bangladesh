@@ -4283,14 +4283,30 @@
     "holder": "SATISFYSOFT2-AS-AP SatisfySoft",
     "announced": true,
     "country": "BD",
-    "geo_country": "AE",
+    "geo_country": "HU",
     "geo_country_data": {
-      "dominant_country": "AE",
+      "dominant_country": "HU",
       "breakdown": [
+        {
+          "country": "HU",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "5.182.112.0/24"
+          ]
+        },
+        {
+          "country": "HU",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "83.137.153.0/24"
+          ]
+        },
         {
           "country": "AE",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 20.0,
           "prefixes": [
             "151.243.188.0/24"
           ]
@@ -4298,7 +4314,7 @@
         {
           "country": "BR",
           "city": "Vitorino Freire",
-          "percentage": 33.33,
+          "percentage": 20.0,
           "prefixes": [
             "178.95.10.0/24"
           ]
@@ -4306,7 +4322,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 20.0,
           "prefixes": [
             "179.61.170.0/24"
           ]
@@ -9865,11 +9881,52 @@
     "holder": "NEWDHAKAHARDWARE-AS-AP NEW DHAKA HARDWARE",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "TW",
+          "city": "Taipei",
+          "percentage": 20.0,
+          "prefixes": [
+            "145.79.148.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "155.117.16.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "155.117.105.0/24"
+          ]
+        },
+        {
+          "country": "FR",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "163.5.148.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "163.61.188.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 20.0
     }
   },
   "140711": {
