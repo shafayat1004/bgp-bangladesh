@@ -4172,14 +4172,22 @@
     "holder": "SATISFYSOFT2-AS-AP SatisfySoft",
     "announced": true,
     "country": "BD",
-    "geo_country": "BR",
+    "geo_country": "AE",
     "geo_country_data": {
-      "dominant_country": "BR",
+      "dominant_country": "AE",
       "breakdown": [
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "151.243.188.0/24"
+          ]
+        },
         {
           "country": "BR",
           "city": "Vitorino Freire",
-          "percentage": 50.0,
+          "percentage": 33.33,
           "prefixes": [
             "178.95.10.0/24"
           ]
@@ -4187,7 +4195,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 33.33,
           "prefixes": [
             "179.61.170.0/24"
           ]
@@ -9753,7 +9761,7 @@
         {
           "country": "TW",
           "city": "Taipei",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "145.79.148.0/24"
           ]
@@ -9761,15 +9769,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
-          "prefixes": [
-            "150.241.209.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "155.117.16.0/24"
           ]
@@ -9777,7 +9777,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "155.117.105.0/24"
           ]
@@ -9785,7 +9785,7 @@
         {
           "country": "FR",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "163.5.148.0/24"
           ]
@@ -9793,13 +9793,13 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "163.61.188.0/24"
           ]
         }
       ],
-      "bd_percentage": 16.67
+      "bd_percentage": 20.0
     }
   },
   "140711": {
