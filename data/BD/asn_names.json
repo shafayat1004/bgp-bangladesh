@@ -8141,7 +8141,13 @@
     "name": "ZWS-AS-AP ZORNTECH WEB SOLUTIONS",
     "holder": "ZWS-AS-AP ZORNTECH WEB SOLUTIONS",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   },
   "133325": {
     "asn": "133325",
@@ -15189,7 +15195,7 @@
         },
         {
           "country": "US",
-          "city": "Staten Island",
+          "city": "",
           "percentage": 10.0,
           "prefixes": [
             "163.123.132.0/24"
