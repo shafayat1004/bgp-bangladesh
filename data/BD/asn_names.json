@@ -2544,7 +2544,118 @@
     "name": "PREMIUM-AS-AP Premium Connectivity Limited",
     "holder": "PREMIUM-AS-AP Premium Connectivity Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2404:34c0:1::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2404:34c0:2::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "103.132.92.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "180.210.160.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "180.210.176.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "180.210.188.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "180.210.164.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "180.210.168.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "180.210.174.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "180.210.180.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "180.210.184.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.57,
+          "prefixes": [
+            "180.210.182.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.57,
+          "prefixes": [
+            "180.210.186.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "30844": {
     "asn": "30844",
@@ -15106,6 +15217,13 @@
     "asn": "12577",
     "name": "MMC-AT-AS MMC GmbH",
     "holder": "MMC-AT-AS MMC GmbH",
+    "announced": true,
+    "country": ""
+  },
+  "38536": {
+    "asn": "38536",
+    "name": "STPI-DEHRADUN Software Technology Parks of India",
+    "holder": "STPI-DEHRADUN Software Technology Parks of India",
     "announced": true,
     "country": ""
   }
