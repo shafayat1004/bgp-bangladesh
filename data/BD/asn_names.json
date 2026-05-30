@@ -8142,11 +8142,52 @@
     "holder": "ZWS-AS-AP ZORNTECH WEB SOLUTIONS",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "189.13.138.0/23"
+          ]
+        },
+        {
+          "country": "HU",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "88.209.198.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "San Jose",
+          "percentage": 16.67,
+          "prefixes": [
+            "108.186.195.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "150.241.143.0/24"
+          ]
+        },
+        {
+          "country": "FR",
+          "city": "Paris",
+          "percentage": 16.67,
+          "prefixes": [
+            "178.94.180.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "133325": {
@@ -9892,9 +9933,17 @@
       "dominant_country": "US",
       "breakdown": [
         {
+          "country": "GB",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "82.25.52.0/24"
+          ]
+        },
+        {
           "country": "TW",
           "city": "Taipei",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "145.79.148.0/24"
           ]
@@ -9902,7 +9951,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "155.117.16.0/24"
           ]
@@ -9910,7 +9959,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "155.117.105.0/24"
           ]
@@ -9918,7 +9967,7 @@
         {
           "country": "FR",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "163.5.148.0/24"
           ]
@@ -9926,13 +9975,13 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "163.61.188.0/24"
           ]
         }
       ],
-      "bd_percentage": 20.0
+      "bd_percentage": 16.67
     }
   },
   "140711": {
