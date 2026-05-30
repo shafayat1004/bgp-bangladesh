@@ -15433,5 +15433,18 @@
     "holder": "STPI-DEHRADUN Software Technology Parks of India",
     "announced": true,
     "country": ""
+  },
+  "154132": {
+    "asn": "154132",
+    "name": "MUI-AS-AP MS UMARA INTERNATIONAL",
+    "holder": "MUI-AS-AP MS UMARA INTERNATIONAL",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
