@@ -660,7 +660,32 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "202.129.194.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "123.176.57.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "202.129.192.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -1151,7 +1176,24 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.14.73.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.59.233.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -1243,8 +1285,65 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.85.236.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2400:b340::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2400:e260::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "103.93.34.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.134.24.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.189.10.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:fffc::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
     }
   },
   "141731": {
@@ -3647,8 +3746,115 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 100.0,
+          "prefixes": [
+            "2401:f40::/36",
+            "2401:f40:1000::/37",
+            "2401:f40:1800::/37"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "45.248.148.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "59.153.100.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.119.100.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.198.136.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.217.108.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.121.216.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.180.244.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.187.94.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "163.61.240.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.25,
+          "prefixes": [
+            "165.101.132.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 3.12,
+          "prefixes": [
+            "103.72.212.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 3.12,
+          "prefixes": [
+            "103.181.42.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 199.99
     }
   },
   "55850": {
@@ -5858,8 +6064,49 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df4:8440::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "64.204.13.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "107.158.47.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "143.14.66.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "155.117.218.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
     }
   },
   "31742": {
@@ -6780,11 +7027,20 @@
     "holder": "CODENEXT-AS-AP CodeNext IT Solution",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "Piscataway",
+          "percentage": 100.0,
+          "prefixes": [
+            "163.61.236.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "136911": {
@@ -8688,7 +8944,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.85.216.0/22"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -8771,7 +9036,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.12.44.0/22"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
