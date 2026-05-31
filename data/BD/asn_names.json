@@ -15318,92 +15318,11 @@
     "holder": "BENGALCLOUD-AS-AP BengalCloud",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
-      "breakdown": [
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "31.57.238.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "31.58.221.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "82.22.125.0/24"
-          ]
-        },
-        {
-          "country": "ES",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "83.147.4.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "Los Angeles",
-          "percentage": 10.0,
-          "prefixes": [
-            "141.11.210.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "143.14.33.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "151.245.143.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "163.123.132.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "167.148.85.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "209.92.169.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "17686": {
