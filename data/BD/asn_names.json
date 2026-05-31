@@ -8149,7 +8149,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 7.69,
+          "percentage": 6.45,
           "prefixes": [
             "189.13.138.0/23"
           ]
@@ -8157,7 +8157,7 @@
         {
           "country": "BR",
           "city": "Maric\u00e1",
-          "percentage": 7.69,
+          "percentage": 6.45,
           "prefixes": [
             "189.13.140.0/23"
           ]
@@ -8165,7 +8165,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 7.69,
+          "percentage": 6.45,
           "prefixes": [
             "189.13.142.0/23"
           ]
@@ -8173,7 +8173,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 7.69,
+          "percentage": 6.45,
           "prefixes": [
             "192.6.170.0/23"
           ]
@@ -8181,7 +8181,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "16.216.0.0/24"
           ]
@@ -8189,7 +8189,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "31.56.160.0/24"
           ]
@@ -8197,7 +8197,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "46.202.46.0/24"
           ]
@@ -8205,7 +8205,7 @@
         {
           "country": "GB",
           "city": "Worcester",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "77.107.82.0/24"
           ]
@@ -8213,15 +8213,23 @@
         {
           "country": "HU",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "88.209.198.0/24"
           ]
         },
         {
+          "country": "HU",
+          "city": "",
+          "percentage": 3.23,
+          "prefixes": [
+            "88.209.227.0/24"
+          ]
+        },
+        {
           "country": "UA",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "95.134.70.0/24"
           ]
@@ -8229,15 +8237,23 @@
         {
           "country": "CI",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "102.211.232.0/24"
           ]
         },
         {
           "country": "US",
+          "city": "",
+          "percentage": 3.23,
+          "prefixes": [
+            "107.149.46.0/24"
+          ]
+        },
+        {
+          "country": "US",
           "city": "San Jose",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "108.186.195.0/24"
           ]
@@ -8245,7 +8261,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "143.20.145.0/24"
           ]
@@ -8253,7 +8269,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "143.109.62.0/24"
           ]
@@ -8261,7 +8277,23 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
+          "prefixes": [
+            "144.225.89.0/24"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "",
+          "percentage": 3.23,
+          "prefixes": [
+            "147.90.19.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 3.23,
           "prefixes": [
             "150.241.143.0/24"
           ]
@@ -8269,15 +8301,23 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "151.246.227.0/24"
           ]
         },
         {
+          "country": "NL",
+          "city": "",
+          "percentage": 3.23,
+          "prefixes": [
+            "158.173.207.0/24"
+          ]
+        },
+        {
           "country": "DE",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "169.40.142.0/24"
           ]
@@ -8285,7 +8325,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "178.83.47.0/24"
           ]
@@ -8293,7 +8333,7 @@
         {
           "country": "FR",
           "city": "Paris",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "178.94.180.0/24"
           ]
@@ -8301,7 +8341,7 @@
         {
           "country": "FR",
           "city": "Paris",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "178.94.187.0/24"
           ]
@@ -8309,7 +8349,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "179.61.184.0/24"
           ]
@@ -8317,7 +8357,7 @@
         {
           "country": "US",
           "city": "Portland",
-          "percentage": 3.85,
+          "percentage": 3.23,
           "prefixes": [
             "216.122.122.0/24"
           ]
@@ -15471,5 +15511,12 @@
       ],
       "bd_percentage": 0
     }
+  },
+  "136826": {
+    "asn": "136826",
+    "name": "IDNIC-ID Indonesia Network Information Center",
+    "holder": "IDNIC-ID Indonesia Network Information Center",
+    "announced": true,
+    "country": "ID"
   }
 }
