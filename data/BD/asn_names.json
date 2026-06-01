@@ -839,16 +839,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.14.204.0/22"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -1704,28 +1695,11 @@
     "holder": "NEXELOGYLTD-AS-AP Nexelogy Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
-      "breakdown": [
-        {
-          "country": "US",
-          "city": "Salt Lake City",
-          "percentage": 100.0,
-          "prefixes": [
-            "203.9.215.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "Salt Lake City",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df5:f241::/48"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "152726": {
