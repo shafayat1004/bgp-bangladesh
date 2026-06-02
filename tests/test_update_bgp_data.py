@@ -249,6 +249,21 @@ class TestGetCountryResources(unittest.TestCase):
         self.assertEqual(mock_get.call_count, 2)
         mock_sleep.assert_called_once_with(1)
 
+    @mock.patch("scripts.update_bgp_data.time.sleep")
+    @mock.patch("scripts.update_bgp_data.requests.get")
+    def test_exits_after_retries_exhausted(self, mock_get, mock_sleep):
+        failing_response = mock.Mock()
+        failing_response.status_code = 500
+        failing_response.headers = {}
+        failing_response.raise_for_status.side_effect = requests.HTTPError("500 Server Error")
+        mock_get.return_value = failing_response
+
+        with self.assertRaises(SystemExit):
+            get_country_resources("BD", max_retries=2)
+
+        self.assertEqual(mock_get.call_count, 3)
+        mock_sleep.assert_has_calls([mock.call(1), mock.call(2)])
+
 
 if __name__ == "__main__":
     unittest.main()
