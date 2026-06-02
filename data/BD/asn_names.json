@@ -8212,10 +8212,10 @@
         },
         {
           "country": "GB",
-          "city": "Worcester",
+          "city": "Spalding",
           "percentage": 2.7,
           "prefixes": [
-            "77.107.82.0/24"
+            "81.168.111.0/24"
           ]
         },
         {
@@ -15323,14 +15323,14 @@
     "holder": "MADINAIT-AS-AP Madina IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "GB",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "GB",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 12.5,
           "prefixes": [
             "37.230.50.0/24"
           ]
@@ -15338,23 +15338,55 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 12.5,
           "prefixes": [
             "74.1.46.0/24"
           ]
         },
         {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "143.14.91.0/24"
+          ]
+        },
+        {
           "country": "AE",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 12.5,
           "prefixes": [
             "151.240.149.0/24"
           ]
         },
         {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "155.117.136.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "168.222.41.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "192.120.196.0/24"
+          ]
+        },
+        {
           "country": "GB",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 12.5,
           "prefixes": [
             "212.134.25.0/24"
           ]
