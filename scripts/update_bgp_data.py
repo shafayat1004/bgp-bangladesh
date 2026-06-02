@@ -82,33 +82,57 @@ class RateLimiter:
 # Step 1: Fetch Country Resources
 # ═══════════════════════════════════════════════════════════════════════════
 
-def get_country_resources(country_code):
+def get_country_resources(country_code, max_retries=3):
     """Fetch ASNs and prefixes for a country from RIPEstat.
     Also queries announced prefixes for ALL country ASNs in parallel to catch
     more-specific announcements (e.g. /24 subnets of /23 allocations).
     """
     print(f"[1/4] Fetching country resources for {country_code.upper()}...")
     
-    try:
-        r = requests.get(
-            f"{BASE}/country-resource-list/data.json",
-            params={"resource": country_code.lower(), "v4_format": "prefix"},
-            headers=UA,
-            timeout=60
-        )
-        r.raise_for_status()
-        data = r.json()["data"]["resources"]
-        
-        asns = set(str(a) for a in data.get("asn", []))
-        alloc_prefixes = data.get("ipv4", []) + data.get("ipv6", [])
-        
-        print(f"      Found {len(asns)} ASNs and {len(alloc_prefixes)} allocation prefixes")
-        
-        return asns, alloc_prefixes
-        
-    except Exception as e:
-        print(f"ERROR: Failed to fetch country resources: {e}")
-        sys.exit(1)
+    for attempt in range(max_retries + 1):
+        try:
+            r = requests.get(
+                f"{BASE}/country-resource-list/data.json",
+                params={"resource": country_code.lower(), "v4_format": "prefix"},
+                headers=UA,
+                timeout=60
+            )
+
+            if r.status_code == 429:
+                retry_after = int(r.headers.get("Retry-After", 30))
+                if attempt < max_retries:
+                    print(f"      Rate limited, retrying in {retry_after}s (attempt {attempt + 1}/{max_retries + 1})...")
+                    time.sleep(retry_after)
+                    continue
+                r.raise_for_status()
+
+            if r.status_code >= 500 and attempt < max_retries:
+                wait_time = 2 ** attempt
+                print(f"      Server error {r.status_code}, retrying in {wait_time}s (attempt {attempt + 1}/{max_retries + 1})...")
+                time.sleep(wait_time)
+                continue
+
+            r.raise_for_status()
+            data = r.json()["data"]["resources"]
+
+            asns = set(str(a) for a in data.get("asn", []))
+            alloc_prefixes = data.get("ipv4", []) + data.get("ipv6", [])
+
+            print(f"      Found {len(asns)} ASNs and {len(alloc_prefixes)} allocation prefixes")
+
+            return asns, alloc_prefixes
+
+        except requests.RequestException as e:
+            if attempt < max_retries:
+                wait_time = 2 ** attempt
+                print(f"      {type(e).__name__}, retrying in {wait_time}s (attempt {attempt + 1}/{max_retries + 1})...")
+                time.sleep(wait_time)
+                continue
+            print(f"ERROR: Failed to fetch country resources: {e}")
+            sys.exit(1)
+        except Exception as e:
+            print(f"ERROR: Failed to fetch country resources: {e}")
+            sys.exit(1)
 
 
 def fetch_announced_prefixes(asns, rate_limiter):

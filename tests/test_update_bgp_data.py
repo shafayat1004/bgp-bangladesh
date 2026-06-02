@@ -2,6 +2,9 @@ import collections
 import os
 import sys
 import unittest
+from unittest import mock
+
+import requests
 
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -12,6 +15,7 @@ from scripts.update_bgp_data import (  # noqa: E402
     _process_single_route,
     build_viz_data,
     classify_tentative_iig_type,
+    get_country_resources,
 )
 
 
@@ -212,6 +216,38 @@ class TestProcessSingleRoute(unittest.TestCase):
         self.assertTrue(first)
         self.assertFalse(second)
         self.assertEqual(outside_counts["174"], 1)
+
+
+class TestGetCountryResources(unittest.TestCase):
+    @mock.patch("scripts.update_bgp_data.time.sleep")
+    @mock.patch("scripts.update_bgp_data.requests.get")
+    def test_retries_server_error_then_succeeds(self, mock_get, mock_sleep):
+        first_response = mock.Mock()
+        first_response.status_code = 500
+        first_response.headers = {}
+        first_response.raise_for_status.side_effect = requests.HTTPError("500 Server Error")
+
+        second_response = mock.Mock()
+        second_response.status_code = 200
+        second_response.raise_for_status.return_value = None
+        second_response.json.return_value = {
+            "data": {
+                "resources": {
+                    "asn": [64500],
+                    "ipv4": ["1.1.1.0/24"],
+                    "ipv6": [],
+                }
+            }
+        }
+
+        mock_get.side_effect = [first_response, second_response]
+
+        asns, alloc_prefixes = get_country_resources("BD", max_retries=2)
+
+        self.assertEqual(asns, {"64500"})
+        self.assertEqual(alloc_prefixes, ["1.1.1.0/24"])
+        self.assertEqual(mock_get.call_count, 2)
+        mock_sleep.assert_called_once_with(1)
 
 
 if __name__ == "__main__":
