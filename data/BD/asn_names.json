@@ -10420,32 +10420,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "202.90.200.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 25.0,
-          "prefixes": [
-            "117.104.184.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 25.0,
-          "prefixes": [
-            "202.52.138.0/24"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -15330,7 +15305,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 10.0,
           "prefixes": [
             "37.230.50.0/24"
           ]
@@ -15338,7 +15313,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 10.0,
           "prefixes": [
             "74.1.46.0/24"
           ]
@@ -15346,7 +15321,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 10.0,
           "prefixes": [
             "143.14.91.0/24"
           ]
@@ -15354,15 +15329,23 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 10.0,
           "prefixes": [
             "151.240.149.0/24"
           ]
         },
         {
+          "country": "IN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "151.243.144.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 10.0,
           "prefixes": [
             "155.117.136.0/24"
           ]
@@ -15370,7 +15353,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 10.0,
           "prefixes": [
             "168.222.41.0/24"
           ]
@@ -15378,7 +15361,15 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 10.0,
+          "prefixes": [
+            "192.48.146.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 10.0,
           "prefixes": [
             "192.120.196.0/24"
           ]
@@ -15386,7 +15377,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 10.0,
           "prefixes": [
             "212.134.25.0/24"
           ]
@@ -15401,14 +15392,14 @@
     "holder": "BENGALCLOUD1-AS-AP Bengalcloud International",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "GB",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "GB",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 25.0,
           "prefixes": [
             "82.47.38.0/24"
           ]
@@ -15416,9 +15407,25 @@
         {
           "country": "NL",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 25.0,
           "prefixes": [
             "162.141.39.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "192.137.16.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "192.170.104.0/24"
           ]
         }
       ],
