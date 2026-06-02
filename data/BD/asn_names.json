@@ -6061,9 +6061,9 @@
     "holder": "JASHORECOLO-AS-AP JASHORE COLO",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "BD",
@@ -6074,7 +6074,7 @@
           ]
         },
         {
-          "country": "BD",
+          "country": "US",
           "city": "",
           "percentage": 25.0,
           "prefixes": [
@@ -6082,7 +6082,7 @@
           ]
         },
         {
-          "country": "BD",
+          "country": "US",
           "city": "",
           "percentage": 25.0,
           "prefixes": [
@@ -6090,7 +6090,7 @@
           ]
         },
         {
-          "country": "BD",
+          "country": "US",
           "city": "",
           "percentage": 25.0,
           "prefixes": [
@@ -6098,7 +6098,7 @@
           ]
         },
         {
-          "country": "BD",
+          "country": "US",
           "city": "",
           "percentage": 25.0,
           "prefixes": [
@@ -6106,7 +6106,7 @@
           ]
         }
       ],
-      "bd_percentage": 200.0
+      "bd_percentage": 100.0
     }
   },
   "31742": {
@@ -6643,25 +6643,8 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "138.252.82.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df6:3c40::/48"
-          ]
-        }
-      ],
-      "bd_percentage": 200.0
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "9441": {
@@ -8203,7 +8186,7 @@
           ]
         },
         {
-          "country": "HK",
+          "country": "UA",
           "city": "",
           "percentage": 2.56,
           "prefixes": [
@@ -8419,8 +8402,8 @@
           ]
         },
         {
-          "country": "CA",
-          "city": "Toronto",
+          "country": "US",
+          "city": "",
           "percentage": 2.56,
           "prefixes": [
             "222.167.236.0/24"
@@ -15376,7 +15359,7 @@
           ]
         },
         {
-          "country": "IN",
+          "country": "AE",
           "city": "",
           "percentage": 10.0,
           "prefixes": [
@@ -15674,6 +15657,13 @@
     "asn": "6774",
     "name": "ASN-BICS Belgacom International Carrier Services SA",
     "holder": "ASN-BICS Belgacom International Carrier Services SA",
+    "announced": true,
+    "country": ""
+  },
+  "262761": {
+    "asn": "262761",
+    "name": "AS262761 - Sinal Br Telecom Ltda",
+    "holder": "AS262761 - Sinal Br Telecom Ltda",
     "announced": true,
     "country": ""
   }
