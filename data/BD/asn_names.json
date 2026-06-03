@@ -7019,11 +7019,20 @@
     "holder": "CODENEXT-AS-AP CodeNext IT Solution",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "Piscataway",
+          "percentage": 100.0,
+          "prefixes": [
+            "163.61.236.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "136911": {
