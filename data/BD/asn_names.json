@@ -15575,7 +15575,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "2.27.151.0/24"
           ]
@@ -15583,7 +15583,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "31.77.252.0/24"
           ]
@@ -15591,15 +15591,23 @@
         {
           "country": "DK",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "31.99.200.0/24"
           ]
         },
         {
+          "country": "UA",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "46.203.3.0/24"
+          ]
+        },
+        {
           "country": "GB",
           "city": "Crawley",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "51.194.165.0/24"
           ]
@@ -15607,7 +15615,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "82.47.179.0/24"
           ]
@@ -15615,7 +15623,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "84.75.25.0/24"
           ]
@@ -15623,7 +15631,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "87.84.224.0/24"
           ]
@@ -15631,7 +15639,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "89.213.193.0/24"
           ]
@@ -15639,7 +15647,7 @@
         {
           "country": "UA",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "92.113.44.0/24"
           ]
@@ -15647,7 +15655,7 @@
         {
           "country": "AU",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "103.17.96.0/24"
           ]
@@ -15655,7 +15663,7 @@
         {
           "country": "NL",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "147.79.56.0/24"
           ]
@@ -15663,7 +15671,7 @@
         {
           "country": "ZA",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "154.16.38.0/24"
           ]
@@ -15671,7 +15679,7 @@
         {
           "country": "FR",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "163.5.132.0/24"
           ]
@@ -15679,7 +15687,7 @@
         {
           "country": "GB",
           "city": "Penge",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "188.221.0.0/24"
           ]
@@ -15687,7 +15695,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 6.67,
+          "percentage": 6.25,
           "prefixes": [
             "222.167.210.0/24"
           ]
@@ -15723,5 +15731,12 @@
     "holder": "AS262761 - Sinal Br Telecom Ltda",
     "announced": true,
     "country": ""
+  },
+  "150449": {
+    "asn": "150449",
+    "name": "HBL-AS-AP - Hashtag Business Limited",
+    "holder": "HBL-AS-AP - Hashtag Business Limited",
+    "announced": false,
+    "country": "BD"
   }
 }
