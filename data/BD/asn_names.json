@@ -1366,28 +1366,11 @@
     "holder": "CHALDALLIMITED-AS-AP Chaldal Limited",
     "announced": true,
     "country": "BD",
-    "geo_country": "IN",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "IN",
-      "breakdown": [
-        {
-          "country": "IN",
-          "city": "Chennai",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.185.176.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.185.177.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 50.0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "142271": {
@@ -6635,25 +6618,8 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "138.252.82.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df6:3c40::/48"
-          ]
-        }
-      ],
-      "bd_percentage": 200.0
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "9441": {
@@ -10618,24 +10584,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.156.177.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "122.50.11.0/24"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -12985,16 +12934,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.126.236.0/23"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -13882,24 +13822,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.114.174.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.219.114.0/23"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -15037,60 +14960,11 @@
     "holder": "HOSTNOST-AS-AP HostNost",
     "announced": true,
     "country": "BD",
-    "geo_country": "AE",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "AE",
-      "breakdown": [
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 16.67,
-          "prefixes": [
-            "77.110.67.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 16.67,
-          "prefixes": [
-            "77.110.69.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 16.67,
-          "prefixes": [
-            "77.110.73.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 16.67,
-          "prefixes": [
-            "77.110.78.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 16.67,
-          "prefixes": [
-            "77.110.86.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 16.67,
-          "prefixes": [
-            "77.110.92.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "14593": {
