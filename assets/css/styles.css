@@ -654,6 +654,34 @@ input[type="range"]::-webkit-slider-thumb {
 /* ── Utility ── */
 .hidden { display: none !important; }
 
+/* ── In-viz floating controls (e.g. Traffic Flow orientation/fit) ── */
+.viz-controls {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: rgba(26, 26, 26, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.viz-ctrl-btn {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.viz-ctrl-btn:hover { color: var(--accent); }
+.viz-ctrl-btn.active { color: var(--bg-primary); background: var(--accent); }
+
 /* ── History time-slider ── */
 #timeline-bar {
   display: flex;
@@ -1299,6 +1327,13 @@ input[type="range"]::-webkit-slider-thumb {
     width: 38px;
     height: 38px;
     font-size: 20px;
+  }
+
+  /* Bigger touch targets for in-viz controls */
+  .viz-ctrl-btn {
+    font-size: 12px;
+    padding: 7px 10px;
+    min-height: 34px;
   }
   
   .control-group label {

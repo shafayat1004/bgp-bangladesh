@@ -55,8 +55,12 @@ jobs:
           npm run test:js
 
       - name: Run BGP data updater
+        env:
+          # Stream stdout/stderr live so CI logs show progress in real time
+          # (Python block-buffers output when not attached to a TTY).
+          PYTHONUNBUFFERED: "1"
         run: |
-          python scripts/update_bgp_data.py --country BD ${{ inputs.use_mrt_fallback && '--use-mrt-fallback' || '' }}
+          python -u scripts/update_bgp_data.py --country BD ${{ inputs.use_mrt_fallback && '--use-mrt-fallback' || '' }}
 
       - name: Remove raw JSONL file
         run: |

@@ -355,16 +355,48 @@ export class RIPEStatClient {
     this.abortController = new AbortController();
     if (onProgress) onProgress({ step: 1, totalSteps: 4, message: `Fetching country resources for ${countryCode}...` });
 
-    const url = `${RIPESTAT_BASE}/country-resource-list/data.json?resource=${countryCode.toLowerCase()}&v4_format=prefix`;
-    const data = await fetchWithRetry(url, {
-      rateLimiter: this.rateLimiter,
-      signal: this.abortController.signal,
-      timeout: 60000,
-    });
+    let countryASNs;
+    let allocPrefixes;
 
-    const resources = data.data.resources;
-    const countryASNs = new Set((resources.asn || []).map(a => String(a)));
-    const allocPrefixes = [...(resources.ipv4 || []), ...(resources.ipv6 || [])];
+    try {
+      const url = `${RIPESTAT_BASE}/country-resource-list/data.json?resource=${countryCode.toLowerCase()}&v4_format=prefix`;
+      const data = await fetchWithRetry(url, {
+        rateLimiter: this.rateLimiter,
+        signal: this.abortController.signal,
+        timeout: 60000,
+      });
+
+      const resources = data.data.resources;
+      countryASNs = new Set((resources.asn || []).map(a => String(a)));
+      allocPrefixes = [...(resources.ipv4 || []), ...(resources.ipv6 || [])];
+      if (countryASNs.size === 0 || allocPrefixes.length === 0) {
+        throw new Error('RIPEstat returned empty country resources');
+      }
+    } catch (err) {
+      if (err.name === 'AbortError') throw err;
+      // RIPEstat is down/degraded. The browser can't reach the delegated RIR
+      // stats (APNIC sends no CORS headers), so fall back to the last-good
+      // country_resources.json committed by the pipeline (same-origin, always
+      // available). RIPEstat being down also means announced-prefixes would all
+      // fail, so we skip that step and return the cached resources directly.
+      console.warn('RIPEstat country-resource-list failed; using committed cache:', err.message);
+      if (onProgress) {
+        onProgress({
+          step: 1, totalSteps: 4,
+          message: 'RIPEstat unavailable — falling back to committed country resource list...',
+          warning: true,
+        });
+      }
+      const cached = await this._loadCommittedResources(countryCode);
+      if (onProgress) {
+        onProgress({
+          step: 1, totalSteps: 4,
+          message: `Using committed cache: ${cached.countryASNs.size} ASNs and ${cached.prefixes.length} prefixes.`,
+          complete: true,
+        });
+      }
+      return { countryASNs: cached.countryASNs, prefixes: cached.prefixes, source: 'cache' };
+    }
 
     if (onProgress) {
       onProgress({
@@ -391,7 +423,28 @@ export class RIPEStatClient {
       });
     }
 
-    return { countryASNs, prefixes: [...allPrefixes] };
+    return { countryASNs, prefixes: [...allPrefixes], source: 'ripestat' };
+  }
+
+  /**
+   * Load the last-good country resources committed by the pipeline.
+   * Same-origin, so it survives a RIPEstat outage. Mirrors the Python
+   * get_country_resources() cache fallback.
+   */
+  async _loadCommittedResources(countryCode) {
+    const resp = await fetch(`data/${countryCode}/country_resources.json`, {
+      signal: this.abortController?.signal,
+    });
+    if (!resp.ok) {
+      throw new Error('No committed country_resources.json cache available');
+    }
+    const data = await resp.json();
+    const countryASNs = new Set((data.asns || []).map(a => String(a)));
+    const prefixes = [...(data.prefixes || [])];
+    if (countryASNs.size === 0 && prefixes.length === 0) {
+      throw new Error('Committed country_resources.json cache is empty');
+    }
+    return { countryASNs, prefixes };
   }
 
   /**

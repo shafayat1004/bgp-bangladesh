@@ -29,7 +29,7 @@ import ipaddress
 import argparse
 import requests
 from datetime import datetime, timedelta, timezone
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed, wait
 
 # Use orjson for 10-50x faster JSON serialization when available
 try:
@@ -736,9 +736,18 @@ def _parse_rib_dump(url, collector, country_asns, prefix_set, as_path_regex):
     return records
 
 
+# Print a "still working" heartbeat at most this often while dumps parse, so CI
+# logs show progress even when a single big dump takes many minutes.
+MRT_HEARTBEAT_SECONDS = 30
+
+
 def _parse_rib_dumps(dumps, country_asns, prefix_set, as_path_regex,
                      rate_limiter, concurrency):
-    """Parse multiple RIB dumps in bounded parallel waves (polite to archives)."""
+    """Parse multiple RIB dumps in bounded parallel waves (polite to archives).
+
+    Emits a start line per dump and a periodic heartbeat while dumps are still
+    in flight, so long downloads/parses produce visible progress in CI logs.
+    """
     routes = []
     total = len(dumps)
     completed = 0
@@ -749,21 +758,34 @@ def _parse_rib_dumps(dumps, country_asns, prefix_set, as_path_regex,
             for d in wave:
                 if rate_limiter is not None:
                     rate_limiter.acquire()  # gate each download start
+                print(f"      [start] {d['collector']}: downloading + parsing "
+                      f"(~{d['size'] / 1e6:.0f} MB)...", flush=True)
                 futures[executor.submit(
                     _parse_rib_dump, d["url"], d["collector"],
                     country_asns, prefix_set, as_path_regex
                 )] = d
-            for future in as_completed(futures):
-                d = futures[future]
-                completed += 1
-                try:
-                    recs = future.result()
-                    routes.extend(recs)
-                    print(f"      [{completed}/{total}] {d['collector']}: "
-                          f"{len(recs):,} BD records ({d['size'] / 1e6:.0f} MB)")
-                except Exception as e:
-                    print(f"      [{completed}/{total}] {d['collector']}: "
-                          f"FAILED ({type(e).__name__}: {e})")
+
+            pending = set(futures)
+            wave_start = time.time()
+            while pending:
+                done, pending = wait(pending, timeout=MRT_HEARTBEAT_SECONDS)
+                for future in done:
+                    d = futures[future]
+                    completed += 1
+                    try:
+                        recs = future.result()
+                        routes.extend(recs)
+                        print(f"      [{completed}/{total}] {d['collector']}: "
+                              f"{len(recs):,} BD records ({d['size'] / 1e6:.0f} MB)",
+                              flush=True)
+                    except Exception as e:
+                        print(f"      [{completed}/{total}] {d['collector']}: "
+                              f"FAILED ({type(e).__name__}: {e})", flush=True)
+                if pending:
+                    still = ", ".join(sorted(futures[f]["collector"] for f in pending))
+                    print(f"      ... still parsing [{still}] "
+                          f"({time.time() - wave_start:.0f}s elapsed, "
+                          f"{len(routes):,} records so far)", flush=True)
     return routes
 
 

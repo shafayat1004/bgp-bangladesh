@@ -608,8 +608,11 @@ async function fetchLiveData() {
   });
 
   try {
-    // Step 1: Country resources
-    const { countryASNs, prefixes } = await ripeClient.getCountryResources(COUNTRY, (p) => updateProgress({ ...p, totalSteps: 5 }));
+    // Step 1: Country resources (falls back to the committed cache if RIPEstat is down)
+    const { countryASNs, prefixes, source: resourceSource } = await ripeClient.getCountryResources(COUNTRY, (p) => updateProgress({ ...p, totalSteps: 5 }));
+    if (resourceSource === 'cache') {
+      showToast('warning', 'RIPEstat is unavailable — using the last committed resource list. Live route data may be incomplete; revert to static data if needed.');
+    }
 
     // Step 2: BGP routes — process incrementally as batches arrive
     // Use WASM Worker if available, otherwise fall back to JS

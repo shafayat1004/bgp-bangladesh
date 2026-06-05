@@ -29,10 +29,32 @@ function moveTooltipSmart(event) {
 
 let currentData = null;
 let currentOptions = {};
+// Orientation persists across re-renders. Default to portrait on narrow screens.
+let orientation = (typeof window !== 'undefined' && window.innerWidth <= 900) ? 'portrait' : 'landscape';
+let svgZoom = null;
+let fitTransform = null;
+
+const NODE_THICKNESS = 18;  // node size along the flow axis
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
-  if (container) container.innerHTML = '<svg id="sankey-svg"></svg>';
+  if (!container) return;
+  container.innerHTML = `
+    <div class="viz-controls" id="sankey-controls">
+      <button type="button" class="viz-ctrl-btn" data-orient="landscape" title="Horizontal layout">&#8596; Landscape</button>
+      <button type="button" class="viz-ctrl-btn" data-orient="portrait" title="Vertical layout">&#8597; Portrait</button>
+      <button type="button" class="viz-ctrl-btn" id="sankey-fit" title="Fit the whole flow to the screen">&#9974; Fit</button>
+    </div>
+    <svg id="sankey-svg"></svg>`;
+  container.querySelectorAll('#sankey-controls [data-orient]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (orientation === btn.dataset.orient) return;
+      orientation = btn.dataset.orient;
+      render();
+    });
+  });
+  const fitBtn = container.querySelector('#sankey-fit');
+  if (fitBtn) fitBtn.addEventListener('click', fitToView);
 }
 
 export function loadData(data, options = {}) {
@@ -41,29 +63,36 @@ export function loadData(data, options = {}) {
   render();
 }
 
+function fitToView() {
+  if (!svgZoom || !fitTransform) return;
+  d3.select('#sankey-svg').transition().duration(300).call(svgZoom.transform, fitTransform);
+}
+
 function render() {
   if (!currentData) return;
   const options = currentOptions;
   const minTraffic = options.minTraffic !== undefined ? options.minTraffic : 100;
   const maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
-  
+
   const container = document.getElementById('viz-panel');
   if (!container) return;
   const width = container.clientWidth;
   const height = container.clientHeight;
+  const isLandscape = orientation === 'landscape';
+
+  // Reflect the active orientation in the toolbar
+  const ctrls = document.getElementById('sankey-controls');
+  if (ctrls) ctrls.querySelectorAll('[data-orient]').forEach(b => b.classList.toggle('active', b.dataset.orient === orientation));
 
   const svg = d3.select('#sankey-svg').attr('width', width).attr('height', height);
   svg.selectAll('*').remove();
+  const g = svg.append('g');
 
-  // Add zoom/pan support
-  const zoom = d3.zoom()
-    .scaleExtent([0.3, 3])
-    .on('zoom', (event) => g.attr('transform', event.transform));
-  svg.call(zoom);
-
-  const margin = { top: 30, right: 30, bottom: 30, left: 30 };
-  const w = width - margin.left - margin.right;
-  const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+  // Work in orientation-agnostic (flow, cross) coordinates, then map to screen.
+  // flow = the direction the traffic flows across columns; cross = within-column.
+  const toX = (flow, cross) => (isLandscape ? flow : cross);
+  const toY = (flow, cross) => (isLandscape ? cross : flow);
+  const thickness = NODE_THICKNESS;
 
   const nodeMap = {};
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
@@ -76,7 +105,7 @@ function render() {
   const intlEdges = currentData.edges
     .filter(e => (e.type === 'international' || !e.type) && e.count >= minTraffic && e.count <= maxTraffic)
     .sort((a, b) => b.count - a.count);
-  const domEdges = hasDomestic 
+  const domEdges = hasDomestic
     ? currentData.edges.filter(e => e.type === 'domestic' && e.count >= minTraffic && e.count <= maxTraffic).sort((a, b) => b.count - a.count)
     : [];
 
@@ -105,37 +134,42 @@ function render() {
   const iigSorted = calcTotals(iigASNs, allEdges, e => e.target?.asn || e.target);
   const ispSorted = calcTotals(localISPASNs, domEdges, e => e.source?.asn || e.source);
 
-  // Column positions
-  const nodeWidth = 18;
-  const columns = hasLocalISP && localISPASNs.length > 0
-    ? [{ asns: outsideSorted, x: 0, color: TYPE_COLORS.outside, label: 'Outside' },
-       { asns: iigSorted, x: w / 2 - nodeWidth / 2, color: TYPE_COLORS.iig, label: 'Gateways' },
-       { asns: ispSorted, x: w - nodeWidth, color: TYPE_COLORS['local-company'], label: 'Local Companies' }]
-    : [{ asns: outsideSorted, x: 0, color: TYPE_COLORS.outside, label: 'Outside' },
-       { asns: iigSorted, x: w - nodeWidth, color: TYPE_COLORS.iig, label: 'Inside BD' }];
+  // Flow-axis span: how far apart the columns sit. Cross axis: where nodes stack.
+  const margin = 36;
+  const flowSpan = (isLandscape ? width : height) - margin * 2;
+  const crossViewport = (isLandscape ? height : width) - margin * 2;
 
-  // Layout nodes in each column
+  // Column flow positions (Outside -> Gateways -> Local Companies)
+  const columns = hasLocalISP && localISPASNs.length > 0
+    ? [{ asns: outsideSorted, flow: 0, color: TYPE_COLORS.outside, label: 'Outside' },
+       { asns: iigSorted, flow: flowSpan / 2 - thickness / 2, color: TYPE_COLORS.iig, label: 'Gateways' },
+       { asns: ispSorted, flow: flowSpan - thickness, color: TYPE_COLORS['local-company'], label: 'Local Companies' }]
+    : [{ asns: outsideSorted, flow: 0, color: TYPE_COLORS.outside, label: 'Outside' },
+       { asns: iigSorted, flow: flowSpan - thickness, color: TYPE_COLORS.iig, label: 'Inside BD' }];
+
+  // Layout nodes in each column along the cross axis
   const positions = {};
   const totalTraffic = allEdges.reduce((s, e) => s + e.count, 0) || 1;
 
-  // Calculate dynamic height based on number of nodes
-  const maxNodes = Math.max(...columns.map(c => c.asns.length));
-  const minNodeHeight = 8; // Minimum height per node
+  const maxNodes = Math.max(...columns.map(c => c.asns.length), 1);
+  const minNodeLen = 8;     // min node size along the cross axis
   const padding = 4;
-  const neededHeight = maxNodes * (minNodeHeight + padding);
-  const h = Math.max(height - margin.top - margin.bottom, neededHeight);
+  const neededLen = maxNodes * (minNodeLen + padding);
+  // The cross axis grows with node count and can exceed the viewport; the
+  // initial fit + wide zoom-out range make the whole flow visible.
+  const crossTotal = Math.max(crossViewport, neededLen);
 
   columns.forEach(col => {
     const colTotal = col.asns.reduce((s, a) => s + a.total, 0) || 1;
-    const available = h - (col.asns.length - 1) * padding;
-    let y = 0;
+    const available = crossTotal - (col.asns.length - 1) * padding;
+    let cross = 0;
 
     col.asns.forEach(({ asn, total }) => {
       const fraction = total / colTotal;
-      const nodeH = Math.max(minNodeHeight, fraction * available);
+      const nodeLen = Math.max(minNodeLen, fraction * available);
       const nodeColor = (nodeMap[asn] && TYPE_COLORS[nodeMap[asn].type]) || col.color;
-      positions[`${asn}_${col.label}`] = { x: col.x, y, h: nodeH, asn, color: nodeColor };
-      y += nodeH + padding;
+      positions[`${asn}_${col.label}`] = { flow: col.flow, cross, len: nodeLen, asn, color: nodeColor };
+      cross += nodeLen + padding;
     });
   });
 
@@ -156,21 +190,25 @@ function render() {
       }
       drawn++;
 
-      const bandW = Math.max(2, (edge.count / totalTraffic) * h * 0.6);
+      const bandW = Math.max(2, (edge.count / totalTraffic) * crossTotal * 0.6);
       const srcOff = offsets[`${src}_${srcCol}_out`] || 0;
       offsets[`${src}_${srcCol}_out`] = srcOff + bandW;
       const tgtOff = offsets[`${tgt}_${tgtCol}_in`] || 0;
       offsets[`${tgt}_${tgtCol}_in`] = tgtOff + bandW;
 
-      const x0 = srcPos.x + nodeWidth;
-      const y0 = srcPos.y + srcOff + bandW / 2;
-      const x1 = tgtPos.x;
-      const y1 = tgtPos.y + tgtOff + bandW / 2;
+      const f0 = srcPos.flow + thickness;
+      const c0 = srcPos.cross + srcOff + bandW / 2;
+      const f1 = tgtPos.flow;
+      const c1 = tgtPos.cross + tgtOff + bandW / 2;
+      const fm = (f0 + f1) / 2;
+      const d = `M${toX(f0, c0)},${toY(f0, c0)} ` +
+                `C${toX(fm, c0)},${toY(fm, c0)} ${toX(fm, c1)},${toY(fm, c1)} ` +
+                `${toX(f1, c1)},${toY(f1, c1)}`;
 
       linkGroup.append('path')
         .attr('class', 'sankey-link')
         .attr('data-source', src).attr('data-target', tgt)
-        .attr('d', `M${x0},${y0} C${(x0 + x1) / 2},${y0} ${(x0 + x1) / 2},${y1} ${x1},${y1}`)
+        .attr('d', d)
         .attr('fill', 'none')
         .attr('stroke', color)
         .attr('stroke-opacity', 0.35)
@@ -180,7 +218,7 @@ function render() {
           d3.select('#tooltip').html(buildEdgeTooltipHtml(nodeMap[src], nodeMap[tgt], edge.count)).style('display', 'block');
         })
         .on('mousemove', moveTooltipSmart)
-        .on('mouseout', function () { d3.select(this).attr('stroke-opacity', 0.25); d3.select('#tooltip').style('display', 'none'); });
+        .on('mouseout', function () { d3.select(this).attr('stroke-opacity', 0.35); d3.select('#tooltip').style('display', 'none'); });
     });
     if (skipped > 0) console.warn(`Sankey: Drew ${drawn} ${srcCol}→${tgtCol} edges, skipped ${skipped} (missing positions)`);
   }
@@ -188,20 +226,16 @@ function render() {
   drawEdges(intlEdges, 'Outside', columns.length > 2 ? 'Gateways' : 'Inside BD', '#4fc3f7');
   if (domEdges.length > 0) drawEdges(domEdges, 'Local Companies', 'Gateways', '#4dabf7');
 
-  // Add zoom hint
-  g.append('text')
-    .attr('x', w / 2)
-    .attr('y', h + 25)
-    .attr('text-anchor', 'middle')
-    .attr('fill', '#666')
-    .attr('font-size', '11px')
-    .text('Scroll to zoom • Drag to pan');
-
   // Draw nodes and labels
   columns.forEach(col => {
-    // Column label
-    g.append('text').attr('x', col.x + nodeWidth / 2).attr('y', -10)
-      .attr('text-anchor', 'middle').attr('fill', col.color).attr('font-size', '12px').attr('font-weight', 'bold').text(col.label);
+    // Column header
+    const headFlow = col.flow + thickness / 2;
+    const headCross = -14;
+    g.append('text')
+      .attr('x', toX(headFlow, headCross)).attr('y', toY(headFlow, headCross))
+      .attr('text-anchor', isLandscape ? 'middle' : 'end')
+      .attr('dy', isLandscape ? 0 : '0.35em')
+      .attr('fill', col.color).attr('font-size', '12px').attr('font-weight', 'bold').text(col.label);
 
     col.asns.forEach(({ asn }) => {
       const key = `${asn}_${col.label}`;
@@ -209,28 +243,68 @@ function render() {
       if (!pos) return;
       const node = nodeMap[asn];
 
+      const rx = toX(pos.flow, pos.cross);
+      const ry = toY(pos.flow, pos.cross);
+      const rw = isLandscape ? thickness : pos.len;
+      const rh = isLandscape ? pos.len : thickness;
+
       g.append('rect').attr('class', 'sankey-node').attr('data-asn', asn)
-        .attr('x', pos.x).attr('y', pos.y)
-        .attr('width', nodeWidth).attr('height', pos.h)
+        .attr('x', rx).attr('y', ry)
+        .attr('width', rw).attr('height', rh)
         .attr('fill', pos.color).attr('rx', 2)
-        .on('mouseover', function (event) {
+        .on('mouseover', function () {
           const nodeData = node || { asn, name: `AS${asn}` };
           d3.select('#tooltip').html(buildNodeTooltipHtml(nodeData, TYPE_LABELS)).style('display', 'block');
         })
         .on('mousemove', moveTooltipSmart)
         .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); });
 
-      if (pos.h > 10) {
+      if (pos.len > 10) {
         const flag = node?.country ? countryToFlag(node.country) + ' ' : '';
-        const textX = col.x === 0 ? col.x + nodeWidth + 5 : col.x - 5;
-        const anchor = col.x === 0 ? 'start' : 'end';
-        g.append('text').attr('class', 'sankey-label').attr('data-asn', asn)
-          .attr('x', textX).attr('y', pos.y + pos.h / 2).attr('dy', '0.35em')
-          .attr('text-anchor', anchor).attr('fill', '#ddd').attr('font-size', '9px')
-          .text(`${flag}${node?.name || `AS${asn}`}`);
+        const labelText = `${flag}${node?.name || `AS${asn}`}`;
+        if (isLandscape) {
+          const isFirst = col.flow === 0;
+          const lx = isFirst ? pos.flow + thickness + 5 : pos.flow - 5;
+          const ly = pos.cross + pos.len / 2;
+          g.append('text').attr('class', 'sankey-label').attr('data-asn', asn)
+            .attr('x', lx).attr('y', ly).attr('dy', '0.35em')
+            .attr('text-anchor', isFirst ? 'start' : 'end')
+            .attr('fill', '#ddd').attr('font-size', '9px').text(labelText);
+        } else if (pos.len > 36) {
+          // Portrait: keep labels horizontal, centered above each (wide enough) bar
+          g.append('text').attr('class', 'sankey-label').attr('data-asn', asn)
+            .attr('x', pos.cross + pos.len / 2).attr('y', pos.flow - 3)
+            .attr('text-anchor', 'middle')
+            .attr('fill', '#ddd').attr('font-size', '9px').text(labelText);
+        }
       }
     });
   });
+
+  // Zoom hint (lives in content space, scales with the diagram)
+  const hintFlow = flowSpan / 2;
+  const hintCross = crossTotal + 22;
+  g.append('text')
+    .attr('x', toX(hintFlow, hintCross)).attr('y', toY(hintFlow, hintCross))
+    .attr('text-anchor', 'middle').attr('fill', '#666').attr('font-size', '11px')
+    .text('Scroll to zoom • Drag to pan • Fit to reset');
+
+  // Compute a fit-to-screen transform and a generous zoom-out range so the
+  // entire flow is visible regardless of how many nodes there are.
+  const contentW = isLandscape ? flowSpan : crossTotal;
+  const contentH = isLandscape ? crossTotal : flowSpan;
+  const pad = 40;
+  const rawScale = Math.min((width - pad * 2) / (contentW || 1), (height - pad * 2) / (contentH || 1));
+  const fitScale = Math.max(0.02, Math.min(1, rawScale));
+  const tx = (width - contentW * fitScale) / 2;
+  const ty = (height - contentH * fitScale) / 2;
+  fitTransform = d3.zoomIdentity.translate(tx, ty).scale(fitScale);
+
+  svgZoom = d3.zoom()
+    .scaleExtent([Math.min(0.02, fitScale * 0.5), 4])
+    .on('zoom', (event) => g.attr('transform', event.transform));
+  svg.call(svgZoom);
+  svg.call(svgZoom.transform, fitTransform);  // apply initial fit
 }
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
