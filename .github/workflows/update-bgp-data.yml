@@ -2,6 +2,11 @@ name: Update BGP data
 
 on:
   workflow_dispatch:
+    inputs:
+      use_mrt_fallback:
+        description: "Use RIPE RIS/RouteViews MRT fallback when RIPEstat bgp-state is down (slow, multi-hour)"
+        type: boolean
+        default: false
   schedule:
     # Every 4 hours at minute 37.
     # Times are UTC: 00:37, 04:37, 08:37, 12:37, 16:37, 20:37
@@ -18,7 +23,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     steps:
       - name: Checkout repository
@@ -51,7 +56,7 @@ jobs:
 
       - name: Run BGP data updater
         run: |
-          python scripts/update_bgp_data.py --country BD
+          python scripts/update_bgp_data.py --country BD ${{ inputs.use_mrt_fallback && '--use-mrt-fallback' || '' }}
 
       - name: Remove raw JSONL file
         run: |
@@ -62,7 +67,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/BD/viz_data.json data/BD/asn_names.json data/BD/metadata.json
+          git add data/BD/viz_data.json data/BD/asn_names.json data/BD/metadata.json data/BD/country_resources.json
 
           if git diff --cached --quiet; then
             echo "No JSON data changes to commit."

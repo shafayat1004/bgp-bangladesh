@@ -1,1 +1,6 @@
 requests
+# MRT parser for the bgp-state outage fallback (RIPE RIS / RouteViews dumps).
+# Ships prebuilt wheels for Linux (manylinux) and macOS; used in CI (ubuntu).
+# On Windows it has no wheel and needs a Rust+MSVC toolchain to build from source;
+# it is imported lazily and only required when running with --use-mrt-fallback.
+pybgpkit-parser

@@ -25,6 +25,7 @@ import collections
 import sys
 import os
 import time
+import ipaddress
 import argparse
 import requests
 from datetime import datetime
@@ -48,6 +49,43 @@ except ImportError:
 BASE = "https://stat.ripe.net/data"
 UA = {"User-Agent": "bgp-bangladesh-viz/1.0 (https://github.com/bgp-bangladesh)"}
 CONCURRENCY = 8  # RIPEstat allows 8 concurrent requests per IP
+
+# Transient HTTP status codes worth retrying (rate limiting + upstream errors).
+TRANSIENT_STATUS_CODES = {429, 500, 502, 503, 504}
+
+# Delegated RIR statistics — fallback source for country resources when the
+# RIPEstat country-resource-list endpoint is unavailable. RIPEstat itself derives
+# that endpoint from these files. APNIC is the RIR for Bangladesh.
+RIR_STATS_URLS = [
+    "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+    # Enable for non-BD countries in the future:
+    # "https://ftp.ripe.net/pub/stats/ripencc/delegated-ripencc-latest",
+    # "https://ftp.arin.net/pub/stats/arin/delegated-arin-latest",
+    # "https://ftp.lacnic.net/pub/stats/lacnic/delegated-lacnic-latest",
+    # "https://ftp.afrinic.net/pub/stats/afrinic/delegated-afrinic-latest",
+]
+
+# BGPKIT broker — discovers latest MRT RIB dumps for the bgp-state fallback.
+BGPKIT_BROKER_LATEST = "https://api.bgpkit.com/v3/broker/latest"
+
+# Skip collectors whose latest dump is older than this (drops dead collectors).
+MRT_MAX_DELAY_SECONDS = 6 * 3600
+
+# If RIS MRT parsing yields fewer than this many records, also pull RouteViews
+# (independent of RIPE infrastructure) to broaden coverage.
+MRT_MIN_RIS_ROUTES = 1000
+
+# Globally-stable, always-announced control prefixes used to probe RIPEstat
+# bgp-state health. This lets us tell two very different situations apart:
+#   - control healthy + BD sparse/empty  -> BD routes REALLY dropped (e.g. a
+#     national connectivity shutdown). This is a real signal: commit it.
+#   - control also empty/failing          -> RIPEstat itself is down. This is an
+#     upstream artifact: do NOT overwrite good committed data.
+CONTROL_PREFIXES = ["1.1.1.0/24", "8.8.8.0/24", "193.0.0.0/21"]
+
+# Healthy bgp-state returns ~350 observations per control prefix (~1000+ total).
+# Well below that signals an upstream outage rather than a real BD change.
+CONTROL_MIN_OBSERVATIONS = 100
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -79,36 +117,183 @@ class RateLimiter:
 
 
 # ═══════════════════════════════════════════════════════════════════════════
+# HTTP helper with retries (shared by RIPEstat, APNIC, and BGPKIT broker)
+# ═══════════════════════════════════════════════════════════════════════════
+
+def get_with_retries(url, *, params=None, headers=None, timeout=60, attempts=4,
+                     rate_limiter=None):
+    """GET with retry/backoff on transient HTTP codes and network errors.
+
+    Honors Retry-After on 429/5xx. Optionally gated by a RateLimiter so we
+    respect upstream rate limits (matches the rest of the pipeline's politeness).
+    """
+    last_error = None
+    for attempt in range(attempts):
+        try:
+            if rate_limiter is not None:
+                rate_limiter.acquire()
+            response = requests.get(url, params=params, headers=headers, timeout=timeout)
+
+            if response.status_code in TRANSIENT_STATUS_CODES:
+                retry_after = response.headers.get("Retry-After")
+                if retry_after and retry_after.isdigit():
+                    wait_seconds = int(retry_after)
+                else:
+                    wait_seconds = min(30, 2 ** attempt)
+                last_error = requests.HTTPError(
+                    f"{response.status_code} transient error for {response.url}"
+                )
+                if attempt < attempts - 1:
+                    print(f"      Transient HTTP {response.status_code}; retrying in {wait_seconds}s...")
+                    time.sleep(wait_seconds)
+                    continue
+
+            response.raise_for_status()
+            return response
+
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt < attempts - 1:
+                wait_seconds = min(30, 2 ** attempt)
+                print(f"      Request failed: {type(exc).__name__}; retrying in {wait_seconds}s...")
+                time.sleep(wait_seconds)
+
+    raise last_error
+
+
+def ipv4_range_to_prefixes(start_ip, address_count):
+    """Convert an IPv4 range (start address + count) into CIDR prefix strings."""
+    start = ipaddress.IPv4Address(start_ip)
+    end = ipaddress.IPv4Address(int(start) + int(address_count) - 1)
+    return [str(prefix) for prefix in ipaddress.summarize_address_range(start, end)]
+
+
+def get_country_resources_from_rir_stats(country_code, rate_limiter=None):
+    """Fallback for RIPEstat country-resource-list using delegated RIR stats.
+
+    Format: registry|cc|type|start|value|date|status[|extensions]
+      asn : start=first ASN,      value=ASN count
+      ipv4: start=first address,  value=address count
+      ipv6: start=prefix,         value=prefix length
+    """
+    cc = country_code.upper()
+    asns = set()
+    prefixes = set()
+
+    print(f"      Falling back to delegated RIR stats for {cc}...")
+    for url in RIR_STATS_URLS:
+        print(f"      Loading {url}")
+        response = get_with_retries(url, headers=UA, timeout=90, rate_limiter=rate_limiter)
+        for line in response.text.splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("|")
+            if len(parts) < 7:
+                continue
+            registry, cc_field, resource_type, start, value, date, status = parts[:7]
+            if cc_field.upper() != cc or status not in {"allocated", "assigned"}:
+                continue
+            if resource_type == "asn":
+                first_asn = int(start)
+                for asn in range(first_asn, first_asn + int(value)):
+                    asns.add(str(asn))
+            elif resource_type == "ipv4":
+                for prefix in ipv4_range_to_prefixes(start, int(value)):
+                    prefixes.add(prefix)
+            elif resource_type == "ipv6":
+                prefixes.add(f"{start}/{value}")
+
+    if not asns and not prefixes:
+        raise RuntimeError(f"No delegated RIR resources found for {cc}")
+
+    print(f"      RIR fallback found {len(asns)} ASNs and {len(prefixes)} prefixes")
+    return asns, sorted(prefixes)
+
+
+def _country_resources_cache_path(country_code):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_dir = os.path.dirname(script_dir)
+    return os.path.join(project_dir, "data", country_code.upper(), "country_resources.json")
+
+
+def _save_country_resources_cache(country_code, asns, prefixes):
+    """Persist a last-good snapshot so a future total outage can still proceed."""
+    path = _country_resources_cache_path(country_code)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    payload = {
+        "country": country_code.upper(),
+        "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "asns": sorted(asns, key=lambda a: int(a) if str(a).isdigit() else 0),
+        "prefixes": sorted(prefixes),
+    }
+    with open(path, "w") as f:
+        json.dump(payload, f, indent=2)
+    print(f"      Cached country resources to {path}")
+
+
+def _load_country_resources_cache(country_code):
+    path = _country_resources_cache_path(country_code)
+    if not os.path.exists(path):
+        return None
+    with open(path) as f:
+        payload = json.load(f)
+    asns = set(str(a) for a in payload.get("asns", []))
+    prefixes = list(payload.get("prefixes", []))
+    if not asns and not prefixes:
+        return None
+    print(f"      Loaded {len(asns)} ASNs and {len(prefixes)} prefixes from cache {path}")
+    return asns, prefixes
+
+
+# ═══════════════════════════════════════════════════════════════════════════
 # Step 1: Fetch Country Resources
 # ═══════════════════════════════════════════════════════════════════════════
 
-def get_country_resources(country_code):
-    """Fetch ASNs and prefixes for a country from RIPEstat.
-    Also queries announced prefixes for ALL country ASNs in parallel to catch
-    more-specific announcements (e.g. /24 subnets of /23 allocations).
+def get_country_resources(country_code, rate_limiter=None):
+    """Fetch ASNs and prefixes for a country, resilient to RIPEstat outages.
+
+    Order: RIPEstat country-resource-list -> APNIC delegated RIR stats -> cache.
+    On any live success the result is cached so a future total outage can still
+    proceed from the last-good snapshot.
     """
     print(f"[1/4] Fetching country resources for {country_code.upper()}...")
-    
+
+    # Primary: RIPEstat
     try:
-        r = requests.get(
+        r = get_with_retries(
             f"{BASE}/country-resource-list/data.json",
             params={"resource": country_code.lower(), "v4_format": "prefix"},
-            headers=UA,
-            timeout=60
+            headers=UA, timeout=60, attempts=4, rate_limiter=rate_limiter,
         )
-        r.raise_for_status()
         data = r.json()["data"]["resources"]
-        
         asns = set(str(a) for a in data.get("asn", []))
         alloc_prefixes = data.get("ipv4", []) + data.get("ipv6", [])
-        
-        print(f"      Found {len(asns)} ASNs and {len(alloc_prefixes)} allocation prefixes")
-        
-        return asns, alloc_prefixes
-        
+        if asns and alloc_prefixes:
+            print(f"      Found {len(asns)} ASNs and {len(alloc_prefixes)} allocation prefixes")
+            _save_country_resources_cache(country_code, asns, alloc_prefixes)
+            return asns, alloc_prefixes
+        print("      RIPEstat returned empty country resources; trying RIR fallback...")
     except Exception as e:
-        print(f"ERROR: Failed to fetch country resources: {e}")
-        sys.exit(1)
+        print(f"      RIPEstat country-resource-list failed: {e}")
+        print("      Recoverable: RIPEstat derives this data from RIR stats.")
+
+    # Fallback: delegated RIR stats (APNIC for BD)
+    try:
+        asns, prefixes = get_country_resources_from_rir_stats(country_code, rate_limiter=rate_limiter)
+        _save_country_resources_cache(country_code, asns, prefixes)
+        return asns, prefixes
+    except Exception as e:
+        print(f"      Delegated RIR stats fallback failed: {e}")
+
+    # Last resort: committed cache from a previous successful run
+    cached = _load_country_resources_cache(country_code)
+    if cached:
+        print("      Using committed country_resources.json cache.")
+        return cached
+
+    print("ERROR: Failed to fetch country resources from all sources (RIPEstat, RIR stats, cache).")
+    sys.exit(1)
 
 
 def fetch_announced_prefixes(asns, rate_limiter):
@@ -308,6 +493,198 @@ def fetch_bgp_routes(prefixes, rate_limiter):
         print(f"      WARNING: {failed} batches failed even after retries")
     
     return all_routes
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Step 2 health probe (distinguishes upstream outage from real BD route changes)
+# ═══════════════════════════════════════════════════════════════════════════
+
+def probe_bgp_state_health(rate_limiter=None):
+    """Probe RIPEstat bgp-state with globally-stable control prefixes.
+
+    Returns the total observation count across CONTROL_PREFIXES. A healthy probe
+    (~1000+) means RIPEstat is serving real data, so a sparse/empty BD result is
+    a genuine routing change worth committing. A near-zero probe means RIPEstat
+    itself is unhealthy, so BD results cannot be trusted.
+    """
+    total = 0
+    for prefix in CONTROL_PREFIXES:
+        try:
+            r = get_with_retries(
+                f"{BASE}/bgp-state/data.json",
+                params={"resource": prefix}, headers=UA, timeout=60,
+                attempts=3, rate_limiter=rate_limiter,
+            )
+            total += len(r.json().get("data", {}).get("bgp_state", []))
+        except Exception as e:
+            print(f"      Control probe for {prefix} failed: {e}")
+    return total
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Step 2 (fallback): Fetch AS paths from MRT dumps (RIPE RIS / RouteViews)
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Used only when RIPEstat bgp-state is unavailable AND --use-mrt-fallback is set.
+# Produces records identical in shape to fetch_bgp_routes(), so the rest of the
+# pipeline (dedup -> analyze_routes -> build_viz_data) is unchanged and the
+# output files stay schema-identical regardless of the data source.
+
+def mrt_elem_to_route(elem, collector):
+    """Adapt a pybgpkit/mrtparse-style BGP element into the canonical record.
+
+    Accepts either an object with attributes (pybgpkit Elem) or a dict. Returns
+    {"target_prefix", "source_id", "path"} matching the bgp-state output, where
+    source_id is unique per vantage point so (target_prefix, source_id) dedup
+    behaves exactly like the RIPEstat path.
+    """
+    def field(name):
+        if isinstance(elem, dict):
+            return elem.get(name)
+        return getattr(elem, name, None)
+
+    as_path_raw = field("as_path") or ""
+    if isinstance(as_path_raw, (list, tuple)):
+        path = [str(x) for x in as_path_raw]
+    else:
+        path = str(as_path_raw).split()
+
+    return {
+        "target_prefix": field("prefix"),
+        "source_id": f"{collector}:{field('peer_ip')}",
+        "path": path,
+    }
+
+
+def discover_latest_rib_dumps(project="riperis", rate_limiter=None,
+                              max_delay_seconds=MRT_MAX_DELAY_SECONDS):
+    """Discover the latest RIB MRT dumps via the BGPKIT broker.
+
+    project: 'riperis' (collector id starts with 'rrc') or 'routeviews'.
+    Drops stale collectors (delay > max_delay_seconds) so dead collectors are
+    excluded. Returns [{"collector", "url", "size"}] sorted by size ascending.
+    The /latest endpoint ignores query params, so we filter client-side.
+    """
+    r = get_with_retries(BGPKIT_BROKER_LATEST, headers=UA, timeout=60,
+                         rate_limiter=rate_limiter)
+    items = r.json().get("data", [])
+    dumps = []
+    for it in items:
+        if it.get("data_type") != "rib":
+            continue
+        cid = it.get("collector_id", "")
+        is_ris = cid.startswith("rrc")
+        if project == "riperis" and not is_ris:
+            continue
+        if project == "routeviews" and is_ris:
+            continue
+        if it.get("delay", 1 << 62) > max_delay_seconds:
+            continue
+        dumps.append({"collector": cid, "url": it["url"], "size": it.get("rough_size", 0)})
+    dumps.sort(key=lambda d: d["size"])
+    return dumps
+
+
+def _bd_as_path_regex(country_asns):
+    """Build an AS-path regex matching any country ASN as a whole path token.
+
+    Pushed into the pybgpkit (Rust) parser to cut Python-side work dramatically.
+    """
+    if not country_asns:
+        return None
+    alternation = "|".join(sorted(country_asns, key=lambda a: int(a) if str(a).isdigit() else 0))
+    return rf"(?:^| )(?:{alternation})(?: |$)"
+
+
+def _parse_rib_dump(url, collector, country_asns, prefix_set, as_path_regex):
+    """Parse one MRT RIB dump with pybgpkit-parser into canonical records."""
+    from pybgpkit_parser import Parser  # lazy: Linux/macOS wheels only
+
+    filters = {}
+    if as_path_regex:
+        filters["as_path"] = as_path_regex
+
+    parser = Parser(url=url, filters=filters)
+    records = []
+    for elem in parser:
+        origin_asns = getattr(elem, "origin_asns", None) or []
+        origin = str(origin_asns[-1]) if origin_asns else None
+        prefix = getattr(elem, "prefix", None)
+        if (origin and origin in country_asns) or (prefix in prefix_set):
+            records.append(mrt_elem_to_route(elem, collector))
+    return records
+
+
+def _parse_rib_dumps(dumps, country_asns, prefix_set, as_path_regex,
+                     rate_limiter, concurrency):
+    """Parse multiple RIB dumps in bounded parallel waves (polite to archives)."""
+    routes = []
+    total = len(dumps)
+    completed = 0
+    for i in range(0, total, concurrency):
+        wave = dumps[i:i + concurrency]
+        with ThreadPoolExecutor(max_workers=concurrency) as executor:
+            futures = {}
+            for d in wave:
+                if rate_limiter is not None:
+                    rate_limiter.acquire()  # gate each download start
+                futures[executor.submit(
+                    _parse_rib_dump, d["url"], d["collector"],
+                    country_asns, prefix_set, as_path_regex
+                )] = d
+            for future in as_completed(futures):
+                d = futures[future]
+                completed += 1
+                try:
+                    recs = future.result()
+                    routes.extend(recs)
+                    print(f"      [{completed}/{total}] {d['collector']}: "
+                          f"{len(recs):,} BD records ({d['size'] / 1e6:.0f} MB)")
+                except Exception as e:
+                    print(f"      [{completed}/{total}] {d['collector']}: "
+                          f"FAILED ({type(e).__name__}: {e})")
+    return routes
+
+
+def fetch_bgp_routes_mrt(prefixes, country_asns, rate_limiter=None,
+                         collectors=None, concurrency=2):
+    """Fallback AS-path source: parse MRT RIB dumps from RIPE RIS / RouteViews.
+
+    Returns records identical in shape to fetch_bgp_routes(). RIS is preferred
+    (closest to RIPEstat's own data); RouteViews is added if RIS yields too
+    little and is independent of RIPE infrastructure.
+    """
+    prefix_set = set(prefixes)
+    as_path_regex = _bd_as_path_regex(country_asns)
+
+    print(f"\n[2/4] (FALLBACK) Fetching AS paths from MRT dumps "
+          f"(concurrency {concurrency})...")
+
+    routes = []
+    try:
+        ris = discover_latest_rib_dumps("riperis", rate_limiter=rate_limiter)
+        if collectors:
+            ris = [d for d in ris if d["collector"] in collectors]
+        print(f"      Discovered {len(ris)} fresh RIPE RIS RIB dumps")
+        routes.extend(_parse_rib_dumps(ris, country_asns, prefix_set,
+                                       as_path_regex, rate_limiter, concurrency))
+    except Exception as e:
+        print(f"      RIS discovery/parse failed: {e}")
+
+    if len(routes) < MRT_MIN_RIS_ROUTES:
+        print(f"      RIS yielded {len(routes)} routes; adding RouteViews "
+              f"(independent of RIPE infra)...")
+        try:
+            rv = discover_latest_rib_dumps("routeviews", rate_limiter=rate_limiter)
+            if collectors:
+                rv = [d for d in rv if d["collector"] in collectors]
+            routes.extend(_parse_rib_dumps(rv, country_asns, prefix_set,
+                                           as_path_regex, rate_limiter, concurrency))
+        except Exception as e:
+            print(f"      RouteViews discovery/parse failed: {e}")
+
+    print(f"      MRT fallback collected {len(routes):,} route records")
+    return routes
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1122,7 +1499,14 @@ def main():
     parser = argparse.ArgumentParser(description="Update BGP data - fetch and process in one go")
     parser.add_argument("--country", default="BD", help="Country code (default: BD)")
     parser.add_argument("--reprocess", action="store_true", help="Skip BGP fetching, reprocess from cached raw routes")
+    parser.add_argument("--use-mrt-fallback", action="store_true",
+                        help="If RIPEstat bgp-state is down/empty, fetch AS paths from "
+                             "RIPE RIS / RouteViews MRT dumps instead (slow; opt-in)")
+    parser.add_argument("--mrt-collectors", default="",
+                        help="Comma-separated collector IDs to restrict the MRT fallback to "
+                             "(default: all fresh RIS collectors)")
     args = parser.parse_args()
+    mrt_collectors = {c.strip() for c in args.mrt_collectors.split(",") if c.strip()} or None
     
     country = args.country.upper()
     
@@ -1166,13 +1550,19 @@ def main():
     
     # Initialize rate limiter (4 requests per second, matching website)
     rate_limiter = RateLimiter(requests_per_second=4)
-    
+
+    # Records the data source actually used (reflected in metadata.json).
+    data_source = ("RIPEstat BGP State API", "https://stat.ripe.net/data/bgp-state/data.json")
+    data_is_mrt = False        # True when AS paths came from the MRT fallback
+    ripestat_healthy = True    # re-evaluated only when fetching live from RIPEstat
+    control_obs = None         # control-probe observation count (when fetched)
+
     if args.reprocess:
         # Reprocess mode: stream from cached JSONL (or fallback to legacy JSON)
         print(f"\n[REPROCESS] Loading cached data (skipping BGP route fetching)...")
         
         # Still need country resources for classification
-        country_asns, alloc_prefixes = get_country_resources(args.country)
+        country_asns, alloc_prefixes = get_country_resources(args.country, rate_limiter)
         
         if os.path.exists(out_raw):
             # Stream analysis from JSONL -- no need to load entire file into memory
@@ -1191,7 +1581,7 @@ def main():
             sys.exit(1)
     else:
         # Step 1: Get country resources (allocation blocks + ASN list)
-        country_asns, alloc_prefixes = get_country_resources(args.country)
+        country_asns, alloc_prefixes = get_country_resources(args.country, rate_limiter)
         
         # Step 1b: Fetch actually-announced prefixes for ALL country ASNs
         # This catches more-specific subnets (e.g. /24 from /23 allocation)
@@ -1202,8 +1592,28 @@ def main():
         added = len(all_prefixes) - len(alloc_prefixes)
         print(f"\n      Merged prefix list: {len(all_prefixes)} total ({len(alloc_prefixes)} allocations + {added} additional announced)")
         
-        # Step 2: Fetch BGP routes in parallel
-        routes = fetch_bgp_routes(list(all_prefixes), rate_limiter)
+        if args.use_mrt_fallback:
+            # Opt-in manual recovery run: the operator explicitly wants AS paths
+            # from MRT dumps (used when RIPEstat is down). Records are the same
+            # shape, so everything downstream is unchanged.
+            print(f"\n      --use-mrt-fallback set -> using MRT data source.")
+            routes = fetch_bgp_routes_mrt(list(all_prefixes), country_asns,
+                                          rate_limiter=rate_limiter,
+                                          collectors=mrt_collectors)
+            data_source = ("RIPE RIS / RouteViews MRT via BGPKIT (fallback)",
+                           "https://bgpkit.com")
+            data_is_mrt = True
+        else:
+            # Step 2a: Probe upstream health with stable control prefixes. This
+            # tells a real BD route change (control healthy, BD sparse) apart
+            # from a RIPEstat outage (control also dead).
+            control_obs = probe_bgp_state_health(rate_limiter)
+            ripestat_healthy = control_obs >= CONTROL_MIN_OBSERVATIONS
+            print(f"\n      RIPEstat bgp-state health probe: {control_obs} control "
+                  f"observations -> {'HEALTHY' if ripestat_healthy else 'UNHEALTHY (likely upstream outage)'}")
+
+            # Step 2b: Fetch BGP routes in parallel from RIPEstat bgp-state.
+            routes = fetch_bgp_routes(list(all_prefixes), rate_limiter)
         
         # Deduplicate routes by (target_prefix, cleaned_path) before saving
         print(f"\nDeduplicating {len(routes):,} routes by (prefix, path)...")
@@ -1253,6 +1663,28 @@ def main():
         analysis = analyze_routes(deduped_routes, country_asns)
         del routes, deduped_routes, dedup_map, dedup_counts  # Free memory
     
+    # Safety guard: only block when OUR upstream is the problem — never when BD
+    # routing genuinely changed. We intentionally commit a real, large drop in BD
+    # routes (e.g. a national connectivity shutdown), because the control probe
+    # confirms RIPEstat is healthy. Raising here fails the run (exit 1) before any
+    # output file is written, so the previous viz_data.json is preserved.
+    if not args.reprocess:
+        if not data_is_mrt and not ripestat_healthy:
+            # RIPEstat unhealthy and no MRT fallback data -> cannot trust results.
+            raise RuntimeError(
+                f"RIPEstat bgp-state control probe returned only {control_obs} "
+                f"observations (< {CONTROL_MIN_OBSERVATIONS}); upstream looks down, "
+                f"refusing to overwrite committed data. Re-run with "
+                f"--use-mrt-fallback to fetch AS paths from MRT dumps instead."
+            )
+        if data_is_mrt and analysis["valid_obs"] == 0:
+            # MRT fallback produced nothing -> treat as fallback failure, not a
+            # real signal, and preserve existing data.
+            raise RuntimeError(
+                "MRT fallback produced zero valid observations; refusing to "
+                "overwrite committed data (treating as a fallback failure)."
+            )
+
     # Step 4: Fetch ASN info for all needed ASNs
     all_asns = set(analysis["outside_counts"].keys()) | set(analysis["iig_counts"].keys()) | set(analysis["local_isp_counts"].keys())
     all_asns |= set(existing_asn_names.keys())  # Keep existing ASN data
@@ -1312,8 +1744,8 @@ def main():
         "raw_format": "jsonl",
         "json_engine": JSON_ENGINE,
         "stats": viz_data["stats"],
-        "source": "RIPEstat BGP State API",
-        "source_url": "https://stat.ripe.net/data/bgp-state/data.json",
+        "source": data_source[0],
+        "source_url": data_source[1],
     }
     with open(out_meta, "w") as f:
         json.dump(metadata, f, indent=2)

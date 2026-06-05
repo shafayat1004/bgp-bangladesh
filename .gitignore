@@ -20,6 +20,10 @@ node_modules/
 __pycache__/
 *.py[cod]
 
+# Python virtual environments
+.venv/
+venv/
+
 # Rust/WASM build artifacts (the compiled pkg/ is committed, target/ is not)
 wasm/bgp-wasm/target/
 wasm/bgp-wasm/pkg/.gitignore

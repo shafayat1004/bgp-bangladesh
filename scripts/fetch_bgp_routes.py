@@ -15,6 +15,7 @@ import json
 import sys
 import os
 import time
+import ipaddress
 import argparse
 import requests
 from datetime import datetime
@@ -22,6 +23,17 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 BASE = "https://stat.ripe.net/data"
 UA = {"User-Agent": "bgp-bangladesh-viz/1.0 (https://github.com/bgp-bangladesh)"}
+
+# Transient HTTP status codes worth retrying (rate limiting + upstream errors).
+TRANSIENT_STATUS_CODES = {429, 500, 502, 503, 504}
+
+# Delegated RIR statistics — fallback for RIPEstat country-resource-list.
+# RIPEstat derives that endpoint from these files. APNIC is the RIR for BD.
+# NOTE: This is the fetch-only legacy script; the MRT bgp-state fallback lives in
+# scripts/update_bgp_data.py.
+RIR_STATS_URLS = [
+    "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+]
 
 # Rate limiter (token bucket) matching the website's implementation
 class RateLimiter:
@@ -68,29 +80,168 @@ def chunk_prefixes(prefixes, max_len=1800):
     return chunks
 
 
-def get_country_resources(country_code):
-    """Fetch ASNs and prefixes for a country from RIPEstat."""
+def get_with_retries(url, *, params=None, headers=None, timeout=60, attempts=4,
+                     rate_limiter=None):
+    """GET with retry/backoff on transient HTTP codes and network errors.
+
+    Honors Retry-After on 429/5xx. Optionally gated by a RateLimiter.
+    """
+    last_error = None
+    for attempt in range(attempts):
+        try:
+            if rate_limiter is not None:
+                rate_limiter.acquire()
+            response = requests.get(url, params=params, headers=headers, timeout=timeout)
+
+            if response.status_code in TRANSIENT_STATUS_CODES:
+                retry_after = response.headers.get("Retry-After")
+                if retry_after and retry_after.isdigit():
+                    wait_seconds = int(retry_after)
+                else:
+                    wait_seconds = min(30, 2 ** attempt)
+                last_error = requests.HTTPError(
+                    f"{response.status_code} transient error for {response.url}"
+                )
+                if attempt < attempts - 1:
+                    print(f"  Transient HTTP {response.status_code}; retrying in {wait_seconds}s...")
+                    time.sleep(wait_seconds)
+                    continue
+
+            response.raise_for_status()
+            return response
+
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt < attempts - 1:
+                wait_seconds = min(30, 2 ** attempt)
+                print(f"  Request failed: {type(exc).__name__}; retrying in {wait_seconds}s...")
+                time.sleep(wait_seconds)
+
+    raise last_error
+
+
+def ipv4_range_to_prefixes(start_ip, address_count):
+    """Convert an IPv4 range (start address + count) into CIDR prefix strings."""
+    start = ipaddress.IPv4Address(start_ip)
+    end = ipaddress.IPv4Address(int(start) + int(address_count) - 1)
+    return [str(prefix) for prefix in ipaddress.summarize_address_range(start, end)]
+
+
+def get_country_resources_from_rir_stats(country_code, rate_limiter=None):
+    """Fallback for RIPEstat country-resource-list using delegated RIR stats.
+
+    Format: registry|cc|type|start|value|date|status[|extensions]
+    """
+    cc = country_code.upper()
+    asns = set()
+    prefixes = set()
+
+    print(f"  Falling back to delegated RIR stats for {cc}...")
+    for url in RIR_STATS_URLS:
+        print(f"  Loading {url}")
+        response = get_with_retries(url, headers=UA, timeout=90, rate_limiter=rate_limiter)
+        for line in response.text.splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("|")
+            if len(parts) < 7:
+                continue
+            registry, cc_field, resource_type, start, value, date, status = parts[:7]
+            if cc_field.upper() != cc or status not in {"allocated", "assigned"}:
+                continue
+            if resource_type == "asn":
+                first_asn = int(start)
+                for asn in range(first_asn, first_asn + int(value)):
+                    asns.add(str(asn))
+            elif resource_type == "ipv4":
+                for prefix in ipv4_range_to_prefixes(start, int(value)):
+                    prefixes.add(prefix)
+            elif resource_type == "ipv6":
+                prefixes.add(f"{start}/{value}")
+
+    if not asns and not prefixes:
+        raise RuntimeError(f"No delegated RIR resources found for {cc}")
+
+    print(f"  RIR fallback found {len(asns)} ASNs and {len(prefixes)} prefixes")
+    return asns, sorted(prefixes)
+
+
+def _country_resources_cache_path(country_code):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_dir = os.path.dirname(script_dir)
+    return os.path.join(project_dir, "data", country_code.upper(), "country_resources.json")
+
+
+def _save_country_resources_cache(country_code, asns, prefixes):
+    path = _country_resources_cache_path(country_code)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    payload = {
+        "country": country_code.upper(),
+        "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "asns": sorted(asns, key=lambda a: int(a) if str(a).isdigit() else 0),
+        "prefixes": sorted(prefixes),
+    }
+    with open(path, "w") as f:
+        json.dump(payload, f, indent=2)
+    print(f"  Cached country resources to {path}")
+
+
+def _load_country_resources_cache(country_code):
+    path = _country_resources_cache_path(country_code)
+    if not os.path.exists(path):
+        return None
+    with open(path) as f:
+        payload = json.load(f)
+    asns = set(str(a) for a in payload.get("asns", []))
+    prefixes = list(payload.get("prefixes", []))
+    if not asns and not prefixes:
+        return None
+    print(f"  Loaded {len(asns)} ASNs and {len(prefixes)} prefixes from cache {path}")
+    return asns, prefixes
+
+
+def get_country_resources(country_code, rate_limiter=None):
+    """Fetch ASNs and prefixes for a country, resilient to RIPEstat outages.
+
+    Order: RIPEstat country-resource-list -> APNIC delegated RIR stats -> cache.
+    """
     print(f"Fetching country resources for {country_code.upper()}...")
-    
+
+    # Primary: RIPEstat
     try:
-        r = requests.get(
+        r = get_with_retries(
             f"{BASE}/country-resource-list/data.json",
             params={"resource": country_code.lower(), "v4_format": "prefix"},
-            headers=UA,
-            timeout=60
+            headers=UA, timeout=60, attempts=4, rate_limiter=rate_limiter,
         )
-        r.raise_for_status()
         data = r.json()["data"]["resources"]
-        
         asns = set(str(a) for a in data.get("asn", []))
         prefixes = data.get("ipv4", []) + data.get("ipv6", [])
-        
-        print(f"  Found {len(asns)} ASNs and {len(prefixes)} prefixes")
-        return asns, prefixes
-        
+        if asns and prefixes:
+            print(f"  Found {len(asns)} ASNs and {len(prefixes)} prefixes")
+            _save_country_resources_cache(country_code, asns, prefixes)
+            return asns, prefixes
+        print("  RIPEstat returned empty country resources; trying RIR fallback...")
     except Exception as e:
-        print(f"ERROR: Failed to fetch country resources: {e}")
-        sys.exit(1)
+        print(f"  RIPEstat country-resource-list failed: {e}")
+
+    # Fallback: delegated RIR stats (APNIC for BD)
+    try:
+        asns, prefixes = get_country_resources_from_rir_stats(country_code, rate_limiter=rate_limiter)
+        _save_country_resources_cache(country_code, asns, prefixes)
+        return asns, prefixes
+    except Exception as e:
+        print(f"  Delegated RIR stats fallback failed: {e}")
+
+    # Last resort: committed cache
+    cached = _load_country_resources_cache(country_code)
+    if cached:
+        print("  Using committed country_resources.json cache.")
+        return cached
+
+    print("ERROR: Failed to fetch country resources from all sources (RIPEstat, RIR stats, cache).")
+    sys.exit(1)
 
 
 def fetch_bgp_routes(prefixes, rate_limiter):
@@ -203,7 +354,7 @@ def main():
     rate_limiter = RateLimiter(requests_per_second=4)
     
     # Fetch data
-    country_asns, prefixes = get_country_resources(args.country)
+    country_asns, prefixes = get_country_resources(args.country, rate_limiter)
     routes = fetch_bgp_routes(prefixes, rate_limiter)
     
     # Save to file
