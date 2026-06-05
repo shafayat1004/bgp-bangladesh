@@ -7,6 +7,7 @@ import { RIPEStatClient } from './api/ripestat.js';
 import { analyzeGateways, buildVisualizationData, createAnalysisState, analyzeRoutesBatch, finalizeAnalysis } from './api/data-processor.js';
 import { showModal, resetModal } from './ui/modal.js';
 import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, loadPreferences, savePreferences, showMyASNResult } from './ui/controls.js';
+import { initTimeline, formatTimestamp } from './ui/timeline.js';
 import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel } from './ui/loading.js';
 import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './ui/export.js';
 import { wasmSupported, createAnalysisWorker } from './wasm-bridge.js';
@@ -20,6 +21,8 @@ import * as BarCountry from './viz/bar-country.js';
 
 const COUNTRY = 'BD';
 let currentData = null;
+let latestData = null;          // newest snapshot, used to restore "Latest" on the slider
+let latestDateStr = 'Unknown';  // formatted label for the newest snapshot
 let rawRoutes = null;  // Store raw BGP routes for export
 let activeTab = 'hierarchical';
 let ripeClient = new RIPEStatClient();
@@ -101,6 +104,7 @@ async function loadStaticData() {
 
     if (!vizResponse.ok) throw new Error('Failed to load visualization data');
     currentData = await vizResponse.json();
+    latestData = currentData;
 
     let meta = {};
     if (metaResponse.ok) meta = await metaResponse.json();
@@ -108,13 +112,39 @@ async function loadStaticData() {
     const dateStr = meta.last_updated
       ? new Date(meta.last_updated).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
       : 'Unknown';
+    latestDateStr = dateStr;
 
     setDataSourceLabel(`Static data from: ${dateStr}`);
     onDataLoaded();
+    setupTimeline();
   } catch (err) {
     console.error('Failed to load static data:', err);
     showToast('error', 'Failed to load static data. Check your connection and reload.');
   }
+}
+
+// ────────────────────────────────────────
+// History Time-Slider
+// ────────────────────────────────────────
+
+let timelineInitialized = false;
+
+function setupTimeline() {
+  if (timelineInitialized) return;  // bind listeners only once (revert re-loads static)
+  timelineInitialized = true;
+  initTimeline({
+    country: COUNTRY,
+    onSelectLatest: () => {
+      currentData = latestData;
+      setDataSourceLabel(`Static data from: ${latestDateStr}`);
+      onDataLoaded();
+    },
+    onSelectSnapshot: (viz, ts) => {
+      currentData = viz;
+      setDataSourceLabel(`Snapshot: ${formatTimestamp(ts)}`);
+      onDataLoaded();
+    },
+  });
 }
 
 // ────────────────────────────────────────

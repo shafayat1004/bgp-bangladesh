@@ -1,0 +1,55 @@
+name: Backfill BGP history
+
+# One-off, manually-triggered job that reconstructs the rolling history
+# directory from past viz_data.json commits so the UI time-slider is full
+# immediately. Not part of the scheduled pipeline.
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Retention window in days to backfill"
+        type: string
+        default: "7"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backfill-history
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository (full history)
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Backfill history from git
+        run: |
+          python scripts/backfill_history.py --country BD --days "${{ inputs.days }}"
+
+      - name: Commit and push history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A data/BD/history
+
+          if git diff --cached --quiet; then
+            echo "No history changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Backfill BGP history: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push

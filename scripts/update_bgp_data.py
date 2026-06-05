@@ -28,7 +28,7 @@ import time
 import ipaddress
 import argparse
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Use orjson for 10-50x faster JSON serialization when available
@@ -86,6 +86,10 @@ CONTROL_PREFIXES = ["1.1.1.0/24", "8.8.8.0/24", "193.0.0.0/21"]
 # Healthy bgp-state returns ~350 observations per control prefix (~1000+ total).
 # Well below that signals an upstream outage rather than a real BD change.
 CONTROL_MIN_OBSERVATIONS = 100
+
+# How many days of per-run snapshots to retain for the history time-slider.
+# Snapshots older than this are pruned on each successful run.
+RETENTION_DAYS = 7
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -244,6 +248,123 @@ def _load_country_resources_cache(country_code):
         return None
     print(f"      Loaded {len(asns)} ASNs and {len(prefixes)} prefixes from cache {path}")
     return asns, prefixes
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# History snapshots (powers the 7-day time-slider in the UI)
+# ═══════════════════════════════════════════════════════════════════════════
+
+def _history_dir(country_code):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_dir = os.path.dirname(script_dir)
+    return os.path.join(project_dir, "data", country_code.upper(), "history")
+
+
+def _snapshot_filename(ts):
+    """Convert an ISO-8601 UTC timestamp to a colon-free snapshot filename.
+
+    "2026-06-04T14:00:48Z" -> "20260604T140048Z.json" (safe on Windows/macOS/Linux).
+    """
+    safe = ts.replace("-", "").replace(":", "")
+    return f"{safe}.json"
+
+
+def archive_snapshot(country_code, viz_data, metadata):
+    """Write a copy of this run's viz_data into the history directory.
+
+    Only the viz_data is stored per snapshot (the only payload the UI renders);
+    the timestamp, source and stats live in the manifest written separately.
+    """
+    history_dir = _history_dir(country_code)
+    os.makedirs(history_dir, exist_ok=True)
+    ts = metadata.get("last_updated") or time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    path = os.path.join(history_dir, _snapshot_filename(ts))
+    with open(path, "w") as f:
+        json.dump(viz_data, f, indent=2)
+    print(f"      Archived snapshot to {path}")
+    return path
+
+
+def _parse_snapshot_ts(filename):
+    """Recover a timezone-aware datetime from a snapshot filename.
+
+    "20260604T140048Z.json" -> datetime(2026, 6, 4, 14, 0, 48, tzinfo=UTC).
+    Returns None if the name does not match the expected pattern.
+    """
+    stem = filename[:-5] if filename.endswith(".json") else filename
+    try:
+        return datetime.strptime(stem, "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc)
+    except ValueError:
+        return None
+
+
+def prune_history(country_code, retention_days=RETENTION_DAYS):
+    """Delete snapshot files older than the retention window."""
+    history_dir = _history_dir(country_code)
+    if not os.path.isdir(history_dir):
+        return
+    cutoff = datetime.now(timezone.utc) - timedelta(days=retention_days)
+    removed = 0
+    for name in os.listdir(history_dir):
+        if not name.endswith(".json") or name == "index.json":
+            continue
+        snap_dt = _parse_snapshot_ts(name)
+        if snap_dt is not None and snap_dt < cutoff:
+            os.remove(os.path.join(history_dir, name))
+            removed += 1
+    if removed:
+        print(f"      Pruned {removed} snapshot(s) older than {retention_days} days")
+
+
+def write_history_index(country_code, retention_days=RETENTION_DAYS):
+    """Rebuild history/index.json from the snapshot files currently on disk.
+
+    Each entry carries the ISO timestamp, filename, source label and a minimal
+    stats subset so the slider can render labels without fetching every snapshot.
+    """
+    history_dir = _history_dir(country_code)
+    if not os.path.isdir(history_dir):
+        return
+    snapshots = []
+    for name in sorted(os.listdir(history_dir)):
+        if not name.endswith(".json") or name == "index.json":
+            continue
+        snap_dt = _parse_snapshot_ts(name)
+        if snap_dt is None:
+            continue
+        entry = {
+            "ts": snap_dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "file": name,
+        }
+        try:
+            with open(os.path.join(history_dir, name)) as f:
+                snap = json.load(f)
+            stats = snap.get("stats", {})
+            entry["stats"] = {
+                "valid_observations": stats.get("valid_observations"),
+                "total_edges": stats.get("total_edges"),
+            }
+        except (OSError, ValueError, json.JSONDecodeError):
+            entry["stats"] = {}
+        snapshots.append(entry)
+
+    snapshots.sort(key=lambda s: s["ts"])
+    index = {
+        "country": country_code.upper(),
+        "retention_days": retention_days,
+        "snapshots": snapshots,
+    }
+    path = os.path.join(history_dir, "index.json")
+    with open(path, "w") as f:
+        json.dump(index, f, indent=2)
+    print(f"      Wrote history index with {len(snapshots)} snapshot(s) to {path}")
+
+
+def update_history(country_code, viz_data, metadata, retention_days=RETENTION_DAYS):
+    """Archive the current run, prune old snapshots, and rebuild the manifest."""
+    archive_snapshot(country_code, viz_data, metadata)
+    prune_history(country_code, retention_days)
+    write_history_index(country_code, retention_days)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1749,7 +1870,13 @@ def main():
     }
     with open(out_meta, "w") as f:
         json.dump(metadata, f, indent=2)
-    
+
+    # Archive this run into the 7-day rolling history and refresh the manifest
+    # that powers the UI time-slider. Reached only after the upstream safety
+    # guard passed, so we never archive degraded/garbage data.
+    print(f"\nUpdating {RETENTION_DAYS}-day history...")
+    update_history(country, viz_data, metadata)
+
     # Print summary
     print("\n" + "═" * 70)
     print("CLASSIFICATION SUMMARY (6-Category Model)")

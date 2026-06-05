@@ -160,6 +160,19 @@
       <!-- Visualization panel -->
       <div id="viz-panel"></div>
 
+      <!-- History time-slider (hidden until the manifest loads) -->
+      <div id="timeline-bar" class="hidden" aria-hidden="true">
+        <button id="timeline-prev" class="timeline-btn" type="button" aria-label="Previous snapshot" title="Previous snapshot">&#8249;</button>
+        <input id="timeline-slider" type="range" min="0" max="0" value="0" step="1"
+               role="slider" aria-label="Browse historical snapshots">
+        <button id="timeline-next" class="timeline-btn" type="button" aria-label="Next snapshot" title="Next snapshot">&#8250;</button>
+        <div id="timeline-readout">
+          <span id="timeline-spinner" class="timeline-spinner hidden" aria-hidden="true"></span>
+          <span id="timeline-label">Latest</span>
+          <span id="timeline-latest-badge" class="timeline-badge">LATEST</span>
+        </div>
+      </div>
+
       <!-- Footer -->
       <div id="app-footer">
         <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a> | Local Company &rarr; Gateway &rarr; International</span>

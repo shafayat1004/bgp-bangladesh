@@ -1,0 +1,278 @@
+{
+  "country": "BD",
+  "retention_days": 7,
+  "snapshots": [
+    {
+      "ts": "2026-05-29T21:37:10Z",
+      "file": "20260529T213710Z.json",
+      "stats": {
+        "valid_observations": 3252055,
+        "total_edges": 3068
+      }
+    },
+    {
+      "ts": "2026-05-30T01:43:39Z",
+      "file": "20260530T014339Z.json",
+      "stats": {
+        "valid_observations": 3187838,
+        "total_edges": 3066
+      }
+    },
+    {
+      "ts": "2026-05-30T06:08:43Z",
+      "file": "20260530T060843Z.json",
+      "stats": {
+        "valid_observations": 3247891,
+        "total_edges": 3066
+      }
+    },
+    {
+      "ts": "2026-05-30T09:40:34Z",
+      "file": "20260530T094034Z.json",
+      "stats": {
+        "valid_observations": 3246823,
+        "total_edges": 3065
+      }
+    },
+    {
+      "ts": "2026-05-30T13:11:00Z",
+      "file": "20260530T131100Z.json",
+      "stats": {
+        "valid_observations": 3252895,
+        "total_edges": 3068
+      }
+    },
+    {
+      "ts": "2026-05-30T17:14:50Z",
+      "file": "20260530T171450Z.json",
+      "stats": {
+        "valid_observations": 3260274,
+        "total_edges": 3079
+      }
+    },
+    {
+      "ts": "2026-05-30T21:09:08Z",
+      "file": "20260530T210908Z.json",
+      "stats": {
+        "valid_observations": 3256942,
+        "total_edges": 3079
+      }
+    },
+    {
+      "ts": "2026-05-31T01:50:26Z",
+      "file": "20260531T015026Z.json",
+      "stats": {
+        "valid_observations": 3256183,
+        "total_edges": 3077
+      }
+    },
+    {
+      "ts": "2026-05-31T06:19:23Z",
+      "file": "20260531T061923Z.json",
+      "stats": {
+        "valid_observations": 3251025,
+        "total_edges": 3076
+      }
+    },
+    {
+      "ts": "2026-05-31T09:51:11Z",
+      "file": "20260531T095111Z.json",
+      "stats": {
+        "valid_observations": 3248517,
+        "total_edges": 3077
+      }
+    },
+    {
+      "ts": "2026-05-31T13:16:55Z",
+      "file": "20260531T131655Z.json",
+      "stats": {
+        "valid_observations": 3251361,
+        "total_edges": 3076
+      }
+    },
+    {
+      "ts": "2026-05-31T17:19:05Z",
+      "file": "20260531T171905Z.json",
+      "stats": {
+        "valid_observations": 2491738,
+        "total_edges": 3066
+      }
+    },
+    {
+      "ts": "2026-05-31T21:11:19Z",
+      "file": "20260531T211119Z.json",
+      "stats": {
+        "valid_observations": 3257369,
+        "total_edges": 3077
+      }
+    },
+    {
+      "ts": "2026-06-01T01:56:16Z",
+      "file": "20260601T015616Z.json",
+      "stats": {
+        "valid_observations": 1368901,
+        "total_edges": 3029
+      }
+    },
+    {
+      "ts": "2026-06-01T06:38:19Z",
+      "file": "20260601T063819Z.json",
+      "stats": {
+        "valid_observations": 1708422,
+        "total_edges": 3030
+      }
+    },
+    {
+      "ts": "2026-06-01T10:53:28Z",
+      "file": "20260601T105328Z.json",
+      "stats": {
+        "valid_observations": 3260148,
+        "total_edges": 3078
+      }
+    },
+    {
+      "ts": "2026-06-01T15:10:52Z",
+      "file": "20260601T151052Z.json",
+      "stats": {
+        "valid_observations": 3257192,
+        "total_edges": 3083
+      }
+    },
+    {
+      "ts": "2026-06-01T19:11:37Z",
+      "file": "20260601T191137Z.json",
+      "stats": {
+        "valid_observations": 3258359,
+        "total_edges": 3079
+      }
+    },
+    {
+      "ts": "2026-06-01T22:24:00Z",
+      "file": "20260601T222400Z.json",
+      "stats": {
+        "valid_observations": 3253445,
+        "total_edges": 3079
+      }
+    },
+    {
+      "ts": "2026-06-02T06:37:00Z",
+      "file": "20260602T063700Z.json",
+      "stats": {
+        "valid_observations": 810108,
+        "total_edges": 2801
+      }
+    },
+    {
+      "ts": "2026-06-02T10:21:58Z",
+      "file": "20260602T102158Z.json",
+      "stats": {
+        "valid_observations": 3266610,
+        "total_edges": 3082
+      }
+    },
+    {
+      "ts": "2026-06-02T14:22:49Z",
+      "file": "20260602T142249Z.json",
+      "stats": {
+        "valid_observations": 3249014,
+        "total_edges": 3070
+      }
+    },
+    {
+      "ts": "2026-06-02T18:22:53Z",
+      "file": "20260602T182253Z.json",
+      "stats": {
+        "valid_observations": 3249805,
+        "total_edges": 3075
+      }
+    },
+    {
+      "ts": "2026-06-02T22:02:33Z",
+      "file": "20260602T220233Z.json",
+      "stats": {
+        "valid_observations": 3254046,
+        "total_edges": 3076
+      }
+    },
+    {
+      "ts": "2026-06-03T02:14:41Z",
+      "file": "20260603T021441Z.json",
+      "stats": {
+        "valid_observations": 3215318,
+        "total_edges": 3074
+      }
+    },
+    {
+      "ts": "2026-06-03T06:53:40Z",
+      "file": "20260603T065340Z.json",
+      "stats": {
+        "valid_observations": 2690827,
+        "total_edges": 3079
+      }
+    },
+    {
+      "ts": "2026-06-03T10:44:20Z",
+      "file": "20260603T104420Z.json",
+      "stats": {
+        "valid_observations": 3256999,
+        "total_edges": 3015
+      }
+    },
+    {
+      "ts": "2026-06-03T14:36:14Z",
+      "file": "20260603T143614Z.json",
+      "stats": {
+        "valid_observations": 3267982,
+        "total_edges": 3076
+      }
+    },
+    {
+      "ts": "2026-06-03T18:33:52Z",
+      "file": "20260603T183352Z.json",
+      "stats": {
+        "valid_observations": 3262500,
+        "total_edges": 3079
+      }
+    },
+    {
+      "ts": "2026-06-03T22:02:38Z",
+      "file": "20260603T220238Z.json",
+      "stats": {
+        "valid_observations": 3255530,
+        "total_edges": 2948
+      }
+    },
+    {
+      "ts": "2026-06-04T02:14:48Z",
+      "file": "20260604T021448Z.json",
+      "stats": {
+        "valid_observations": 3150241,
+        "total_edges": 2939
+      }
+    },
+    {
+      "ts": "2026-06-04T06:40:56Z",
+      "file": "20260604T064056Z.json",
+      "stats": {
+        "valid_observations": 3217891,
+        "total_edges": 2949
+      }
+    },
+    {
+      "ts": "2026-06-04T10:20:27Z",
+      "file": "20260604T102027Z.json",
+      "stats": {
+        "valid_observations": 3089643,
+        "total_edges": 3026
+      }
+    },
+    {
+      "ts": "2026-06-04T14:00:48Z",
+      "file": "20260604T140048Z.json",
+      "stats": {
+        "valid_observations": 3279418,
+        "total_edges": 3037
+      }
+    }
+  ]
+}

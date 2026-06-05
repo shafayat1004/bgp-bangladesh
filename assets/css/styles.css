@@ -651,6 +651,78 @@ input[type="range"]::-webkit-slider-thumb {
 @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
 
+/* ── Utility ── */
+.hidden { display: none !important; }
+
+/* ── History time-slider ── */
+#timeline-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+}
+
+#timeline-bar #timeline-slider {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.timeline-btn {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.timeline-btn:hover { border-color: var(--accent); color: var(--accent-hover); }
+
+#timeline-readout {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 150px;
+  justify-content: flex-end;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+#timeline-label { color: var(--text); white-space: nowrap; }
+
+.timeline-badge {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: var(--bg-primary);
+  background: var(--accent);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.timeline-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: timelineSpin 0.7s linear infinite;
+}
+
+@keyframes timelineSpin { to { transform: rotate(360deg); } }
+
 /* ── Footer ── */
 #app-footer {
   padding: 6px 16px;
@@ -1133,6 +1205,27 @@ input[type="range"]::-webkit-slider-thumb {
     gap: 4px;
     text-align: center;
   }
+
+  /* Timeline: full-width, readout drops under the slider */
+  #timeline-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 12px;
+  }
+
+  #timeline-bar #timeline-slider {
+    flex: 1 1 auto;
+    order: 1;
+  }
+
+  #timeline-prev { order: 0; }
+  #timeline-next { order: 2; }
+
+  #timeline-readout {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: center;
+  }
   
   /* Table search responsive */
   .table-search {
@@ -1187,6 +1280,25 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 10px;
     padding: 4px 8px;
     min-height: 32px;
+  }
+
+  /* Bigger touch targets for the timeline slider/buttons */
+  #timeline-bar #timeline-slider { height: 6px; }
+
+  #timeline-bar #timeline-slider::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+  }
+
+  #timeline-bar #timeline-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+  }
+
+  .timeline-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
   }
   
   .control-group label {

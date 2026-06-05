@@ -1,4 +1,5 @@
 import collections
+import json
 import os
 import sys
 import types
@@ -22,6 +23,11 @@ from scripts.update_bgp_data import (  # noqa: E402
     ipv4_range_to_prefixes,
     mrt_elem_to_route,
     probe_bgp_state_health,
+    _snapshot_filename,
+    _parse_snapshot_ts,
+    archive_snapshot,
+    prune_history,
+    write_history_index,
 )
 
 
@@ -443,6 +449,65 @@ class TestMrtBgpStateParity(unittest.TestCase):
         self.assertEqual(a["local_isp_counts"], b["local_isp_counts"])
         self.assertEqual(a["edge_intl"], b["edge_intl"])
         self.assertEqual(a["edge_domestic"], b["edge_domestic"])
+
+
+class TestHistorySnapshots(unittest.TestCase):
+    def test_snapshot_filename_is_colon_free(self):
+        name = _snapshot_filename("2026-06-04T14:00:48Z")
+        self.assertEqual(name, "20260604T140048Z.json")
+        self.assertNotIn(":", name)
+
+    def test_parse_snapshot_ts_roundtrip(self):
+        name = _snapshot_filename("2026-06-04T14:00:48Z")
+        dt = _parse_snapshot_ts(name)
+        self.assertEqual(dt.strftime("%Y-%m-%dT%H:%M:%SZ"), "2026-06-04T14:00:48Z")
+
+    def test_parse_snapshot_ts_rejects_garbage(self):
+        self.assertIsNone(_parse_snapshot_ts("index.json"))
+        self.assertIsNone(_parse_snapshot_ts("not-a-snapshot.json"))
+
+    def _iso(self, dt):
+        return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    def test_prune_removes_only_old_snapshots(self):
+        import datetime as _dt
+        import tempfile
+
+        now = _dt.datetime.now(_dt.timezone.utc)
+        fresh = self._iso(now - _dt.timedelta(days=1))
+        stale = self._iso(now - _dt.timedelta(days=10))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch.object(ubd, "_history_dir", return_value=tmp):
+                archive_snapshot("BD", {"stats": {}}, {"last_updated": fresh})
+                archive_snapshot("BD", {"stats": {}}, {"last_updated": stale})
+                self.assertEqual(len(os.listdir(tmp)), 2)
+                prune_history("BD", retention_days=7)
+                remaining = sorted(os.listdir(tmp))
+            self.assertEqual(remaining, [_snapshot_filename(fresh)])
+
+    def test_write_index_sorted_with_stats(self):
+        import tempfile
+
+        older = "2026-06-01T06:00:00Z"
+        newer = "2026-06-03T06:00:00Z"
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch.object(ubd, "_history_dir", return_value=tmp):
+                # Archive out of order to confirm the manifest sorts ascending.
+                archive_snapshot("BD", {"stats": {"valid_observations": 222, "total_edges": 22}},
+                                 {"last_updated": newer})
+                archive_snapshot("BD", {"stats": {"valid_observations": 111, "total_edges": 11}},
+                                 {"last_updated": older})
+                write_history_index("BD", retention_days=7)
+                with open(os.path.join(tmp, "index.json")) as f:
+                    index = json.load(f)
+
+        self.assertEqual(index["country"], "BD")
+        self.assertEqual(index["retention_days"], 7)
+        ts_list = [s["ts"] for s in index["snapshots"]]
+        self.assertEqual(ts_list, [older, newer])
+        self.assertEqual(index["snapshots"][0]["stats"]["valid_observations"], 111)
+        self.assertEqual(index["snapshots"][1]["file"], _snapshot_filename(newer))
 
 
 @unittest.skipUnless(os.environ.get("RUN_NETWORK_TESTS") == "1",
