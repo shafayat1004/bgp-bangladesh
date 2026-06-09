@@ -16187,5 +16187,19 @@
     "holder": "EFTETRADINGCORPORATIONLTD-AS-BD - Efte Trading Corporation Ltd",
     "announced": false,
     "country": "BD"
+  },
+  "154694": {
+    "asn": "154694",
+    "name": "DHAKABANKPLC-AS-AP - Dhaka Bank PLC.",
+    "holder": "DHAKABANKPLC-AS-AP - Dhaka Bank PLC.",
+    "announced": true,
+    "country": "BD"
+  },
+  "51765": {
+    "asn": "51765",
+    "name": "CREANOVA-AS Oy Crea Nova Hosting Solution Ltd",
+    "holder": "CREANOVA-AS Oy Crea Nova Hosting Solution Ltd",
+    "announced": true,
+    "country": ""
   }
 }
