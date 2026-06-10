@@ -5343,7 +5343,22 @@
     "name": "MBL-AS-AP MJL Bangladesh PLC",
     "holder": "MBL-AS-AP MJL Bangladesh PLC",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.98.200.0/22"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "137526": {
     "asn": "137526",
@@ -16179,76 +16194,11 @@
     "holder": "MSROBITRADERS-AS-AP - M/S ROBI TRADERS",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "GB",
-      "breakdown": [
-        {
-          "country": "TR",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "46.29.26.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "78.105.149.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "78.105.204.0/24"
-          ]
-        },
-        {
-          "country": "RO",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "84.247.75.0/24"
-          ]
-        },
-        {
-          "country": "RO",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "89.149.17.0/24"
-          ]
-        },
-        {
-          "country": "FR",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "141.11.229.0/24"
-          ]
-        },
-        {
-          "country": "FR",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "163.5.244.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "167.148.119.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "142194": {
@@ -16277,6 +16227,20 @@
     "name": "CREANOVA-AS Oy Crea Nova Hosting Solution Ltd",
     "holder": "CREANOVA-AS Oy Crea Nova Hosting Solution Ltd",
     "announced": true,
+    "country": ""
+  },
+  "65530": {
+    "asn": "65530",
+    "name": "AS65530",
+    "holder": "AS65530",
+    "announced": false,
+    "country": ""
+  },
+  "64548": {
+    "asn": "64548",
+    "name": "AS64548",
+    "holder": "AS64548",
+    "announced": false,
     "country": ""
   }
 }
