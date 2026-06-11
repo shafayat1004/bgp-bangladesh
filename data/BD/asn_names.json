@@ -9014,7 +9014,54 @@
     "name": "BRAC-BANK-AS-AP BracBank Limited",
     "holder": "BRAC-BANK-AS-AP BracBank Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "103.146.76.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "115.127.220.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "118.179.150.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "118.179.217.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "118.179.218.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.01
+    }
   },
   "133331": {
     "asn": "133331",
@@ -16178,5 +16225,26 @@
     "holder": "AS154708",
     "announced": true,
     "country": "BD"
+  },
+  "154705": {
+    "asn": "154705",
+    "name": "AS154705",
+    "holder": "AS154705",
+    "announced": true,
+    "country": "BD"
+  },
+  "65000": {
+    "asn": "65000",
+    "name": "AS65000",
+    "holder": "AS65000",
+    "announced": true,
+    "country": ""
+  },
+  "135848": {
+    "asn": "135848",
+    "name": "DIGITAX-AS - Digitax India Communications Pvt Ltd.",
+    "holder": "DIGITAX-AS - Digitax India Communications Pvt Ltd.",
+    "announced": true,
+    "country": ""
   }
 }
