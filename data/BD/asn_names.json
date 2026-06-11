@@ -3752,7 +3752,9 @@
           "city": "Dhaka",
           "percentage": 100.0,
           "prefixes": [
-            "2401:f40::/32"
+            "2401:f40::/36",
+            "2401:f40:1000::/38",
+            "2401:f40:1400::/38"
           ]
         },
         {
@@ -8144,8 +8146,8 @@
       "dominant_country": "US",
       "breakdown": [
         {
-          "country": "US",
-          "city": "",
+          "country": "BR",
+          "city": "Maric\u00e1",
           "percentage": 13.33,
           "prefixes": [
             "189.13.140.0/22"
@@ -8177,7 +8179,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "Gateshead",
           "percentage": 3.33,
           "prefixes": [
             "87.82.217.0/24"
@@ -9029,7 +9031,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 16.67,
           "prefixes": [
             "118.179.150.0/24"
@@ -9037,7 +9039,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 16.67,
           "prefixes": [
             "118.179.217.0/24"
@@ -9045,7 +9047,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 16.67,
           "prefixes": [
             "118.179.218.0/24"
@@ -11396,7 +11398,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 25.0,
           "prefixes": [
             "123.49.43.0/24"
@@ -12003,7 +12005,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 100.0,
           "prefixes": [
             "103.131.158.0/24"
@@ -15272,7 +15274,7 @@
       "breakdown": [
         {
           "country": "GB",
-          "city": "",
+          "city": "Stevenage",
           "percentage": 50.0,
           "prefixes": [
             "51.194.129.0/24"
@@ -15569,7 +15571,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "Godalming",
           "percentage": 3.33,
           "prefixes": [
             "51.241.255.0/24"
@@ -15577,7 +15579,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "Telford",
           "percentage": 3.33,
           "prefixes": [
             "78.105.145.0/24"
@@ -15593,7 +15595,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "Exeter",
           "percentage": 3.33,
           "prefixes": [
             "82.47.167.0/24"
@@ -15625,7 +15627,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "Solihull",
           "percentage": 3.33,
           "prefixes": [
             "89.213.68.0/24"
@@ -16127,7 +16129,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "Chelmsford",
           "percentage": 11.11,
           "prefixes": [
             "78.105.149.0/24"
@@ -16135,7 +16137,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "Swansea",
           "percentage": 11.11,
           "prefixes": [
             "78.105.204.0/24"
@@ -16143,7 +16145,7 @@
         },
         {
           "country": "RO",
-          "city": "",
+          "city": "Bucharest",
           "percentage": 11.11,
           "prefixes": [
             "84.247.75.0/24"
@@ -16262,5 +16264,25 @@
     "holder": "DIGITAX-AS - Digitax India Communications Pvt Ltd.",
     "announced": true,
     "country": ""
+  },
+  "207208": {
+    "asn": "207208",
+    "name": "Mevspace-projects MEVSPACE sp. z o.o.",
+    "holder": "Mevspace-projects MEVSPACE sp. z o.o.",
+    "announced": true,
+    "country": ""
+  },
+  "153508": {
+    "asn": "153508",
+    "name": "ZORN-AS-AP - Zorn Technologies",
+    "holder": "ZORN-AS-AP - Zorn Technologies",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
