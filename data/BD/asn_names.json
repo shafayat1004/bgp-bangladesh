@@ -10116,15 +10116,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "155.117.16.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "155.117.105.0/24"
           ]
@@ -10132,13 +10124,13 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "163.61.188.0/24"
           ]
         }
       ],
-      "bd_percentage": 33.33
+      "bd_percentage": 50.0
     }
   },
   "140711": {
@@ -16179,5 +16171,12 @@
     "holder": "AS64548",
     "announced": false,
     "country": ""
+  },
+  "154708": {
+    "asn": "154708",
+    "name": "AS154708",
+    "holder": "AS154708",
+    "announced": true,
+    "country": "BD"
   }
 }
