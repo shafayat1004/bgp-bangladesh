@@ -2421,14 +2421,6 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df1:9c0::/48"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
           "percentage": 14.29,
           "prefixes": [
             "103.191.240.0/23"
@@ -2515,7 +2507,7 @@
           ]
         }
       ],
-      "bd_percentage": 192.85
+      "bd_percentage": 92.85
     }
   },
   "132169": {
@@ -12950,7 +12942,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.126.236.0/23"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
