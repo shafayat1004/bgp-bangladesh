@@ -2568,7 +2568,15 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 26.67,
+          "prefixes": [
+            "180.210.160.0/21"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 13.33,
           "prefixes": [
             "103.132.92.0/22"
           ]
@@ -2576,15 +2584,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 14.29,
-          "prefixes": [
-            "180.210.160.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 14.29,
+          "percentage": 13.33,
           "prefixes": [
             "180.210.176.0/22"
           ]
@@ -2592,7 +2592,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 13.33,
           "prefixes": [
             "180.210.188.0/22"
           ]
@@ -2600,15 +2600,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 7.14,
-          "prefixes": [
-            "180.210.164.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 7.14,
+          "percentage": 6.67,
           "prefixes": [
             "180.210.168.0/23"
           ]
@@ -2616,7 +2608,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 7.14,
+          "percentage": 6.67,
           "prefixes": [
             "180.210.174.0/23"
           ]
@@ -2624,7 +2616,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 7.14,
+          "percentage": 6.67,
           "prefixes": [
             "180.210.180.0/23"
           ]
@@ -2632,7 +2624,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 7.14,
+          "percentage": 6.67,
           "prefixes": [
             "180.210.184.0/23"
           ]
@@ -2640,7 +2632,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 3.57,
+          "percentage": 3.33,
           "prefixes": [
             "180.210.182.0/24"
           ]
@@ -2648,7 +2640,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 3.57,
+          "percentage": 3.33,
           "prefixes": [
             "180.210.186.0/24"
           ]
@@ -12958,16 +12950,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.126.236.0/23"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
