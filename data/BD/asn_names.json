@@ -16460,5 +16460,12 @@
     "holder": "BLARHOST-AS-AP - Blar Host",
     "announced": false,
     "country": "BD"
+  },
+  "150783": {
+    "asn": "150783",
+    "name": "TRIPPLES-AS-AP - Tripple S",
+    "holder": "TRIPPLES-AS-AP - Tripple S",
+    "announced": false,
+    "country": "BD"
   }
 }
