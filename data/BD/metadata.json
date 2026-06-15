@@ -1,7 +1,7 @@
 {
   "country": "BD",
   "country_name": "Bangladesh",
-  "last_updated": "2026-06-15T06:50:02Z",
+  "last_updated": "2026-06-15T11:07:12Z",
   "schema_version": 3,
   "model": "license-aware",
   "raw_format": "jsonl",
@@ -13,11 +13,11 @@
     "total_offshore_enterprise": 24,
     "total_offshore_gateway": 1,
     "total_local_company": 1340,
-    "total_edges": 3086,
-    "total_intl_edges": 1086,
+    "total_edges": 3085,
+    "total_intl_edges": 1085,
     "total_domestic_edges": 2000,
-    "total_traffic": 3231680,
-    "valid_observations": 3244753
+    "total_traffic": 3235472,
+    "valid_observations": 3248586
   },
   "source": "RIPEstat BGP State API",
   "source_url": "https://stat.ripe.net/data/bgp-state/data.json"
