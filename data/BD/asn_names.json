@@ -11997,7 +11997,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "Dhaka",
+          "city": "",
           "percentage": 100.0,
           "prefixes": [
             "103.131.158.0/24"
@@ -15173,7 +15173,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "AE",
           "city": "",
           "percentage": 11.11,
           "prefixes": [
@@ -15189,8 +15189,8 @@
           ]
         },
         {
-          "country": "US",
-          "city": "",
+          "country": "GB",
+          "city": "Newton Abbot",
           "percentage": 11.11,
           "prefixes": [
             "188.220.34.0/24"
@@ -15794,7 +15794,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "Newton Abbot",
           "percentage": 2.86,
           "prefixes": [
             "188.220.37.0/24"
