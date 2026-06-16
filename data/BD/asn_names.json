@@ -12283,25 +12283,9 @@
       "dominant_country": "HK",
       "breakdown": [
         {
-          "country": "CN",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "23.129.76.0/24"
-          ]
-        },
-        {
           "country": "HK",
           "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "23.129.77.0/24"
-          ]
-        },
-        {
-          "country": "HK",
-          "city": "",
-          "percentage": 33.33,
+          "percentage": 100.0,
           "prefixes": [
             "160.20.117.0/24"
           ]
