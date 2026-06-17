@@ -3768,7 +3768,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 12.5,
+          "percentage": 11.76,
           "prefixes": [
             "45.248.148.0/22"
           ]
@@ -3776,7 +3776,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 12.5,
+          "percentage": 11.76,
           "prefixes": [
             "59.153.100.0/22"
           ]
@@ -3784,7 +3784,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 12.5,
+          "percentage": 11.76,
           "prefixes": [
             "103.119.100.0/22"
           ]
@@ -3792,7 +3792,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 12.5,
+          "percentage": 11.76,
           "prefixes": [
             "103.198.136.0/22"
           ]
@@ -3800,7 +3800,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 12.5,
+          "percentage": 11.76,
           "prefixes": [
             "103.217.108.0/22"
           ]
@@ -3808,7 +3808,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 6.25,
+          "percentage": 5.88,
           "prefixes": [
             "103.121.216.0/23"
           ]
@@ -3816,7 +3816,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 6.25,
+          "percentage": 5.88,
           "prefixes": [
             "103.180.244.0/23"
           ]
@@ -3824,15 +3824,23 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 6.25,
+          "percentage": 5.88,
           "prefixes": [
             "103.187.94.0/23"
           ]
         },
         {
           "country": "BD",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "162.4.214.0/23"
+          ]
+        },
+        {
+          "country": "BD",
           "city": "Dhaka",
-          "percentage": 6.25,
+          "percentage": 5.88,
           "prefixes": [
             "163.61.240.0/23"
           ]
@@ -3840,7 +3848,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 6.25,
+          "percentage": 5.88,
           "prefixes": [
             "165.101.132.0/23"
           ]
@@ -3848,7 +3856,7 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 3.12,
+          "percentage": 2.94,
           "prefixes": [
             "103.72.212.0/24"
           ]
@@ -3856,13 +3864,13 @@
         {
           "country": "BD",
           "city": "Dhaka",
-          "percentage": 3.12,
+          "percentage": 2.94,
           "prefixes": [
             "103.181.42.0/24"
           ]
         }
       ],
-      "bd_percentage": 199.99
+      "bd_percentage": 199.96
     }
   },
   "55850": {
