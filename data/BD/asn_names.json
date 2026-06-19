@@ -15417,8 +15417,8 @@
           ]
         },
         {
-          "country": "IN",
-          "city": "Mumbai",
+          "country": "GB",
+          "city": "",
           "percentage": 5.0,
           "prefixes": [
             "81.168.63.0/24"
@@ -16551,6 +16551,13 @@
     "name": "FIANS-AS-AP - Fast ICT and Net Solution",
     "holder": "FIANS-AS-AP - Fast ICT and Net Solution",
     "announced": false,
+    "country": ""
+  },
+  "4849": {
+    "asn": "4849",
+    "name": "S3Company S3 Company Ltd",
+    "holder": "S3Company S3 Company Ltd",
+    "announced": true,
     "country": ""
   }
 }
