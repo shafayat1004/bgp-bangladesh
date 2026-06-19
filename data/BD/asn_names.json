@@ -2091,7 +2091,22 @@
     "name": "EHL-AS-AP EBN HOST LIMITED",
     "holder": "EHL-AS-AP EBN HOST LIMITED",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "115.187.18.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "150457": {
     "asn": "150457",
@@ -5606,7 +5621,22 @@
     "name": "MYNETLIMITED-BD Mynet Limited",
     "holder": "MYNETLIMITED-BD Mynet Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.228.0.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "23688": {
     "asn": "23688",
@@ -16523,5 +16553,12 @@
     "holder": "TRIPPLES-AS-AP - Tripple S",
     "announced": false,
     "country": "BD"
+  },
+  "140321": {
+    "asn": "140321",
+    "name": "FIANS-AS-AP - Fast ICT and Net Solution",
+    "holder": "FIANS-AS-AP - Fast ICT and Net Solution",
+    "announced": false,
+    "country": ""
   }
 }
