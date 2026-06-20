@@ -1176,24 +1176,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.14.73.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.59.233.0/24"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -6664,8 +6647,25 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "138.252.82.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df6:3c40::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
     }
   },
   "9441": {
@@ -16550,5 +16550,12 @@
     "holder": "S3Company S3 Company Ltd",
     "announced": true,
     "country": ""
+  },
+  "154720": {
+    "asn": "154720",
+    "name": "AS154720",
+    "holder": "AS154720",
+    "announced": false,
+    "country": "BD"
   }
 }
