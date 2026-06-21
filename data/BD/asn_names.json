@@ -9258,27 +9258,10 @@
     "holder": "IMPEXBDNET-AS-AP Impex Bd Net",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.182.170.0/23"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2602:feda:b8a::/48"
-          ]
-        }
-      ],
+      "dominant_country": "BD",
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -16476,68 +16459,11 @@
     "holder": "ZORN-AS-AP - Zorn Technologies",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "GB",
-      "breakdown": [
-        {
-          "country": "BG",
-          "city": "",
-          "percentage": 14.29,
-          "prefixes": [
-            "77.246.211.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 14.29,
-          "prefixes": [
-            "91.205.228.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 14.29,
-          "prefixes": [
-            "185.92.46.0/24"
-          ]
-        },
-        {
-          "country": "BR",
-          "city": "Curitiba",
-          "percentage": 14.29,
-          "prefixes": [
-            "189.73.24.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "Brooklyn",
-          "percentage": 14.29,
-          "prefixes": [
-            "195.21.155.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 14.29,
-          "prefixes": [
-            "201.24.197.0/24"
-          ]
-        },
-        {
-          "country": "FR",
-          "city": "Ch\u00e2tillon",
-          "percentage": 14.29,
-          "prefixes": [
-            "212.222.112.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "150111": {
