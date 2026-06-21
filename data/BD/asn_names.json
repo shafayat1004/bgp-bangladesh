@@ -2436,14 +2436,6 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df1:9c0::/48"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
           "percentage": 14.29,
           "prefixes": [
             "103.191.240.0/23"
@@ -2530,7 +2522,7 @@
           ]
         }
       ],
-      "bd_percentage": 192.85
+      "bd_percentage": 92.85
     }
   },
   "132169": {
@@ -15183,76 +15175,11 @@
     "holder": "FASTZONEIT-AS-AP FAST ZONE IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "GB",
-      "breakdown": [
-        {
-          "country": "GB",
-          "city": "Exeter",
-          "percentage": 12.5,
-          "prefixes": [
-            "82.38.219.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "87.83.175.0/24"
-          ]
-        },
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "151.246.153.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "Newton Abbot",
-          "percentage": 12.5,
-          "prefixes": [
-            "188.220.34.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "191.219.20.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "192.94.58.0/24"
-          ]
-        },
-        {
-          "country": "TR",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "193.187.110.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "201.11.235.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "41095": {
@@ -16574,5 +16501,12 @@
     "holder": "AS154720",
     "announced": false,
     "country": "BD"
+  },
+  "40850": {
+    "asn": "40850",
+    "name": "AS-UPIX-40850 - UPIX NETWORKS INTERNATIONAL LLC",
+    "holder": "AS-UPIX-40850 - UPIX NETWORKS INTERNATIONAL LLC",
+    "announced": true,
+    "country": ""
   }
 }
