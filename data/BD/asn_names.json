@@ -921,222 +921,11 @@
     "holder": "DZCRD-AS-AP DZCRD Networks Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "SG",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "SG",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2402:54c0::/32"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "43.242.0.0/22"
-          ]
-        },
-        {
-          "country": "SG",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "45.249.104.0/22"
-          ]
-        },
-        {
-          "country": "SG",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "45.252.56.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "59.152.84.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.66.64.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.69.156.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.73.52.0/22"
-          ]
-        },
-        {
-          "country": "NL",
-          "city": "Amsterdam",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.74.132.0/22"
-          ]
-        },
-        {
-          "country": "NL",
-          "city": "Amsterdam",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.75.220.0/22"
-          ]
-        },
-        {
-          "country": "AU",
-          "city": "Sydney",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.76.236.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.211.144.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.214.92.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "103.228.224.0/22"
-          ]
-        },
-        {
-          "country": "SG",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "119.42.36.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.0,
-          "prefixes": [
-            "144.48.96.0/22"
-          ]
-        },
-        {
-          "country": "AU",
-          "city": "Sydney",
-          "percentage": 5.0,
-          "prefixes": [
-            "160.238.16.0/22"
-          ]
-        },
-        {
-          "country": "NL",
-          "city": "Amsterdam",
-          "percentage": 5.0,
-          "prefixes": [
-            "192.144.88.0/22"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 3.75,
-          "prefixes": [
-            "103.221.56.0/24",
-            "103.221.58.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 3.75,
-          "prefixes": [
-            "116.206.48.0/23",
-            "116.206.51.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "New York",
-          "percentage": 2.5,
-          "prefixes": [
-            "103.74.178.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 1.25,
-          "prefixes": [
-            "103.74.176.0/24"
-          ]
-        },
-        {
-          "country": "MX",
-          "city": "Mexico City",
-          "percentage": 1.25,
-          "prefixes": [
-            "103.74.177.0/24"
-          ]
-        },
-        {
-          "country": "BE",
-          "city": "Brussels",
-          "percentage": 1.25,
-          "prefixes": [
-            "103.221.57.0/24"
-          ]
-        },
-        {
-          "country": "TH",
-          "city": "Bangkok",
-          "percentage": 0.62,
-          "prefixes": [
-            "116.206.50.0/25"
-          ]
-        },
-        {
-          "country": "SG",
-          "city": "Singapore",
-          "percentage": 0.62,
-          "prefixes": [
-            "116.206.50.128/25"
-          ]
-        }
-      ],
-      "bd_percentage": 153.75
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "64475": {
@@ -9258,10 +9047,27 @@
     "holder": "IMPEXBDNET-AS-AP Impex Bd Net",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.182.170.0/23"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2602:feda:b8a::/48"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -16459,11 +16265,68 @@
     "holder": "ZORN-AS-AP - Zorn Technologies",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "GB",
+      "breakdown": [
+        {
+          "country": "BG",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "77.246.211.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "91.205.228.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "185.92.46.0/24"
+          ]
+        },
+        {
+          "country": "BR",
+          "city": "Curitiba",
+          "percentage": 14.29,
+          "prefixes": [
+            "189.73.24.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Brooklyn",
+          "percentage": 14.29,
+          "prefixes": [
+            "195.21.155.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "201.24.197.0/24"
+          ]
+        },
+        {
+          "country": "FR",
+          "city": "Ch\u00e2tillon",
+          "percentage": 14.29,
+          "prefixes": [
+            "212.222.112.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "150111": {
