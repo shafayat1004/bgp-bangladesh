@@ -5816,7 +5816,86 @@
     "name": "ZORN-AS-AP Zorn Technologies",
     "holder": "ZORN-AS-AP Zorn Technologies",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 88.88,
+          "prefixes": [
+            "2402:5720::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 40.0,
+          "prefixes": [
+            "144.79.2.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Khulna",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.14.23.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Jessore",
+          "percentage": 20.0,
+          "prefixes": [
+            "160.25.226.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Khulna",
+          "percentage": 20.0,
+          "prefixes": [
+            "165.99.165.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "2402:3ea0:2000::/35"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2001:df3:ad40::/47"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2001:df4:13c1::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2001:df4:8441::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 199.99
+    }
   },
   "142232": {
     "asn": "142232",
@@ -12564,11 +12643,20 @@
     "holder": "GLOBALFOUNDRIES-AS-AP Globalfoundries Singapore Pte Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "IN",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "IN",
+      "breakdown": [
+        {
+          "country": "IN",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.56.28.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "58685": {
