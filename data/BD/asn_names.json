@@ -15274,28 +15274,11 @@
     "holder": "MDNTECHNOLOGYLTD-AS-AP MDN TECHNOLOGY LTD",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "GB",
-      "breakdown": [
-        {
-          "country": "GB",
-          "city": "Stevenage",
-          "percentage": 50.0,
-          "prefixes": [
-            "51.194.129.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "194.231.129.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "142156": {
