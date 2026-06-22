@@ -16556,5 +16556,12 @@
     "holder": "AS-UPIX-40850 - UPIX NETWORKS INTERNATIONAL LLC",
     "announced": true,
     "country": ""
+  },
+  "137581": {
+    "asn": "137581",
+    "name": "AS137581",
+    "holder": "AS137581",
+    "announced": false,
+    "country": "BD"
   }
 }
