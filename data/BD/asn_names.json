@@ -15008,11 +15008,60 @@
     "holder": "HOSTNOST-AS-AP HostNost",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "AE",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "AE",
+      "breakdown": [
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "77.110.67.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "77.110.69.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "77.110.73.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "77.110.78.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "77.110.86.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "77.110.92.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "14593": {
