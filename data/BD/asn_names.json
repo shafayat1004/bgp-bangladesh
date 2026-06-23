@@ -5854,7 +5854,7 @@
           ]
         },
         {
-          "country": "SE",
+          "country": "PL",
           "city": "",
           "percentage": 20.0,
           "prefixes": [
@@ -8247,8 +8247,8 @@
       "dominant_country": "US",
       "breakdown": [
         {
-          "country": "BR",
-          "city": "Maric\u00e1",
+          "country": "US",
+          "city": "",
           "percentage": 14.29,
           "prefixes": [
             "189.13.142.0/23"
@@ -15268,7 +15268,7 @@
         },
         {
           "country": "US",
-          "city": "Brooklyn",
+          "city": "New York",
           "percentage": 7.69,
           "prefixes": [
             "195.21.155.0/24"
@@ -15400,7 +15400,7 @@
       "breakdown": [
         {
           "country": "GB",
-          "city": "Felixstowe",
+          "city": "",
           "percentage": 5.26,
           "prefixes": [
             "51.194.158.0/24"
@@ -15662,8 +15662,8 @@
           ]
         },
         {
-          "country": "GB",
-          "city": "",
+          "country": "AE",
+          "city": "Dubai",
           "percentage": 3.33,
           "prefixes": [
             "82.21.188.0/24"
@@ -15679,7 +15679,7 @@
         },
         {
           "country": "GB",
-          "city": "",
+          "city": "South Shields",
           "percentage": 3.33,
           "prefixes": [
             "82.47.179.0/24"
@@ -15703,7 +15703,7 @@
         },
         {
           "country": "RO",
-          "city": "Bucharest",
+          "city": "",
           "percentage": 3.33,
           "prefixes": [
             "89.149.63.0/24"
