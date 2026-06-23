@@ -1366,28 +1366,11 @@
     "holder": "CHALDALLIMITED-AS-AP Chaldal Limited",
     "announced": true,
     "country": "BD",
-    "geo_country": "IN",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "IN",
-      "breakdown": [
-        {
-          "country": "IN",
-          "city": "Chennai",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.185.176.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.185.177.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 50.0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "142271": {
