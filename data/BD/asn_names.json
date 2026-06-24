@@ -1737,16 +1737,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "Dhaka",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df3:bec0::/48"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -11381,36 +11372,11 @@
     "holder": "BDNIX-AS-BD Bangladesh National intenet exchange",
     "announced": true,
     "country": "BD",
-    "geo_country": "AU",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "AU",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "103.110.212.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "Dhaka",
-          "percentage": 25.0,
-          "prefixes": [
-            "123.49.43.0/24"
-          ]
-        },
-        {
-          "country": "AU",
-          "city": "",
-          "percentage": 25.0,
-          "prefixes": [
-            "218.100.37.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 75.0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "151500": {
@@ -16442,5 +16408,25 @@
     "holder": "AS137581",
     "announced": false,
     "country": "BD"
+  },
+  "134494": {
+    "asn": "134494",
+    "name": "CFHIL-AS-AP - Code For Host Inc Ltd",
+    "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
+  },
+  "401322": {
+    "asn": "401322",
+    "name": "LUCK-NETO-01 - NetO Corp",
+    "holder": "LUCK-NETO-01 - NetO Corp",
+    "announced": true,
+    "country": ""
   }
 }
