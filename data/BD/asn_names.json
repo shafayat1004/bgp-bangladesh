@@ -3474,7 +3474,13 @@
     "name": "MDMSL-AS-AP MiM Digital Marketing Solution Ltd.",
     "holder": "MDMSL-AS-AP MiM Digital Marketing Solution Ltd.",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   },
   "138431": {
     "asn": "138431",
