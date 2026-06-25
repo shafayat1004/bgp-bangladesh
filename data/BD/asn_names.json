@@ -660,7 +660,32 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "202.129.194.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "123.176.57.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "202.129.192.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -785,7 +810,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.12.228.0/22"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -805,7 +839,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.14.204.0/22"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -878,11 +921,222 @@
     "holder": "DZCRD-AS-AP DZCRD Networks Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "SG",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "SG",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2402:54c0::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "43.242.0.0/22"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "45.249.104.0/22"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "45.252.56.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "59.152.84.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.66.64.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.69.156.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.73.52.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.74.132.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.75.220.0/22"
+          ]
+        },
+        {
+          "country": "AU",
+          "city": "Sydney",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.76.236.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.211.144.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.214.92.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "103.228.224.0/22"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "119.42.36.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "144.48.96.0/22"
+          ]
+        },
+        {
+          "country": "AU",
+          "city": "Sydney",
+          "percentage": 5.0,
+          "prefixes": [
+            "160.238.16.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 5.0,
+          "prefixes": [
+            "192.144.88.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.75,
+          "prefixes": [
+            "103.221.56.0/24",
+            "103.221.58.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.75,
+          "prefixes": [
+            "116.206.48.0/23",
+            "116.206.51.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "New York",
+          "percentage": 2.5,
+          "prefixes": [
+            "103.74.178.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 1.25,
+          "prefixes": [
+            "103.74.176.0/24"
+          ]
+        },
+        {
+          "country": "MX",
+          "city": "Mexico City",
+          "percentage": 1.25,
+          "prefixes": [
+            "103.74.177.0/24"
+          ]
+        },
+        {
+          "country": "BE",
+          "city": "Brussels",
+          "percentage": 1.25,
+          "prefixes": [
+            "103.221.57.0/24"
+          ]
+        },
+        {
+          "country": "TH",
+          "city": "Bangkok",
+          "percentage": 0.62,
+          "prefixes": [
+            "116.206.50.0/25"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "Singapore",
+          "percentage": 0.62,
+          "prefixes": [
+            "116.206.50.128/25"
+          ]
+        }
+      ],
+      "bd_percentage": 153.75
     }
   },
   "64475": {
@@ -922,7 +1176,24 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.14.73.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.59.233.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -1014,8 +1285,65 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.85.236.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2400:b340::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2400:e260::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "103.93.34.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.134.24.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.189.10.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:fffc::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
     }
   },
   "141731": {
@@ -1038,11 +1366,28 @@
     "holder": "CHALDALLIMITED-AS-AP Chaldal Limited",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "IN",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "IN",
+      "breakdown": [
+        {
+          "country": "IN",
+          "city": "Chennai",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.185.176.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.185.177.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 50.0
     }
   },
   "142271": {
@@ -2111,8 +2456,97 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "103.191.240.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "103.213.38.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "163.227.238.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "49.143.249.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "49.213.52.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Khulna",
+          "percentage": 7.14,
+          "prefixes": [
+            "144.79.249.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 7.14,
+          "prefixes": [
+            "160.187.130.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "163.61.45.0/24"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "Singapore",
+          "percentage": 7.14,
+          "prefixes": [
+            "163.128.140.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "163.128.216.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 7.14,
+          "prefixes": [
+            "203.26.151.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 92.85
     }
   },
   "132169": {
@@ -2145,8 +2579,121 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 66.67,
+          "prefixes": [
+            "2404:34c0::/47"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "2404:34c0:2::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 13.79,
+          "prefixes": [
+            "103.132.92.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 13.79,
+          "prefixes": [
+            "180.210.160.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 13.79,
+          "prefixes": [
+            "180.210.176.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 13.79,
+          "prefixes": [
+            "180.210.188.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 6.9,
+          "prefixes": [
+            "180.210.164.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 6.9,
+          "prefixes": [
+            "180.210.168.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 6.9,
+          "prefixes": [
+            "180.210.174.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 6.9,
+          "prefixes": [
+            "180.210.180.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 6.9,
+          "prefixes": [
+            "180.210.184.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.45,
+          "prefixes": [
+            "180.210.167.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.45,
+          "prefixes": [
+            "180.210.182.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.45,
+          "prefixes": [
+            "180.210.186.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 200.01
     }
   },
   "30844": {
@@ -2904,11 +3451,36 @@
     "holder": "MDMSL-AS-AP MiM Digital Marketing Solution Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "16.5.27.0/24"
+          ]
+        },
+        {
+          "country": "CA",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "64.112.98.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "142.111.40.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "138431": {
@@ -3244,8 +3816,123 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 100.0,
+          "prefixes": [
+            "2401:f40::/36",
+            "2401:f40:1000::/38",
+            "2401:f40:1400::/38"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.12,
+          "prefixes": [
+            "45.248.148.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.12,
+          "prefixes": [
+            "59.153.100.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.12,
+          "prefixes": [
+            "103.119.100.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.12,
+          "prefixes": [
+            "103.198.136.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.12,
+          "prefixes": [
+            "103.217.108.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.06,
+          "prefixes": [
+            "103.121.216.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.06,
+          "prefixes": [
+            "103.180.244.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.06,
+          "prefixes": [
+            "103.187.94.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.06,
+          "prefixes": [
+            "163.61.240.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 6.06,
+          "prefixes": [
+            "165.101.132.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 3.03,
+          "prefixes": [
+            "103.72.212.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 3.03,
+          "prefixes": [
+            "103.181.42.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.03,
+          "prefixes": [
+            "162.4.214.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 199.99
     }
   },
   "55850": {
@@ -3674,11 +4361,28 @@
     "holder": "SATISFYSOFT2-AS-AP SatisfySoft",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "HU",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "HU",
+      "breakdown": [
+        {
+          "country": "HU",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "5.182.112.0/24"
+          ]
+        },
+        {
+          "country": "HU",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "83.137.153.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "137449": {
@@ -3865,8 +4569,81 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2402:f500::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 21.05,
+          "prefixes": [
+            "103.28.120.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 21.05,
+          "prefixes": [
+            "163.47.36.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 21.05,
+          "prefixes": [
+            "203.96.188.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 10.53,
+          "prefixes": [
+            "103.147.242.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 10.53,
+          "prefixes": [
+            "103.157.134.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.26,
+          "prefixes": [
+            "103.84.156.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.26,
+          "prefixes": [
+            "103.140.181.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.26,
+          "prefixes": [
+            "103.159.2.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 199.99
     }
   },
   "151615": {
@@ -4887,7 +5664,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.228.0.0/23"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -5086,11 +5872,92 @@
     "holder": "ZORN-AS-AP Zorn Technologies",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "UA",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "UA",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 88.88,
+          "prefixes": [
+            "2402:5720::/32"
+          ]
+        },
+        {
+          "country": "UA",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "92.112.43.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Khulna",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.14.23.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Jessore",
+          "percentage": 20.0,
+          "prefixes": [
+            "160.25.226.0/24"
+          ]
+        },
+        {
+          "country": "PL",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "164.37.199.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Khulna",
+          "percentage": 20.0,
+          "prefixes": [
+            "165.99.165.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "2402:3ea0:2000::/35"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2001:df3:ad40::/47"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2001:df4:13c1::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2001:df4:8441::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 159.99
     }
   },
   "142232": {
@@ -5931,8 +6798,25 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "138.252.82.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df6:3c40::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
     }
   },
   "9441": {
@@ -6298,11 +7182,20 @@
     "holder": "CODENEXT-AS-AP CodeNext IT Solution",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "Piscataway",
+          "percentage": 100.0,
+          "prefixes": [
+            "163.61.236.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "136911": {
@@ -6489,8 +7382,25 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.73.44.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2406:ec80::/32"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
     }
   },
   "149517": {
@@ -8077,7 +8987,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.85.216.0/22"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -8207,7 +9126,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.12.44.0/22"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -9462,7 +10390,32 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "202.90.200.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "117.104.184.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "202.52.138.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -10000,11 +10953,60 @@
     "holder": "WIREITSERVICES-AS-AP Wire IT Services",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 32.0,
+          "prefixes": [
+            "74.2.208.0/21"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.0,
+          "prefixes": [
+            "74.2.32.0/22"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.0,
+          "prefixes": [
+            "74.2.40.0/22"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.0,
+          "prefixes": [
+            "74.2.48.0/22"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.0,
+          "prefixes": [
+            "74.2.60.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 4.0,
+          "prefixes": [
+            "103.6.161.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 4.0
     }
   },
   "140087": {
@@ -10335,11 +11337,28 @@
     "holder": "ISHRAK-203915 - Ishrak Rahman",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 66.67,
+          "prefixes": [
+            "2a14:7580:ff7a::/47"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "2a14:7580:ff7c::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "146956": {
@@ -10369,11 +11388,36 @@
     "holder": "BDNIX-AS-BD Bangladesh National intenet exchange",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "AU",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "AU",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.110.212.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 25.0,
+          "prefixes": [
+            "123.49.43.0/24"
+          ]
+        },
+        {
+          "country": "AU",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "218.100.37.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 75.0
     }
   },
   "151500": {
@@ -10557,11 +11601,36 @@
     "holder": "ROOTLAYERNET - RootLayer Web Services Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "NL",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "NL",
+      "breakdown": [
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 40.0,
+          "prefixes": [
+            "45.137.20.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 40.0,
+          "prefixes": [
+            "185.222.56.0/22"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "Amsterdam",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.178.236.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "3356": {
@@ -11229,11 +12298,20 @@
     "holder": "BENGALHOST-AS-AP BengalHost",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "HK",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "HK",
+      "breakdown": [
+        {
+          "country": "HK",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "160.20.117.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "139042": {
@@ -11508,11 +12586,20 @@
     "holder": "GLOBALFOUNDRIES-AS-AP Globalfoundries Singapore Pte Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "IN",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "IN",
+      "breakdown": [
+        {
+          "country": "IN",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.56.28.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "58685": {
@@ -11846,7 +12933,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.132.42.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -11866,7 +12962,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.126.236.0/23"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -14242,11 +15347,44 @@
     "holder": "MADINAIT-AS-AP Madina IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "62.105.218.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "168.222.41.0/24"
+          ]
+        },
+        {
+          "country": "TR",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "193.32.204.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "194.122.80.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "154612": {
@@ -14255,11 +15393,148 @@
     "holder": "BENGALCLOUD1-AS-AP Bengalcloud International",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "51.194.158.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Telford",
+          "percentage": 5.88,
+          "prefixes": [
+            "78.105.145.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "81.168.63.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Exeter",
+          "percentage": 5.88,
+          "prefixes": [
+            "82.47.167.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Solihull",
+          "percentage": 5.88,
+          "prefixes": [
+            "89.213.68.0/24"
+          ]
+        },
+        {
+          "country": "DE",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "95.135.193.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "143.14.182.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "148.135.173.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "151.240.110.0/24"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "Singapore",
+          "percentage": 5.88,
+          "prefixes": [
+            "151.247.117.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "155.117.207.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "168.222.51.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "168.222.91.0/24"
+          ]
+        },
+        {
+          "country": "DE",
+          "city": "Frankfurt am Main",
+          "percentage": 5.88,
+          "prefixes": [
+            "181.214.209.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "189.73.17.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "191.101.89.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.88,
+          "prefixes": [
+            "191.217.170.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "1141217": {
@@ -14275,11 +15550,20 @@
     "holder": "BENGALCLOUD-AS-AP BengalCloud",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "167.148.85.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "17686": {
@@ -14316,11 +15600,188 @@
     "holder": "MUI-AS-AP MS UMARA INTERNATIONAL",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "45.132.81.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "50.114.236.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Streatham",
+          "percentage": 4.55,
+          "prefixes": [
+            "51.146.111.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "South Shields",
+          "percentage": 4.55,
+          "prefixes": [
+            "82.47.179.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "87.84.224.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "87.85.252.0/24"
+          ]
+        },
+        {
+          "country": "RO",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "89.149.63.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "107.149.200.0/24"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "147.90.23.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "151.246.157.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Newton Abbot",
+          "percentage": 4.55,
+          "prefixes": [
+            "188.220.36.0/24"
+          ]
+        },
+        {
+          "country": "RS",
+          "city": "Belgrade",
+          "percentage": 4.55,
+          "prefixes": [
+            "188.255.230.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "189.12.56.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "189.75.183.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "189.75.184.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "192.82.169.0/24"
+          ]
+        },
+        {
+          "country": "LT",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "193.111.124.0/24"
+          ]
+        },
+        {
+          "country": "BR",
+          "city": "Passo Fundo",
+          "percentage": 4.55,
+          "prefixes": [
+            "201.11.232.0/24"
+          ]
+        },
+        {
+          "country": "BR",
+          "city": "Viam\u00e3o",
+          "percentage": 4.55,
+          "prefixes": [
+            "201.14.216.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "201.14.218.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "201.24.194.0/24"
+          ]
+        },
+        {
+          "country": "FR",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "212.180.121.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "136826": {
@@ -14385,11 +15846,270 @@
     "holder": "AS150698",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "VN",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "VN",
+      "breakdown": [
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.26,
+          "prefixes": [
+            "103.90.228.0/22"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2001:df6:fc80::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:1620::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:2ae0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:3360::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:41e0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:4720::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:5ae0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:5ea0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:71e0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2401:7520::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 9.09,
+          "prefixes": [
+            "2407:bb40::/48"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "Hong Kong",
+          "percentage": 7.69,
+          "prefixes": [
+            "154.196.92.0/24",
+            "154.196.94.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "A Yun Pa",
+          "percentage": 7.69,
+          "prefixes": [
+            "154.198.169.0/24",
+            "154.198.170.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "36.50.132.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "36.50.236.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "103.15.88.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "103.65.136.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "103.71.110.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "103.164.36.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "103.169.172.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "103.170.246.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "103.241.198.0/23"
+          ]
+        },
+        {
+          "country": "JP",
+          "city": "Tokyo",
+          "percentage": 5.13,
+          "prefixes": [
+            "154.197.72.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 5.13,
+          "prefixes": [
+            "157.10.46.0/23"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 2.56,
+          "prefixes": [
+            "154.196.93.0/24"
+          ]
+        },
+        {
+          "country": "JP",
+          "city": "Tokyo",
+          "percentage": 2.56,
+          "prefixes": [
+            "154.197.106.0/24"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 2.56,
+          "prefixes": [
+            "154.198.9.0/24"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 2.56,
+          "prefixes": [
+            "154.198.10.0/24"
+          ]
+        },
+        {
+          "country": "ZA",
+          "city": "Johannesburg",
+          "percentage": 2.56,
+          "prefixes": [
+            "154.198.168.0/24"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 2.56,
+          "prefixes": [
+            "154.201.6.0/24"
+          ]
+        },
+        {
+          "country": "PE",
+          "city": "Lima",
+          "percentage": 2.56,
+          "prefixes": [
+            "154.201.7.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "132359": {
@@ -14398,11 +16118,68 @@
     "holder": "MSROBITRADERS-AS-AP - M/S ROBI TRADERS",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "GB",
+      "breakdown": [
+        {
+          "country": "TR",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "46.29.26.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Glasgow",
+          "percentage": 14.29,
+          "prefixes": [
+            "51.241.53.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Aylesbury",
+          "percentage": 14.29,
+          "prefixes": [
+            "78.105.112.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Chelmsford",
+          "percentage": 14.29,
+          "prefixes": [
+            "78.105.149.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "82.110.112.0/24"
+          ]
+        },
+        {
+          "country": "FR",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "163.5.244.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "167.148.119.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "142194": {
@@ -14488,11 +16265,36 @@
     "holder": "ZORN-AS-AP - Zorn Technologies",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "BG",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "BG",
+      "breakdown": [
+        {
+          "country": "BG",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "77.246.211.0/24"
+          ]
+        },
+        {
+          "country": "BR",
+          "city": "Curitiba",
+          "percentage": 33.33,
+          "prefixes": [
+            "189.73.24.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "201.24.197.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "150111": {
@@ -14550,11 +16352,36 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "IT",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "IT",
+      "breakdown": [
+        {
+          "country": "IT",
+          "city": "Milan",
+          "percentage": 33.33,
+          "prefixes": [
+            "140.150.233.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "188.220.144.0/24"
+          ]
+        },
+        {
+          "country": "SG",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "222.167.215.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "401322": {
@@ -14570,5 +16397,12 @@
     "holder": "AS154723",
     "announced": false,
     "country": "BD"
+  },
+  "62212": {
+    "asn": "62212",
+    "name": "EE SmartApe OU",
+    "holder": "EE SmartApe OU",
+    "announced": true,
+    "country": ""
   }
 }
