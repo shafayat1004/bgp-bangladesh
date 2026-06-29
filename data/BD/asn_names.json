@@ -9232,27 +9232,10 @@
     "holder": "IMPEXBDNET-AS-AP Impex Bd Net",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.182.170.0/23"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2602:feda:b8a::/48"
-          ]
-        }
-      ],
+      "dominant_country": "BD",
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
