@@ -1734,22 +1734,14 @@
     "holder": "DREAMENGINEERING-AS-AP Dream Engineering",
     "announced": true,
     "country": "BD",
-    "geo_country": "AE",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "AE",
+      "dominant_country": "GB",
       "breakdown": [
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 25.0,
-          "prefixes": [
-            "31.56.35.0/24"
-          ]
-        },
         {
           "country": "GB",
           "city": "Cardiff",
-          "percentage": 25.0,
+          "percentage": 33.33,
           "prefixes": [
             "51.146.246.0/24"
           ]
@@ -1757,7 +1749,7 @@
         {
           "country": "UA",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 33.33,
           "prefixes": [
             "92.112.40.0/24"
           ]
@@ -1765,7 +1757,7 @@
         {
           "country": "DE",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 33.33,
           "prefixes": [
             "169.40.59.0/24"
           ]
@@ -9232,10 +9224,27 @@
     "holder": "IMPEXBDNET-AS-AP Impex Bd Net",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.182.170.0/23"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2602:feda:b8a::/48"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -15360,7 +15369,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "65.86.195.0/24"
           ]
@@ -15368,7 +15377,7 @@
         {
           "country": "GB",
           "city": "Telford",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "78.105.145.0/24"
           ]
@@ -15376,7 +15385,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "81.168.63.0/24"
           ]
@@ -15384,15 +15393,23 @@
         {
           "country": "GB",
           "city": "Exeter",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "82.47.167.0/24"
           ]
         },
         {
           "country": "GB",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "89.213.46.0/24"
+          ]
+        },
+        {
+          "country": "GB",
           "city": "Solihull",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "89.213.68.0/24"
           ]
@@ -15400,7 +15417,7 @@
         {
           "country": "DE",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "95.135.193.0/24"
           ]
@@ -15408,7 +15425,7 @@
         {
           "country": "US",
           "city": "San Jose",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "108.186.161.0/24"
           ]
@@ -15416,23 +15433,15 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "143.14.182.0/24"
           ]
         },
         {
           "country": "US",
-          "city": "",
-          "percentage": 5.26,
-          "prefixes": [
-            "148.135.173.0/24"
-          ]
-        },
-        {
-          "country": "US",
           "city": "Ashburn",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "152.89.251.0/24"
           ]
@@ -15440,15 +15449,23 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "155.117.207.0/24"
           ]
         },
         {
+          "country": "PL",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "164.37.201.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "168.222.51.0/24"
           ]
@@ -15456,7 +15473,7 @@
         {
           "country": "DE",
           "city": "Frankfurt am Main",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "181.214.209.0/24"
           ]
@@ -15464,7 +15481,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "189.12.49.0/24"
           ]
@@ -15472,7 +15489,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "189.73.17.0/24"
           ]
@@ -15480,7 +15497,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "191.101.89.0/24"
           ]
@@ -15488,7 +15505,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "191.217.170.0/24"
           ]
@@ -15496,7 +15513,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "191.222.42.0/24"
           ]
@@ -15504,7 +15521,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.0,
           "prefixes": [
             "212.189.26.0/24"
           ]
@@ -15583,7 +15600,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "45.132.81.0/24"
           ]
@@ -15591,7 +15608,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "50.114.236.0/24"
           ]
@@ -15599,23 +15616,31 @@
         {
           "country": "GB",
           "city": "Streatham",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "51.146.111.0/24"
           ]
         },
         {
           "country": "GB",
-          "city": "South Shields",
-          "percentage": 4.35,
+          "city": "",
+          "percentage": 4.55,
           "prefixes": [
-            "82.47.179.0/24"
+            "78.154.122.0/24"
           ]
         },
         {
           "country": "GB",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
+          "prefixes": [
+            "80.68.210.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 4.55,
           "prefixes": [
             "87.85.252.0/24"
           ]
@@ -15623,7 +15648,7 @@
         {
           "country": "RO",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "89.149.63.0/24"
           ]
@@ -15631,7 +15656,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "107.149.200.0/24"
           ]
@@ -15639,7 +15664,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "146.103.48.0/24"
           ]
@@ -15647,23 +15672,15 @@
         {
           "country": "NL",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "147.90.23.0/24"
           ]
         },
         {
-          "country": "AE",
-          "city": "",
-          "percentage": 4.35,
-          "prefixes": [
-            "151.246.157.0/24"
-          ]
-        },
-        {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "162.141.97.0/24"
           ]
@@ -15671,23 +15688,15 @@
         {
           "country": "GB",
           "city": "Newton Abbot",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "188.220.36.0/24"
           ]
         },
         {
-          "country": "RS",
-          "city": "Belgrade",
-          "percentage": 4.35,
-          "prefixes": [
-            "188.255.230.0/24"
-          ]
-        },
-        {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "189.12.56.0/24"
           ]
@@ -15695,7 +15704,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "189.75.183.0/24"
           ]
@@ -15703,31 +15712,31 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "189.75.184.0/24"
           ]
         },
         {
-          "country": "US",
-          "city": "",
-          "percentage": 4.35,
-          "prefixes": [
-            "192.82.169.0/24"
-          ]
-        },
-        {
           "country": "LT",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "193.111.124.0/24"
           ]
         },
         {
+          "country": "US",
+          "city": "",
+          "percentage": 4.55,
+          "prefixes": [
+            "200.165.31.0/24"
+          ]
+        },
+        {
           "country": "BR",
           "city": "Passo Fundo",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "201.11.232.0/24"
           ]
@@ -15735,7 +15744,7 @@
         {
           "country": "BR",
           "city": "Viam\u00e3o",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "201.14.216.0/24"
           ]
@@ -15743,7 +15752,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "201.14.218.0/24"
           ]
@@ -15751,7 +15760,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "201.24.194.0/24"
           ]
@@ -15759,7 +15768,7 @@
         {
           "country": "FR",
           "city": "",
-          "percentage": 4.35,
+          "percentage": 4.55,
           "prefixes": [
             "212.180.121.0/24"
           ]
