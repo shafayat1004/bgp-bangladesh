@@ -3,62 +3,6 @@
   "retention_days": 7,
   "snapshots": [
     {
-      "ts": "2026-06-28T06:48:58Z",
-      "file": "20260628T064858Z.json",
-      "stats": {
-        "valid_observations": 3189467,
-        "total_edges": 2994
-      }
-    },
-    {
-      "ts": "2026-06-28T10:29:37Z",
-      "file": "20260628T102937Z.json",
-      "stats": {
-        "valid_observations": 3211864,
-        "total_edges": 2995
-      }
-    },
-    {
-      "ts": "2026-06-28T13:44:58Z",
-      "file": "20260628T134458Z.json",
-      "stats": {
-        "valid_observations": 3236702,
-        "total_edges": 2995
-      }
-    },
-    {
-      "ts": "2026-06-28T17:46:18Z",
-      "file": "20260628T174618Z.json",
-      "stats": {
-        "valid_observations": 3205671,
-        "total_edges": 2978
-      }
-    },
-    {
-      "ts": "2026-06-28T21:46:40Z",
-      "file": "20260628T214640Z.json",
-      "stats": {
-        "valid_observations": 3226406,
-        "total_edges": 2984
-      }
-    },
-    {
-      "ts": "2026-06-29T02:12:13Z",
-      "file": "20260629T021213Z.json",
-      "stats": {
-        "valid_observations": 3179852,
-        "total_edges": 2984
-      }
-    },
-    {
-      "ts": "2026-06-29T06:58:35Z",
-      "file": "20260629T065835Z.json",
-      "stats": {
-        "valid_observations": 3226552,
-        "total_edges": 2983
-      }
-    },
-    {
       "ts": "2026-06-29T14:41:41Z",
       "file": "20260629T144141Z.json",
       "stats": {
@@ -128,6 +72,14 @@
       "stats": {
         "valid_observations": 3241597,
         "total_edges": 3066
+      }
+    },
+    {
+      "ts": "2026-07-06T13:23:02Z",
+      "file": "20260706T132302Z.json",
+      "stats": {
+        "valid_observations": 3239130,
+        "total_edges": 3072
       }
     }
   ]
