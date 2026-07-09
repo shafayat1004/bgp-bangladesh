@@ -3,38 +3,6 @@
   "retention_days": 7,
   "snapshots": [
     {
-      "ts": "2026-06-30T06:40:36Z",
-      "file": "20260630T064036Z.json",
-      "stats": {
-        "valid_observations": 3232449,
-        "total_edges": 3060
-      }
-    },
-    {
-      "ts": "2026-06-30T10:46:49Z",
-      "file": "20260630T104649Z.json",
-      "stats": {
-        "valid_observations": 3229493,
-        "total_edges": 3059
-      }
-    },
-    {
-      "ts": "2026-06-30T14:08:50Z",
-      "file": "20260630T140850Z.json",
-      "stats": {
-        "valid_observations": 3247142,
-        "total_edges": 3068
-      }
-    },
-    {
-      "ts": "2026-07-01T14:26:29Z",
-      "file": "20260701T142629Z.json",
-      "stats": {
-        "valid_observations": 3227819,
-        "total_edges": 3052
-      }
-    },
-    {
       "ts": "2026-07-05T05:36:31Z",
       "file": "20260705T053631Z.json",
       "stats": {
@@ -56,6 +24,14 @@
       "stats": {
         "valid_observations": 3254034,
         "total_edges": 3072
+      }
+    },
+    {
+      "ts": "2026-07-09T05:33:04Z",
+      "file": "20260709T053304Z.json",
+      "stats": {
+        "valid_observations": 3227239,
+        "total_edges": 3085
       }
     }
   ]
