@@ -1297,7 +1297,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 49.99,
           "prefixes": [
             "2400:b340::/32"
           ]
@@ -1305,7 +1305,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 49.99,
           "prefixes": [
             "2400:e260::/32"
           ]
@@ -1337,9 +1337,41 @@
         {
           "country": "BD",
           "city": "",
+          "percentage": 0.01,
+          "prefixes": [
+            "2403:1e40:1210::/44"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.01,
+          "prefixes": [
+            "2403:1e40:1220::/45"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
           "percentage": 0.0,
           "prefixes": [
             "2403:1e40:151::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:1228::/46"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:1242::/48"
           ]
         },
         {
@@ -15597,7 +15629,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 6.25,
+          "percentage": 7.14,
           "prefixes": [
             "16.216.10.0/23"
           ]
@@ -15605,7 +15637,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 6.25,
+          "percentage": 7.14,
           "prefixes": [
             "198.29.70.0/23"
           ]
@@ -15613,7 +15645,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "2.27.254.0/24"
           ]
@@ -15621,7 +15653,7 @@
         {
           "country": "NL",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "5.100.231.0/24"
           ]
@@ -15629,7 +15661,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "16.216.1.0/24"
           ]
@@ -15637,7 +15669,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "16.217.118.0/24"
           ]
@@ -15645,31 +15677,31 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "23.226.128.0/24"
           ]
         },
         {
-          "country": "US",
-          "city": "",
-          "percentage": 3.12,
-          "prefixes": [
-            "50.114.236.0/24"
-          ]
-        },
-        {
           "country": "GB",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "82.109.102.0/24"
           ]
         },
         {
+          "country": "BD",
+          "city": "",
+          "percentage": 3.57,
+          "prefixes": [
+            "83.245.11.0/24"
+          ]
+        },
+        {
           "country": "GB",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "87.82.235.0/24"
           ]
@@ -15677,7 +15709,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "87.85.252.0/24"
           ]
@@ -15685,7 +15717,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "145.223.6.0/24"
           ]
@@ -15693,23 +15725,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
-          "prefixes": [
-            "146.103.48.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 3.12,
-          "prefixes": [
-            "162.141.97.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "191.217.163.0/24"
           ]
@@ -15717,7 +15733,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "191.219.25.0/24"
           ]
@@ -15725,7 +15741,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "192.6.165.0/24"
           ]
@@ -15733,7 +15749,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "192.25.129.0/24"
           ]
@@ -15741,7 +15757,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "192.25.212.0/24"
           ]
@@ -15749,7 +15765,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "192.26.54.0/24"
           ]
@@ -15757,31 +15773,15 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "192.132.199.0/24"
           ]
         },
         {
-          "country": "LT",
-          "city": "",
-          "percentage": 3.12,
-          "prefixes": [
-            "193.111.124.0/24"
-          ]
-        },
-        {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
-          "prefixes": [
-            "200.165.31.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "207.180.53.0/24"
           ]
@@ -15789,7 +15789,7 @@
         {
           "country": "FR",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "212.180.121.0/24"
           ]
@@ -15797,7 +15797,7 @@
         {
           "country": "NL",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "213.189.24.0/24"
           ]
@@ -15805,7 +15805,7 @@
         {
           "country": "NL",
           "city": "Rotterdam",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "213.214.105.0/24"
           ]
@@ -15813,7 +15813,7 @@
         {
           "country": "NL",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "213.247.44.0/24"
           ]
@@ -15821,7 +15821,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "216.83.40.0/24"
           ]
@@ -15829,13 +15829,13 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 3.12,
+          "percentage": 3.57,
           "prefixes": [
             "216.83.42.0/24"
           ]
         }
       ],
-      "bd_percentage": 0
+      "bd_percentage": 3.57
     }
   },
   "136826": {
@@ -16426,6 +16426,13 @@
     "asn": "17644",
     "name": "IOT-AS-AP - IoT Techsmart Pte. Ltd.",
     "holder": "IOT-AS-AP - IoT Techsmart Pte. Ltd.",
+    "announced": true,
+    "country": "BD"
+  },
+  "63939": {
+    "asn": "63939",
+    "name": "UTTARA-BANK-BD - Uttara Bank Bangladesh",
+    "holder": "UTTARA-BANK-BD - Uttara Bank Bangladesh",
     "announced": true,
     "country": "BD"
   }
