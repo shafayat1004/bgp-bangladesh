@@ -16435,5 +16435,12 @@
     "holder": "UTTARA-BANK-BD - Uttara Bank Bangladesh",
     "announced": true,
     "country": "BD"
+  },
+  "151954": {
+    "asn": "151954",
+    "name": "AS151954",
+    "holder": "AS151954",
+    "announced": false,
+    "country": "BD"
   }
 }
