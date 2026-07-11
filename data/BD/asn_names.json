@@ -3194,7 +3194,30 @@
     "name": "SMARTLINK-AS-AP Smart Link",
     "holder": "SMARTLINK-AS-AP Smart Link",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.141.200.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df1:23c0::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "131464": {
     "asn": "131464",
