@@ -16442,5 +16442,12 @@
     "holder": "AS151954",
     "announced": false,
     "country": "BD"
+  },
+  "64515": {
+    "asn": "64515",
+    "name": "AS64515",
+    "holder": "AS64515",
+    "announced": false,
+    "country": ""
   }
 }
