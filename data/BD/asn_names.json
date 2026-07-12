@@ -15416,15 +15416,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 8.33,
-          "prefixes": [
-            "16.216.27.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "62.41.37.0/24"
           ]
@@ -15432,7 +15424,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "87.84.207.0/24"
           ]
@@ -15440,31 +15432,15 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "91.205.228.0/24"
           ]
         },
         {
-          "country": "US",
-          "city": "",
-          "percentage": 8.33,
-          "prefixes": [
-            "143.14.186.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 8.33,
-          "prefixes": [
-            "157.254.1.0/24"
-          ]
-        },
-        {
           "country": "GB",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "185.92.46.0/24"
           ]
@@ -15472,7 +15448,7 @@
         {
           "country": "TR",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "193.187.110.0/24"
           ]
@@ -15480,7 +15456,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "194.45.47.0/24"
           ]
@@ -15488,7 +15464,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "194.122.84.0/24"
           ]
@@ -15496,7 +15472,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "205.178.176.0/24"
           ]
@@ -15504,7 +15480,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 8.33,
+          "percentage": 11.11,
           "prefixes": [
             "212.222.112.0/24"
           ]
