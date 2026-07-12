@@ -3195,18 +3195,10 @@
     "holder": "SMARTLINK-AS-AP Smart Link",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "US",
       "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.141.200.0/23"
-          ]
-        },
         {
           "country": "BD",
           "city": "",
@@ -3214,9 +3206,57 @@
           "prefixes": [
             "2001:df1:23c0::/48"
           ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 28.57,
+          "prefixes": [
+            "103.141.200.0/23"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "87.82.233.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "147.79.63.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "167.148.2.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "195.78.56.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "199.103.94.0/24"
+          ]
         }
       ],
-      "bd_percentage": 200.0
+      "bd_percentage": 128.57
     }
   },
   "131464": {
@@ -15930,7 +15970,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 10.53,
+          "percentage": 10.81,
           "prefixes": [
             "103.90.228.0/22"
           ]
@@ -16026,7 +16066,7 @@
         {
           "country": "HK",
           "city": "Hong Kong",
-          "percentage": 7.89,
+          "percentage": 8.11,
           "prefixes": [
             "154.196.92.0/24",
             "154.196.94.0/23"
@@ -16035,7 +16075,7 @@
         {
           "country": "VN",
           "city": "A Yun Pa",
-          "percentage": 7.89,
+          "percentage": 8.11,
           "prefixes": [
             "154.198.169.0/24",
             "154.198.170.0/23"
@@ -16044,7 +16084,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "36.50.132.0/23"
           ]
@@ -16052,7 +16092,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "36.50.236.0/23"
           ]
@@ -16060,7 +16100,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "103.15.88.0/23"
           ]
@@ -16068,7 +16108,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "103.65.136.0/23"
           ]
@@ -16076,7 +16116,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "103.71.110.0/23"
           ]
@@ -16084,7 +16124,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "103.164.36.0/23"
           ]
@@ -16092,7 +16132,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "103.169.172.0/23"
           ]
@@ -16100,7 +16140,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "103.170.246.0/23"
           ]
@@ -16108,7 +16148,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "103.241.198.0/23"
           ]
@@ -16116,7 +16156,7 @@
         {
           "country": "JP",
           "city": "Tokyo",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "154.197.72.0/23"
           ]
@@ -16124,7 +16164,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.26,
+          "percentage": 5.41,
           "prefixes": [
             "157.10.46.0/23"
           ]
@@ -16132,7 +16172,7 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 2.63,
+          "percentage": 2.7,
           "prefixes": [
             "154.196.93.0/24"
           ]
@@ -16140,23 +16180,15 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 2.63,
+          "percentage": 2.7,
           "prefixes": [
             "154.198.9.0/24"
           ]
         },
         {
-          "country": "SC",
-          "city": "",
-          "percentage": 2.63,
-          "prefixes": [
-            "154.198.10.0/24"
-          ]
-        },
-        {
           "country": "ZA",
           "city": "Johannesburg",
-          "percentage": 2.63,
+          "percentage": 2.7,
           "prefixes": [
             "154.198.168.0/24"
           ]
@@ -16164,7 +16196,7 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 2.63,
+          "percentage": 2.7,
           "prefixes": [
             "154.201.6.0/24"
           ]
@@ -16172,7 +16204,7 @@
         {
           "country": "PE",
           "city": "Lima",
-          "percentage": 2.63,
+          "percentage": 2.7,
           "prefixes": [
             "154.201.7.0/24"
           ]
