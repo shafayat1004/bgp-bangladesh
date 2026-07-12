@@ -15970,7 +15970,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 10.81,
+          "percentage": 11.11,
           "prefixes": [
             "103.90.228.0/22"
           ]
@@ -16066,7 +16066,7 @@
         {
           "country": "HK",
           "city": "Hong Kong",
-          "percentage": 8.11,
+          "percentage": 8.33,
           "prefixes": [
             "154.196.92.0/24",
             "154.196.94.0/23"
@@ -16075,7 +16075,7 @@
         {
           "country": "VN",
           "city": "A Yun Pa",
-          "percentage": 8.11,
+          "percentage": 8.33,
           "prefixes": [
             "154.198.169.0/24",
             "154.198.170.0/23"
@@ -16084,7 +16084,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "36.50.132.0/23"
           ]
@@ -16092,7 +16092,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "36.50.236.0/23"
           ]
@@ -16100,7 +16100,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "103.15.88.0/23"
           ]
@@ -16108,7 +16108,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "103.65.136.0/23"
           ]
@@ -16116,7 +16116,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "103.71.110.0/23"
           ]
@@ -16124,7 +16124,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "103.164.36.0/23"
           ]
@@ -16132,7 +16132,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "103.169.172.0/23"
           ]
@@ -16140,7 +16140,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "103.170.246.0/23"
           ]
@@ -16148,7 +16148,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "103.241.198.0/23"
           ]
@@ -16156,7 +16156,7 @@
         {
           "country": "JP",
           "city": "Tokyo",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "154.197.72.0/23"
           ]
@@ -16164,7 +16164,7 @@
         {
           "country": "VN",
           "city": "",
-          "percentage": 5.41,
+          "percentage": 5.56,
           "prefixes": [
             "157.10.46.0/23"
           ]
@@ -16172,23 +16172,15 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 2.7,
+          "percentage": 2.78,
           "prefixes": [
             "154.196.93.0/24"
           ]
         },
         {
-          "country": "SC",
-          "city": "",
-          "percentage": 2.7,
-          "prefixes": [
-            "154.198.9.0/24"
-          ]
-        },
-        {
           "country": "ZA",
           "city": "Johannesburg",
-          "percentage": 2.7,
+          "percentage": 2.78,
           "prefixes": [
             "154.198.168.0/24"
           ]
@@ -16196,7 +16188,7 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 2.7,
+          "percentage": 2.78,
           "prefixes": [
             "154.201.6.0/24"
           ]
@@ -16204,7 +16196,7 @@
         {
           "country": "PE",
           "city": "Lima",
-          "percentage": 2.7,
+          "percentage": 2.78,
           "prefixes": [
             "154.201.7.0/24"
           ]
