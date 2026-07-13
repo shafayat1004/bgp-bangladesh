@@ -3210,23 +3210,15 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 28.57,
+          "percentage": 33.33,
           "prefixes": [
             "103.141.200.0/23"
           ]
         },
         {
-          "country": "GB",
-          "city": "",
-          "percentage": 14.29,
-          "prefixes": [
-            "87.82.233.0/24"
-          ]
-        },
-        {
           "country": "US",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 16.67,
           "prefixes": [
             "147.79.63.0/24"
           ]
@@ -3234,7 +3226,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 16.67,
           "prefixes": [
             "167.148.2.0/24"
           ]
@@ -3242,7 +3234,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 16.67,
           "prefixes": [
             "195.78.56.0/24"
           ]
@@ -3250,13 +3242,13 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 16.67,
           "prefixes": [
             "199.103.94.0/24"
           ]
         }
       ],
-      "bd_percentage": 128.57
+      "bd_percentage": 133.33
     }
   },
   "131464": {
