@@ -3030,15 +3030,23 @@
           ]
         },
         {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
+          "country": "US",
+          "city": "Piscataway",
+          "percentage": 25.0,
           "prefixes": [
-            "155.35.34.0/23"
+            "155.35.34.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Mohammadpur",
+          "percentage": 25.0,
+          "prefixes": [
+            "155.35.35.0/24"
           ]
         }
       ],
-      "bd_percentage": 200.0
+      "bd_percentage": 175.0
     }
   },
   "150735": {
@@ -7890,7 +7898,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 53.33,
           "prefixes": [
             "2404:2f40::/33"
@@ -7898,7 +7906,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 33.33,
           "prefixes": [
             "103.153.240.0/23"
@@ -7906,7 +7914,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 26.67,
           "prefixes": [
             "2404:2f40:8000::/34"
@@ -7938,7 +7946,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 16.67,
           "prefixes": [
             "103.132.96.0/24"
@@ -7946,7 +7954,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 13.33,
           "prefixes": [
             "2404:2f40:c000::/35"
@@ -7954,15 +7962,15 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 6.67,
           "prefixes": [
             "2404:2f40:e000::/36"
           ]
         },
         {
-          "country": "BD",
-          "city": "",
+          "country": "US",
+          "city": "Miami",
           "percentage": 0.0,
           "prefixes": [
             "2404:2f40:f000::/48"
@@ -9079,36 +9087,20 @@
     "holder": "LINK4COMMUNICATION-AS-AP LINK4 COMMUNICATION",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "GB",
+      "dominant_country": "BD",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
             "157.20.150.0/23"
           ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 25.0,
-          "prefixes": [
-            "83.245.11.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 25.0,
-          "prefixes": [
-            "217.25.5.0/24"
-          ]
         }
       ],
-      "bd_percentage": 50.0
+      "bd_percentage": 100.0
     }
   },
   "18230": {
@@ -15682,7 +15674,7 @@
           ]
         },
         {
-          "country": "BD",
+          "country": "GB",
           "city": "",
           "percentage": 4.0,
           "prefixes": [
@@ -15802,7 +15794,7 @@
           ]
         }
       ],
-      "bd_percentage": 4.0
+      "bd_percentage": 0
     }
   },
   "136826": {
