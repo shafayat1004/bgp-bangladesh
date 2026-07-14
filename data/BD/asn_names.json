@@ -11556,17 +11556,9 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
             "2a14:7580:ff7a::/48"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "2a14:7580:ff7c::/48"
           ]
         }
       ],
@@ -15558,22 +15550,14 @@
     "holder": "BENGALCLOUD1-AS-AP Bengalcloud International",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "GB",
+      "dominant_country": "US",
       "breakdown": [
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "89.213.46.0/24"
-          ]
-        },
         {
           "country": "US",
           "city": "San Jose",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
             "108.186.161.0/24"
           ]
