@@ -3529,36 +3529,11 @@
     "holder": "MDMSL-AS-AP MiM Digital Marketing Solution Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
-      "breakdown": [
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "16.5.27.0/24"
-          ]
-        },
-        {
-          "country": "CA",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "64.112.98.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "142.111.40.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "138431": {
@@ -16272,16 +16247,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "188.220.144.0/24"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -16380,6 +16346,13 @@
     "asn": "12735",
     "name": "ASTurkNet TurkNet Iletisim Hizmetleri A.S.",
     "holder": "ASTurkNet TurkNet Iletisim Hizmetleri A.S.",
+    "announced": true,
+    "country": ""
+  },
+  "59689": {
+    "asn": "59689",
+    "name": "CODE40-AS Code40 SAS",
+    "holder": "CODE40-AS Code40 SAS",
     "announced": true,
     "country": ""
   }
