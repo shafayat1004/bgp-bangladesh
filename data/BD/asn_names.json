@@ -16269,11 +16269,28 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "188.220.144.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "189.75.181.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 50.0
     }
   },
   "401322": {
