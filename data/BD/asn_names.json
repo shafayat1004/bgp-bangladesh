@@ -3529,11 +3529,36 @@
     "holder": "MDMSL-AS-AP MiM Digital Marketing Solution Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "16.5.27.0/24"
+          ]
+        },
+        {
+          "country": "CA",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "64.112.98.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "142.111.40.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "138431": {
@@ -16355,5 +16380,12 @@
     "holder": "CODE40-AS Code40 SAS",
     "announced": true,
     "country": ""
+  },
+  "150791": {
+    "asn": "150791",
+    "name": "BMO-AS-AP - BD Max Online",
+    "holder": "BMO-AS-AP - BD Max Online",
+    "announced": false,
+    "country": "BD"
   }
 }
