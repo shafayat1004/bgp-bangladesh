@@ -8478,9 +8478,9 @@
     "holder": "ZWS-AS-AP ZORNTECH WEB SOLUTIONS",
     "announced": true,
     "country": "BD",
-    "geo_country": "IR",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "IR",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "BD",
@@ -8491,9 +8491,17 @@
           ]
         },
         {
+          "country": "US",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "45.74.10.0/24"
+          ]
+        },
+        {
           "country": "HU",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "88.209.227.0/24"
           ]
@@ -8501,7 +8509,7 @@
         {
           "country": "TR",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "176.53.159.0/24"
           ]
@@ -8509,7 +8517,7 @@
         {
           "country": "IR",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "185.143.72.0/24"
           ]
@@ -8517,7 +8525,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "189.13.139.0/24"
           ]
@@ -8525,7 +8533,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "206.123.146.0/24"
           ]
@@ -8533,7 +8541,7 @@
         {
           "country": "IR",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "212.16.79.0/24"
           ]
@@ -9087,20 +9095,28 @@
     "holder": "LINK4COMMUNICATION-AS-AP LINK4 COMMUNICATION",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
-          "percentage": 100.0,
+          "percentage": 66.67,
           "prefixes": [
             "157.20.150.0/23"
           ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "45.73.181.0/24"
+          ]
         }
       ],
-      "bd_percentage": 100.0
+      "bd_percentage": 66.67
     }
   },
   "18230": {
@@ -15366,41 +15382,17 @@
       "dominant_country": "GB",
       "breakdown": [
         {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "62.41.37.0/24"
-          ]
-        },
-        {
           "country": "GB",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 33.33,
           "prefixes": [
             "87.84.207.0/24"
           ]
         },
         {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "91.205.228.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "185.92.46.0/24"
-          ]
-        },
-        {
           "country": "TR",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 33.33,
           "prefixes": [
             "193.187.110.0/24"
           ]
@@ -15408,25 +15400,9 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "194.45.47.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
+          "percentage": 33.33,
           "prefixes": [
             "194.122.84.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "205.178.176.0/24"
           ]
         }
       ],
@@ -16398,6 +16374,13 @@
     "name": "AS64579",
     "holder": "AS64579",
     "announced": false,
+    "country": ""
+  },
+  "12735": {
+    "asn": "12735",
+    "name": "ASTurkNet TurkNet Iletisim Hizmetleri A.S.",
+    "holder": "ASTurkNet TurkNet Iletisim Hizmetleri A.S.",
+    "announced": true,
     "country": ""
   }
 }
