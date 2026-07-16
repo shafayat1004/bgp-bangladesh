@@ -7401,7 +7401,98 @@
     "name": "AGNI-AS Agni Systems Limited",
     "holder": "AGNI-AS Agni Systems Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2401:9c00::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 13.28,
+          "prefixes": [
+            "119.148.0.0/20",
+            "119.148.21.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "116.68.192.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "119.148.32.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "119.148.48.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Sirajganj",
+          "percentage": 12.5,
+          "prefixes": [
+            "182.252.64.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "202.53.160.0/20"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 11.72,
+          "prefixes": [
+            "119.148.16.0/22",
+            "119.148.20.0/24",
+            "119.148.22.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 9.38,
+          "prefixes": [
+            "182.252.80.0/21",
+            "182.252.92.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 3.12,
+          "prefixes": [
+            "182.252.88.0/22"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "139643": {
     "asn": "139643",
@@ -9087,28 +9178,20 @@
     "holder": "LINK4COMMUNICATION-AS-AP LINK4 COMMUNICATION",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "BD",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
-          "percentage": 66.67,
+          "percentage": 100.0,
           "prefixes": [
             "157.20.150.0/23"
           ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "45.73.181.0/24"
-          ]
         }
       ],
-      "bd_percentage": 66.67
+      "bd_percentage": 100.0
     }
   },
   "18230": {
@@ -14409,7 +14492,22 @@
     "name": "LIZAONLINEBD-AS-AP Liza Online",
     "holder": "LIZAONLINEBD-AS-AP Liza Online",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.173.106.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "150744": {
     "asn": "150744",
@@ -16444,5 +16542,12 @@
     "holder": "BMO-AS-AP - BD Max Online",
     "announced": false,
     "country": "BD"
+  },
+  "65421": {
+    "asn": "65421",
+    "name": "AS65421",
+    "holder": "AS65421",
+    "announced": false,
+    "country": ""
   }
 }
