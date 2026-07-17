@@ -5961,97 +5961,8 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 47.06,
-          "prefixes": [
-            "2402:5720::/32"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 47.06,
-          "prefixes": [
-            "2402:6520::/32"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 20.0,
-          "prefixes": [
-            "92.112.43.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "Khulna",
-          "percentage": 20.0,
-          "prefixes": [
-            "103.14.23.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "Jessore",
-          "percentage": 20.0,
-          "prefixes": [
-            "160.25.226.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 20.0,
-          "prefixes": [
-            "164.37.199.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "Khulna",
-          "percentage": 20.0,
-          "prefixes": [
-            "165.99.165.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 5.88,
-          "prefixes": [
-            "2402:3ea0:2000::/35"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.0,
-          "prefixes": [
-            "2001:df3:ad40::/47"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.0,
-          "prefixes": [
-            "2001:df4:13c1::/48"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.0,
-          "prefixes": [
-            "2001:df5:f9c0::/48"
-          ]
-        }
-      ],
-      "bd_percentage": 200.0
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "142232": {
@@ -11011,7 +10922,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.53.84.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -15525,11 +15445,20 @@
     "holder": "MDNTECHNOLOGYLTD-AS-AP MDN TECHNOLOGY LTD",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "TR",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "TR",
+      "breakdown": [
+        {
+          "country": "TR",
+          "city": "Istanbul",
+          "percentage": 100.0,
+          "prefixes": [
+            "185.87.121.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "142156": {
