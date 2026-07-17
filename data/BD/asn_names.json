@@ -5750,7 +5750,16 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.228.0.0/23"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -11002,16 +11011,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.53.84.0/24"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -15525,20 +15525,11 @@
     "holder": "MDNTECHNOLOGYLTD-AS-AP MDN TECHNOLOGY LTD",
     "announced": true,
     "country": "BD",
-    "geo_country": "TR",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "TR",
-      "breakdown": [
-        {
-          "country": "TR",
-          "city": "Istanbul",
-          "percentage": 100.0,
-          "prefixes": [
-            "185.87.121.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "142156": {
