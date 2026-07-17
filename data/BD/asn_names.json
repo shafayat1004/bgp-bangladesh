@@ -16589,5 +16589,12 @@
     "holder": "AS65421",
     "announced": false,
     "country": ""
+  },
+  "152327": {
+    "asn": "152327",
+    "name": "RASUWEBHOST-AS-AP - Rasu Web Host",
+    "holder": "RASUWEBHOST-AS-AP - Rasu Web Host",
+    "announced": true,
+    "country": "BD"
   }
 }
