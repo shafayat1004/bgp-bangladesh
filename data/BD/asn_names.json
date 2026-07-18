@@ -3009,21 +3009,13 @@
     "holder": "HEXAZN-AS-AP Hexazn",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df3:1ec0::/48"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
+          "city": "Mohammadpur",
           "percentage": 50.0,
           "prefixes": [
             "36.50.40.0/23"
@@ -3046,7 +3038,7 @@
           ]
         }
       ],
-      "bd_percentage": 175.0
+      "bd_percentage": 75.0
     }
   },
   "150735": {
@@ -15748,8 +15740,8 @@
           ]
         },
         {
-          "country": "HK",
-          "city": "Tseung Kwan O",
+          "country": "US",
+          "city": "",
           "percentage": 2.63,
           "prefixes": [
             "31.77.229.0/24"
@@ -16455,12 +16447,12 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "BD",
       "breakdown": [
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 100.0,
           "prefixes": [
@@ -16468,7 +16460,7 @@
           ]
         }
       ],
-      "bd_percentage": 0
+      "bd_percentage": 100.0
     }
   },
   "401322": {
