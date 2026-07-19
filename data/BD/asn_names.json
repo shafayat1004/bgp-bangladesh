@@ -12984,11 +12984,20 @@
     "holder": "GLOBALFOUNDRIES-AS-AP Globalfoundries Singapore Pte Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "IN",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "IN",
+      "breakdown": [
+        {
+          "country": "IN",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.56.28.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "58685": {
