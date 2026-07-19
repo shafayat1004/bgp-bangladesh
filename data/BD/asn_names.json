@@ -4657,7 +4657,46 @@
     "name": "ASIAPACIFICCOMMUNICATIONLIMITED-AS-AP Asia Pacific Communication Limited",
     "holder": "ASIAPACIFICCOMMUNICATIONLIMITED-AS-AP Asia Pacific Communication Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2400:ad40::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 66.67,
+          "prefixes": [
+            "103.85.160.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "103.115.101.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "103.141.8.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 200.01
+    }
   },
   "133766": {
     "asn": "133766",
@@ -16762,5 +16801,12 @@
     "holder": "CP-IN - C-MET, Pune",
     "announced": false,
     "country": "IN"
+  },
+  "1362662": {
+    "asn": "1362662",
+    "name": "AS1362662",
+    "holder": "AS1362662",
+    "announced": false,
+    "country": ""
   }
 }
