@@ -10023,7 +10023,54 @@
     "name": "PROGOTIIT-AS-AP Mohammad Shahajahan",
     "holder": "PROGOTIIT-AS-AP Mohammad Shahajahan",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.106.32.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "2402:3940:4000::/34"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "2402:3940:2000::/35"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "2402:3940:1000::/36"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "2402:3940:8000::/36"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "58800": {
     "asn": "58800",
@@ -16832,5 +16879,12 @@
     "holder": "AS1362662",
     "announced": false,
     "country": ""
+  },
+  "137352": {
+    "asn": "137352",
+    "name": "IDNIC-CLOUDATA-AS-ID - PT. Cloudata Indonesia",
+    "holder": "IDNIC-CLOUDATA-AS-ID - PT. Cloudata Indonesia",
+    "announced": true,
+    "country": "ID"
   }
 }
