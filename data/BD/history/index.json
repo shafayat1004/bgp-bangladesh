@@ -337,6 +337,14 @@
         "valid_observations": 3270168,
         "total_edges": 3079
       }
+    },
+    {
+      "ts": "2026-07-19T04:21:55Z",
+      "file": "20260719T042155Z.json",
+      "stats": {
+        "valid_observations": 3257909,
+        "total_edges": 3070
+      }
     }
   ]
 }
