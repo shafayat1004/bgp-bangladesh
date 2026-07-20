@@ -16924,5 +16924,12 @@
     "holder": "ACML - AllianceBernstein L.P.",
     "announced": true,
     "country": ""
+  },
+  "215628": {
+    "asn": "215628",
+    "name": "AS-XENOX-AT Xenox IT & Kommunikations GmbH",
+    "holder": "AS-XENOX-AT Xenox IT & Kommunikations GmbH",
+    "announced": true,
+    "country": "AT"
   }
 }
