@@ -12572,7 +12572,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "",
+          "city": "Dhaka",
           "percentage": 100.0,
           "prefixes": [
             "103.131.158.0/24"
@@ -16025,7 +16025,7 @@
         },
         {
           "country": "GB",
-          "city": "Thornton-Cleveleys",
+          "city": "Launceston",
           "percentage": 2.0,
           "prefixes": [
             "51.194.202.0/24"
@@ -16041,7 +16041,7 @@
         },
         {
           "country": "US",
-          "city": "Berkeley",
+          "city": "",
           "percentage": 2.0,
           "prefixes": [
             "66.117.159.0/24"
@@ -16192,8 +16192,8 @@
           ]
         },
         {
-          "country": "US",
-          "city": "Los Angeles",
+          "country": "SC",
+          "city": "",
           "percentage": 2.0,
           "prefixes": [
             "154.94.60.0/24"
@@ -16608,6 +16608,14 @@
           ]
         },
         {
+          "country": "SC",
+          "city": "",
+          "percentage": 5.56,
+          "prefixes": [
+            "154.201.6.0/23"
+          ]
+        },
+        {
           "country": "VN",
           "city": "",
           "percentage": 5.56,
@@ -16629,22 +16637,6 @@
           "percentage": 2.78,
           "prefixes": [
             "154.198.168.0/24"
-          ]
-        },
-        {
-          "country": "SC",
-          "city": "",
-          "percentage": 2.78,
-          "prefixes": [
-            "154.201.6.0/24"
-          ]
-        },
-        {
-          "country": "PE",
-          "city": "Lima",
-          "percentage": 2.78,
-          "prefixes": [
-            "154.201.7.0/24"
           ]
         }
       ],
