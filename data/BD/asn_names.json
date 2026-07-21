@@ -4550,35 +4550,10 @@
     "holder": "SATISFYSOFT2-AS-AP SatisfySoft",
     "announced": true,
     "country": "BD",
-    "geo_country": "HU",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "HU",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df5:a140::/48"
-          ]
-        },
-        {
-          "country": "HU",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "5.182.112.0/24"
-          ]
-        },
-        {
-          "country": "HU",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "83.137.153.0/24"
-          ]
-        }
-      ],
+      "dominant_country": "BD",
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
