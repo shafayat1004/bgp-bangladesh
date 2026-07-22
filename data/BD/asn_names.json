@@ -17019,5 +17019,12 @@
     "holder": "AS-XENOX-AT Xenox IT & Kommunikations GmbH",
     "announced": true,
     "country": "AT"
+  },
+  "154749": {
+    "asn": "154749",
+    "name": "AS154749",
+    "holder": "AS154749",
+    "announced": false,
+    "country": "BD"
   }
 }
