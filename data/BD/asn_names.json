@@ -10717,28 +10717,20 @@
     "holder": "NEWDHAKAHARDWARE-AS-AP NEW DHAKA HARDWARE",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "BD",
       "breakdown": [
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "155.117.105.0/24"
-          ]
-        },
         {
           "country": "BD",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
             "163.61.188.0/24"
           ]
         }
       ],
-      "bd_percentage": 50.0
+      "bd_percentage": 100.0
     }
   },
   "140711": {
