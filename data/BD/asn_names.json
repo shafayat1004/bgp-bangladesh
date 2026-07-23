@@ -660,32 +660,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "202.129.194.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 25.0,
-          "prefixes": [
-            "123.176.57.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 25.0,
-          "prefixes": [
-            "202.129.192.0/24"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
