@@ -16927,5 +16927,18 @@
     "holder": "WISHNET-AS-AP - WISH NET PRIVATE LIMITED",
     "announced": true,
     "country": ""
+  },
+  "154725": {
+    "asn": "154725",
+    "name": "AS154725",
+    "holder": "AS154725",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
