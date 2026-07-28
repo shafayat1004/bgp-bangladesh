@@ -16920,5 +16920,12 @@
     "holder": "AS154749",
     "announced": false,
     "country": "BD"
+  },
+  "45775": {
+    "asn": "45775",
+    "name": "WISHNET-AS-AP - WISH NET PRIVATE LIMITED",
+    "holder": "WISHNET-AS-AP - WISH NET PRIVATE LIMITED",
+    "announced": true,
+    "country": ""
   }
 }
