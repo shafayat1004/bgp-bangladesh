@@ -16934,11 +16934,20 @@
     "holder": "AS154725",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "RO",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "RO",
+      "breakdown": [
+        {
+          "country": "RO",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "89.43.45.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   }
 }
