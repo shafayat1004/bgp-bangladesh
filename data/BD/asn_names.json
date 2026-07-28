@@ -2026,7 +2026,126 @@
     "name": "HPLINKINTERNET-AS-AP HPLink",
     "holder": "HPLINKINTERNET-AS-AP HPLink",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 66.67,
+          "prefixes": [
+            "2400:ac20:4000::/35"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "2400:ac20:3000::/36"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "103.7.5.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "103.67.63.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 8.33,
+          "prefixes": [
+            "103.72.65.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "103.86.194.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 8.33,
+          "prefixes": [
+            "103.146.37.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "103.168.91.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "103.213.221.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "160.25.7.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "160.191.212.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "202.1.29.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "202.136.75.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Natore",
+          "percentage": 8.33,
+          "prefixes": [
+            "220.152.115.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 199.96
+    }
   },
   "151501": {
     "asn": "151501",
