@@ -16948,5 +16948,12 @@
     "holder": "AS1385361",
     "announced": false,
     "country": ""
+  },
+  "154750": {
+    "asn": "154750",
+    "name": "AS154750",
+    "holder": "AS154750",
+    "announced": true,
+    "country": "BD"
   }
 }
