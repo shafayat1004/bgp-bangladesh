@@ -17024,5 +17024,12 @@
     "holder": "HRSAUSTRALASIAPTYLTD-AS-AP - HRS AUSTRALASIA PTY LTD",
     "announced": true,
     "country": ""
+  },
+  "133211": {
+    "asn": "133211",
+    "name": "ALONIANETBD-AS-AP - Alonia Net BD",
+    "holder": "ALONIANETBD-AS-AP - Alonia Net BD",
+    "announced": false,
+    "country": "BD"
   }
 }
