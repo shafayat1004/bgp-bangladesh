@@ -16999,5 +16999,12 @@
     "holder": "ALONIANETBD-AS-AP - Alonia Net BD",
     "announced": false,
     "country": "BD"
+  },
+  "64659": {
+    "asn": "64659",
+    "name": "AS64659",
+    "holder": "AS64659",
+    "announced": false,
+    "country": ""
   }
 }
