@@ -8906,14 +8906,6 @@
       "dominant_country": "HU",
       "breakdown": [
         {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df6:5940::/48"
-          ]
-        },
-        {
           "country": "HU",
           "city": "",
           "percentage": 50.0,
@@ -8930,7 +8922,7 @@
           ]
         }
       ],
-      "bd_percentage": 100.0
+      "bd_percentage": 0
     }
   },
   "133325": {
