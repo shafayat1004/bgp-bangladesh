@@ -3425,52 +3425,20 @@
     "holder": "SMARTLINK-AS-AP Smart Link",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "BD",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
           "percentage": 100.0,
           "prefixes": [
-            "2001:df1:23c0::/48"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 40.0,
-          "prefixes": [
             "103.141.200.0/23"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 20.0,
-          "prefixes": [
-            "167.148.2.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 20.0,
-          "prefixes": [
-            "195.78.56.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 20.0,
-          "prefixes": [
-            "199.103.94.0/24"
           ]
         }
       ],
-      "bd_percentage": 140.0
+      "bd_percentage": 100.0
     }
   },
   "131464": {
@@ -17076,5 +17044,19 @@
     "holder": "GST-AS-AP - GO SMART TECHNOLOGIES",
     "announced": false,
     "country": ""
+  },
+  "134382": {
+    "asn": "134382",
+    "name": "AS134382",
+    "holder": "AS134382",
+    "announced": true,
+    "country": "BD"
+  },
+  "139779": {
+    "asn": "139779",
+    "name": "NHB2-AS-AP - Net@Home-Bamoul Branch",
+    "holder": "NHB2-AS-AP - Net@Home-Bamoul Branch",
+    "announced": true,
+    "country": "BD"
   }
 }
