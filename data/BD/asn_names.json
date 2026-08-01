@@ -8817,7 +8817,22 @@
     "name": "SYNESISITLIMITED-AS-AP Synesis IT Limited",
     "holder": "SYNESISITLIMITED-AS-AP Synesis IT Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.92.84.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "149987": {
     "asn": "149987",
@@ -17060,6 +17075,13 @@
     "asn": "64659",
     "name": "AS64659",
     "holder": "AS64659",
+    "announced": false,
+    "country": ""
+  },
+  "135035": {
+    "asn": "135035",
+    "name": "GST-AS-AP - GO SMART TECHNOLOGIES",
+    "holder": "GST-AS-AP - GO SMART TECHNOLOGIES",
     "announced": false,
     "country": ""
   }
