@@ -3425,20 +3425,44 @@
     "holder": "SMARTLINK-AS-AP Smart Link",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "IL",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "IL",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
           "percentage": 100.0,
           "prefixes": [
+            "2001:df1:23c0::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
             "103.141.200.0/23"
+          ]
+        },
+        {
+          "country": "IL",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "79.183.0.0/24"
+          ]
+        },
+        {
+          "country": "CA",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "140.235.25.0/24"
           ]
         }
       ],
-      "bd_percentage": 100.0
+      "bd_percentage": 150.0
     }
   },
   "131464": {
