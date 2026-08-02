@@ -17082,5 +17082,12 @@
     "holder": "NHB2-AS-AP - Net@Home-Bamoul Branch",
     "announced": true,
     "country": "BD"
+  },
+  "133785": {
+    "asn": "133785",
+    "name": "KNZL-AS-AP - KeepItSafe New Zealand Limited",
+    "holder": "KNZL-AS-AP - KeepItSafe New Zealand Limited",
+    "announced": false,
+    "country": ""
   }
 }
