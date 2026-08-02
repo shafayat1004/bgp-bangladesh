@@ -7189,7 +7189,22 @@
     "name": "TUHINAHMED-AS-AP A2Z Network",
     "holder": "TUHINAHMED-AS-AP A2Z Network",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.178.32.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "24556": {
     "asn": "24556",
