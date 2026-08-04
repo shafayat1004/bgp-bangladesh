@@ -6347,7 +6347,7 @@
         },
         {
           "country": "US",
-          "city": "",
+          "city": "New York",
           "percentage": 7.14,
           "prefixes": [
             "195.21.133.0/24"
@@ -12794,7 +12794,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "Dhaka",
+          "city": "",
           "percentage": 100.0,
           "prefixes": [
             "103.131.158.0/24"
@@ -16318,7 +16318,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "US",
           "city": "",
           "percentage": 5.26,
           "prefixes": [
@@ -16350,7 +16350,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "US",
           "city": "",
           "percentage": 5.26,
           "prefixes": [
@@ -17303,5 +17303,18 @@
     "holder": "AS64555",
     "announced": false,
     "country": ""
+  },
+  "154603": {
+    "asn": "154603",
+    "name": "VPSGY-AS-AP - V.P.S GY",
+    "holder": "VPSGY-AS-AP - V.P.S GY",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
