@@ -3424,7 +3424,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 25.0,
           "prefixes": [
             "103.141.200.0/23"
           ]
@@ -3432,15 +3432,23 @@
         {
           "country": "IL",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "79.183.0.0/24"
           ]
         },
         {
+          "country": "NL",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "83.98.192.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "130.12.102.0/24"
           ]
@@ -3448,7 +3456,7 @@
         {
           "country": "BG",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "185.255.56.0/24"
           ]
@@ -3456,13 +3464,21 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "194.34.175.0/24"
           ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "207.180.6.0/24"
+          ]
         }
       ],
-      "bd_percentage": 133.33
+      "bd_percentage": 125.0
     }
   },
   "131464": {
@@ -16790,11 +16806,84 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "GB",
+      "breakdown": [
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "45.139.182.0/24"
+          ]
+        },
+        {
+          "country": "IL",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "79.183.2.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "80.93.192.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Los Angeles",
+          "percentage": 11.11,
+          "prefixes": [
+            "104.166.65.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Los Angeles",
+          "percentage": 11.11,
+          "prefixes": [
+            "160.238.98.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Tewkesbury",
+          "percentage": 11.11,
+          "prefixes": [
+            "185.191.20.0/24"
+          ]
+        },
+        {
+          "country": "ES",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "185.218.20.0/24"
+          ]
+        },
+        {
+          "country": "ES",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "193.8.114.0/24"
+          ]
+        },
+        {
+          "country": "JP",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "216.247.97.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "401322": {
