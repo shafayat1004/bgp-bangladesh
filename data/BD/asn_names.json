@@ -16855,7 +16855,7 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "79.110.176.0/24"
           ]
@@ -16863,7 +16863,7 @@
         {
           "country": "IL",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "79.183.2.0/24"
           ]
@@ -16871,15 +16871,23 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "80.93.192.0/24"
           ]
         },
         {
+          "country": "GB",
+          "city": "",
+          "percentage": 7.69,
+          "prefixes": [
+            "80.240.90.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "85.202.173.0/24"
           ]
@@ -16887,7 +16895,7 @@
         {
           "country": "CY",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "85.208.113.0/24"
           ]
@@ -16895,7 +16903,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "108.165.22.0/24"
           ]
@@ -16903,7 +16911,7 @@
         {
           "country": "CA",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "109.110.176.0/24"
           ]
@@ -16911,7 +16919,7 @@
         {
           "country": "MU",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "154.127.51.0/24"
           ]
@@ -16919,7 +16927,7 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "160.238.98.0/24"
           ]
@@ -16927,7 +16935,7 @@
         {
           "country": "ES",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "185.218.20.0/24"
           ]
@@ -16935,9 +16943,17 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 9.09,
+          "percentage": 7.69,
           "prefixes": [
             "217.18.59.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 7.69,
+          "prefixes": [
+            "217.145.76.0/24"
           ]
         }
       ],
