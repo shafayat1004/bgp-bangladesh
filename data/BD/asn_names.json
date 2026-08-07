@@ -17341,5 +17341,33 @@
       ],
       "bd_percentage": 0
     }
+  },
+  "59315": {
+    "asn": "59315",
+    "name": "AIL-BD - aamra Infotainment Ltd.",
+    "holder": "AIL-BD - aamra Infotainment Ltd.",
+    "announced": false,
+    "country": "BD"
+  },
+  "140049": {
+    "asn": "140049",
+    "name": "TSSL-AS-AP - TiT Security Service Limited",
+    "holder": "TSSL-AS-AP - TiT Security Service Limited",
+    "announced": false,
+    "country": "BD"
+  },
+  "141404": {
+    "asn": "141404",
+    "name": "MAKBROADBAND-AS-AP - MAK BROADBAND",
+    "holder": "MAKBROADBAND-AS-AP - MAK BROADBAND",
+    "announced": false,
+    "country": "BD"
+  },
+  "151632": {
+    "asn": "151632",
+    "name": "WASN-AS-AP - Web and Soft Network",
+    "holder": "WASN-AS-AP - Web and Soft Network",
+    "announced": false,
+    "country": "BD"
   }
 }
