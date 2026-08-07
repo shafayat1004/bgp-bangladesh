@@ -6341,140 +6341,11 @@
     "holder": "ZORN-AS-AP Zorn Technologies",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "2001:df3:ad40::/48"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "2.26.189.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "2.27.103.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "64.105.43.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "66.92.46.0/24"
-          ]
-        },
-        {
-          "country": "HU",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "79.172.192.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "82.109.152.0/24"
-          ]
-        },
-        {
-          "country": "NL",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "83.98.194.0/24"
-          ]
-        },
-        {
-          "country": "UA",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "87.76.178.0/24"
-          ]
-        },
-        {
-          "country": "NL",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "89.30.159.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "89.207.179.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "Jessore",
-          "percentage": 6.67,
-          "prefixes": [
-            "160.25.226.0/24"
-          ]
-        },
-        {
-          "country": "PL",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "191.44.103.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "New York",
-          "percentage": 6.67,
-          "prefixes": [
-            "195.21.133.0/24"
-          ]
-        },
-        {
-          "country": "DK",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "195.58.145.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 6.67,
-          "prefixes": [
-            "217.8.197.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 106.67
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "142232": {
@@ -16228,9 +16099,9 @@
     "holder": "MADINAIT-AS-AP Madina IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "IL",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "IL",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "US",
@@ -16249,7 +16120,7 @@
           ]
         },
         {
-          "country": "IL",
+          "country": "BD",
           "city": "",
           "percentage": 25.0,
           "prefixes": [
@@ -16265,7 +16136,7 @@
           ]
         }
       ],
-      "bd_percentage": 0
+      "bd_percentage": 25.0
     }
   },
   "154612": {
@@ -16366,7 +16237,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "AE",
           "city": "",
           "percentage": 10.0,
           "prefixes": [
@@ -16390,7 +16261,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "GB",
           "city": "",
           "percentage": 10.0,
           "prefixes": [
@@ -16941,7 +16812,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 6.67,
           "prefixes": [
@@ -17037,7 +16908,7 @@
           ]
         }
       ],
-      "bd_percentage": 0
+      "bd_percentage": 6.67
     }
   },
   "401322": {
