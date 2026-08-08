@@ -4699,7 +4699,30 @@
     "name": "MDABDULMANNAN-AS-AP Sara Networking System",
     "holder": "MDABDULMANNAN-AS-AP Sara Networking System",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "160.187.158.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df4:59c0::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "58947": {
     "asn": "58947",
@@ -7491,7 +7514,30 @@
     "name": "AMBN-AS-AP A2Z Media Brodband Net",
     "holder": "AMBN-AS-AP A2Z Media Brodband Net",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.167.118.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2001:df6:b180::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "141194": {
     "asn": "141194",
@@ -7694,7 +7740,30 @@
     "name": "MKNETWORK-AS-AP M K Network",
     "holder": "MKNETWORK-AS-AP M K Network",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.159.114.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2407:340::/32"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "31122": {
     "asn": "31122",
@@ -8357,7 +8426,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 28.57,
           "prefixes": [
             "103.209.92.0/23"
           ]
@@ -8365,7 +8434,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 28.57,
           "prefixes": [
             "160.187.118.0/23"
           ]
@@ -8373,21 +8442,29 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
-            "157.10.174.0/24"
+            "103.17.151.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 14.29,
+          "prefixes": [
+            "123.0.28.0/24"
           ]
         },
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "157.20.74.0/24"
           ]
         }
       ],
-      "bd_percentage": 100.0
+      "bd_percentage": 100.01
     }
   },
   "136556": {
@@ -17456,6 +17533,13 @@
     "name": "WASN-AS-AP - Web and Soft Network",
     "holder": "WASN-AS-AP - Web and Soft Network",
     "announced": false,
+    "country": "BD"
+  },
+  "58672": {
+    "asn": "58672",
+    "name": "MAXNETONLINE-BD - Maxnet Online",
+    "holder": "MAXNETONLINE-BD - Maxnet Online",
+    "announced": true,
     "country": "BD"
   }
 }
