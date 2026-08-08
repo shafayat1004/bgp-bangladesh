@@ -17549,5 +17549,12 @@
     "holder": "MAXNETONLINE-BD - Maxnet Online",
     "announced": true,
     "country": "BD"
+  },
+  "154799": {
+    "asn": "154799",
+    "name": "AS154799",
+    "holder": "AS154799",
+    "announced": false,
+    "country": "BD"
   }
 }
