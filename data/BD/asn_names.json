@@ -17819,5 +17819,12 @@
     "holder": "AS154799",
     "announced": false,
     "country": "BD"
+  },
+  "140107": {
+    "asn": "140107",
+    "name": "RDC-AS-AP - Ramdia Digital Cable Network",
+    "holder": "RDC-AS-AP - Ramdia Digital Cable Network",
+    "announced": false,
+    "country": "BD"
   }
 }
