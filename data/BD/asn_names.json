@@ -660,7 +660,32 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "202.129.194.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "123.176.57.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "202.129.192.0/24"
+          ]
+        }
+      ],
       "bd_percentage": 100.0
     }
   },
@@ -1260,8 +1285,97 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.85.236.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 49.99,
+          "prefixes": [
+            "2400:b340::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 49.99,
+          "prefixes": [
+            "2400:e260::/32"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "103.93.34.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhaka",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.134.24.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.189.10.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.01,
+          "prefixes": [
+            "2403:1e40:1210::/44"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.01,
+          "prefixes": [
+            "2403:1e40:1220::/45"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:1228::/46"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:1242::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:fffc::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
     }
   },
   "141731": {
@@ -17704,5 +17818,12 @@
     "holder": "RDC-AS-AP - Ramdia Digital Cable Network",
     "announced": false,
     "country": "BD"
+  },
+  "43298": {
+    "asn": "43298",
+    "name": "StormNetworks Storm Networks LLC",
+    "holder": "StormNetworks Storm Networks LLC",
+    "announced": true,
+    "country": ""
   }
 }
