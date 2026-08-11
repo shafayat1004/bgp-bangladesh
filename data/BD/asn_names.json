@@ -6488,7 +6488,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 3.57,
           "prefixes": [
@@ -6504,7 +6504,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 3.57,
           "prefixes": [
@@ -6520,7 +6520,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 3.57,
           "prefixes": [
@@ -6528,7 +6528,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 3.57,
           "prefixes": [
@@ -6584,7 +6584,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 3.57,
           "prefixes": [
@@ -6592,7 +6592,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 3.57,
           "prefixes": [
@@ -6648,7 +6648,7 @@
           ]
         },
         {
-          "country": "PL",
+          "country": "BD",
           "city": "",
           "percentage": 3.57,
           "prefixes": [
@@ -6696,7 +6696,7 @@
           ]
         }
       ],
-      "bd_percentage": 114.28
+      "bd_percentage": 139.27
     }
   },
   "142232": {
@@ -16637,7 +16637,7 @@
           ]
         },
         {
-          "country": "BD",
+          "country": "ES",
           "city": "",
           "percentage": 33.33,
           "prefixes": [
@@ -16653,7 +16653,7 @@
           ]
         }
       ],
-      "bd_percentage": 33.33
+      "bd_percentage": 0
     }
   },
   "154612": {
@@ -17305,7 +17305,7 @@
       "dominant_country": "US",
       "breakdown": [
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17329,7 +17329,7 @@
           ]
         },
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17361,7 +17361,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17377,7 +17377,7 @@
           ]
         },
         {
-          "country": "CY",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17417,7 +17417,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17425,7 +17425,7 @@
           ]
         },
         {
-          "country": "CA",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17457,7 +17457,7 @@
           ]
         },
         {
-          "country": "MU",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17473,7 +17473,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17481,7 +17481,7 @@
           ]
         },
         {
-          "country": "ES",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17513,7 +17513,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17537,7 +17537,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -17553,7 +17553,7 @@
           ]
         }
       ],
-      "bd_percentage": 3.23
+      "bd_percentage": 38.76
     }
   },
   "401322": {
