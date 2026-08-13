@@ -8784,7 +8784,7 @@
         },
         {
           "country": "BD",
-          "city": "Dhaka",
+          "city": "",
           "percentage": 14.29,
           "prefixes": [
             "123.0.28.0/24"
@@ -18279,5 +18279,12 @@
     "holder": "LOWSPEEDNETWORK-AS-AP - Low Speed Network",
     "announced": true,
     "country": "BD"
+  },
+  "59105": {
+    "asn": "59105",
+    "name": "HOMENOC - Home NOC Operators Group",
+    "holder": "HOMENOC - Home NOC Operators Group",
+    "announced": true,
+    "country": ""
   }
 }
