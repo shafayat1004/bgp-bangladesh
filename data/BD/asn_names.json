@@ -18093,5 +18093,31 @@
     "holder": "Gigantic-AS - Gigantic Infotel Pvt Ltd",
     "announced": true,
     "country": ""
+  },
+  "154718": {
+    "asn": "154718",
+    "name": "BENGALCLOUD1-AS-AP - Bengalcloud International",
+    "holder": "BENGALCLOUD1-AS-AP - Bengalcloud International",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
+  },
+  "136809": {
+    "asn": "136809",
+    "name": "FASTZONEIT-AS-AP - FAST ZONE IT",
+    "holder": "FASTZONEIT-AS-AP - FAST ZONE IT",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
