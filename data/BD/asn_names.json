@@ -18102,5 +18102,12 @@
     "holder": "HOMENOC - Home NOC Operators Group",
     "announced": true,
     "country": ""
+  },
+  "133275": {
+    "asn": "133275",
+    "name": "Gigantic-AS - Gigantic Infotel Pvt Ltd",
+    "holder": "Gigantic-AS - Gigantic Infotel Pvt Ltd",
+    "announced": true,
+    "country": ""
   }
 }
