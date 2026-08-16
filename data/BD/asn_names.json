@@ -1297,7 +1297,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 49.99,
           "prefixes": [
             "2400:b340::/32"
           ]
@@ -1305,7 +1305,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 49.99,
           "prefixes": [
             "2400:e260::/32"
           ]
@@ -1332,6 +1332,38 @@
           "percentage": 12.5,
           "prefixes": [
             "103.189.10.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.01,
+          "prefixes": [
+            "2403:1e40:1210::/44"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.01,
+          "prefixes": [
+            "2403:1e40:1220::/45"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:1228::/46"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
+            "2403:1e40:1242::/48"
           ]
         },
         {
