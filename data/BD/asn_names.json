@@ -6435,7 +6435,22 @@
     "name": "THE3-AS-AP The Matrix Technology",
     "holder": "THE3-AS-AP The Matrix Technology",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.178.190.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "152698": {
     "asn": "152698",
@@ -18369,5 +18384,12 @@
       ],
       "bd_percentage": 0
     }
+  },
+  "64545": {
+    "asn": "64545",
+    "name": "AS64545",
+    "holder": "AS64545",
+    "announced": false,
+    "country": ""
   }
 }
