@@ -18287,5 +18287,12 @@
     "holder": "AS64545",
     "announced": false,
     "country": ""
+  },
+  "154484": {
+    "asn": "154484",
+    "name": "BANGLADESH13-AS-AP - Bangladesh Power Development Board",
+    "holder": "BANGLADESH13-AS-AP - Bangladesh Power Development Board",
+    "announced": true,
+    "country": "BD"
   }
 }
