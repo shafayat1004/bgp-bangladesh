@@ -17051,7 +17051,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 12.5,
           "prefixes": [
             "31.57.0.0/24"
           ]
@@ -17059,7 +17059,7 @@
         {
           "country": "BG",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 12.5,
           "prefixes": [
             "31.57.167.0/24"
           ]
@@ -17067,7 +17067,7 @@
         {
           "country": "GB",
           "city": "Crawley",
-          "percentage": 14.29,
+          "percentage": 12.5,
           "prefixes": [
             "51.194.180.0/24"
           ]
@@ -17075,7 +17075,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 12.5,
           "prefixes": [
             "82.29.45.0/24"
           ]
@@ -17083,7 +17083,7 @@
         {
           "country": "CA",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 12.5,
           "prefixes": [
             "140.235.25.0/24"
           ]
@@ -17091,15 +17091,23 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 12.5,
           "prefixes": [
             "162.141.152.0/24"
           ]
         },
         {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "167.148.81.0/24"
+          ]
+        },
+        {
           "country": "CA",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 12.5,
           "prefixes": [
             "169.128.137.0/24"
           ]
