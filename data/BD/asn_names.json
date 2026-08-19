@@ -3904,23 +3904,39 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 12.5,
           "prefixes": [
             "46.29.36.0/24"
           ]
         },
         {
           "country": "GB",
+          "city": "Hitchin",
+          "percentage": 12.5,
+          "prefixes": [
+            "51.241.5.0/24"
+          ]
+        },
+        {
+          "country": "GB",
           "city": "Darlington",
-          "percentage": 20.0,
+          "percentage": 12.5,
           "prefixes": [
             "82.24.68.0/24"
           ]
         },
         {
+          "country": "DE",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "109.106.15.0/24"
+          ]
+        },
+        {
           "country": "UA",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 12.5,
           "prefixes": [
             "178.93.98.0/24"
           ]
@@ -3928,7 +3944,7 @@
         {
           "country": "GR",
           "city": "Heraklion",
-          "percentage": 20.0,
+          "percentage": 12.5,
           "prefixes": [
             "185.164.53.0/24"
           ]
@@ -3936,9 +3952,17 @@
         {
           "country": "LT",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 12.5,
           "prefixes": [
             "185.172.174.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "192.120.197.0/24"
           ]
         }
       ],
