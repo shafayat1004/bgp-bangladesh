@@ -11736,7 +11736,142 @@
     "name": "FIRSTNFASTITLTD-AS-AP First n Fast IT Ltd",
     "holder": "FIRSTNFASTITLTD-AS-AP First n Fast IT Ltd",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 40.0,
+          "prefixes": [
+            "103.195.140.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.70.171.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.120.46.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.177.168.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 17.39,
+          "prefixes": [
+            "2406:cfc0:4::/46"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 17.39,
+          "prefixes": [
+            "2406:cfc0:14::/46"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 8.7,
+          "prefixes": [
+            "2406:cfc0:2::/47"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 8.7,
+          "prefixes": [
+            "2406:cfc0:8::/47"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 8.7,
+          "prefixes": [
+            "2406:cfc0:e::/47"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 8.7,
+          "prefixes": [
+            "2406:cfc0:12::/47"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 8.7,
+          "prefixes": [
+            "2406:cfc0:18::/47"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 4.35,
+          "prefixes": [
+            "2406:cfc0:1::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 4.35,
+          "prefixes": [
+            "2406:cfc0:b::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 4.35,
+          "prefixes": [
+            "2406:cfc0:c::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 4.35,
+          "prefixes": [
+            "2406:cfc0:11::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 4.35,
+          "prefixes": [
+            "2406:cfc0:1a::/48"
+          ]
+        }
+      ],
+      "bd_percentage": 200.03
+    }
   },
   "132801": {
     "asn": "132801",
@@ -18716,5 +18851,12 @@
     "holder": "RISE-HK - RISE",
     "announced": true,
     "country": "HK"
+  },
+  "6403": {
+    "asn": "6403",
+    "name": "OPN - Oregon Public Networking",
+    "holder": "OPN - Oregon Public Networking",
+    "announced": false,
+    "country": ""
   }
 }
