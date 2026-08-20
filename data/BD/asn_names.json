@@ -18858,5 +18858,54 @@
     "holder": "OPN - Oregon Public Networking",
     "announced": false,
     "country": ""
+  },
+  "34872": {
+    "asn": "34872",
+    "name": "Servperso_Systems Sarah Rossius trading as Servperso Systems",
+    "holder": "Servperso_Systems Sarah Rossius trading as Servperso Systems",
+    "announced": true,
+    "country": ""
+  },
+  "154828": {
+    "asn": "154828",
+    "name": "ABIG-AS-AP - Airnet Broadband Internet Gateway",
+    "holder": "ABIG-AS-AP - Airnet Broadband Internet Gateway",
+    "announced": false,
+    "country": "BD"
+  },
+  "57463": {
+    "asn": "57463",
+    "name": "NetIX NetIX Communications JSC",
+    "holder": "NetIX NetIX Communications JSC",
+    "announced": true,
+    "country": ""
+  },
+  "13004": {
+    "asn": "13004",
+    "name": "SOX Serbian Open Exchange DOO",
+    "holder": "SOX Serbian Open Exchange DOO",
+    "announced": true,
+    "country": ""
+  },
+  "52055": {
+    "asn": "52055",
+    "name": "NetIX-Greece NetIX Communications JSC",
+    "holder": "NetIX-Greece NetIX Communications JSC",
+    "announced": false,
+    "country": ""
+  },
+  "206499": {
+    "asn": "206499",
+    "name": "LOCIX LOCIX LIMITED",
+    "holder": "LOCIX LOCIX LIMITED",
+    "announced": true,
+    "country": ""
+  },
+  "62000": {
+    "asn": "62000",
+    "name": "AS62000 SERVERD SAS",
+    "holder": "AS62000 SERVERD SAS",
+    "announced": true,
+    "country": ""
   }
 }
