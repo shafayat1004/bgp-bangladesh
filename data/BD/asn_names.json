@@ -17389,30 +17389,14 @@
     "holder": "MADINAIT-AS-AP Madina IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "TR",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "TR",
       "breakdown": [
-        {
-          "country": "US",
-          "city": "Los Angeles",
-          "percentage": 33.33,
-          "prefixes": [
-            "174.140.226.0/24"
-          ]
-        },
-        {
-          "country": "ES",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "185.218.20.0/24"
-          ]
-        },
         {
           "country": "TR",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 100.0,
           "prefixes": [
             "193.32.204.0/24"
           ]
@@ -18799,8 +18783,16 @@
       "breakdown": [
         {
           "country": "US",
+          "city": "San Jose",
+          "percentage": 50.0,
+          "prefixes": [
+            "108.186.50.0/24"
+          ]
+        },
+        {
+          "country": "US",
           "city": "",
-          "percentage": 100.0,
+          "percentage": 50.0,
           "prefixes": [
             "168.222.31.0/24"
           ]
