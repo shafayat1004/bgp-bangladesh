@@ -18899,5 +18899,12 @@
     "holder": "AS62000 SERVERD SAS",
     "announced": true,
     "country": ""
+  },
+  "149049": {
+    "asn": "149049",
+    "name": "ATCNETWORK-AS-AP - ATC Network",
+    "holder": "ATCNETWORK-AS-AP - ATC Network",
+    "announced": true,
+    "country": "BD"
   }
 }
