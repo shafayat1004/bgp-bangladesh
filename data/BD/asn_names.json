@@ -810,16 +810,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "103.12.228.0/22"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -6591,7 +6582,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.45,
           "prefixes": [
@@ -6607,7 +6598,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.45,
           "prefixes": [
@@ -6831,7 +6822,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.45,
           "prefixes": [
@@ -6839,7 +6830,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.45,
           "prefixes": [
@@ -6863,7 +6854,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.45,
           "prefixes": [
@@ -7064,7 +7055,7 @@
           ]
         }
       ],
-      "bd_percentage": 168.15
+      "bd_percentage": 175.4
     }
   },
   "142232": {
@@ -17029,8 +17020,8 @@
           ]
         },
         {
-          "country": "BE",
-          "city": "Brussels",
+          "country": "TH",
+          "city": "Bangkok",
           "percentage": 1.52,
           "prefixes": [
             "143.14.82.0/24"
@@ -18162,12 +18153,20 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "GB",
+      "dominant_country": "BD",
       "breakdown": [
         {
-          "country": "DE",
+          "country": "BD",
+          "city": "",
+          "percentage": 6.67,
+          "prefixes": [
+            "80.240.90.0/23"
+          ]
+        },
+        {
+          "country": "BD",
           "city": "",
           "percentage": 3.33,
           "prefixes": [
@@ -18191,7 +18190,7 @@
           ]
         },
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 3.33,
           "prefixes": [
@@ -18215,7 +18214,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 3.33,
           "prefixes": [
@@ -18224,22 +18223,6 @@
         },
         {
           "country": "BD",
-          "city": "",
-          "percentage": 3.33,
-          "prefixes": [
-            "80.240.90.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 3.33,
-          "prefixes": [
-            "80.240.91.0/24"
-          ]
-        },
-        {
-          "country": "GB",
           "city": "",
           "percentage": 3.33,
           "prefixes": [
@@ -18303,7 +18286,7 @@
           ]
         },
         {
-          "country": "CA",
+          "country": "BD",
           "city": "",
           "percentage": 3.33,
           "prefixes": [
@@ -18343,7 +18326,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 3.33,
           "prefixes": [
@@ -18375,7 +18358,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 3.33,
           "prefixes": [
@@ -18391,7 +18374,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 3.33,
           "prefixes": [
@@ -18407,7 +18390,7 @@
           ]
         }
       ],
-      "bd_percentage": 56.61
+      "bd_percentage": 86.59
     }
   },
   "401322": {
@@ -18906,11 +18889,28 @@
     "holder": "BENGALCLOUD1-AS-AP - Bengalcloud International",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "San Jose",
+          "percentage": 50.0,
+          "prefixes": [
+            "108.186.50.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "168.222.31.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "136809": {
