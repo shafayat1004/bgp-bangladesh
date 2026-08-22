@@ -14005,14 +14005,14 @@
     "holder": "BENGALHOST-AS-AP BengalHost",
     "announced": true,
     "country": "BD",
-    "geo_country": "CN",
+    "geo_country": "HK",
     "geo_country_data": {
-      "dominant_country": "CN",
+      "dominant_country": "HK",
       "breakdown": [
         {
           "country": "CN",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 33.33,
           "prefixes": [
             "23.129.76.0/24"
           ]
@@ -14020,9 +14020,17 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 33.33,
           "prefixes": [
             "23.129.77.0/24"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "160.20.117.0/24"
           ]
         }
       ],
