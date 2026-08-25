@@ -6535,7 +6535,7 @@
           ]
         },
         {
-          "country": "IL",
+          "country": "BD",
           "city": "",
           "percentage": 2.17,
           "prefixes": [
@@ -6567,7 +6567,7 @@
           ]
         },
         {
-          "country": "NL",
+          "country": "BD",
           "city": "",
           "percentage": 2.17,
           "prefixes": [
@@ -6583,7 +6583,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 2.17,
           "prefixes": [
@@ -6631,7 +6631,7 @@
           ]
         },
         {
-          "country": "ZA",
+          "country": "BD",
           "city": "",
           "percentage": 2.17,
           "prefixes": [
@@ -6671,7 +6671,7 @@
           ]
         },
         {
-          "country": "PL",
+          "country": "BD",
           "city": "",
           "percentage": 2.17,
           "prefixes": [
@@ -6679,7 +6679,7 @@
           ]
         },
         {
-          "country": "ZA",
+          "country": "BD",
           "city": "",
           "percentage": 2.17,
           "prefixes": [
@@ -6759,7 +6759,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 2.17,
           "prefixes": [
@@ -6791,7 +6791,7 @@
           ]
         },
         {
-          "country": "NL",
+          "country": "BD",
           "city": "",
           "percentage": 2.17,
           "prefixes": [
@@ -6799,7 +6799,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.63,
           "prefixes": [
@@ -6816,7 +6816,7 @@
           ]
         }
       ],
-      "bd_percentage": 167.27
+      "bd_percentage": 186.26
     }
   },
   "142232": {
@@ -16741,8 +16741,8 @@
           ]
         },
         {
-          "country": "TH",
-          "city": "Bangkok",
+          "country": "US",
+          "city": "",
           "percentage": 1.45,
           "prefixes": [
             "143.14.82.0/24"
@@ -17345,7 +17345,7 @@
         },
         {
           "country": "GB",
-          "city": "Hailsham",
+          "city": "",
           "percentage": 12.5,
           "prefixes": [
             "51.194.180.0/24"
@@ -17935,7 +17935,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 6.25,
           "prefixes": [
@@ -17991,7 +17991,7 @@
           ]
         }
       ],
-      "bd_percentage": 81.25
+      "bd_percentage": 87.5
     }
   },
   "401322": {
