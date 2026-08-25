@@ -18618,5 +18618,19 @@
     "holder": "AS154848",
     "announced": true,
     "country": "BD"
+  },
+  "139802": {
+    "asn": "139802",
+    "name": "SYNTAXIT-AS-AP - Syntax IT",
+    "holder": "SYNTAXIT-AS-AP - Syntax IT",
+    "announced": true,
+    "country": "BD"
+  },
+  "6126": {
+    "asn": "6126",
+    "name": "CA-INC - Avago Technologies U.S. Inc.",
+    "holder": "CA-INC - Avago Technologies U.S. Inc.",
+    "announced": false,
+    "country": ""
   }
 }
