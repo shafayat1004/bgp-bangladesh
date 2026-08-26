@@ -10708,7 +10708,22 @@
     "name": "MDABUSALEH-AS-AP AG Communication",
     "holder": "MDABUSALEH-AS-AP AG Communication",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.170.172.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "138213": {
     "asn": "138213",
@@ -12910,7 +12925,30 @@
     "name": "SMART3-AS-AP Smart Digital",
     "holder": "SMART3-AS-AP Smart Digital",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 66.67,
+          "prefixes": [
+            "103.93.32.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 33.33,
+          "prefixes": [
+            "103.35.169.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "149449": {
     "asn": "149449",
