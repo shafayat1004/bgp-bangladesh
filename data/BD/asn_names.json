@@ -3815,11 +3815,68 @@
     "holder": "MDMSL-AS-AP MiM Digital Marketing Solution Ltd.",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "GB",
+      "breakdown": [
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "46.29.36.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Hitchin",
+          "percentage": 14.29,
+          "prefixes": [
+            "51.241.5.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Darlington",
+          "percentage": 14.29,
+          "prefixes": [
+            "82.24.68.0/24"
+          ]
+        },
+        {
+          "country": "DE",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "109.106.15.0/24"
+          ]
+        },
+        {
+          "country": "UA",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "178.93.98.0/24"
+          ]
+        },
+        {
+          "country": "LT",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "185.172.174.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 14.29,
+          "prefixes": [
+            "192.120.197.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "138431": {
