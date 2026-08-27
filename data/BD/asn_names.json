@@ -3456,7 +3456,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 22.22,
           "prefixes": [
             "103.141.200.0/23"
           ]
@@ -3464,23 +3464,15 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 10.0,
+          "percentage": 11.11,
           "prefixes": [
             "16.5.1.0/24"
           ]
         },
         {
-          "country": "IL",
-          "city": "",
-          "percentage": 10.0,
-          "prefixes": [
-            "79.183.0.0/24"
-          ]
-        },
-        {
           "country": "GB",
           "city": "Thame",
-          "percentage": 10.0,
+          "percentage": 11.11,
           "prefixes": [
             "82.152.6.0/24"
           ]
@@ -3488,7 +3480,7 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 10.0,
+          "percentage": 11.11,
           "prefixes": [
             "85.202.173.0/24"
           ]
@@ -3496,7 +3488,7 @@
         {
           "country": "UA",
           "city": "",
-          "percentage": 10.0,
+          "percentage": 11.11,
           "prefixes": [
             "95.134.4.0/24"
           ]
@@ -3504,7 +3496,7 @@
         {
           "country": "UA",
           "city": "",
-          "percentage": 10.0,
+          "percentage": 11.11,
           "prefixes": [
             "95.135.241.0/24"
           ]
@@ -3512,7 +3504,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 10.0,
+          "percentage": 11.11,
           "prefixes": [
             "207.180.6.0/24"
           ]
@@ -3520,13 +3512,13 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 10.0,
+          "percentage": 11.11,
           "prefixes": [
             "217.18.59.0/24"
           ]
         }
       ],
-      "bd_percentage": 20.0
+      "bd_percentage": 22.22
     }
   },
   "131464": {
@@ -17287,14 +17279,14 @@
     "holder": "MUI-AS-AP MS UMARA INTERNATIONAL",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "CA",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "CA",
       "breakdown": [
         {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 25.0,
           "prefixes": [
             "23.226.128.0/24"
           ]
@@ -17302,55 +17294,23 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 25.0,
           "prefixes": [
             "31.57.0.0/24"
           ]
         },
         {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "51.194.180.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "82.29.45.0/24"
-          ]
-        },
-        {
           "country": "CA",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 25.0,
           "prefixes": [
             "140.235.25.0/24"
           ]
         },
         {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "162.141.152.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "167.148.81.0/24"
-          ]
-        },
-        {
           "country": "CA",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 25.0,
           "prefixes": [
             "169.128.137.0/24"
           ]
@@ -18484,14 +18444,22 @@
     "holder": "FASTZONEIT-AS-AP - FAST ZONE IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "GB",
       "breakdown": [
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "89.167.130.0/24"
+          ]
+        },
         {
           "country": "US",
           "city": "",
-          "percentage": 100.0,
+          "percentage": 50.0,
           "prefixes": [
             "107.149.174.0/24"
           ]
