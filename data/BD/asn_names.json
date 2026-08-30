@@ -15898,5 +15898,19 @@
     "holder": "INFUSIONTECH-AS-AP - INFUSION TECH",
     "announced": true,
     "country": "BD"
+  },
+  "41666": {
+    "asn": "41666",
+    "name": "PYRO-AS Institute for Pyrotechnical Cleaning (limited company)",
+    "holder": "PYRO-AS Institute for Pyrotechnical Cleaning (limited company)",
+    "announced": false,
+    "country": ""
+  },
+  "6206": {
+    "asn": "6206",
+    "name": "NETROUTING-AS Netrouting B.V.",
+    "holder": "NETROUTING-AS Netrouting B.V.",
+    "announced": false,
+    "country": ""
   }
 }
