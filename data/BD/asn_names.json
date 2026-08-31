@@ -18653,5 +18653,12 @@
     "holder": "INDEPENDENT1-AS-AP - Independent Television Limited",
     "announced": true,
     "country": "BD"
+  },
+  "138464": {
+    "asn": "138464",
+    "name": "GIT-AS-AP - Genius Internet Technology",
+    "holder": "GIT-AS-AP - Genius Internet Technology",
+    "announced": true,
+    "country": "BD"
   }
 }
