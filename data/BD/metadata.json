@@ -1,7 +1,7 @@
 {
   "country": "BD",
   "country_name": "Bangladesh",
-  "last_updated": "2026-09-01T19:56:28Z",
+  "last_updated": "2026-09-01T23:17:22Z",
   "schema_version": 3,
   "model": "license-aware",
   "raw_format": "jsonl",
@@ -9,8 +9,8 @@
   "stats": {
     "total_outside": 264,
     "total_iig": 25,
-    "total_detected_iig": 27,
-    "total_offshore_enterprise": 25,
+    "total_detected_iig": 26,
+    "total_offshore_enterprise": 26,
     "total_offshore_gateway": 2,
     "total_local_company": 1345,
     "total_edges": 3127,
