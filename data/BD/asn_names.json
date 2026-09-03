@@ -18777,5 +18777,12 @@
     "holder": "Equinix Equinix (EMEA) Acquisition Enterprises B.V.",
     "announced": true,
     "country": ""
+  },
+  "154872": {
+    "asn": "154872",
+    "name": "AS154872",
+    "holder": "AS154872",
+    "announced": true,
+    "country": "BD"
   }
 }
