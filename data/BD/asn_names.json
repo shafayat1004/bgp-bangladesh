@@ -6839,14 +6839,6 @@
         },
         {
           "country": "US",
-          "city": "Los Angeles",
-          "percentage": 1.09,
-          "prefixes": [
-            "185.219.20.0/24"
-          ]
-        },
-        {
-          "country": "US",
           "city": "",
           "percentage": 1.09,
           "prefixes": [
@@ -6951,10 +6943,10 @@
         },
         {
           "country": "US",
-          "city": "Los Angeles",
+          "city": "",
           "percentage": 1.09,
           "prefixes": [
-            "195.216.148.0/24"
+            "199.48.179.0/24"
           ]
         },
         {
@@ -6995,6 +6987,14 @@
           "percentage": 1.09,
           "prefixes": [
             "205.233.155.0/24"
+          ]
+        },
+        {
+          "country": "KZ",
+          "city": "",
+          "percentage": 1.09,
+          "prefixes": [
+            "212.116.243.0/24"
           ]
         },
         {
