@@ -10742,7 +10742,7 @@
           "city": "",
           "percentage": 100.0,
           "prefixes": [
-            "103.170.172.0/23"
+            "103.170.173.0/24"
           ]
         }
       ],
@@ -12677,7 +12677,38 @@
     "name": "IDS-BD IDS Bangladesh. IP Transit provider. Dhaka",
     "holder": "IDS-BD IDS Bangladesh. IP Transit provider. Dhaka",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2404:f380::/44"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 80.0,
+          "prefixes": [
+            "117.103.80.0/21"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "103.158.38.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 200.0
+    }
   },
   "137419": {
     "asn": "137419",
