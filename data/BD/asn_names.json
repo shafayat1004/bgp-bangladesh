@@ -6245,9 +6245,17 @@
       "dominant_country": "HK",
       "breakdown": [
         {
+          "country": "HK",
+          "city": "",
+          "percentage": 3.15,
+          "prefixes": [
+            "154.203.200.0/22"
+          ]
+        },
+        {
           "country": "SC",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.193.134.0/23"
           ]
@@ -6255,7 +6263,7 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.193.158.0/23"
           ]
@@ -6263,7 +6271,15 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
+          "prefixes": [
+            "154.204.32.0/23"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "",
+          "percentage": 1.57,
           "prefixes": [
             "154.204.48.0/24",
             "154.204.49.0/24"
@@ -6272,7 +6288,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.204.60.0/23"
           ]
@@ -6280,7 +6296,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.205.30.0/23"
           ]
@@ -6288,7 +6304,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.205.174.0/23"
           ]
@@ -6296,7 +6312,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.205.184.0/23"
           ]
@@ -6304,7 +6320,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.206.8.0/23"
           ]
@@ -6312,7 +6328,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.210.120.0/23"
           ]
@@ -6320,7 +6336,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "154.214.2.0/23"
           ]
@@ -6328,7 +6344,7 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "156.225.34.0/23"
           ]
@@ -6336,7 +6352,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "156.225.70.0/23"
           ]
@@ -6344,7 +6360,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "156.225.72.0/23"
           ]
@@ -6352,7 +6368,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "156.238.94.0/23"
           ]
@@ -6360,15 +6376,31 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "156.238.102.0/23"
           ]
         },
         {
+          "country": "SC",
+          "city": "",
+          "percentage": 1.57,
+          "prefixes": [
+            "156.246.84.0/23"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "",
+          "percentage": 1.57,
+          "prefixes": [
+            "156.247.2.0/23"
+          ]
+        },
+        {
           "country": "GB",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "188.220.74.0/24",
             "188.220.75.0/24"
@@ -6377,7 +6409,7 @@
         {
           "country": "BR",
           "city": "",
-          "percentage": 1.59,
+          "percentage": 1.57,
           "prefixes": [
             "189.13.172.0/24",
             "189.13.173.0/24"
@@ -6492,14 +6524,6 @@
           "city": "",
           "percentage": 0.79,
           "prefixes": [
-            "62.105.219.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
             "64.57.179.0/24"
           ]
         },
@@ -6536,14 +6560,6 @@
           ]
         },
         {
-          "country": "HK",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "84.245.27.0/24"
-          ]
-        },
-        {
           "country": "BD",
           "city": "",
           "percentage": 0.79,
@@ -6573,14 +6589,6 @@
           "percentage": 0.79,
           "prefixes": [
             "89.30.206.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "89.213.47.0/24"
           ]
         },
         {
@@ -6664,14 +6672,6 @@
           ]
         },
         {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "146.103.54.0/24"
-          ]
-        },
-        {
           "country": "NL",
           "city": "",
           "percentage": 0.79,
@@ -6701,14 +6701,6 @@
           "percentage": 0.79,
           "prefixes": [
             "151.247.15.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "154.16.26.0/24"
           ]
         },
         {
@@ -6781,6 +6773,14 @@
           "percentage": 0.79,
           "prefixes": [
             "154.200.211.0/24"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "",
+          "percentage": 0.79,
+          "prefixes": [
+            "154.204.34.0/24"
           ]
         },
         {
@@ -6896,14 +6896,6 @@
           ]
         },
         {
-          "country": "SC",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "156.246.84.0/24"
-          ]
-        },
-        {
           "country": "HK",
           "city": "",
           "percentage": 0.79,
@@ -6941,14 +6933,6 @@
           "percentage": 0.79,
           "prefixes": [
             "164.37.207.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "165.49.70.0/24"
           ]
         },
         {
@@ -7032,14 +7016,6 @@
           ]
         },
         {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "195.21.135.0/24"
-          ]
-        },
-        {
           "country": "US",
           "city": "",
           "percentage": 0.79,
@@ -7080,14 +7056,6 @@
           ]
         },
         {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "212.135.17.0/24"
-          ]
-        },
-        {
           "country": "NL",
           "city": "",
           "percentage": 0.79,
@@ -7110,17 +7078,9 @@
           "prefixes": [
             "216.177.134.0/24"
           ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 0.79,
-          "prefixes": [
-            "217.25.7.0/24"
-          ]
         }
       ],
-      "bd_percentage": 31.6
+      "bd_percentage": 25.28
     }
   },
   "142232": {
@@ -12308,13 +12268,21 @@
           "city": "",
           "percentage": 50.0,
           "prefixes": [
+            "138.252.102.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
             "103.156.177.0/24"
           ]
         },
         {
           "country": "BD",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 25.0,
           "prefixes": [
             "122.50.11.0/24"
           ]
@@ -18609,11 +18577,68 @@
     "holder": "BZHOSTING-AS-AP - Bzhosting",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "BR",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "BR",
+      "breakdown": [
+        {
+          "country": "BR",
+          "city": "S\u00e3o Paulo",
+          "percentage": 20.0,
+          "prefixes": [
+            "151.240.250.0/23"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "Hong Kong",
+          "percentage": 20.0,
+          "prefixes": [
+            "154.204.38.0/23"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "",
+          "percentage": 20.0,
+          "prefixes": [
+            "154.204.44.0/23"
+          ]
+        },
+        {
+          "country": "BR",
+          "city": "S\u00e3o Paulo",
+          "percentage": 10.0,
+          "prefixes": [
+            "151.240.226.0/24"
+          ]
+        },
+        {
+          "country": "BR",
+          "city": "S\u00e3o Paulo",
+          "percentage": 10.0,
+          "prefixes": [
+            "151.240.252.0/24"
+          ]
+        },
+        {
+          "country": "BR",
+          "city": "Erechim",
+          "percentage": 10.0,
+          "prefixes": [
+            "151.247.175.0/24"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "Hong Kong",
+          "percentage": 10.0,
+          "prefixes": [
+            "154.203.249.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   }
 }
