@@ -18588,5 +18588,32 @@
     "holder": "GLOBALCONNECT-NET GlobalConnect AB",
     "announced": true,
     "country": ""
+  },
+  "58803": {
+    "asn": "58803",
+    "name": "OPTIMAX-AS-AP - OptiMax Communication Ltd",
+    "holder": "OPTIMAX-AS-AP - OptiMax Communication Ltd",
+    "announced": false,
+    "country": "BD"
+  },
+  "134552": {
+    "asn": "134552",
+    "name": "GEOTEL-IT-AS-AP - Geotel Bangladesh IT Ltd.",
+    "holder": "GEOTEL-IT-AS-AP - Geotel Bangladesh IT Ltd.",
+    "announced": false,
+    "country": "BD"
+  },
+  "154820": {
+    "asn": "154820",
+    "name": "BZHOSTING-AS-AP - Bzhosting",
+    "holder": "BZHOSTING-AS-AP - Bzhosting",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
