@@ -8823,7 +8823,22 @@
     "name": "GRASP-AS-AP Grasp International Limited",
     "holder": "GRASP-AS-AP Grasp International Limited",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "103.198.168.0/22"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "138191": {
     "asn": "138191",
