@@ -6236,7 +6236,7 @@
       "dominant_country": "HK",
       "breakdown": [
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.35,
           "prefixes": [
@@ -6244,7 +6244,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.35,
           "prefixes": [
@@ -6300,7 +6300,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.35,
           "prefixes": [
@@ -6332,7 +6332,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.35,
           "prefixes": [
@@ -6340,7 +6340,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.35,
           "prefixes": [
@@ -6540,7 +6540,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.18,
           "prefixes": [
@@ -6628,7 +6628,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.18,
           "prefixes": [
@@ -6636,7 +6636,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.18,
           "prefixes": [
@@ -6644,7 +6644,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.18,
           "prefixes": [
@@ -6652,7 +6652,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.18,
           "prefixes": [
@@ -6740,16 +6740,16 @@
           ]
         },
         {
-          "country": "HK",
-          "city": "Hong Kong",
+          "country": "BD",
+          "city": "",
           "percentage": 1.18,
           "prefixes": [
             "192.48.208.0/24"
           ]
         },
         {
-          "country": "HK",
-          "city": "Hong Kong",
+          "country": "BD",
+          "city": "",
           "percentage": 1.18,
           "prefixes": [
             "192.137.18.0/24"
@@ -6764,7 +6764,7 @@
           ]
         },
         {
-          "country": "IR",
+          "country": "BD",
           "city": "",
           "percentage": 1.18,
           "prefixes": [
@@ -6796,7 +6796,7 @@
           ]
         }
       ],
-      "bd_percentage": 54.25
+      "bd_percentage": 75.44
     }
   },
   "142232": {
@@ -18282,7 +18282,7 @@
         },
         {
           "country": "BR",
-          "city": "Erechim",
+          "city": "Severiano de Almeida",
           "percentage": 20.0,
           "prefixes": [
             "151.247.175.0/24"
@@ -18311,5 +18311,12 @@
       "breakdown": [],
       "bd_percentage": 100.0
     }
+  },
+  "8888": {
+    "asn": "8888",
+    "name": "XTOM xTom Pty Ltd",
+    "holder": "XTOM xTom Pty Ltd",
+    "announced": true,
+    "country": ""
   }
 }
