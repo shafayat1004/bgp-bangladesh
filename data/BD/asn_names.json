@@ -18290,5 +18290,18 @@
     "holder": "AS154887",
     "announced": true,
     "country": "BD"
+  },
+  "154900": {
+    "asn": "154900",
+    "name": "AS154900",
+    "holder": "AS154900",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
