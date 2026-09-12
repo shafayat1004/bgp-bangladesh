@@ -17987,17 +17987,9 @@
       "dominant_country": "US",
       "breakdown": [
         {
-          "country": "GB",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "82.38.22.0/24"
-          ]
-        },
-        {
           "country": "US",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "192.82.171.0/24"
           ]
@@ -18005,7 +17997,7 @@
         {
           "country": "US",
           "city": "Los Angeles",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "195.216.151.0/24"
           ]
