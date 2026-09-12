@@ -17967,17 +17967,9 @@
         {
           "country": "US",
           "city": "San Jose",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
             "108.186.50.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "168.222.31.0/24"
           ]
         }
       ],
@@ -17995,11 +17987,11 @@
       "dominant_country": "US",
       "breakdown": [
         {
-          "country": "US",
+          "country": "GB",
           "city": "",
           "percentage": 33.33,
           "prefixes": [
-            "107.149.174.0/24"
+            "82.38.22.0/24"
           ]
         },
         {
