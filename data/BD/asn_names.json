@@ -18302,5 +18302,19 @@
     "holder": "XTOM xTom Pty Ltd",
     "announced": true,
     "country": ""
+  },
+  "135095": {
+    "asn": "135095",
+    "name": "INTERCLOUDLTD-AS-AP - InterCloud ltd",
+    "holder": "INTERCLOUDLTD-AS-AP - InterCloud ltd",
+    "announced": false,
+    "country": "BD"
+  },
+  "154913": {
+    "asn": "154913",
+    "name": "AS154913",
+    "holder": "AS154913",
+    "announced": true,
+    "country": "BD"
   }
 }
