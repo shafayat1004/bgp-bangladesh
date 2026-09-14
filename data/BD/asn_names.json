@@ -18243,15 +18243,23 @@
         {
           "country": "BR",
           "city": "S\u00e3o Paulo",
-          "percentage": 40.0,
+          "percentage": 33.33,
           "prefixes": [
             "151.240.250.0/23"
           ]
         },
         {
+          "country": "GB",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "87.83.0.0/24"
+          ]
+        },
+        {
           "country": "BR",
           "city": "S\u00e3o Paulo",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "151.240.226.0/24"
           ]
@@ -18259,7 +18267,7 @@
         {
           "country": "BR",
           "city": "S\u00e3o Paulo",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "151.240.252.0/24"
           ]
@@ -18267,7 +18275,7 @@
         {
           "country": "BR",
           "city": "Severiano de Almeida",
-          "percentage": 20.0,
+          "percentage": 16.67,
           "prefixes": [
             "151.247.175.0/24"
           ]
