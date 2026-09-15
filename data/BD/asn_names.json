@@ -17894,11 +17894,28 @@
     "holder": "FASTZONEIT-AS-AP - FAST ZONE IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "US",
+      "breakdown": [
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "192.82.171.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Los Angeles",
+          "percentage": 50.0,
+          "prefixes": [
+            "195.216.151.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "64545": {
