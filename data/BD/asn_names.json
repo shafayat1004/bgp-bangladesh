@@ -18211,5 +18211,12 @@
     "holder": "HALDA-AS-AP - HALDA NETWORK COMMUNICATION",
     "announced": true,
     "country": "BD"
+  },
+  "140038": {
+    "asn": "140038",
+    "name": "DHAKACOLO-AS-AP - DHAKACOLO (PVT.) LIMITED.",
+    "holder": "DHAKACOLO-AS-AP - DHAKACOLO (PVT.) LIMITED.",
+    "announced": false,
+    "country": "BD"
   }
 }
