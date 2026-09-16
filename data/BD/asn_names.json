@@ -18209,11 +18209,20 @@
     "holder": "AS154900",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "HU",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "HU",
+      "breakdown": [
+        {
+          "country": "HU",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "87.229.97.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "8888": {
