@@ -17509,7 +17509,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "103.14.23.0/24"
           ]
@@ -17517,7 +17517,7 @@
         {
           "country": "BD",
           "city": "Jessore",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "160.25.226.0/24"
           ]
@@ -17525,7 +17525,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "163.128.216.0/24"
           ]
@@ -17533,7 +17533,7 @@
         {
           "country": "US",
           "city": "Piscataway",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "163.128.217.0/24"
           ]
@@ -17541,17 +17541,9 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 20.0,
           "prefixes": [
             "165.99.165.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 16.67,
-          "prefixes": [
-            "165.99.218.0/24"
           ]
         },
         {
@@ -17579,7 +17571,7 @@
           ]
         }
       ],
-      "bd_percentage": 183.35
+      "bd_percentage": 180.0
     }
   },
   "63939": {
