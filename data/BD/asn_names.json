@@ -18267,5 +18267,18 @@
     "holder": "DHAKACOLO-AS-AP - DHAKACOLO (PVT.) LIMITED.",
     "announced": false,
     "country": "BD"
+  },
+  "45904": {
+    "asn": "45904",
+    "name": "BANGLALION-WIMAX-BD - Banglalion Communications Ltd",
+    "holder": "BANGLALION-WIMAX-BD - Banglalion Communications Ltd",
+    "announced": false,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
