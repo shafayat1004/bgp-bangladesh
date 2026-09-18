@@ -6236,8 +6236,8 @@
       "dominant_country": "HK",
       "breakdown": [
         {
-          "country": "BR",
-          "city": "S\u00e3o Paulo",
+          "country": "BD",
+          "city": "",
           "percentage": 2.11,
           "prefixes": [
             "45.200.2.0/23"
@@ -6252,7 +6252,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.11,
           "prefixes": [
@@ -6380,7 +6380,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.11,
           "prefixes": [
@@ -6388,7 +6388,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.11,
           "prefixes": [
@@ -6396,7 +6396,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.11,
           "prefixes": [
@@ -6564,32 +6564,32 @@
           ]
         },
         {
-          "country": "SG",
-          "city": "Singapore",
+          "country": "BD",
+          "city": "",
           "percentage": 1.05,
           "prefixes": [
             "154.196.178.0/24"
           ]
         },
         {
-          "country": "SG",
-          "city": "Singapore",
+          "country": "BD",
+          "city": "",
           "percentage": 1.05,
           "prefixes": [
             "154.196.181.0/24"
           ]
         },
         {
-          "country": "SG",
-          "city": "Singapore",
+          "country": "BD",
+          "city": "",
           "percentage": 1.05,
           "prefixes": [
             "154.196.213.0/24"
           ]
         },
         {
-          "country": "SG",
-          "city": "Singapore",
+          "country": "BD",
+          "city": "",
           "percentage": 1.05,
           "prefixes": [
             "154.196.215.0/24"
@@ -6700,7 +6700,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -6708,7 +6708,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -6812,7 +6812,7 @@
           ]
         }
       ],
-      "bd_percentage": 52.58
+      "bd_percentage": 69.43
     }
   },
   "142232": {
@@ -18222,7 +18222,7 @@
           ]
         },
         {
-          "country": "IN",
+          "country": "RS",
           "city": "",
           "percentage": 50.0,
           "prefixes": [
