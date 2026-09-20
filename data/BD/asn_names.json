@@ -18114,9 +18114,17 @@
         {
           "country": "BR",
           "city": "Severiano de Almeida",
-          "percentage": 100.0,
+          "percentage": 50.0,
           "prefixes": [
             "151.247.175.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "199.182.168.0/24"
           ]
         }
       ],
