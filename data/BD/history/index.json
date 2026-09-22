@@ -3,14 +3,6 @@
   "retention_days": 7,
   "snapshots": [
     {
-      "ts": "2026-09-15T14:09:40Z",
-      "file": "20260915T140940Z.json",
-      "stats": {
-        "valid_observations": 3312113,
-        "total_edges": 3163
-      }
-    },
-    {
       "ts": "2026-09-15T20:10:42Z",
       "file": "20260915T201042Z.json",
       "stats": {
@@ -224,6 +216,14 @@
       "stats": {
         "valid_observations": 3291860,
         "total_edges": 3170
+      }
+    },
+    {
+      "ts": "2026-09-22T14:10:26Z",
+      "file": "20260922T141026Z.json",
+      "stats": {
+        "valid_observations": 3287871,
+        "total_edges": 3158
       }
     }
   ]
