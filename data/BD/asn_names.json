@@ -1617,7 +1617,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 40.0,
+          "percentage": 50.0,
           "prefixes": [
             "103.173.84.0/23"
           ]
@@ -1625,53 +1625,29 @@
         {
           "country": "BD",
           "city": "Dhanmondi",
-          "percentage": 33.33,
+          "percentage": 50.0,
+          "prefixes": [
+            "160.191.80.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "Dhanmondi",
+          "percentage": 50.0,
           "prefixes": [
             "2001:df4:7bc0::/48"
           ]
         },
         {
           "country": "BD",
-          "city": "",
-          "percentage": 33.33,
-          "prefixes": [
-            "2001:df4:ec40::/48"
-          ]
-        },
-        {
-          "country": "BD",
           "city": "Dhanmondi",
-          "percentage": 33.33,
+          "percentage": 50.0,
           "prefixes": [
             "2001:df5:2640::/48"
           ]
-        },
-        {
-          "country": "BD",
-          "city": "Dhanmondi",
-          "percentage": 20.0,
-          "prefixes": [
-            "160.191.80.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "Los Angeles",
-          "percentage": 20.0,
-          "prefixes": [
-            "160.191.81.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "Dhanmondi",
-          "percentage": 20.0,
-          "prefixes": [
-            "163.61.237.0/24"
-          ]
         }
       ],
-      "bd_percentage": 179.99
+      "bd_percentage": 200.0
     }
   },
   "154112": {
