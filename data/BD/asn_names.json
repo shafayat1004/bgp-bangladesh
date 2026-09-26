@@ -18077,5 +18077,12 @@
       ],
       "bd_percentage": 200.0
     }
+  },
+  "1239": {
+    "asn": "1239",
+    "name": "COGENT-1239 - Cogent Communications, LLC",
+    "holder": "COGENT-1239 - Cogent Communications, LLC",
+    "announced": false,
+    "country": ""
   }
 }
