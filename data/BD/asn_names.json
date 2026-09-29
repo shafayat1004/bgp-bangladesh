@@ -18003,5 +18003,12 @@
     "holder": "ESPL-AS-AP - Exim Synergy Pvt. Ltd",
     "announced": true,
     "country": "BD"
+  },
+  "154911": {
+    "asn": "154911",
+    "name": "NETWORKPARK-AS-AP - Network Park",
+    "holder": "NETWORKPARK-AS-AP - Network Park",
+    "announced": true,
+    "country": "BD"
   }
 }
