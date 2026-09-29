@@ -6316,8 +6316,8 @@
           ]
         },
         {
-          "country": "BR",
-          "city": "S\u00e3o Paulo",
+          "country": "BD",
+          "city": "",
           "percentage": 2.08,
           "prefixes": [
             "151.240.226.0/24"
@@ -6532,7 +6532,7 @@
           ]
         }
       ],
-      "bd_percentage": 74.93
+      "bd_percentage": 77.01
     }
   },
   "142232": {
@@ -18008,6 +18008,13 @@
     "asn": "154911",
     "name": "NETWORKPARK-AS-AP - Network Park",
     "holder": "NETWORKPARK-AS-AP - Network Park",
+    "announced": true,
+    "country": "BD"
+  },
+  "154954": {
+    "asn": "154954",
+    "name": "AS154954",
+    "holder": "AS154954",
     "announced": true,
     "country": "BD"
   }
