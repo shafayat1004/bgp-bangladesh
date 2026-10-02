@@ -16988,7 +16988,7 @@
         },
         {
           "country": "BD",
-          "city": "Jessore",
+          "city": "",
           "percentage": 20.0,
           "prefixes": [
             "160.25.226.0/24"
