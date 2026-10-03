@@ -1705,24 +1705,7 @@
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
-      "breakdown": [
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "51.146.246.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "92.112.40.0/24"
-          ]
-        }
-      ],
+      "breakdown": [],
       "bd_percentage": 100.0
     }
   },
@@ -17831,6 +17814,20 @@
     "asn": "154954",
     "name": "AS154954",
     "holder": "AS154954",
+    "announced": true,
+    "country": "BD"
+  },
+  "58212": {
+    "asn": "58212",
+    "name": "DATAFOREST dataforest GmbH",
+    "holder": "DATAFOREST dataforest GmbH",
+    "announced": true,
+    "country": ""
+  },
+  "139304": {
+    "asn": "139304",
+    "name": "LIMDAHOST-AS-AP - Limda Host",
+    "holder": "LIMDAHOST-AS-AP - Limda Host",
     "announced": true,
     "country": "BD"
   }
