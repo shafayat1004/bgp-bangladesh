@@ -16410,16 +16410,56 @@
     "holder": "MUI-AS-AP MS UMARA INTERNATIONAL",
     "announced": true,
     "country": "BD",
-    "geo_country": "CA",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "CA",
+      "dominant_country": "GB",
       "breakdown": [
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "51.194.121.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "64.205.71.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "72.244.77.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "84.75.133.0/24"
+          ]
+        },
         {
           "country": "CA",
           "city": "",
-          "percentage": 100.0,
+          "percentage": 16.67,
           "prefixes": [
             "169.128.137.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "212.134.112.0/24"
           ]
         }
       ],
