@@ -16488,11 +16488,204 @@
     "holder": "AS150698",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "VN",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "VN",
+      "breakdown": [
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "103.90.228.0/22"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "154.196.92.0/22"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2001:df6:fc80::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2401:2ae0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2401:3360::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2401:41e0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2401:4720::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2401:5ae0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2401:5ea0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2401:71e0::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2401:7520::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "2407:bb40::/48"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "36.50.132.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "36.50.236.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.15.88.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.65.136.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.71.110.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.164.36.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.169.172.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.170.246.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "103.241.198.0/23"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "154.197.72.0/23"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "154.201.6.0/23"
+          ]
+        },
+        {
+          "country": "VN",
+          "city": "",
+          "percentage": 6.25,
+          "prefixes": [
+            "157.10.46.0/23"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "132359": {
