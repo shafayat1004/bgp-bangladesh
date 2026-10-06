@@ -16346,14 +16346,14 @@
     "holder": "MUI-AS-AP MS UMARA INTERNATIONAL",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "GB",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "GB",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "51.194.121.0/24"
           ]
@@ -16361,7 +16361,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "64.205.71.0/24"
           ]
@@ -16369,7 +16369,23 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
+          "prefixes": [
+            "68.164.24.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
+          "prefixes": [
+            "68.164.68.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 12.5,
           "prefixes": [
             "72.244.77.0/24"
           ]
@@ -16377,7 +16393,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "84.75.133.0/24"
           ]
@@ -16385,7 +16401,7 @@
         {
           "country": "CA",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "169.128.137.0/24"
           ]
@@ -16393,7 +16409,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 12.5,
           "prefixes": [
             "212.134.112.0/24"
           ]
