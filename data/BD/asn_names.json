@@ -6247,22 +6247,70 @@
     "holder": "ZORN-AS-AP Zorn Technologies",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
-          "percentage": 28.57,
+          "percentage": 10.0,
           "prefixes": [
             "156.252.22.0/23"
           ]
         },
         {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "43.245.236.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "68.166.230.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "69.33.177.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "77.67.125.0/24"
+          ]
+        },
+        {
+          "country": "DE",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "82.139.228.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Los Angeles",
+          "percentage": 5.0,
+          "prefixes": [
+            "104.247.207.0/24"
+          ]
+        },
+        {
           "country": "BD",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 5.0,
           "prefixes": [
             "151.240.226.0/24"
           ]
@@ -6270,7 +6318,7 @@
         {
           "country": "HK",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 5.0,
           "prefixes": [
             "154.216.128.0/24"
           ]
@@ -6278,7 +6326,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 5.0,
           "prefixes": [
             "156.252.0.0/24"
           ]
@@ -6286,7 +6334,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 5.0,
           "prefixes": [
             "156.252.185.0/24"
           ]
@@ -6294,13 +6342,69 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 14.29,
+          "percentage": 5.0,
           "prefixes": [
             "156.253.3.0/24"
           ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "162.223.196.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "180.131.144.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "192.48.209.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "192.82.194.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "192.120.42.0/24"
+          ]
+        },
+        {
+          "country": "KR",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "209.92.175.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "216.74.68.0/24"
+          ]
         }
       ],
-      "bd_percentage": 85.73
+      "bd_percentage": 30.0
     }
   },
   "142232": {
