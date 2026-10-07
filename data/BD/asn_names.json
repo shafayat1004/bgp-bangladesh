@@ -16183,20 +16183,11 @@
     "holder": "HOSTNOST-AS-AP HostNost",
     "announced": true,
     "country": "BD",
-    "geo_country": "AE",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "AE",
-      "breakdown": [
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "217.60.92.0/22"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "14593": {
@@ -18021,5 +18012,19 @@
       ],
       "bd_percentage": 0
     }
+  },
+  "132132": {
+    "asn": "132132",
+    "name": "REPUBLICTELECOM-SG - MyRepublic Ltd.",
+    "holder": "REPUBLICTELECOM-SG - MyRepublic Ltd.",
+    "announced": true,
+    "country": "SG"
+  },
+  "37989": {
+    "asn": "37989",
+    "name": "DCS1PTELTD-AS-AP - DCS1 Pte. Ltd.",
+    "holder": "DCS1PTELTD-AS-AP - DCS1 Pte. Ltd.",
+    "announced": true,
+    "country": ""
   }
 }
