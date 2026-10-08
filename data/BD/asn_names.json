@@ -16183,11 +16183,20 @@
     "holder": "HOSTNOST-AS-AP HostNost",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "AE",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "AE",
+      "breakdown": [
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "217.60.92.0/22"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "14593": {
@@ -16486,25 +16495,9 @@
       "dominant_country": "US",
       "breakdown": [
         {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "51.194.121.0/24"
-          ]
-        },
-        {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "64.205.71.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
+          "percentage": 25.0,
           "prefixes": [
             "68.164.24.0/24"
           ]
@@ -16512,23 +16505,15 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 25.0,
           "prefixes": [
             "68.164.68.0/24"
           ]
         },
         {
-          "country": "US",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "72.244.77.0/24"
-          ]
-        },
-        {
           "country": "GB",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 25.0,
           "prefixes": [
             "84.75.133.0/24"
           ]
@@ -16536,17 +16521,9 @@
         {
           "country": "CA",
           "city": "",
-          "percentage": 12.5,
+          "percentage": 25.0,
           "prefixes": [
             "169.128.137.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "212.134.112.0/24"
           ]
         }
       ],
@@ -17989,22 +17966,14 @@
     "holder": "SUPER1-AS-AP - SUPER SECURE SERVERS",
     "announced": true,
     "country": "BD",
-    "geo_country": "AE",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "AE",
+      "dominant_country": "US",
       "breakdown": [
-        {
-          "country": "AE",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "152.237.240.0/24"
-          ]
-        },
         {
           "country": "US",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
             "168.222.54.0/24"
           ]
