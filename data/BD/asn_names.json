@@ -17995,5 +17995,32 @@
     "holder": "DCS1PTELTD-AS-AP - DCS1 Pte. Ltd.",
     "announced": true,
     "country": ""
+  },
+  "136621": {
+    "asn": "136621",
+    "name": "CUBICHOSTING-AS-AP - Cubic Hosting",
+    "holder": "CUBICHOSTING-AS-AP - Cubic Hosting",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
+  },
+  "211588": {
+    "asn": "211588",
+    "name": "XYPHEN Innovation Harbor B.V.",
+    "holder": "XYPHEN Innovation Harbor B.V.",
+    "announced": true,
+    "country": ""
+  },
+  "201814": {
+    "asn": "201814",
+    "name": "Mevspace MEVSPACE sp. z o.o.",
+    "holder": "Mevspace MEVSPACE sp. z o.o.",
+    "announced": true,
+    "country": ""
   }
 }
