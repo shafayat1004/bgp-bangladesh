@@ -9770,20 +9770,36 @@
     "holder": "LINK4COMMUNICATION-AS-AP LINK4 COMMUNICATION",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "GB",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
-          "percentage": 100.0,
+          "percentage": 50.0,
           "prefixes": [
             "157.20.150.0/23"
           ]
+        },
+        {
+          "country": "GB",
+          "city": "Reading",
+          "percentage": 25.0,
+          "prefixes": [
+            "51.146.67.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "84.75.81.0/24"
+          ]
         }
       ],
-      "bd_percentage": 100.0
+      "bd_percentage": 50.0
     }
   },
   "18230": {
@@ -17956,16 +17972,8 @@
       "breakdown": [
         {
           "country": "US",
-          "city": "Los Angeles",
-          "percentage": 50.0,
-          "prefixes": [
-            "104.166.94.0/24"
-          ]
-        },
-        {
-          "country": "US",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
             "168.222.54.0/24"
           ]
@@ -18021,6 +18029,13 @@
     "asn": "201814",
     "name": "Mevspace MEVSPACE sp. z o.o.",
     "holder": "Mevspace MEVSPACE sp. z o.o.",
+    "announced": true,
+    "country": ""
+  },
+  "135607": {
+    "asn": "135607",
+    "name": "INFINIVAN-AS-AP - Infinivan Incorporated",
+    "holder": "INFINIVAN-AS-AP - Infinivan Incorporated",
     "announced": true,
     "country": ""
   }
