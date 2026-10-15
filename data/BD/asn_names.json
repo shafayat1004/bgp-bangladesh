@@ -18477,5 +18477,12 @@
     "holder": "NAHID1-AS-AP - Nahid Internet Service",
     "announced": true,
     "country": "BD"
+  },
+  "141156": {
+    "asn": "141156",
+    "name": "AS141156",
+    "holder": "AS141156",
+    "announced": false,
+    "country": "BD"
   }
 }
