@@ -3875,28 +3875,36 @@
     "holder": "SMARTLINK-AS-AP Smart Link",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "CA",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "CA",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
-          "percentage": 66.67,
+          "percentage": 50.0,
           "prefixes": [
             "103.141.200.0/23"
           ]
         },
         {
+          "country": "CA",
+          "city": "Toronto",
+          "percentage": 25.0,
+          "prefixes": [
+            "205.237.89.0/24"
+          ]
+        },
+        {
           "country": "US",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 25.0,
           "prefixes": [
             "207.180.6.0/24"
           ]
         }
       ],
-      "bd_percentage": 66.67
+      "bd_percentage": 50.0
     }
   },
   "131464": {
