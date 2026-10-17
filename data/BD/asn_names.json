@@ -1686,12 +1686,12 @@
     "holder": "DREAMENGINEERING-AS-AP Dream Engineering",
     "announced": true,
     "country": "BD",
-    "geo_country": "SC",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "SC",
+      "dominant_country": "BD",
       "breakdown": [
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 5.48,
           "prefixes": [
@@ -1701,11 +1701,18 @@
         {
           "country": "BD",
           "city": "",
+          "percentage": 5.48,
+          "prefixes": [
+            "156.236.4.0/22"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
           "percentage": 4.11,
           "prefixes": [
             "45.195.225.0/24",
-            "45.195.226.0/24",
-            "45.195.227.0/24"
+            "45.195.226.0/23"
           ]
         },
         {
@@ -1717,7 +1724,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.74,
           "prefixes": [
@@ -1725,7 +1732,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.74,
           "prefixes": [
@@ -1733,27 +1740,11 @@
           ]
         },
         {
-          "country": "SC",
-          "city": "",
-          "percentage": 2.74,
-          "prefixes": [
-            "154.200.90.0/23"
-          ]
-        },
-        {
           "country": "BD",
           "city": "",
           "percentage": 2.74,
           "prefixes": [
-            "156.236.4.0/23"
-          ]
-        },
-        {
-          "country": "SC",
-          "city": "",
-          "percentage": 2.74,
-          "prefixes": [
-            "156.236.6.0/23"
+            "154.200.90.0/23"
           ]
         },
         {
@@ -1765,7 +1756,7 @@
           ]
         },
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1821,7 +1812,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1829,7 +1820,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1877,7 +1868,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1885,7 +1876,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1893,7 +1884,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1901,7 +1892,7 @@
           ]
         },
         {
-          "country": "NL",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1909,7 +1900,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1925,7 +1916,7 @@
           ]
         },
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1933,7 +1924,7 @@
           ]
         },
         {
-          "country": "NL",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1949,7 +1940,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1957,7 +1948,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1965,7 +1956,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1973,7 +1964,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -1981,7 +1972,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -2021,7 +2012,7 @@
           ]
         },
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -2053,7 +2044,7 @@
           ]
         },
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -2093,7 +2084,7 @@
           ]
         },
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -2101,7 +2092,7 @@
           ]
         },
         {
-          "country": "LT",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -2125,7 +2116,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -2149,7 +2140,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -2173,7 +2164,7 @@
           ]
         },
         {
-          "country": "BG",
+          "country": "BD",
           "city": "",
           "percentage": 1.37,
           "prefixes": [
@@ -2189,7 +2180,7 @@
           ]
         }
       ],
-      "bd_percentage": 36.99
+      "bd_percentage": 83.57
     }
   },
   "199524": {
@@ -10145,7 +10136,7 @@
           ]
         },
         {
-          "country": "HU",
+          "country": "BD",
           "city": "",
           "percentage": 20.0,
           "prefixes": [
@@ -10153,7 +10144,7 @@
           ]
         }
       ],
-      "bd_percentage": 60.0
+      "bd_percentage": 80.0
     }
   },
   "18230": {
@@ -16851,7 +16842,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 16.67,
           "prefixes": [
             "68.164.24.0/24"
           ]
@@ -16859,7 +16850,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 16.67,
           "prefixes": [
             "68.164.68.0/24"
           ]
@@ -16867,17 +16858,33 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 16.67,
           "prefixes": [
             "84.75.133.0/24"
           ]
         },
         {
+          "country": "GB",
+          "city": "",
+          "percentage": 16.67,
+          "prefixes": [
+            "94.118.200.0/24"
+          ]
+        },
+        {
           "country": "CA",
           "city": "",
-          "percentage": 25.0,
+          "percentage": 16.67,
           "prefixes": [
             "169.128.137.0/24"
+          ]
+        },
+        {
+          "country": "BR",
+          "city": "Caxias do Sul",
+          "percentage": 16.67,
+          "prefixes": [
+            "200.180.172.0/24"
           ]
         }
       ],
@@ -18256,13 +18263,13 @@
     "holder": "MATEORSDOTCOM-AS-AP - MATEORS DOT COM",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "SG",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "SG",
       "breakdown": [
         {
-          "country": "BD",
-          "city": "",
+          "country": "SG",
+          "city": "Singapore",
           "percentage": 100.0,
           "prefixes": [
             "162.4.60.0/23"
@@ -18277,7 +18284,7 @@
           ]
         }
       ],
-      "bd_percentage": 200.0
+      "bd_percentage": 100.0
     }
   },
   "1239": {
@@ -18427,6 +18434,20 @@
     "name": "AS141156",
     "holder": "AS141156",
     "announced": false,
+    "country": "BD"
+  },
+  "154998": {
+    "asn": "154998",
+    "name": "ALISHANET-AS-AP - Alisha Net",
+    "holder": "ALISHANET-AS-AP - Alisha Net",
+    "announced": false,
+    "country": "BD"
+  },
+  "155005": {
+    "asn": "155005",
+    "name": "AS155005",
+    "holder": "AS155005",
+    "announced": true,
     "country": "BD"
   }
 }
