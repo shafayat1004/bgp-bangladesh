@@ -17593,28 +17593,11 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "GB",
-      "breakdown": [
-        {
-          "country": "GB",
-          "city": "Milton Keynes",
-          "percentage": 50.0,
-          "prefixes": [
-            "80.240.90.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "Milton Keynes",
-          "percentage": 50.0,
-          "prefixes": [
-            "80.240.92.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "401322": {
@@ -18143,28 +18126,11 @@
     "holder": "FASTZONEIT-AS-AP - FAST ZONE IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
-      "breakdown": [
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "192.82.171.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "Los Angeles",
-          "percentage": 50.0,
-          "prefixes": [
-            "195.216.151.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "64545": {
