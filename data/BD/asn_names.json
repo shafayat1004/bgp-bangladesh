@@ -19009,5 +19009,12 @@
     "holder": "CITYLINK-AS-KH - CityLink Corporation, LTD",
     "announced": true,
     "country": "KH"
+  },
+  "48101": {
+    "asn": "48101",
+    "name": "TROOLI-AS Trooli Ltd.",
+    "holder": "TROOLI-AS Trooli Ltd.",
+    "announced": true,
+    "country": ""
   }
 }
