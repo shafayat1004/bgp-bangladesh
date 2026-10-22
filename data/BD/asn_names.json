@@ -4446,7 +4446,7 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 13.33,
           "prefixes": [
             "156.252.246.0/23"
           ]
@@ -4454,15 +4454,55 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 13.33,
           "prefixes": [
             "156.252.248.0/23"
           ]
         },
         {
+          "country": "AU",
+          "city": "Bowral",
+          "percentage": 6.67,
+          "prefixes": [
+            "45.137.29.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 6.67,
+          "prefixes": [
+            "51.241.8.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "Christchurch and Poole",
+          "percentage": 6.67,
+          "prefixes": [
+            "51.241.164.0/24"
+          ]
+        },
+        {
+          "country": "IL",
+          "city": "",
+          "percentage": 6.67,
+          "prefixes": [
+            "79.180.59.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 6.67,
+          "prefixes": [
+            "94.118.12.0/24"
+          ]
+        },
+        {
           "country": "HK",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 6.67,
           "prefixes": [
             "154.80.190.0/24"
           ]
@@ -4470,9 +4510,41 @@
         {
           "country": "SC",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 6.67,
           "prefixes": [
             "156.252.251.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 6.67,
+          "prefixes": [
+            "176.105.229.0/24"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "",
+          "percentage": 6.67,
+          "prefixes": [
+            "213.189.18.0/24"
+          ]
+        },
+        {
+          "country": "NL",
+          "city": "",
+          "percentage": 6.67,
+          "prefixes": [
+            "213.214.109.0/24"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "Garden City",
+          "percentage": 6.67,
+          "prefixes": [
+            "213.247.47.0/24"
           ]
         }
       ],
@@ -10435,14 +10507,14 @@
     "holder": "LINK4COMMUNICATION-AS-AP LINK4 COMMUNICATION",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "GB",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "GB",
       "breakdown": [
         {
           "country": "BD",
           "city": "",
-          "percentage": 40.0,
+          "percentage": 22.22,
           "prefixes": [
             "157.20.150.0/23"
           ]
@@ -10450,15 +10522,31 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 11.11,
           "prefixes": [
             "51.146.67.0/24"
           ]
         },
         {
+          "country": "GB",
+          "city": "Swindon",
+          "percentage": 11.11,
+          "prefixes": [
+            "51.146.151.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "82.110.53.0/24"
+          ]
+        },
+        {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 11.11,
           "prefixes": [
             "84.75.81.0/24"
           ]
@@ -10466,13 +10554,29 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 11.11,
           "prefixes": [
             "87.229.36.0/24"
           ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "95.214.175.0/24"
+          ]
+        },
+        {
+          "country": "GB",
+          "city": "",
+          "percentage": 11.11,
+          "prefixes": [
+            "212.134.132.0/24"
+          ]
         }
       ],
-      "bd_percentage": 100.0
+      "bd_percentage": 55.55
     }
   },
   "18230": {
@@ -10816,9 +10920,9 @@
     "holder": "IMPEXBDNET-AS-AP Impex Bd Net",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "US",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "US",
       "breakdown": [
         {
           "country": "BD",
@@ -10826,6 +10930,14 @@
           "percentage": 100.0,
           "prefixes": [
             "103.182.170.0/23"
+          ]
+        },
+        {
+          "country": "US",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "2602:feda:b8a::/48"
           ]
         }
       ],
@@ -17689,22 +17801,38 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "SC",
     "geo_country_data": {
-      "dominant_country": "BD",
+      "dominant_country": "SC",
       "breakdown": [
         {
-          "country": "BD",
+          "country": "SC",
           "city": "",
-          "percentage": 40.0,
+          "percentage": 20.0,
           "prefixes": [
-            "156.252.252.0/22"
+            "156.228.32.0/22"
           ]
         },
         {
           "country": "BD",
           "city": "",
           "percentage": 20.0,
+          "prefixes": [
+            "156.252.252.0/22"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 10.0,
+          "prefixes": [
+            "45.198.208.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 10.0,
           "prefixes": [
             "45.201.126.0/23"
           ]
@@ -17712,29 +17840,53 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 20.0,
+          "percentage": 10.0,
           "prefixes": [
             "154.83.30.0/23"
           ]
         },
         {
-          "country": "BD",
+          "country": "SC",
           "city": "",
           "percentage": 10.0,
           "prefixes": [
-            "45.201.115.0/24"
+            "156.228.36.0/23"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "45.198.210.0/24"
           ]
         },
         {
           "country": "BD",
           "city": "",
-          "percentage": 10.0,
+          "percentage": 5.0,
+          "prefixes": [
+            "45.201.115.0/24"
+          ]
+        },
+        {
+          "country": "KH",
+          "city": "",
+          "percentage": 5.0,
+          "prefixes": [
+            "156.227.21.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 5.0,
           "prefixes": [
             "156.252.250.0/24"
           ]
         }
       ],
-      "bd_percentage": 100.0
+      "bd_percentage": 50.0
     }
   },
   "401322": {
