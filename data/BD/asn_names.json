@@ -14042,7 +14042,38 @@
     "name": "SSTNTECHNOLOGY-AS-AP SSTN Technology",
     "holder": "SSTNTECHNOLOGY-AS-AP SSTN Technology",
     "announced": true,
-    "country": "BD"
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "103.139.8.0/23"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "103.173.107.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 25.0,
+          "prefixes": [
+            "165.101.239.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 100.0
+    }
   },
   "140098": {
     "asn": "140098",
@@ -19364,5 +19395,12 @@
     "holder": "FCE-AS-AP - Friends Communication Enterprise",
     "announced": true,
     "country": "BD"
+  },
+  "135513": {
+    "asn": "135513",
+    "name": "XYZTELECOM-AS-AP - XYZ Telecom Pty Ltd",
+    "holder": "XYZTELECOM-AS-AP - XYZ Telecom Pty Ltd",
+    "announced": true,
+    "country": ""
   }
 }
