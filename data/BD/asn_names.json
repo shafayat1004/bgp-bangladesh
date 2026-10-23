@@ -10410,7 +10410,7 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 33.33,
+          "percentage": 28.57,
           "prefixes": [
             "157.20.150.0/23"
           ]
@@ -10418,7 +10418,7 @@
         {
           "country": "GB",
           "city": "Swindon",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "51.146.151.0/24"
           ]
@@ -10426,7 +10426,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "82.110.53.0/24"
           ]
@@ -10434,21 +10434,29 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "95.214.175.0/24"
           ]
         },
         {
+          "country": "CA",
+          "city": "Toronto",
+          "percentage": 14.29,
+          "prefixes": [
+            "205.196.153.0/24"
+          ]
+        },
+        {
           "country": "GB",
           "city": "",
-          "percentage": 16.67,
+          "percentage": 14.29,
           "prefixes": [
             "212.134.132.0/24"
           ]
         }
       ],
-      "bd_percentage": 33.33
+      "bd_percentage": 28.57
     }
   },
   "18230": {
@@ -16995,15 +17003,23 @@
       "dominant_country": "TR",
       "breakdown": [
         {
+          "country": "BD",
+          "city": "",
+          "percentage": 50.0,
+          "prefixes": [
+            "165.99.218.0/24"
+          ]
+        },
+        {
           "country": "TR",
           "city": "",
-          "percentage": 100.0,
+          "percentage": 50.0,
           "prefixes": [
             "193.187.110.0/24"
           ]
         }
       ],
-      "bd_percentage": 0
+      "bd_percentage": 50.0
     }
   },
   "41095": {
@@ -19322,5 +19338,12 @@
     "holder": "XYZTELECOM-AS-AP - XYZ Telecom Pty Ltd",
     "announced": true,
     "country": ""
+  },
+  "151412": {
+    "asn": "151412",
+    "name": "GMTL-AS-AP - Gmax",
+    "holder": "GMTL-AS-AP - Gmax",
+    "announced": false,
+    "country": "BD"
   }
 }
