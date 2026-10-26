@@ -17261,11 +17261,20 @@
     "holder": "MADINAIT-AS-AP Madina IT",
     "announced": true,
     "country": "BD",
-    "geo_country": "BD",
+    "geo_country": "TR",
     "geo_country_data": {
-      "dominant_country": "BD",
-      "breakdown": [],
-      "bd_percentage": 100.0
+      "dominant_country": "TR",
+      "breakdown": [
+        {
+          "country": "TR",
+          "city": "",
+          "percentage": 100.0,
+          "prefixes": [
+            "193.32.204.0/24"
+          ]
+        }
+      ],
+      "bd_percentage": 0
     }
   },
   "154612": {
