@@ -20096,5 +20096,12 @@
     "holder": "VIRTUASYS-EU VIRTUA SYSTEMS SAS",
     "announced": true,
     "country": ""
+  },
+  "155053": {
+    "asn": "155053",
+    "name": "FOORTYDIGITAL-AS-AP - Foorty Digital",
+    "holder": "FOORTYDIGITAL-AS-AP - Foorty Digital",
+    "announced": true,
+    "country": "BD"
   }
 }
