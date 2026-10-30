@@ -17705,7 +17705,7 @@
         {
           "country": "US",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "68.166.199.0/24"
           ]
@@ -17713,7 +17713,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "94.118.212.0/24"
           ]
@@ -17721,7 +17721,7 @@
         {
           "country": "GB",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "94.118.232.0/24"
           ]
@@ -17729,7 +17729,7 @@
         {
           "country": "CA",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "169.128.137.0/24"
           ]
@@ -17737,7 +17737,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "177.201.202.0/24"
           ]
@@ -17745,7 +17745,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "179.253.52.0/24"
           ]
@@ -17753,7 +17753,7 @@
         {
           "country": "BR",
           "city": "Goi\u00e2nia",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "179.253.56.0/24"
           ]
@@ -17761,7 +17761,15 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
+          "prefixes": [
+            "187.55.39.0/24"
+          ]
+        },
+        {
+          "country": "AE",
+          "city": "",
+          "percentage": 8.33,
           "prefixes": [
             "187.55.46.0/24"
           ]
@@ -17769,7 +17777,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "187.55.51.0/24"
           ]
@@ -17777,7 +17785,7 @@
         {
           "country": "AE",
           "city": "",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "189.30.104.0/24"
           ]
@@ -17785,7 +17793,7 @@
         {
           "country": "BR",
           "city": "Bras\u00edlia",
-          "percentage": 9.09,
+          "percentage": 8.33,
           "prefixes": [
             "189.31.18.0/24"
           ]
@@ -20207,5 +20215,12 @@
     "holder": "FOORTYDIGITAL-AS-AP - Foorty Digital",
     "announced": true,
     "country": "BD"
+  },
+  "153759": {
+    "asn": "153759",
+    "name": "IRINN-INTERWIRE-AS-IN - De-cix Interwire Internet Services Private Limited",
+    "holder": "IRINN-INTERWIRE-AS-IN - De-cix Interwire Internet Services Private Limited",
+    "announced": true,
+    "country": "IN"
   }
 }
