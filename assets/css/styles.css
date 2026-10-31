@@ -1931,10 +1931,11 @@ input[type="range"]::-webkit-slider-thumb {
     margin-right: 8px;
   }
   
-  /* Tooltip becomes a bottom sheet on mobile */
+  /* Tooltip becomes a bottom sheet on mobile, above the date bar (main.js
+     measures it) so the date can still be changed while the sheet is open. */
   .tooltip {
     position: fixed !important;
-    bottom: 0 !important;
+    bottom: var(--sheet-bottom, 0px) !important;
     left: 0 !important;
     right: 0 !important;
     top: auto !important;
@@ -2022,6 +2023,17 @@ input[type="range"]::-webkit-slider-thumb {
 @media (max-height: 500px) {
   #timeline-bar { flex-wrap: nowrap; }
   #timeline-readout { flex: 0 0 auto; }
+
+  /* A full-width sheet would cover most of the chart, so the details sit in
+     the bottom-right corner instead. */
+  .tooltip {
+    left: auto !important;
+    width: min(320px, 45vw) !important;
+    max-height: calc(100vh - var(--sheet-bottom, 0px) - 56px);
+    border-radius: 12px 0 0 0;
+    padding-bottom: 12px;
+  }
+  .tooltip::before { display: none; }
 }
 
 @media (max-width: 400px) {

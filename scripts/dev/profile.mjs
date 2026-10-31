@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Performance profile of the slow paths: opening the Network Graph, stepping
- * and dragging the history slider, and clicking a node.
+ * and dragging the history slider, clicking a node, and zooming, panning and
+ * hovering over the graph.
  *
  * Usage: npm run profile [-- --viewport phone --json --check]
  *   --json   also write .dev-output/profile.json
@@ -21,6 +22,9 @@ const BUDGETS = {
   'slider drag: longest task ms': 250,
   'node click: nodes moved': 0,
   'slider step with highlight: ms to painted': 600,
+  'graph zoom: frame ms (90th percentile)': 33,
+  'graph pan: frame ms (90th percentile)': 33,
+  'graph hover: frame ms (90th percentile)': 33,
 };
 
 const args = parseArgs(process.argv.slice(2), { viewport: 'desktop' });
@@ -50,6 +54,23 @@ const probe = (page) => page.evaluate(() => {
 });
 const resetProbe = (page) => page.evaluate(() => window.__probe.reset());
 const twoFrames = (page) => page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+
+// Time between animation frames while an input sequence runs.
+async function frameTimes(page, run) {
+  await page.evaluate(() => {
+    window.__frames = { gaps: [], on: true };
+    let last = performance.now();
+    const loop = (t) => { window.__frames.gaps.push(t - last); last = t; if (window.__frames.on) requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  });
+  await run();
+  await page.waitForTimeout(200);
+  return page.evaluate(() => {
+    window.__frames.on = false;
+    const gaps = window.__frames.gaps.slice(1).sort((a, b) => a - b);
+    return { frames: gaps.length, p90Ms: Math.round(gaps[Math.floor(gaps.length * 0.9)]), worstMs: Math.round(gaps[gaps.length - 1]) };
+  });
+}
 
 async function stepSlider(page, buttonId) {
   const t0 = Date.now();
@@ -130,6 +151,28 @@ try {
   await resetProbe(page);
   results.layeredStep = { ms: await stepSlider(page, 'timeline-prev'), ...(await probe(page)) };
   await site.close();
+
+  // 7. Wheel zoom, drag pan and hover over the Network Graph. Every frame
+  // repaints all lines, so this is where costly strokes show up.
+  site = await openSite(browser, server.url, { viewport: args.viewport, tab: 'force-graph' });
+  page = site.page;
+  await page.waitForTimeout(1000);
+  const graph = await page.locator('#force-svg').boundingBox();
+  const cx = graph.x + graph.width / 2, cy = graph.y + graph.height / 2;
+  await page.mouse.move(cx, cy);
+  results.graphZoom = await frameTimes(page, async () => {
+    for (let i = 0; i < 20; i++) { await page.mouse.wheel(0, i < 10 ? -60 : 60); await page.waitForTimeout(16); }
+  });
+  await page.waitForTimeout(300);   // zoom end restyles the dashes once
+  results.graphPan = await frameTimes(page, async () => {
+    await page.mouse.down();
+    for (let i = 0; i < 40; i++) await page.mouse.move(cx + i * 5, cy + i * 2);
+    await page.mouse.up();
+  });
+  results.graphHover = await frameTimes(page, async () => {
+    for (let i = 0; i < 60; i++) await page.mouse.move(graph.x + 50 + i * (graph.width - 100) / 60, cy + Math.sin(i / 5) * graph.height / 4);
+  });
+  await site.close();
 } finally {
   await browser.close();
   await server.close();
@@ -148,6 +191,9 @@ const rows = [
   ['slider drag: caught up after release (ms)', r.sliderDrag.caughtUpAfterMs],
   ['slider drag: longest task ms', r.sliderDrag.longestMs],
   ['layered step: ms to painted', r.layeredStep.ms],
+  ['graph zoom: frame ms (90th percentile)', r.graphZoom.p90Ms],
+  ['graph pan: frame ms (90th percentile)', r.graphPan.p90Ms],
+  ['graph hover: frame ms (90th percentile)', r.graphHover.p90Ms],
 ];
 console.log(`Profile (${r.viewport}, baked layout in data: ${r.bakedLayout ? 'yes' : 'no - run npm run layout'})\n`);
 let failed = 0;

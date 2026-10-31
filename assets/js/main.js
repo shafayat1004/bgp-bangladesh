@@ -178,6 +178,10 @@ function onDataLoaded({ inPlace = false } = {}) {
 
   const mod = vizModules[activeTab];
   if (inPlace && mod?.updateData) {
+    // An open tooltip (a details sheet on phones) would still show the previous
+    // date's numbers, so it closes.
+    const tip = document.getElementById('tooltip');
+    if (tip) tip.style.display = 'none';
     mod.updateData(currentData, { minTraffic: defaultMinTraffic, maxTraffic: defaultMaxTraffic });
     if (activeTypeFilters.size < 6 && mod.filterByTypes) {
       mod.filterByTypes(activeTypeFilters);
@@ -410,6 +414,39 @@ function setupMobileMenu() {
         if (tip) tip.style.display = 'none';
       }
     });
+  }
+
+  // On phones the tooltip is a bottom sheet. It sits just above the date bar
+  // (--sheet-bottom in the CSS) so the date stays reachable while it is open.
+  const timelineBar = document.getElementById('timeline-bar');
+  if (timelineBar) {
+    const placeSheet = () => {
+      const rect = timelineBar.getBoundingClientRect();
+      const bottom = rect.height ? Math.max(0, window.innerHeight - rect.top) : 0;
+      document.documentElement.style.setProperty('--sheet-bottom', `${Math.round(bottom)}px`);
+    };
+    new ResizeObserver(placeSheet).observe(timelineBar);
+    window.addEventListener('resize', placeSheet);
+    placeSheet();
+  }
+
+  // A tap opens the sheet before the rest of that tap (its click) arrives. If
+  // the sheet opens under the finger, the click would land on the sheet and
+  // the tapped network would not be selected, so the sheet lets taps through
+  // for a moment after it opens.
+  const tip = document.getElementById('tooltip');
+  if (tip) {
+    let wasOpen = false;
+    let timer = null;
+    new MutationObserver(() => {
+      const open = tip.style.display === 'block';
+      if (open && !wasOpen && isMobile()) {
+        tip.style.pointerEvents = 'none';
+        clearTimeout(timer);
+        timer = setTimeout(() => { tip.style.pointerEvents = ''; }, 400);
+      }
+      wasOpen = open;
+    }).observe(tip, { attributes: true, attributeFilter: ['style'] });
   }
 }
 
