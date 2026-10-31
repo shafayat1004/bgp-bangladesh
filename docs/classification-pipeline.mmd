@@ -57,7 +57,7 @@ flowchart TB
         E1["Select Top Edges:<br/>• top 1500 international edges<br/>• top 2000 domestic edges"]:::processNode
         P4 --> E1
 
-        E2["Build iigs_with_domestic set<br/>= all gateway ASNs that appear<br/>as TARGET of a domestic edge"]:::processNode
+        E2["Build iigs_with_domestic set<br/>= all gateway ASNs that appear<br/>as TARGET of any domestic edge<br/>(not only the drawn top 2000)"]:::processNode
         E1 --> E2
     end
 
@@ -77,7 +77,7 @@ flowchart TB
         API6 --> |"facilities, IXP memberships"| D6["peering_country &<br/>peering_details<br/>per gateway ASN"]:::dataNode
 
         API7["⑦ BTRC License List<br/>btrc_iig_licenses.json<br/>(static local file)"]:::apiNode
-        API7 --> D7["btrc_licensed_asns set<br/>(38 ASNs across ~26 companies)"]:::dataNode
+        API7 --> D7["btrc_licensed_asns set<br/>(38 ASNs across 32 companies;<br/>always typed iig)"]:::dataNode
     end
 
     E2 --> Phase4

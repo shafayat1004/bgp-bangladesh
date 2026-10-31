@@ -4,7 +4,7 @@
  */
 
 import { RIPEStatClient } from './api/ripestat.js';
-import { analyzeGateways, buildVisualizationData, createAnalysisState, analyzeRoutesBatch, finalizeAnalysis } from './api/data-processor.js';
+import { analyzeGateways, buildVisualizationData, computeShares, createAnalysisState, analyzeRoutesBatch, finalizeAnalysis } from './api/data-processor.js';
 import { showModal, resetModal } from './ui/modal.js';
 import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, loadPreferences, savePreferences, showMyASNResult } from './ui/controls.js';
 import { initTimeline, formatTimestamp } from './ui/timeline.js';
@@ -31,6 +31,7 @@ let rawRoutes = null;  // Store raw BGP routes for export
 let activeTab = 'hierarchical';
 let ripeClient = new RIPEStatClient();
 let btrcLicensedASNs = new Set();
+let igwLicensedASNs = new Set();
 let wasmWorker = null;  // WASM analysis worker (created lazily)
 let forceGraphWarningShown = false;  // Track if CPU warning was shown for network graph
 
@@ -79,15 +80,21 @@ async function init() {
 // ────────────────────────────────────────
 
 async function loadLicenseData() {
+  const load = async (file) => {
+    const resp = await fetch(file);
+    if (!resp.ok) return new Set();
+    return new Set(Object.keys(await resp.json()).filter(k => !k.startsWith('_')));
+  };
   try {
-    const resp = await fetch('data/btrc_iig_licenses.json');
-    if (resp.ok) {
-      const raw = await resp.json();
-      btrcLicensedASNs = new Set(Object.keys(raw).filter(k => !k.startsWith('_')));
-      console.log(`Loaded ${btrcLicensedASNs.size} BTRC-licensed IIG ASNs`);
-    }
+    btrcLicensedASNs = await load('data/btrc_iig_licenses.json');
+    console.log(`Loaded ${btrcLicensedASNs.size} BTRC-licensed IIG ASNs`);
   } catch (err) {
     console.warn('Could not load BTRC IIG license list:', err);
+  }
+  try {
+    igwLicensedASNs = await load('data/btrc_igw_licenses.json');
+  } catch (err) {
+    console.warn('Could not load BTRC IGW license list:', err);
   }
 }
 
@@ -155,6 +162,9 @@ function setupTimeline() {
 // history slider so the network graph keeps its layout between snapshots).
 function onDataLoaded({ inPlace = false } = {}) {
   if (!currentData) return;
+  // One share rule for every source; snapshots written before it counted a
+  // gateway's domestic routes twice.
+  computeShares(currentData);
   setGlossaryData(currentData);
   populateSidebar(currentData, (asn) => {
     const mod = vizModules[activeTab];
@@ -778,7 +788,7 @@ async function fetchLiveData() {
 
     // Step 5: Build visualization data (license-aware, 6-category)
     updateProgress({ step: 5, totalSteps: 5, message: 'Building visualization…', progress: 0.5 });
-    const vizData = buildVisualizationData(analysis, asnInfo, countryASNs, 1500, 2000, btrcLicensedASNs);
+    const vizData = buildVisualizationData(analysis, asnInfo, countryASNs, 1500, 2000, btrcLicensedASNs, igwLicensedASNs);
     updateProgress({ step: 5, totalSteps: 5, message: 'Done!', progress: 1, complete: true });
 
     currentData = vizData;

@@ -11,6 +11,11 @@ const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-i
 // Connections in the detail panel, grouped by the other network's category.
 const CONNECTION_GROUPS = ['outside', 'iig', 'detected-iig', 'offshore-gateway', 'offshore-enterprise', 'local-company'];
 const CONNECTION_KINDS = { 'domestic': 'Local', 'international': 'International' };
+// How a local company with its own link abroad is seen (abroad_link in the data)
+const ABROAD_LINK = {
+  'also-abroad': 'Yes, as well as through gateways',
+  'only-abroad': 'Seen only through networks abroad',
+};
 
 let currentData = null;
 let currentOptions = {};
@@ -227,7 +232,10 @@ function buildDetailPanel(n) {
         <div class="detail-section">
           <div class="detail-section-title">Classification</div>
           <div class="detail-row"><span class="detail-label">Category${termHelp(GLOSSARY[n.type] ? n.type : 'local-company')}:</span><span class="detail-value"><span class="type-badge ${typeCls}">${typeLabel}</span></span></div>
-          ${n.licensed ? '<div class="detail-row"><span class="detail-label">Licence:</span><span class="detail-value detail-licensed">Licensed IIG, on the BTRC list (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank">source</a>)</span></div>' : '<div class="detail-row"><span class="detail-label">Licence:</span><span class="detail-value">Not on <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank">the BTRC licence list</a></span></div>'}
+          ${n.licensed ? '<div class="detail-row"><span class="detail-label">Licence:</span><span class="detail-value detail-licensed">Licensed IIG, on the BTRC list (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank">source</a>)</span></div>'
+            : n.igw ? `<div class="detail-row"><span class="detail-label">Licence${termHelp('igw')}:</span><span class="detail-value">Licensed voice gateway (IGW), not an internet gateway (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IGW%20Service%20Providers%20License.pdf" target="_blank">source</a>)</span></div>`
+            : '<div class="detail-row"><span class="detail-label">Licence:</span><span class="detail-value">Not on <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank">the BTRC licence list</a></span></div>'}
+          ${ABROAD_LINK[n.abroad_link] ? `<div class="detail-row"><span class="detail-label">Own link abroad${termHelp('abroad-link')}:</span><span class="detail-value">${ABROAD_LINK[n.abroad_link]}</span></div>` : ''}
           ${typeExplanation ? `<div class="detail-explanation">${typeExplanation}</div>` : ''}
         </div>
 

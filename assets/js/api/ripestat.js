@@ -200,9 +200,10 @@ const WELL_KNOWN_COUNTRIES = {
  * Fetch geolocation for a single ASN using MaxMind GeoLite data via RIPEstat.
  * Returns a geo data object with full breakdown:
  *   { dominant_country, breakdown: [{country, city, percentage}], bd_percentage }
+ * Returns null when the lookup fails: unknown, not "all in Bangladesh".
  */
 async function fetchGeoCountrySingle(asn, rateLimiter) {
-  const fallback = { dominant_country: 'BD', breakdown: [], bd_percentage: 100 };
+  const noLocation = { dominant_country: 'BD', breakdown: [], bd_percentage: 100 };
   try {
     const url = `${RIPESTAT_BASE}/maxmind-geo-lite-announced-by-as/data.json?resource=AS${asn}`;
     const data = await fetchWithRetry(url, {
@@ -211,7 +212,7 @@ async function fetchGeoCountrySingle(asn, rateLimiter) {
       timeout: 30000,
     });
 
-    if (data.status !== 'ok') return fallback;
+    if (data.status !== 'ok') return null;
 
     let totalPct = 0;
     let bdPct = 0;
@@ -234,7 +235,7 @@ async function fetchGeoCountrySingle(asn, rateLimiter) {
       }
     }
 
-    if (totalPct <= 0) return fallback;
+    if (totalPct <= 0) return noLocation;
 
     // Determine dominant country
     let dominant;
@@ -254,7 +255,7 @@ async function fetchGeoCountrySingle(asn, rateLimiter) {
       bd_percentage: Math.round(bdPct * 100) / 100,
     };
   } catch {
-    return fallback;
+    return null;
   }
 }
 
@@ -755,7 +756,7 @@ export class RIPEStatClient {
       const batch = asnList.slice(i, i + concurrency);
       const promises = batch.map(async (asn) => {
         const geo = await fetchGeoCountrySingle(asn, this.rateLimiter);
-        results[asn] = geo;
+        if (geo) results[asn] = geo;
         completed++;
       });
 
