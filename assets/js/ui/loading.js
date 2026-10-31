@@ -12,10 +12,17 @@ function ensureToastContainer() {
   if (!toastContainer) {
     toastContainer = document.createElement('div');
     toastContainer.id = 'toast-container';
+    // Polite live region; error toasts carry role="alert" to be announced at once.
+    toastContainer.setAttribute('role', 'status');
+    toastContainer.setAttribute('aria-live', 'polite');
     document.body.appendChild(toastContainer);
   }
   return toastContainer;
 }
+
+// Create the live region up front: screen readers only announce changes to a
+// region that already existed.
+if (typeof document !== 'undefined' && document.body) ensureToastContainer();
 
 /**
  * Show a toast notification
@@ -27,9 +34,10 @@ export function showToast(type, message, duration = 5000) {
   const container = ensureToastContainer();
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
+  if (type === 'error') toast.setAttribute('role', 'alert');
   toast.innerHTML = `
     <span class="toast-message">${message}</span>
-    <button class="toast-close" aria-label="Close">&times;</button>
+    <button class="toast-close" type="button" aria-label="Dismiss notification">&times;</button>
   `;
 
   const closeBtn = toast.querySelector('.toast-close');
@@ -60,27 +68,37 @@ export function showProgress(options = {}) {
     overlay = document.createElement('div');
     overlay.id = 'progress-overlay';
     overlay.innerHTML = `
-      <div class="progress-card">
-        <h3 class="progress-title">Fetching Live Data</h3>
+      <div class="progress-card" role="dialog" aria-modal="true" aria-labelledby="progress-title">
+        <h2 class="progress-title" id="progress-title">Fetching Live Data</h2>
         <div class="progress-steps"></div>
         <div class="progress-current">
-          <div class="progress-message"></div>
-          <div class="progress-bar-container">
+          <div class="progress-message" role="status" aria-live="polite"></div>
+          <div class="progress-bar-container" role="progressbar" aria-labelledby="progress-title" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
             <div class="progress-bar-fill"></div>
           </div>
           <div class="progress-details"></div>
         </div>
         <div class="progress-actions">
-          <button class="btn btn-cancel" id="progress-cancel">Cancel</button>
+          <button class="btn btn-cancel" id="progress-cancel" type="button">Cancel</button>
         </div>
       </div>
     `;
     document.body.appendChild(overlay);
   }
+  const wasHidden = overlay.style.display !== 'flex';
   overlay.style.display = 'flex';
+  if (wasHidden) {
+    // Modal while fetching: the page behind is inert, focus moves to Cancel.
+    focusBeforeProgress = document.activeElement;
+    const app = document.getElementById('app');
+    if (app) app.inert = true;
+    overlay.querySelector('#progress-cancel')?.focus();
+  }
   updateProgress(options);
   return overlay;
 }
+
+let focusBeforeProgress = null;
 
 /**
  * Update the progress display
@@ -111,7 +129,9 @@ export function updateProgress(options = {}) {
   // Update progress bar
   const fillEl = overlay.querySelector('.progress-bar-fill');
   if (progress !== undefined) {
-    fillEl.style.width = `${Math.min(100, Math.max(0, progress * 100))}%`;
+    const pct = Math.min(100, Math.max(0, progress * 100));
+    fillEl.style.width = `${pct}%`;
+    overlay.querySelector('.progress-bar-container')?.setAttribute('aria-valuenow', String(Math.round(pct)));
   }
 
   // Update details
@@ -134,7 +154,12 @@ export function updateProgress(options = {}) {
  */
 export function hideProgress() {
   const overlay = document.getElementById('progress-overlay');
-  if (overlay) overlay.style.display = 'none';
+  if (!overlay || overlay.style.display === 'none') return;
+  overlay.style.display = 'none';
+  const app = document.getElementById('app');
+  if (app) app.inert = false;
+  focusBeforeProgress?.focus?.();
+  focusBeforeProgress = null;
 }
 
 /**

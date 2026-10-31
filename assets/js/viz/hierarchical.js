@@ -4,6 +4,7 @@
  */
 
 import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
+import { makeChartAccessible } from '../ui/chart-a11y.js';
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -80,7 +81,9 @@ export function updateData(data, options = {}) {
 
 export function resetView() {
   if (!zoom || !fittedTransform) return;
-  d3.select('#hier-svg').transition().duration(750).call(zoom.transform, fittedTransform);
+  const svg = d3.select('#hier-svg');
+  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (reduced ? svg : svg.transition().duration(750)).call(zoom.transform, fittedTransform);
 }
 
 function render() {
@@ -222,6 +225,14 @@ function render() {
     .scale(k);
   svg.call(zoom.transform, savedTransform || fittedTransform);
 
+  const layerSummary = layers.map(l => `${l.nodes.length} ${TYPE_LABELS[l.type] || l.type}`).join(', ');
+  makeChartAccessible(svg, {
+    zoom,
+    label: `Layered view, from local companies at the top to international networks at the bottom: ${layerSummary}. Lines connect each network to the gateways it uses.`,
+    reset: resetView,
+    onEscape: clearHighlight,
+  });
+
   // Draw edges (use filtered edges with adaptive curves for multi-row layout)
   const allEdges = [...filteredIntl, ...filteredDom];
   const maxCount = Math.max(...allEdges.map(e => e.count), 1);
@@ -352,20 +363,23 @@ export function highlightASN(asn) {
   });
   
   // Click to clear
-  svg.on('click.highlight', () => {
-    highlightedASN = null; // Clear the highlighted ASN
-    svg.selectAll('.hier-node').attr('opacity', 1);
-    svg.selectAll('.hier-link').each(function() {
-      const link = d3.select(this);
-      // Restore original values from stored attributes
-      const originalOpacity = parseFloat(link.attr('data-original-opacity'));
-      const originalWidth = parseFloat(link.attr('data-original-width'));
-      link.attr('stroke-opacity', originalOpacity)
-        .attr('stroke-width', originalWidth)
-        .style('pointer-events', 'all'); // Re-enable all hover events
-    });
-    svg.on('click.highlight', null);
+  svg.on('click.highlight', clearHighlight);
+}
+
+function clearHighlight() {
+  highlightedASN = null; // Clear the highlighted ASN
+  const svg = d3.select('#hier-svg');
+  svg.selectAll('.hier-node').attr('opacity', 1);
+  svg.selectAll('.hier-link').each(function() {
+    const link = d3.select(this);
+    // Restore original values from stored attributes
+    const originalOpacity = parseFloat(link.attr('data-original-opacity'));
+    const originalWidth = parseFloat(link.attr('data-original-width'));
+    link.attr('stroke-opacity', originalOpacity)
+      .attr('stroke-width', originalWidth)
+      .style('pointer-events', 'all'); // Re-enable all hover events
   });
+  svg.on('click.highlight', null);
 }
 export function updateFilter(minVal, maxVal) { 
   if (minVal !== undefined) currentOptions.minTraffic = minVal;

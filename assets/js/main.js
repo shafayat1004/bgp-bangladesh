@@ -181,8 +181,20 @@ function onDataLoaded({ inPlace = false } = {}) {
 // ────────────────────────────────────────
 
 function setupTabs() {
-  document.querySelectorAll('.tab-btn').forEach(btn => {
+  const tabs = [...document.querySelectorAll('.tab-btn')];
+  tabs.forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+  // ARIA tabs pattern: arrow keys / Home / End move between tabs and open them.
+  document.getElementById('tab-nav')?.addEventListener('keydown', (e) => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i === -1) return;
+    const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    const tab = tabs[(next + tabs.length) % tabs.length];
+    tab.focus();
+    switchTab(tab.dataset.tab);
   });
   highlightTab(activeTab);
 }
@@ -238,7 +250,11 @@ function switchTab(tabId, options = {}) {
 
 function highlightTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === tabId);
+    const selected = btn.dataset.tab === tabId;
+    btn.classList.toggle('active', selected);
+    btn.setAttribute('aria-selected', String(selected));
+    btn.tabIndex = selected ? 0 : -1;
+    if (selected) document.getElementById('viz-panel')?.setAttribute('aria-labelledby', btn.id);
   });
 }
 
@@ -290,9 +306,20 @@ function setupButtons() {
     if (mod?.resetView) mod.resetView();
   });
 
-  document.getElementById('btn-toggle-labels')?.addEventListener('click', () => {
+  document.getElementById('btn-toggle-labels')?.addEventListener('click', (e) => {
     const mod = vizModules[activeTab];
-    if (mod?.toggleLabelsVisibility) mod.toggleLabelsVisibility();
+    if (mod?.toggleLabelsVisibility) {
+      mod.toggleLabelsVisibility();
+      const btn = e.currentTarget;
+      btn.setAttribute('aria-pressed', String(btn.getAttribute('aria-pressed') !== 'true'));
+    }
+  });
+
+  // Hover tooltips can be dismissed without moving the pointer (WCAG 1.4.13).
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const tip = document.getElementById('tooltip');
+    if (tip) tip.style.display = 'none';
   });
 
   // What's My ASN?
@@ -310,49 +337,50 @@ function setupMobileMenu() {
 
   if (!mobileMenuBtn || !sidebar || !overlay) return;
 
-  // Toggle menu
-  mobileMenuBtn.addEventListener('click', () => {
-    const isActive = sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-    mobileMenuBtn.classList.toggle('active');
-    
+  const isMobile = () => window.innerWidth <= 900;
+  const main = document.getElementById('main');
+
+  // On small screens the sidebar is an off-canvas panel: while closed it is
+  // inert (out of the tab order and hidden from screen readers); while open the
+  // page behind it is inert instead.
+  const setOpen = (open, { moveFocus = false } = {}) => {
+    sidebar.classList.toggle('active', open);
+    overlay.classList.toggle('active', open);
+    mobileMenuBtn.classList.toggle('active', open);
+    mobileMenuBtn.setAttribute('aria-expanded', String(open));
+    mobileMenuBtn.setAttribute('aria-label', open ? 'Close controls' : 'Open controls');
+    sidebar.inert = isMobile() && !open;
+    if (main) main.inert = isMobile() && open;
     // Prevent body scroll when sidebar is open on mobile
-    if (isActive && window.innerWidth <= 900) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = open && isMobile() ? 'hidden' : '';
+    if (moveFocus) (open ? sidebar.querySelector('button, input') : mobileMenuBtn)?.focus();
+  };
+  setOpen(false);
+
+  mobileMenuBtn.addEventListener('click', () => {
+    setOpen(!sidebar.classList.contains('active'), { moveFocus: true });
   });
 
   // Close on overlay click
-  overlay.addEventListener('click', () => {
-    sidebar.classList.remove('active');
-    overlay.classList.remove('active');
-    mobileMenuBtn.classList.remove('active');
-    document.body.style.overflow = '';
+  overlay.addEventListener('click', () => setOpen(false));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('active') && isMobile()) {
+      setOpen(false, { moveFocus: true });
+    }
   });
 
   // Close sidebar when clicking on sidebar items (for better mobile UX)
   sidebar.addEventListener('click', (e) => {
-    // Close if clicking on ASN items or buttons
-    if (e.target.closest('.asn-item') || e.target.closest('.tab-btn')) {
-      if (window.innerWidth <= 900) {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-        mobileMenuBtn.classList.remove('active');
-        document.body.style.overflow = '';
-      }
+    if ((e.target.closest('.asn-item') || e.target.closest('.tab-btn')) && isMobile()) {
+      setOpen(false);
     }
   });
-  
-  // Handle window resize
+
+  // Handle window resize: closes the panel and refreshes the inert state
+  // when crossing the mobile breakpoint.
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 900) {
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
-      mobileMenuBtn.classList.remove('active');
-      document.body.style.overflow = '';
-    }
+    setOpen(sidebar.classList.contains('active') && isMobile());
   });
 
   // Tap on viz panel dismisses tooltip on mobile
@@ -447,6 +475,7 @@ function setupFilters() {
     maxTrafficSlider.value = defaultMax;
     if (maxTrafficLabel) {
       maxTrafficLabel.textContent = defaultMax >= 40000 ? '∞' : defaultMax.toLocaleString();
+      maxTrafficSlider.setAttribute('aria-valuetext', defaultMax >= 40000 ? 'No limit' : defaultMax.toLocaleString());
     }
     
     maxTrafficSlider.addEventListener('input', () => {
@@ -456,6 +485,7 @@ function setupFilters() {
       
       if (maxTrafficLabel) {
         maxTrafficLabel.textContent = isInfinity ? '∞' : maxVal.toLocaleString();
+        maxTrafficSlider.setAttribute('aria-valuetext', isInfinity ? 'No limit' : maxVal.toLocaleString());
       }
       savePreferences({ ...loadPreferences(), maxTraffic: isInfinity ? Infinity : maxVal });
       

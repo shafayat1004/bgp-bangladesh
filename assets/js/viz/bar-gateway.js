@@ -5,6 +5,7 @@
  */
 
 import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
+import { makeChartAccessible } from '../ui/chart-a11y.js';
 
 const TYPE_COLORS = {
   'iig': '#51cf66',
@@ -117,6 +118,14 @@ function render() {
   const g = svg.append('g');
   const zoom = d3.zoom().scaleExtent([0.5, 3]).on('zoom', (event) => g.attr('transform', event.transform));
   svg.call(zoom);
+
+  const top = gateways.slice(0, 5)
+    .map(d => `${d.node.name || `AS${d.node.asn}`} (${d.total.toLocaleString()} routes)`).join(', ');
+  makeChartAccessible(svg, {
+    zoom,
+    label: `Bar chart of the ${gateways.length} gateways carrying the most routes, split into upstream and downstream. Largest: ${top}.`,
+    reset: () => svg.call(zoom.transform, d3.zoomIdentity),
+  });
 
   const chartWidth = width - margin.left - margin.right;
   const maxTotal = Math.max(...gateways.map(d => d.total));

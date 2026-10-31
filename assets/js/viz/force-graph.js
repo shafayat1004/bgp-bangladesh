@@ -6,6 +6,7 @@
 
 import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
 import { selectGraph, bandPosition, createSimulation, configureForces, hasBakedLayout, applyBakedPositions } from './force-layout.js';
+import { makeChartAccessible } from '../ui/chart-a11y.js';
 
 const TYPE_COLORS = {
   'outside': '#ff6b6b',
@@ -267,6 +268,17 @@ export function updateData(data, options = {}) {
   if (prevHighlight) highlightASN(prevHighlight);
 }
 
+// Text label for screen readers, plus keyboard and button pan/zoom.
+function describeChart(nodeList, edgeList) {
+  const count = (...types) => nodeList.filter(n => types.includes(n.type)).length;
+  const gateways = count('iig', 'inside', 'detected-iig');
+  const [start, end] = portrait ? ['top', 'bottom'] : ['left', 'right'];
+  const label = `Network graph of ${nodeList.length} networks and ${edgeList.length} connections. `
+    + `${count('local-company', 'local-isp')} local companies on the ${start} reach the internet through `
+    + `${gateways} gateways in the middle and ${count('outside')} international networks on the ${end}.`;
+  makeChartAccessible(svg, { zoom, label, reset: resetView, onEscape: clearHighlight });
+}
+
 // alpha 0 draws the current positions as they are, without running the simulation.
 function render({ alpha = 1 } = {}) {
   if (!currentData || !g) return;
@@ -345,6 +357,8 @@ function render({ alpha = 1 } = {}) {
     .on('mousemove', moveTooltipHandler)
     .on('mouseout', hideTooltipHandler)
     .on('click', highlightNodeHandler);
+
+  describeChart(filteredNodes, renderedEdges);
 
   configureForces(d3, simulation, { width, height, nodeCount: filteredNodes.length });
   simulation.nodes(filteredNodes).on('tick', ticked);
@@ -464,7 +478,12 @@ export function toggleLabelsVisibility() {
     d3.selectAll('.node-label').style('display', 'none');
   }
 }
-export function resetView() { if (svg && zoom) svg.transition().duration(750).call(zoom.transform, initialTransform || d3.zoomIdentity); clearHighlight(); }
+export function resetView() {
+  if (!svg || !zoom) return;
+  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (reduced ? svg : svg.transition().duration(750)).call(zoom.transform, initialTransform || d3.zoomIdentity);
+  clearHighlight();
+}
 
 export function filterByTypes(activeTypes) {
   if (!nodes || !links) return;

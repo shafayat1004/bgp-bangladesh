@@ -47,24 +47,24 @@ function render() {
 
   container.innerHTML = `
     <div class="table-toolbar">
-      <input type="text" id="table-search" placeholder="Search ASN, name, or country..." class="table-search" value="${searchQuery}">
+      <input type="search" id="table-search" placeholder="Search ASN, name, or country..." class="table-search" value="${searchQuery}" aria-label="Search the table">
       <div class="table-toolbar-right">
-        <button class="btn btn-small ${!showEdges ? 'btn-active' : ''}" id="table-show-nodes">Nodes</button>
-        <button class="btn btn-small ${showEdges ? 'btn-active' : ''}" id="table-show-edges">Edges</button>
-        <select id="table-page-size" class="table-select">
+        <button type="button" class="btn btn-small ${!showEdges ? 'btn-active' : ''}" id="table-show-nodes" aria-pressed="${!showEdges}">Nodes</button>
+        <button type="button" class="btn btn-small ${showEdges ? 'btn-active' : ''}" id="table-show-edges" aria-pressed="${showEdges}">Edges</button>
+        <select id="table-page-size" class="table-select" aria-label="Rows per page">
           <option value="25" ${pageSize === 25 ? 'selected' : ''}>25 rows</option>
           <option value="50" ${pageSize === 50 ? 'selected' : ''}>50 rows</option>
           <option value="100" ${pageSize === 100 ? 'selected' : ''}>100 rows</option>
         </select>
       </div>
     </div>
-    <div class="table-wrapper"><table class="data-table"><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
+    <div class="table-wrapper"><table class="data-table"><caption class="visually-hidden">${showEdges ? 'Connections between networks, with route counts' : 'Networks seen on BGP paths into Bangladesh'}</caption><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
     <div class="table-footer" id="table-footer"></div>
   `;
 
   document.getElementById('table-search').addEventListener('input', (e) => { searchQuery = e.target.value.toLowerCase(); currentPage = 0; renderTable(); });
-  document.getElementById('table-show-nodes').addEventListener('click', () => { showEdges = false; currentPage = 0; render(); });
-  document.getElementById('table-show-edges').addEventListener('click', () => { showEdges = true; currentPage = 0; render(); });
+  document.getElementById('table-show-nodes').addEventListener('click', () => { showEdges = false; currentPage = 0; render(); document.getElementById('table-show-nodes')?.focus(); });
+  document.getElementById('table-show-edges').addEventListener('click', () => { showEdges = true; currentPage = 0; render(); document.getElementById('table-show-edges')?.focus(); });
   document.getElementById('table-page-size').addEventListener('change', (e) => { pageSize = parseInt(e.target.value); currentPage = 0; renderTable(); });
 
   renderTable();
@@ -207,7 +207,7 @@ function buildDetailPanel(n) {
     <div class="detail-panel">
       <div class="detail-header">
         <div class="detail-title">${regFlag} ${n.name || `AS${n.asn}`}</div>
-        <button class="detail-close" title="Close">&times;</button>
+        <button class="detail-close" type="button" title="Close" aria-label="Close details">&times;</button>
       </div>
 
       <div class="detail-grid">
@@ -257,6 +257,41 @@ function buildDetailPanel(n) {
   `;
 }
 
+// Sortable column headers: a button in each header (keyboard operable) and
+// aria-sort on the sorted column. Focus returns to the header after re-render.
+function renderSortableHeader(thead, columns) {
+  thead.innerHTML = '<tr>' + columns.map(c => {
+    const sorted = currentSort.column === c.key;
+    const ariaSort = sorted ? (currentSort.asc ? 'ascending' : 'descending') : 'none';
+    const arrow = sorted ? (currentSort.asc ? ' &#9650;' : ' &#9660;') : '';
+    return `<th scope="col" data-col="${c.key}" class="sortable" aria-sort="${ariaSort}"><button type="button" class="th-sort">${c.label}<span aria-hidden="true">${arrow}</span></button></th>`;
+  }).join('') + '</tr>';
+
+  thead.querySelectorAll('th.sortable').forEach(th => {
+    th.querySelector('button').addEventListener('click', () => {
+      const col = th.dataset.col;
+      if (currentSort.column === col) currentSort.asc = !currentSort.asc;
+      else { currentSort.column = col; currentSort.asc = false; }
+      currentPage = 0;
+      renderTable();
+      document.querySelector(`#table-head th[data-col="${col}"] button`)?.focus();
+    });
+  });
+}
+
+// The pager is rebuilt on each page change; keep focus on it (on the other
+// button if this one became disabled at the first/last page).
+function refocusPager(id) {
+  const btn = document.getElementById(id);
+  const other = document.getElementById(id === 'page-next' ? 'page-prev' : 'page-next');
+  (btn && !btn.disabled ? btn : other)?.focus();
+}
+
+// The table is re-rendered on every change; put focus back on the row's button.
+function focusRowToggle(asn) {
+  document.querySelector(`#table-body tr[data-asn="${asn}"] .row-toggle`)?.focus();
+}
+
 function renderNodesTable() {
   const thead = document.getElementById('table-head');
   const tbody = document.getElementById('table-body');
@@ -274,20 +309,7 @@ function renderNodesTable() {
     { key: 'percentage', label: 'Share %', numeric: true },
   ];
 
-  thead.innerHTML = '<tr>' + columns.map(c => {
-    const arrow = currentSort.column === c.key ? (currentSort.asc ? ' &#9650;' : ' &#9660;') : '';
-    return `<th data-col="${c.key}" class="sortable">${c.label}${arrow}</th>`;
-  }).join('') + '</tr>';
-
-  thead.querySelectorAll('th.sortable').forEach(th => {
-    th.addEventListener('click', () => {
-      const col = th.dataset.col;
-      if (currentSort.column === col) currentSort.asc = !currentSort.asc;
-      else { currentSort.column = col; currentSort.asc = false; }
-      currentPage = 0;
-      renderTable();
-    });
-  });
+  renderSortableHeader(thead, columns);
 
   const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 100;
   const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
@@ -342,7 +364,7 @@ function renderNodesTable() {
 
     tbodyHtml += `<tr data-asn="${n.asn}" class="clickable-row${isExpanded ? ' row-expanded' : ''}">
       <td>${n.rank || '-'}</td>
-      <td>AS${n.asn}</td>
+      <td><button type="button" class="row-toggle" aria-expanded="${isExpanded}"${isExpanded ? ` aria-controls="detail-${n.asn}"` : ''} aria-label="AS${n.asn} details">AS${n.asn}</button></td>
       <td>${regFlag} ${n.name || '-'}${licenseBadge}</td>
       <td>${regFlag} ${n.country || '-'}</td>
       <td class="${geoClass}">${geoDisplay}</td>
@@ -354,7 +376,7 @@ function renderNodesTable() {
 
     // Insert detail panel row if this ASN is expanded
     if (isExpanded) {
-      tbodyHtml += `<tr class="detail-row"><td colspan="${columns.length}">${buildDetailPanel(n)}</td></tr>`;
+      tbodyHtml += `<tr class="detail-row" id="detail-${n.asn}"><td colspan="${columns.length}">${buildDetailPanel(n)}</td></tr>`;
     }
   }
   tbody.innerHTML = tbodyHtml;
@@ -373,6 +395,7 @@ function renderNodesTable() {
         expandedASN = asn;
       }
       renderTable();
+      focusRowToggle(asn);
     });
   });
 
@@ -380,8 +403,10 @@ function renderNodesTable() {
   tbody.querySelectorAll('.detail-close').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      const asn = expandedASN;
       expandedASN = null;
       renderTable();
+      focusRowToggle(asn);
     });
   });
 
@@ -394,8 +419,8 @@ function renderNodesTable() {
     </div>
   `;
 
-  document.getElementById('page-prev')?.addEventListener('click', () => { if (currentPage > 0) { currentPage--; renderTable(); } });
-  document.getElementById('page-next')?.addEventListener('click', () => { if (currentPage < totalPages - 1) { currentPage++; renderTable(); } });
+  document.getElementById('page-prev')?.addEventListener('click', () => { if (currentPage > 0) { currentPage--; renderTable(); refocusPager('page-prev'); } });
+  document.getElementById('page-next')?.addEventListener('click', () => { if (currentPage < totalPages - 1) { currentPage++; renderTable(); refocusPager('page-next'); } });
 }
 
 function renderEdgesTable() {
@@ -415,20 +440,7 @@ function renderEdgesTable() {
     { key: 'count', label: 'Route Count', numeric: true },
   ];
 
-  thead.innerHTML = '<tr>' + columns.map(c => {
-    const arrow = currentSort.column === c.key ? (currentSort.asc ? ' &#9650;' : ' &#9660;') : '';
-    return `<th data-col="${c.key}" class="sortable">${c.label}${arrow}</th>`;
-  }).join('') + '</tr>';
-
-  thead.querySelectorAll('th.sortable').forEach(th => {
-    th.addEventListener('click', () => {
-      const col = th.dataset.col;
-      if (currentSort.column === col) currentSort.asc = !currentSort.asc;
-      else { currentSort.column = col; currentSort.asc = false; }
-      currentPage = 0;
-      renderTable();
-    });
-  });
+  renderSortableHeader(thead, columns);
 
   const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 100;
   const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
@@ -495,8 +507,8 @@ function renderEdgesTable() {
     </div>
   `;
 
-  document.getElementById('page-prev')?.addEventListener('click', () => { if (currentPage > 0) { currentPage--; renderTable(); } });
-  document.getElementById('page-next')?.addEventListener('click', () => { if (currentPage < totalPages - 1) { currentPage++; renderTable(); } });
+  document.getElementById('page-prev')?.addEventListener('click', () => { if (currentPage > 0) { currentPage--; renderTable(); refocusPager('page-prev'); } });
+  document.getElementById('page-next')?.addEventListener('click', () => { if (currentPage < totalPages - 1) { currentPage++; renderTable(); refocusPager('page-next'); } });
 }
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }

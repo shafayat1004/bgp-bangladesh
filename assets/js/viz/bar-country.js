@@ -5,6 +5,14 @@
  */
 
 import { countryToFlag } from '../api/ripestat.js';
+import { makeChartAccessible } from '../ui/chart-a11y.js';
+
+const regionNames = (() => {
+  try { return new Intl.DisplayNames(['en'], { type: 'region' }); } catch { return null; }
+})();
+const countryName = (cc) => {
+  try { return regionNames?.of(cc) || cc; } catch { return cc; }
+};
 
 let currentData = null;
 let currentOptions = {};
@@ -101,6 +109,14 @@ function render() {
   const g = svg.append('g');
   const zoom = d3.zoom().scaleExtent([0.5, 3]).on('zoom', (event) => g.attr('transform', event.transform));
   svg.call(zoom);
+
+  const top = countries.slice(0, 5)
+    .map(d => `${countryName(d.cc)} (${d.routes.toLocaleString()} routes)`).join(', ');
+  makeChartAccessible(svg, {
+    zoom,
+    label: `Bar chart of the ${countries.length} countries whose networks carry the most routes into Bangladesh. Largest: ${top}.`,
+    reset: () => svg.call(zoom.transform, d3.zoomIdentity),
+  });
 
   const chartWidth = width - margin.left - margin.right;
   const maxRoutes = countries[0].routes;

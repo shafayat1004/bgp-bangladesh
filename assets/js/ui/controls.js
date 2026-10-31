@@ -40,9 +40,9 @@ function formatASNItem(n) {
   const name = n.name || `AS${n.asn}`;
   const desc = n.description || '';
   return `
-    <div class="asn-name">${flag ? flag + ' ' : ''}#${n.rank} ${name}</div>
-    <div class="asn-details">${desc}${n.country ? ` (${n.country})` : ''}</div>
-    <div class="asn-traffic">${n.traffic.toLocaleString()} routes &bull; ${(n.percentage || 0).toFixed(1)}%</div>
+    <span class="asn-name">${flag ? flag + ' ' : ''}#${n.rank} ${name}</span>
+    <span class="asn-details">${desc}${n.country ? ` (${n.country})` : ''}</span>
+    <span class="asn-traffic">${n.traffic.toLocaleString()} routes &bull; ${(n.percentage || 0).toFixed(1)}%</span>
   `;
 }
 
@@ -116,11 +116,14 @@ function populateList(containerId, data, type, cssClass, onNodeClick) {
     .sort((a, b) => b.traffic - a.traffic)
     .slice(0, 20);
 
+  // Buttons, so each network can be focused and highlighted from the keyboard.
   listEl.innerHTML = nodes.map(n => `
-    <div class="asn-item ${cssClass}" data-asn="${n.asn}" id="asn-${n.asn}">
-      ${formatASNItem(n)}
+    <div role="listitem">
+      <button type="button" class="asn-item ${cssClass}" data-asn="${n.asn}" id="asn-${n.asn}" aria-describedby="${containerId}-hint">
+        ${formatASNItem(n)}
+      </button>
     </div>
-  `).join('');
+  `).join('') + `<span class="visually-hidden" id="${containerId}-hint">Highlights this network's connections in the chart</span>`;
 
   listEl.querySelectorAll('.asn-item').forEach(el => {
     el.addEventListener('click', () => onNodeClick(el.dataset.asn));
