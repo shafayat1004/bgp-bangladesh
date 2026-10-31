@@ -344,7 +344,7 @@ export class RIPEStatClient {
    */
   async getCountryResources(countryCode, onProgress) {
     this.abortController = new AbortController();
-    if (onProgress) onProgress({ step: 1, totalSteps: 4, message: `Fetching country resources for ${countryCode}...` });
+    if (onProgress) onProgress({ step: 1, totalSteps: 4, message: `Fetching country resources for ${countryCode}…` });
 
     let countryASNs;
     let allocPrefixes;
@@ -374,7 +374,7 @@ export class RIPEStatClient {
       if (onProgress) {
         onProgress({
           step: 1, totalSteps: 4,
-          message: 'RIPEstat unavailable — falling back to committed country resource list...',
+          message: 'RIPEstat unavailable — falling back to committed country resource list…',
           warning: true,
         });
       }
@@ -392,7 +392,7 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 1, totalSteps: 4,
-        message: `Found ${countryASNs.size} ASNs and ${allocPrefixes.length} allocation prefixes. Fetching announced prefixes for all ASNs...`,
+        message: `Found ${countryASNs.size} ASNs and ${allocPrefixes.length} allocation prefixes. Fetching announced prefixes for all ASNs…`,
       });
     }
 
@@ -493,7 +493,7 @@ export class RIPEStatClient {
         const eta = Math.ceil((total - done) * (elapsed / done));
         onProgress({
           step: 1, totalSteps: 4,
-          message: `Fetching announced prefixes: ${done}/${total} ASNs (${completed} ok, ${failed} failed, ETA ${eta}s)...`,
+          message: `Fetching announced prefixes: ${done}/${total} ASNs (${completed} ok, ${failed} failed, ETA ${eta}s)…`,
           progress: done / total,
         });
       }
@@ -527,7 +527,7 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 2, totalSteps: 4,
-        message: `Fetching BGP routes (0/${totalBatches} batches)...`,
+        message: `Fetching BGP routes (0/${totalBatches} batches)…`,
         progress: 0, completed: 0, failed: 0, total: totalBatches,
       });
     }
@@ -583,7 +583,7 @@ export class RIPEStatClient {
           if (onProgress) {
             onProgress({
               step: 2, totalSteps: 4,
-              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${totalRouteCount.toLocaleString()} routes)...`,
+              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${totalRouteCount.toLocaleString()} routes)…`,
               progress: (completed + failed) / totalBatches,
               completed, failed, total: totalBatches,
               eta: Math.ceil(remaining),
@@ -605,7 +605,7 @@ export class RIPEStatClient {
           if (onProgress) {
             onProgress({
               step: 2, totalSteps: 4,
-              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${totalRouteCount.toLocaleString()} routes)...`,
+              message: `Fetching BGP routes (${completed}/${totalBatches} batches, ${totalRouteCount.toLocaleString()} routes)…`,
               progress: (completed + failed) / totalBatches,
               completed, failed, total: totalBatches,
               eta: Math.ceil(remaining),
@@ -646,7 +646,7 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 3, totalSteps: 4,
-        message: `Resolving ASN names (0/${total})...`,
+        message: `Resolving ASN names (0/${total})…`,
         progress: 0, completed: 0, failed: 0, total,
       });
     }
@@ -712,7 +712,7 @@ export class RIPEStatClient {
       if (onProgress) {
         onProgress({
           step: 3, totalSteps: 4,
-          message: `Resolving ASN names (${completed}/${total})...`,
+          message: `Resolving ASN names (${completed}/${total})…`,
           progress: (completed + failed) / total,
           completed, failed, total,
           eta: Math.ceil(remaining),
@@ -744,7 +744,7 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 3, totalSteps: 4,
-        message: `Checking geolocation for ${total} ASNs (offshore detection)...`,
+        message: `Checking geolocation for ${total} ASNs (offshore detection)…`,
         progress: 0.85,
       });
     }
@@ -786,7 +786,7 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 4, totalSteps: 5,
-        message: `Fetching PeeringDB locations for ${offshoreList.length} offshore ASNs...`,
+        message: `Fetching PeeringDB locations for ${offshoreList.length} offshore ASNs…`,
         progress: 0,
       });
     }
@@ -803,7 +803,7 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 4, totalSteps: 5,
-        message: `Querying PeeringDB for ${allNeeded.size} ASNs (batch)...`,
+        message: `Querying PeeringDB for ${allNeeded.size} ASNs (batch)…`,
         progress: 0.2,
       });
     }
@@ -834,7 +834,7 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 4, totalSteps: 5,
-        message: 'Resolving IXP countries from PeeringDB...',
+        message: 'Resolving IXP countries from PeeringDB…',
         progress: 0.5,
       });
     }
@@ -874,7 +874,7 @@ export class RIPEStatClient {
     if (onProgress) {
       onProgress({
         step: 4, totalSteps: 5,
-        message: 'Analyzing peering locations...',
+        message: 'Analyzing peering locations…',
         progress: 0.8,
       });
     }

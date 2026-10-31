@@ -154,7 +154,7 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
       const done = Math.min(start + chunkSize, total);
       onProgress({
         step: 4, totalSteps: 5,
-        message: `Processing routes (${done.toLocaleString()}/${total.toLocaleString()})...`,
+        message: `Processing routes (${done.toLocaleString()}/${total.toLocaleString()})…`,
         progress: done / total,
       });
     }

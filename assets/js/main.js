@@ -411,7 +411,7 @@ async function detectMyASN() {
   const btn = document.getElementById('btn-my-asn');
   const resultEl = document.getElementById('my-asn-result');
   const label = btn?.textContent;
-  if (btn) { btn.disabled = true; btn.textContent = 'Looking up your network...'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Looking up your network…'; }
 
   try {
     const lookup = await ripeClient.getMyASN();
@@ -709,7 +709,7 @@ async function fetchLiveData() {
     }
 
     // Step 3: Finalize analysis
-    updateProgress({ step: 3, totalSteps: 5, message: 'Finalizing gateway analysis...', progress: 0 });
+    updateProgress({ step: 3, totalSteps: 5, message: 'Finalizing gateway analysis…', progress: 0 });
     let analysis;
     if (useWasm) {
       const result = await wasmWorker.finalize();
@@ -735,7 +735,7 @@ async function fetchLiveData() {
     const asnInfo = await ripeClient.fetchASNInfo([...neededASNs], countryASNs, (p) => updateProgress({ ...p, totalSteps: 5 }));
 
     // Step 3c: Fetch geolocation for BD-registered tentative IIGs (offshore detection)
-    updateProgress({ step: 3, totalSteps: 5, message: 'Detecting offshore ASNs via geolocation...', progress: 0.85 });
+    updateProgress({ step: 3, totalSteps: 5, message: 'Detecting offshore ASNs via geolocation…', progress: 0.85 });
     const tentativeIIGs = [];
     const sortedIntl = [...analysis.edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, 1500);
     for (const [edgeKey] of sortedIntl) {
@@ -777,7 +777,7 @@ async function fetchLiveData() {
     }
 
     // Step 5: Build visualization data (license-aware, 6-category)
-    updateProgress({ step: 5, totalSteps: 5, message: 'Building visualization...', progress: 0.5 });
+    updateProgress({ step: 5, totalSteps: 5, message: 'Building visualization…', progress: 0.5 });
     const vizData = buildVisualizationData(analysis, asnInfo, countryASNs, 1500, 2000, btrcLicensedASNs);
     updateProgress({ step: 5, totalSteps: 5, message: 'Done!', progress: 1, complete: true });
 
@@ -846,6 +846,10 @@ window.addEventListener('resize', () => {
 window.visualViewport?.addEventListener('resize', () => {
   if (window.visualViewport.scale <= 1.01 && (window.scrollX || window.scrollY)) window.scrollTo(0, 0);
 });
+
+// iOS Safari only applies :active (the press feedback touch screens get instead
+// of hover) when the page listens for touchstart.
+document.addEventListener('touchstart', () => {}, { passive: true });
 
 // ────────────────────────────────────────
 // Boot
