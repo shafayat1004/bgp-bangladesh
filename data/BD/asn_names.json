@@ -4,210 +4,240 @@
     "name": "MILKYWAN - MilkyWan Association",
     "holder": "MILKYWAN - MilkyWan Association",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "559": {
     "asn": "559",
     "name": "SWITCH",
     "holder": "SWITCH",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "1103": {
     "asn": "1103",
     "name": "SURFNET-NL - SURF B.V.",
     "holder": "SURFNET-NL - SURF B.V.",
     "announced": true,
-    "country": "NL"
+    "country": "NL",
+    "country_source": "rir"
   },
   "6461": {
     "asn": "6461",
     "name": "ZAYO-6461 - Zayo Bandwidth",
     "holder": "ZAYO-6461 - Zayo Bandwidth",
     "announced": true,
-    "country": "US"
+    "country": "US",
+    "country_source": "rir"
   },
   "174": {
     "asn": "174",
     "name": "COGENT-174 - Cogent Communications",
     "holder": "COGENT-174 - Cogent Communications",
     "announced": true,
-    "country": "US"
+    "country": "US",
+    "country_source": "rir"
   },
   "1828": {
     "asn": "1828",
     "name": "UNITAS - Unitas Global",
     "holder": "UNITAS - Unitas Global",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "5405": {
     "asn": "5405",
     "name": "INTERDOTLINK - Inter.link GmbH",
     "holder": "INTERDOTLINK - Inter.link GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "1299": {
     "asn": "1299",
     "name": "TWELVE99 - Arelion Sweden AB",
     "holder": "TWELVE99 - Arelion Sweden AB",
     "announced": true,
-    "country": "SE"
+    "country": "SE",
+    "country_source": "rir"
   },
   "6453": {
     "asn": "6453",
     "name": "AS6453 - TATA COMMUNICATIONS AMERICA INC",
     "holder": "AS6453 - TATA COMMUNICATIONS AMERICA INC",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "5511": {
     "asn": "5511",
     "name": "OPENTRANSIT - Orange S.A.",
     "holder": "OPENTRANSIT - Orange S.A.",
     "announced": true,
-    "country": "FR"
+    "country": "FR",
+    "country_source": "rir"
   },
   "6057": {
     "asn": "6057",
     "name": "Administracion Nacional de Telecomunicaciones",
     "holder": "Administracion Nacional de Telecomunicaciones",
     "announced": true,
-    "country": ""
+    "country": "UY",
+    "country_source": "rir"
   },
   "4608": {
     "asn": "4608",
     "name": "APNIC-SERVICES Asia Pacific Network Information Centre",
     "holder": "APNIC-SERVICES Asia Pacific Network Information Centre",
     "announced": true,
-    "country": ""
+    "country": "AU",
+    "country_source": "rir"
   },
   "2914": {
     "asn": "2914",
     "name": "NTT-DATA-2914 - NTT America",
     "holder": "NTT-DATA-2914 - NTT America",
     "announced": true,
-    "country": "US"
+    "country": "US",
+    "country_source": "rir"
   },
   "6424": {
     "asn": "6424",
     "name": "EDGOO - EDGOO NETWORKS UNIPESSOAL LDA",
     "holder": "EDGOO - EDGOO NETWORKS UNIPESSOAL LDA",
     "announced": true,
-    "country": ""
+    "country": "PT",
+    "country_source": "rir"
   },
   "553": {
     "asn": "553",
     "name": "BELWUE - Universitaet Stuttgart",
     "holder": "BELWUE - Universitaet Stuttgart",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "1764": {
     "asn": "1764",
     "name": "NEXTLAYER-AS - Next Layer Telekommunikationsdienstleistungs- und Beratungs GmbH",
     "holder": "NEXTLAYER-AS - Next Layer Telekommunikationsdienstleistungs- und Beratungs GmbH",
     "announced": true,
-    "country": "AS"
+    "country": "AT",
+    "country_source": "rir"
   },
   "3491": {
     "asn": "3491",
     "name": "CONSOLE-CONNECT-ASN - PCCW Global",
     "holder": "CONSOLE-CONNECT-ASN - PCCW Global",
     "announced": true,
-    "country": "US"
+    "country": "HK",
+    "country_source": "rir"
   },
   "3303": {
     "asn": "3303",
     "name": "SWISSCOM - Swisscom (Schweiz) AG",
     "holder": "SWISSCOM - Swisscom (Schweiz) AG",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "6758": {
     "asn": "6758",
     "name": "AS6758 - Monaco Telecom S.A.",
     "holder": "AS6758 - Monaco Telecom S.A.",
     "announced": true,
-    "country": ""
+    "country": "MC",
+    "country_source": "rir"
   },
   "3223": {
     "asn": "3223",
     "name": "VOXILITY - Voxility LLP",
     "holder": "VOXILITY - Voxility LLP",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "6939": {
     "asn": "6939",
     "name": "HURRICANE - Hurricane Electric LLC",
     "holder": "HURRICANE - Hurricane Electric LLC",
     "announced": true,
-    "country": "US"
+    "country": "US",
+    "country_source": "rir"
   },
   "8529": {
     "asn": "8529",
     "name": "OMANTEL-AS - Zain Omantel International FZ-LLC",
     "holder": "OMANTEL-AS - Zain Omantel International FZ-LLC",
     "announced": true,
-    "country": "AS"
+    "country": "AE",
+    "country_source": "rir"
   },
   "8220": {
     "asn": "8220",
     "name": "COLT - COLT Technology Services Group Limited",
     "holder": "COLT - COLT Technology Services Group Limited",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "7473": {
     "asn": "7473",
     "name": "SINGTEL-AS-AP Singapore Telecommunications Ltd",
     "holder": "SINGTEL-AS-AP Singapore Telecommunications Ltd",
     "announced": true,
-    "country": "AP"
+    "country": "SG",
+    "country_source": "rir"
   },
   "12779": {
     "asn": "12779",
     "name": "ITGATE - IT.Gate S.p.A.",
     "holder": "ITGATE - IT.Gate S.p.A.",
     "announced": true,
-    "country": ""
+    "country": "IT",
+    "country_source": "rir"
   },
   "8758": {
     "asn": "8758",
     "name": "IWAY - Iway AG",
     "holder": "IWAY - Iway AG",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "9498": {
     "asn": "9498",
     "name": "BBIL-AP BHARTI Airtel Ltd.",
     "holder": "BBIL-AP BHARTI Airtel Ltd.",
     "announced": true,
-    "country": "IN"
+    "country": "IN",
+    "country_source": "rir"
   },
   "9002": {
     "asn": "9002",
     "name": "RETN-AS - RETN Limited",
     "holder": "RETN-AS - RETN Limited",
     "announced": true,
-    "country": "EU"
+    "country": "GB",
+    "country_source": "rir"
   },
   "6762": {
     "asn": "6762",
     "name": "SEABONE-NET - TELECOM ITALIA SPARKLE S.p.A.",
     "holder": "SEABONE-NET - TELECOM ITALIA SPARKLE S.p.A.",
     "announced": true,
-    "country": "IT"
+    "country": "IT",
+    "country_source": "rir"
   },
   "17639": {
     "asn": "17639",
     "name": "CONVERGE-AS Converge ICT Solutions Inc.",
     "holder": "CONVERGE-AS Converge ICT Solutions Inc.",
     "announced": true,
-    "country": "AS"
+    "country": "PH",
+    "country_source": "rir"
   },
   "17494": {
     "asn": "17494",
@@ -327,49 +357,56 @@
     "name": "BR.Digital Telecom",
     "holder": "BR.Digital Telecom",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "8298": {
     "asn": "8298",
     "name": "IPNG - IPng Networks GmbH",
     "holder": "IPNG - IPng Networks GmbH",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "17557": {
     "asn": "17557",
     "name": "PKTELECOM-AS-PK Pakistan Telecommunication Company Limited",
     "holder": "PKTELECOM-AS-PK Pakistan Telecommunication Company Limited",
     "announced": true,
-    "country": "PK"
+    "country": "PK",
+    "country_source": "rir"
   },
   "9583": {
     "asn": "9583",
     "name": "SIFY-AS-IN Sify Limited",
     "holder": "SIFY-AS-IN Sify Limited",
     "announced": true,
-    "country": "IN"
+    "country": "IN",
+    "country_source": "rir"
   },
   "8218": {
     "asn": "8218",
     "name": "NEO-ASN - Zayo Infrastructure France SA",
     "holder": "NEO-ASN - Zayo Infrastructure France SA",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "14907": {
     "asn": "14907",
     "name": "WIKIMEDIA - Wikimedia Foundation Inc.",
     "holder": "WIKIMEDIA - Wikimedia Foundation Inc.",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "15547": {
     "asn": "15547",
     "name": "NETPLUS - netplus.ch SA",
     "holder": "NETPLUS - netplus.ch SA",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "17806": {
     "asn": "17806",
@@ -390,266 +427,304 @@
     "name": "VIEWQWEST-SG-AP Viewqwest Pte Ltd",
     "holder": "VIEWQWEST-SG-AP Viewqwest Pte Ltd",
     "announced": true,
-    "country": "AP"
+    "country": "SG",
+    "country_source": "rir"
   },
   "25152": {
     "asn": "25152",
     "name": "K-ROOT-SERVER - Reseaux IP Europeens Network Coordination Centre (RIPE NCC)",
     "holder": "K-ROOT-SERVER - Reseaux IP Europeens Network Coordination Centre (RIPE NCC)",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "20473": {
     "asn": "20473",
     "name": "AS-VULTR - The Constant Company",
     "holder": "AS-VULTR - The Constant Company",
     "announced": true,
-    "country": "US"
+    "country": "US",
+    "country_source": "rir"
   },
   "23764": {
     "asn": "23764",
     "name": "CTGNET CTGNet",
     "holder": "CTGNET CTGNet",
     "announced": true,
-    "country": ""
+    "country": "HK",
+    "country_source": "rir"
   },
   "20932": {
     "asn": "20932",
     "name": "SIG-ST - Services Industriels de Geneve",
     "holder": "SIG-ST - Services Industriels de Geneve",
     "announced": true,
-    "country": "ST"
+    "country": "CH",
+    "country_source": "rir"
   },
   "20485": {
     "asn": "20485",
     "name": "TRANSTELECOM - Joint Stock Company TransTeleCom",
     "holder": "TRANSTELECOM - Joint Stock Company TransTeleCom",
     "announced": true,
-    "country": ""
+    "country": "RU",
+    "country_source": "rir"
   },
   "25220": {
     "asn": "25220",
     "name": "GLOBALNOC-AS - equada network GmbH",
     "holder": "GLOBALNOC-AS - equada network GmbH",
     "announced": true,
-    "country": "AS"
+    "country": "DE",
+    "country_source": "rir"
   },
   "25160": {
     "asn": "25160",
     "name": "VORBOSS - Vorboss Limited",
     "holder": "VORBOSS - Vorboss Limited",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "25091": {
     "asn": "25091",
     "name": "IP-MAX - IP-Max SA",
     "holder": "IP-MAX - IP-Max SA",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "31510": {
     "asn": "31510",
     "name": "IKB-AS - Innsbrucker Kommunalbetriebe AG",
     "holder": "IKB-AS - Innsbrucker Kommunalbetriebe AG",
     "announced": true,
-    "country": "AS"
+    "country": "AT",
+    "country_source": "rir"
   },
   "24482": {
     "asn": "24482",
     "name": "SGGS-AS-AP SG.GS",
     "holder": "SGGS-AS-AP SG.GS",
     "announced": true,
-    "country": "AP"
+    "country": "SG",
+    "country_source": "rir"
   },
   "34019": {
     "asn": "34019",
     "name": "HIVANE - Hivane Association",
     "holder": "HIVANE - Hivane Association",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "23470": {
     "asn": "23470",
     "name": "RELIABLESITE - ReliableSite.Net LLC",
     "holder": "RELIABLESITE - ReliableSite.Net LLC",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "26042": {
     "asn": "26042",
     "name": "FIBERSTATE - FiberState",
     "holder": "FIBERSTATE - FiberState",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "29140": {
     "asn": "29140",
     "name": "HOSTSERVER-AS - Hostserver GmbH",
     "holder": "HOSTSERVER-AS - Hostserver GmbH",
     "announced": true,
-    "country": "AS"
+    "country": "DE",
+    "country_source": "rir"
   },
   "31027": {
     "asn": "31027",
     "name": "GLOBALCONNECT-AS31027 - GlobalConnect A/S",
     "holder": "GLOBALCONNECT-AS31027 - GlobalConnect A/S",
     "announced": true,
-    "country": ""
+    "country": "DK",
+    "country_source": "rir"
   },
   "29075": {
     "asn": "29075",
     "name": "IELO - IELO-LIAZO SERVICES SAS",
     "holder": "IELO - IELO-LIAZO SERVICES SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "34177": {
     "asn": "34177",
     "name": "CELESTE-AS - CELESTE SAS",
     "holder": "CELESTE-AS - CELESTE SAS",
     "announced": true,
-    "country": "AS"
+    "country": "FR",
+    "country_source": "rir"
   },
   "33891": {
     "asn": "33891",
     "name": "CORE-BACKBONE - Core-Backbone GmbH",
     "holder": "CORE-BACKBONE - Core-Backbone GmbH",
     "announced": false,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "34288": {
     "asn": "34288",
     "name": "AS34288 - Kantonsschule Zug",
     "holder": "AS34288 - Kantonsschule Zug",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "35280": {
     "asn": "35280",
     "name": "F5 - F5 Networks SARL",
     "holder": "F5 - F5 Networks SARL",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "34549": {
     "asn": "34549",
     "name": "MEER-AS - meerfarbig GmbH & Co. KG",
     "holder": "MEER-AS - meerfarbig GmbH & Co. KG",
     "announced": true,
-    "country": "AS"
+    "country": "DE",
+    "country_source": "rir"
   },
   "35360": {
     "asn": "35360",
     "name": "GARGUNET - Frederic Gargula",
     "holder": "GARGUNET - Frederic Gargula",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "36236": {
     "asn": "36236",
     "name": "NETACTUATE - NetActuate",
     "holder": "NETACTUATE - NetActuate",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "35625": {
     "asn": "35625",
     "name": "EUROFIBER-FRANCE - Eurofiber France SAS",
     "holder": "EUROFIBER-FRANCE - Eurofiber France SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "34927": {
     "asn": "34927",
     "name": "IFOG-GMBH - iFog GmbH",
     "holder": "IFOG-GMBH - iFog GmbH",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "38001": {
     "asn": "38001",
     "name": "NEWMEDIAEXPRESS-AS-AP NewMedia Express Pte Ltd",
     "holder": "NEWMEDIAEXPRESS-AS-AP NewMedia Express Pte Ltd",
     "announced": true,
-    "country": "AP"
+    "country": "SG",
+    "country_source": "rir"
   },
   "35600": {
     "asn": "35600",
     "name": "ASN-VEDEGE - Vedege SAS",
     "holder": "ASN-VEDEGE - Vedege SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "35710": {
     "asn": "35710",
     "name": "WEBERCLOUD - weber.digital GmbH",
     "holder": "WEBERCLOUD - weber.digital GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "38008": {
     "asn": "38008",
     "name": "APERTURE-AS-AP Aperture Science Limited",
     "holder": "APERTURE-AS-AP Aperture Science Limited",
     "announced": true,
-    "country": "AP"
+    "country": "HK",
+    "country_source": "rir"
   },
   "44097": {
     "asn": "44097",
     "name": "AUTONOMOUS-CLOSET - CLEMENT CAVADORE",
     "holder": "AUTONOMOUS-CLOSET - CLEMENT CAVADORE",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "37721": {
     "asn": "37721",
     "name": "Virtual-Technologies-Solutions-SA",
     "holder": "Virtual-Technologies-Solutions-SA",
     "announced": true,
-    "country": "SA"
+    "country": "BF",
+    "country_source": "rir"
   },
   "47692": {
     "asn": "47692",
     "name": "NESSUS - Nessus GmbH",
     "holder": "NESSUS - Nessus GmbH",
     "announced": true,
-    "country": ""
+    "country": "AT",
+    "country_source": "rir"
   },
   "42541": {
     "asn": "42541",
     "name": "FIBERBY - Fiberby ApS",
     "holder": "FIBERBY - Fiberby ApS",
     "announced": true,
-    "country": ""
+    "country": "DK",
+    "country_source": "rir"
   },
   "47734": {
     "asn": "47734",
     "name": "TELECOM-IT-SOLUTIONS-AS - Telecom IT Solutions SRL",
     "holder": "TELECOM-IT-SOLUTIONS-AS - Telecom IT Solutions SRL",
     "announced": true,
-    "country": "AS"
+    "country": "RO",
+    "country_source": "rir"
   },
   "47147": {
     "asn": "47147",
     "name": "AS-ANX - Anexia Cloud Solutions GmbH",
     "holder": "AS-ANX - Anexia Cloud Solutions GmbH",
     "announced": true,
-    "country": ""
+    "country": "AT",
+    "country_source": "rir"
   },
   "45489": {
     "asn": "45489",
     "name": "SLT-GLOBAL Sri Lanka Telecom PLC",
     "holder": "SLT-GLOBAL Sri Lanka Telecom PLC",
     "announced": true,
-    "country": ""
+    "country": "LK",
+    "country_source": "rir"
   },
   "45896": {
     "asn": "45896",
     "name": "MOBIFONEGLOBAL-AS-VN Mobifone Global JSC",
     "holder": "MOBIFONEGLOBAL-AS-VN Mobifone Global JSC",
     "announced": true,
-    "country": "VN"
+    "country": "VN",
+    "country_source": "rir"
   },
   "45282": {
     "asn": "45282",
@@ -686,98 +761,112 @@
     "name": "ESAB-AS - 31173 Services AB",
     "holder": "ESAB-AS - 31173 Services AB",
     "announced": true,
-    "country": "AS"
+    "country": "SE",
+    "country_source": "rir"
   },
   "48362": {
     "asn": "48362",
     "name": "TKSWF-AS - Stadtwerke Feldkirch",
     "holder": "TKSWF-AS - Stadtwerke Feldkirch",
     "announced": true,
-    "country": "AS"
+    "country": "AT",
+    "country_source": "rir"
   },
   "48919": {
     "asn": "48919",
     "name": "UA-CITY-AS - UACITY Ltd.",
     "holder": "UA-CITY-AS - UACITY Ltd.",
     "announced": true,
-    "country": "AS"
+    "country": "UA",
+    "country_source": "rir"
   },
   "50628": {
     "asn": "50628",
     "name": "LEONIX-TELECOM - Leonix Telecom SAS",
     "holder": "LEONIX-TELECOM - Leonix Telecom SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "49544": {
     "asn": "49544",
     "name": "I3DNET - i3D.net B.V",
     "holder": "I3DNET - i3D.net B.V",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "52320": {
     "asn": "52320",
     "name": "GlobeNet Cabos Submarinos Colombia",
     "holder": "GlobeNet Cabos Submarinos Colombia",
     "announced": true,
-    "country": ""
+    "country": "CO",
+    "country_source": "rir"
   },
   "50763": {
     "asn": "50763",
     "name": "MCKAYCOM - Robert McKay",
     "holder": "MCKAYCOM - Robert McKay",
     "announced": true,
-    "country": ""
+    "country": "IM",
+    "country_source": "rir"
   },
   "51184": {
     "asn": "51184",
     "name": "FONIRA - Fonira Telekom GmbH",
     "holder": "FONIRA - Fonira Telekom GmbH",
     "announced": true,
-    "country": ""
+    "country": "AT",
+    "country_source": "rir"
   },
   "51185": {
     "asn": "51185",
     "name": "MAINSTREAMING-AS - MainStreaming SpA",
     "holder": "MAINSTREAMING-AS - MainStreaming SpA",
     "announced": true,
-    "country": "AS"
+    "country": "IT",
+    "country_source": "rir"
   },
   "58057": {
     "asn": "58057",
     "name": "SECUREBIT - Securebit AG",
     "holder": "SECUREBIT - Securebit AG",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "58308": {
     "asn": "58308",
     "name": "CUSAE-AS - Cusae SAS",
     "holder": "CUSAE-AS - Cusae SAS",
     "announced": true,
-    "country": "AS"
+    "country": "FR",
+    "country_source": "rir"
   },
   "56987": {
     "asn": "56987",
     "name": "AS-ABACLOUDA - ABACLOUDA SAS",
     "holder": "AS-ABACLOUDA - ABACLOUDA SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "58453": {
     "asn": "58453",
     "name": "CMI-INT-HK China Mobile International Limited",
     "holder": "CMI-INT-HK China Mobile International Limited",
     "announced": true,
-    "country": "HK"
+    "country": "HK",
+    "country_source": "rir"
   },
   "58299": {
     "asn": "58299",
     "name": "OPENFACTORY-AS - Openfactory GmbH",
     "holder": "OPENFACTORY-AS - Openfactory GmbH",
     "announced": true,
-    "country": "AS"
+    "country": "CH",
+    "country_source": "rir"
   },
   "58717": {
     "asn": "58717",
@@ -870,42 +959,48 @@
     "name": "FRONTIIRCOLTD-MM Frontiir Co. Ltd",
     "holder": "FRONTIIRCOLTD-MM Frontiir Co. Ltd",
     "announced": true,
-    "country": "MM"
+    "country": "MM",
+    "country_source": "rir"
   },
   "60068": {
     "asn": "60068",
     "name": "CDN77 - Datacamp Limited",
     "holder": "CDN77 - Datacamp Limited",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "61292": {
     "asn": "61292",
     "name": "BLXGRP - Blix Group AS",
     "holder": "BLXGRP - Blix Group AS",
     "announced": true,
-    "country": ""
+    "country": "NO",
+    "country_source": "rir"
   },
   "61573": {
     "asn": "61573",
     "name": "IP TELECOM",
     "holder": "IP TELECOM",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "60171": {
     "asn": "60171",
     "name": "AFRIX-AS - AFR-IX TELECOM S.A.",
     "holder": "AFRIX-AS - AFR-IX TELECOM S.A.",
     "announced": true,
-    "country": "AS"
+    "country": "ES",
+    "country_source": "rir"
   },
   "64049": {
     "asn": "64049",
     "name": "RJIPL-SG Reliance Jio Infocomm Pte Ltd Singapore",
     "holder": "RJIPL-SG Reliance Jio Infocomm Pte Ltd Singapore",
     "announced": true,
-    "country": "SG"
+    "country": "SG",
+    "country_source": "rir"
   },
   "132817": {
     "asn": "132817",
@@ -1128,14 +1223,16 @@
     "name": "FREIFUNK-FRANKFURT - Freifunk Frankfurt am Main e.V.",
     "holder": "FREIFUNK-FRANKFURT - Freifunk Frankfurt am Main e.V.",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "59796": {
     "asn": "59796",
     "name": "STORMWALL-AS - StormWall s.r.o.",
     "holder": "STORMWALL-AS - StormWall s.r.o.",
     "announced": true,
-    "country": "AS"
+    "country": "SK",
+    "country_source": "rir"
   },
   "132602": {
     "asn": "132602",
@@ -1193,21 +1290,24 @@
     "name": "GSLNETWORKS-AS-AP GSL Networks Pty LTD",
     "holder": "GSLNETWORKS-AS-AP GSL Networks Pty LTD",
     "announced": true,
-    "country": "AP"
+    "country": "AU",
+    "country_source": "rir"
   },
   "133210": {
     "asn": "133210",
     "name": "ENTECHNOLOGIES-AS-AP EN Technologies Pte Ltd",
     "holder": "ENTECHNOLOGIES-AS-AP EN Technologies Pte Ltd",
     "announced": true,
-    "country": "AP"
+    "country": "SG",
+    "country_source": "rir"
   },
   "135709": {
     "asn": "135709",
     "name": "LTCIN-AS-IN Lightstorm Telecom Connectivity Private Limited",
     "holder": "LTCIN-AS-IN Lightstorm Telecom Connectivity Private Limited",
     "announced": true,
-    "country": "IN"
+    "country": "IN",
+    "country_source": "rir"
   },
   "132884": {
     "asn": "132884",
@@ -1244,7 +1344,8 @@
     "name": "HOST-AS-AP Host Universal Pty Ltd",
     "holder": "HOST-AS-AP Host Universal Pty Ltd",
     "announced": true,
-    "country": "AP"
+    "country": "AU",
+    "country_source": "rir"
   },
   "137491": {
     "asn": "137491",
@@ -1334,7 +1435,8 @@
     "name": "ROXONIC-AS-AP Roxonic Systems",
     "holder": "ROXONIC-AS-AP Roxonic Systems",
     "announced": true,
-    "country": "AP"
+    "country": "NL",
+    "country_source": "rir"
   },
   "149659": {
     "asn": "149659",
@@ -1363,7 +1465,8 @@
     "name": "DOUBLESQUARE-AS-AP EWS DS Networks Inc",
     "holder": "DOUBLESQUARE-AS-AP EWS DS Networks Inc",
     "announced": true,
-    "country": "AP"
+    "country": "PH",
+    "country_source": "rir"
   },
   "149994": {
     "asn": "149994",
@@ -1542,7 +1645,8 @@
     "name": "LAPL-AS-AP LIGHTSTORM ASIA PTE. LTD.",
     "holder": "LAPL-AS-AP LIGHTSTORM ASIA PTE. LTD.",
     "announced": true,
-    "country": "AP"
+    "country": "SG",
+    "country_source": "rir"
   },
   "151624": {
     "asn": "151624",
@@ -1571,7 +1675,8 @@
     "name": "PHILUNET - PHILUNET GmbH",
     "holder": "PHILUNET - PHILUNET GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "150748": {
     "asn": "150748",
@@ -2315,35 +2420,40 @@
     "name": "GCORE - G-Core Labs S.A.",
     "holder": "GCORE - G-Core Labs S.A.",
     "announced": true,
-    "country": ""
+    "country": "LU",
+    "country_source": "rir"
   },
   "199938": {
     "asn": "199938",
     "name": "NETZWERGE - Netzwerge GmbH",
     "holder": "NETZWERGE - Netzwerge GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "209823": {
     "asn": "209823",
     "name": "ENKI-AS - Enki Multimedia EURL",
     "holder": "ENKI-AS - Enki Multimedia EURL",
     "announced": true,
-    "country": "AS"
+    "country": "FR",
+    "country_source": "rir"
   },
   "212024": {
     "asn": "212024",
     "name": "RISSON - Marc Schmitt",
     "holder": "RISSON - Marc Schmitt",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "401106": {
     "asn": "401106",
     "name": "TECHIES365 - Techies365",
     "holder": "TECHIES365 - Techies365",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "140887": {
     "asn": "140887",
@@ -2385,14 +2495,16 @@
     "name": "MYLOC-AS - WIIT AG",
     "holder": "MYLOC-AS - WIIT AG",
     "announced": true,
-    "country": "AS"
+    "country": "DE",
+    "country_source": "rir"
   },
   "4635": {
     "asn": "4635",
     "name": "HKIX-RS1 Hong Kong Internet Exchange--Route Server 1",
     "holder": "HKIX-RS1 Hong Kong Internet Exchange--Route Server 1",
     "announced": false,
-    "country": ""
+    "country": "HK",
+    "country_source": "rir"
   },
   "149303": {
     "asn": "149303",
@@ -2448,14 +2560,16 @@
     "name": "TISMI - Tismi BV",
     "holder": "TISMI - Tismi BV",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "8283": {
     "asn": "8283",
     "name": "COLOCLUE-AS - Netwerkvereniging Coloclue",
     "holder": "COLOCLUE-AS - Netwerkvereniging Coloclue",
     "announced": true,
-    "country": "AS"
+    "country": "NL",
+    "country_source": "rir"
   },
   "141227": {
     "asn": "141227",
@@ -2483,7 +2597,8 @@
     "name": "BLIX - Blix Solutions AS",
     "holder": "BLIX - Blix Solutions AS",
     "announced": true,
-    "country": ""
+    "country": "NO",
+    "country_source": "rir"
   },
   "141726": {
     "asn": "141726",
@@ -2518,7 +2633,8 @@
     "name": "BELCLOUD - Belcloud LTD",
     "holder": "BELCLOUD - Belcloud LTD",
     "announced": true,
-    "country": ""
+    "country": "BG",
+    "country_source": "rir"
   },
   "149832": {
     "asn": "149832",
@@ -2679,14 +2795,16 @@
     "name": "DTS-AS - Digital Telecommunication Services S.r.l.",
     "holder": "DTS-AS - Digital Telecommunication Services S.r.l.",
     "announced": true,
-    "country": "AS"
+    "country": "IT",
+    "country_source": "rir"
   },
   "3212": {
     "asn": "3212",
     "name": "TELEMACH - Telemach Slovenija d.o.o.",
     "holder": "TELEMACH - Telemach Slovenija d.o.o.",
     "announced": true,
-    "country": ""
+    "country": "SI",
+    "country_source": "rir"
   },
   "58527": {
     "asn": "58527",
@@ -2700,7 +2818,8 @@
     "name": "LAMBDANET-AS - euNetworks GmbH",
     "holder": "LAMBDANET-AS - euNetworks GmbH",
     "announced": true,
-    "country": "AS"
+    "country": "DE",
+    "country_source": "rir"
   },
   "149491": {
     "asn": "149491",
@@ -3151,7 +3270,8 @@
     "name": "OPSONE - Ops One AG",
     "holder": "OPSONE - Ops One AG",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "149478": {
     "asn": "149478",
@@ -3235,7 +3355,8 @@
     "name": "TTI-NET - Euroweb Romania S.R.L.",
     "holder": "TTI-NET - Euroweb Romania S.R.L.",
     "announced": true,
-    "country": ""
+    "country": "RO",
+    "country_source": "rir"
   },
   "150142": {
     "asn": "150142",
@@ -3483,7 +3604,8 @@
     "name": "LIQUID-AS - Liquid Telecommunications Ltd",
     "holder": "LIQUID-AS - Liquid Telecommunications Ltd",
     "announced": true,
-    "country": "AS"
+    "country": "GB",
+    "country_source": "rir"
   },
   "132216": {
     "asn": "132216",
@@ -3609,14 +3731,16 @@
     "name": "DECIX-AS - DE-CIX Management GmbH",
     "holder": "DECIX-AS - DE-CIX Management GmbH",
     "announced": false,
-    "country": "AS"
+    "country": "DE",
+    "country_source": "rir"
   },
   "12859": {
     "asn": "12859",
     "name": "NL-BIT - BIT BV",
     "holder": "NL-BIT - BIT BV",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "139647": {
     "asn": "139647",
@@ -3912,7 +4036,8 @@
     "name": "CETIN_DOO_AS - CETIN Ltd. Belgrade",
     "holder": "CETIN_DOO_AS - CETIN Ltd. Belgrade",
     "announced": true,
-    "country": ""
+    "country": "RS",
+    "country_source": "rir"
   },
   "137048": {
     "asn": "137048",
@@ -3940,7 +4065,8 @@
     "name": "FIORD-AS - Fiord Networks, UAB",
     "holder": "FIORD-AS - Fiord Networks, UAB",
     "announced": true,
-    "country": "AS"
+    "country": "LT",
+    "country_source": "rir"
   },
   "139467": {
     "asn": "139467",
@@ -4044,7 +4170,8 @@
     "name": "NINE - Nine Internet Solutions AG",
     "holder": "NINE - Nine Internet Solutions AG",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "132489": {
     "asn": "132489",
@@ -4079,7 +4206,8 @@
     "name": "VELOXSERV - VeloxServ Communications Ltd",
     "holder": "VELOXSERV - VeloxServ Communications Ltd",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "137498": {
     "asn": "137498",
@@ -4093,7 +4221,8 @@
     "name": "CUSTDC - CustodianDC Limited",
     "holder": "CUSTDC - CustodianDC Limited",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "141385": {
     "asn": "141385",
@@ -4163,7 +4292,8 @@
     "name": "DIGI-ROMANIA - DIGI ROMANIA S.A.",
     "holder": "DIGI-ROMANIA - DIGI ROMANIA S.A.",
     "announced": true,
-    "country": ""
+    "country": "RO",
+    "country_source": "rir"
   },
   "9825": {
     "asn": "9825",
@@ -4205,7 +4335,8 @@
     "name": "GIGAHOST - Gigahost AS",
     "holder": "GIGAHOST - Gigahost AS",
     "announced": true,
-    "country": ""
+    "country": "NO",
+    "country_source": "rir"
   },
   "134952": {
     "asn": "134952",
@@ -4570,7 +4701,8 @@
     "name": "AMS-IX-RS - Amsterdam Internet Exchange B.V.",
     "holder": "AMS-IX-RS - Amsterdam Internet Exchange B.V.",
     "announced": false,
-    "country": "RS"
+    "country": "NL",
+    "country_source": "rir"
   },
   "137385": {
     "asn": "137385",
@@ -4584,14 +4716,16 @@
     "name": "RASCOM-AS - CJSC RASCOM",
     "holder": "RASCOM-AS - CJSC RASCOM",
     "announced": true,
-    "country": "AS"
+    "country": "RU",
+    "country_source": "rir"
   },
   "44356": {
     "asn": "44356",
     "name": "EPSILON - Epsilon Telecommunications Ltd",
     "holder": "EPSILON - Epsilon Telecommunications Ltd",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "139283": {
     "asn": "139283",
@@ -4626,7 +4760,8 @@
     "name": "INIT7 - Init7 (Switzerland) Ltd.",
     "holder": "INIT7 - Init7 (Switzerland) Ltd.",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "138992": {
     "asn": "138992",
@@ -4670,7 +4805,8 @@
     "name": "BANDWIDTH-AS - Hydra Communications Ltd",
     "holder": "BANDWIDTH-AS - Hydra Communications Ltd",
     "announced": true,
-    "country": "AS"
+    "country": "GB",
+    "country_source": "rir"
   },
   "136214": {
     "asn": "136214",
@@ -4817,7 +4953,8 @@
     "name": "SEACOM-AS",
     "holder": "SEACOM-AS",
     "announced": true,
-    "country": "AS"
+    "country": "MU",
+    "country_source": "rir"
   },
   "134732": {
     "asn": "134732",
@@ -4952,7 +5089,8 @@
     "name": "MERCURYNZ-AS-AP Mercury NZ Limited",
     "holder": "MERCURYNZ-AS-AP Mercury NZ Limited",
     "announced": true,
-    "country": "AP"
+    "country": "NZ",
+    "country_source": "rir"
   },
   "132298": {
     "asn": "132298",
@@ -4973,7 +5111,8 @@
     "name": "CONVERGENZE-AS - Convergenze S.p.A.",
     "holder": "CONVERGENZE-AS - Convergenze S.p.A.",
     "announced": true,
-    "country": "AS"
+    "country": "IT",
+    "country_source": "rir"
   },
   "9832": {
     "asn": "9832",
@@ -5092,7 +5231,8 @@
     "name": "DU-AS1 - Emirates Integrated Telecommunications Company PJSC",
     "holder": "DU-AS1 - Emirates Integrated Telecommunications Company PJSC",
     "announced": true,
-    "country": ""
+    "country": "AE",
+    "country_source": "rir"
   },
   "134201": {
     "asn": "134201",
@@ -5106,7 +5246,8 @@
     "name": "NASSIST-AS - Netassist International EOOD",
     "holder": "NASSIST-AS - Netassist International EOOD",
     "announced": true,
-    "country": "AS"
+    "country": "BG",
+    "country_source": "rir"
   },
   "137843": {
     "asn": "137843",
@@ -5127,7 +5268,8 @@
     "name": "NTT-DATA-Inc",
     "holder": "NTT-DATA-Inc",
     "announced": true,
-    "country": ""
+    "country": "ZA",
+    "country_source": "rir"
   },
   "149843": {
     "asn": "149843",
@@ -5148,7 +5290,8 @@
     "name": "GREEN - green.ch AG",
     "holder": "GREEN - green.ch AG",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "18022": {
     "asn": "18022",
@@ -5162,7 +5305,8 @@
     "name": "FIBRENOIRE-INTERNET - Videotron Ltee",
     "holder": "FIBRENOIRE-INTERNET - Videotron Ltee",
     "announced": true,
-    "country": ""
+    "country": "CA",
+    "country_source": "rir"
   },
   "152844": {
     "asn": "152844",
@@ -5176,7 +5320,8 @@
     "name": "SIDN - Stichting Internet Domeinregistratie Nederland",
     "holder": "SIDN - Stichting Internet Domeinregistratie Nederland",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "152328": {
     "asn": "152328",
@@ -5274,7 +5419,8 @@
     "name": "UCOMINT - Ucom CJSC",
     "holder": "UCOMINT - Ucom CJSC",
     "announced": true,
-    "country": ""
+    "country": "AM",
+    "country_source": "rir"
   },
   "140219": {
     "asn": "140219",
@@ -5374,14 +5520,16 @@
     "name": "DELTA-TELECOM-AS - Delta Telecom Ltd",
     "holder": "DELTA-TELECOM-AS - Delta Telecom Ltd",
     "announced": true,
-    "country": "AS"
+    "country": "AZ",
+    "country_source": "rir"
   },
   "207841": {
     "asn": "207841",
     "name": "INFERNO - Inferno Communications Ltd",
     "holder": "INFERNO - Inferno Communications Ltd",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "139223": {
     "asn": "139223",
@@ -5564,7 +5712,8 @@
     "name": "EXN-AS - EX Networks Limited",
     "holder": "EXN-AS - EX Networks Limited",
     "announced": true,
-    "country": "AS"
+    "country": "GB",
+    "country_source": "rir"
   },
   "141038": {
     "asn": "141038",
@@ -5641,7 +5790,8 @@
     "name": "MAINONE",
     "holder": "MAINONE",
     "announced": true,
-    "country": ""
+    "country": "NG",
+    "country_source": "rir"
   },
   "132340": {
     "asn": "132340",
@@ -5860,7 +6010,8 @@
     "name": "BSO - IX Reach Ltd",
     "holder": "BSO - IX Reach Ltd",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "139881": {
     "asn": "139881",
@@ -6028,7 +6179,8 @@
     "name": "SHOWFOM - Xiufeng Guo",
     "holder": "SHOWFOM - Xiufeng Guo",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "134371": {
     "asn": "134371",
@@ -6098,14 +6250,16 @@
     "name": "SAKURA-B SAKURA Internet Inc.",
     "holder": "SAKURA-B SAKURA Internet Inc.",
     "announced": true,
-    "country": ""
+    "country": "JP",
+    "country_source": "rir"
   },
   "24115": {
     "asn": "24115",
     "name": "ASN-EQIX-MLPE Equinix",
     "holder": "ASN-EQIX-MLPE Equinix",
     "announced": false,
-    "country": ""
+    "country": "SG",
+    "country_source": "rir"
   },
   "153478": {
     "asn": "153478",
@@ -6126,14 +6280,16 @@
     "name": "DSM - DSM (GB) Limited",
     "holder": "DSM - DSM (GB) Limited",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "48185": {
     "asn": "48185",
     "name": "TEAM_BLUE - team.blue NV",
     "holder": "TEAM_BLUE - team.blue NV",
     "announced": true,
-    "country": ""
+    "country": "BE",
+    "country_source": "rir"
   },
   "139773": {
     "asn": "139773",
@@ -6168,14 +6324,16 @@
     "name": "FIBERTELECOM-AS - Fiber Telecom S.p.A.",
     "holder": "FIBERTELECOM-AS - Fiber Telecom S.p.A.",
     "announced": true,
-    "country": "AS"
+    "country": "IT",
+    "country_source": "rir"
   },
   "3216": {
     "asn": "3216",
     "name": "SOVAM-AS - PJSC \"Vimpelcom\"",
     "holder": "SOVAM-AS - PJSC \"Vimpelcom\"",
     "announced": true,
-    "country": "AS"
+    "country": "RU",
+    "country_source": "rir"
   },
   "24122": {
     "asn": "24122",
@@ -6231,7 +6389,8 @@
     "name": "PANDORA-TECHNOLOGY-AS-AP Pandora Technology",
     "holder": "PANDORA-TECHNOLOGY-AS-AP Pandora Technology",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "147294": {
     "asn": "147294",
@@ -6324,7 +6483,8 @@
     "name": "FBWNETWORKS - FBW NETWORKS SAS",
     "holder": "FBWNETWORKS - FBW NETWORKS SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "136419": {
     "asn": "136419",
@@ -6345,7 +6505,8 @@
     "name": "DADFL-AS-AP DataHub Asia DC First Limited",
     "holder": "DADFL-AS-AP DataHub Asia DC First Limited",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "149822": {
     "asn": "149822",
@@ -6366,7 +6527,8 @@
     "name": "CHRISELSEN - Christian Elsen",
     "holder": "CHRISELSEN - Christian Elsen",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "146988": {
     "asn": "146988",
@@ -6478,7 +6640,8 @@
     "name": "CGATES-AS - UAB \"Cgates\"",
     "holder": "CGATES-AS - UAB \"Cgates\"",
     "announced": true,
-    "country": "AS"
+    "country": "LT",
+    "country_source": "rir"
   },
   "153307": {
     "asn": "153307",
@@ -6661,7 +6824,8 @@
     "name": "TRUENETWORK - Truenetwork LLC",
     "holder": "TRUENETWORK - Truenetwork LLC",
     "announced": true,
-    "country": ""
+    "country": "RU",
+    "country_source": "rir"
   },
   "139826": {
     "asn": "139826",
@@ -7125,7 +7289,8 @@
     "name": "ANGOLA-CABLES",
     "holder": "ANGOLA-CABLES",
     "announced": true,
-    "country": ""
+    "country": "AO",
+    "country_source": "rir"
   },
   "141433": {
     "asn": "141433",
@@ -7272,7 +7437,8 @@
     "name": "AS-ANEXIA - Anexia Cloud Solutions GmbH",
     "holder": "AS-ANEXIA - Anexia Cloud Solutions GmbH",
     "announced": true,
-    "country": ""
+    "country": "AT",
+    "country_source": "rir"
   },
   "138622": {
     "asn": "138622",
@@ -7328,7 +7494,8 @@
     "name": "INHERENT - ADISTA SAS",
     "holder": "INHERENT - ADISTA SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "139921": {
     "asn": "139921",
@@ -7373,7 +7540,8 @@
     "name": "SOTACONNECT - Sota Solutions Ltd.",
     "holder": "SOTACONNECT - Sota Solutions Ltd.",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "135410": {
     "asn": "135410",
@@ -7401,7 +7569,8 @@
     "name": "COOL-IDEAS",
     "holder": "COOL-IDEAS",
     "announced": true,
-    "country": ""
+    "country": "ZA",
+    "country_source": "rir"
   },
   "149504": {
     "asn": "149504",
@@ -7471,7 +7640,8 @@
     "name": "INETCOM - INETCOM CARRIER LLC",
     "holder": "INETCOM - INETCOM CARRIER LLC",
     "announced": true,
-    "country": ""
+    "country": "RU",
+    "country_source": "rir"
   },
   "138578": {
     "asn": "138578",
@@ -7548,7 +7718,8 @@
     "name": "XTOM - xTom GmbH",
     "holder": "XTOM - xTom GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "152473": {
     "asn": "152473",
@@ -7562,14 +7733,16 @@
     "name": "BLACKNIGHT-AS - Blacknight Internet Solutions Limited",
     "holder": "BLACKNIGHT-AS - Blacknight Internet Solutions Limited",
     "announced": true,
-    "country": "AS"
+    "country": "IE",
+    "country_source": "rir"
   },
   "7195": {
     "asn": "7195",
     "name": "EDGEUNO S.A.S",
     "holder": "EDGEUNO S.A.S",
     "announced": true,
-    "country": ""
+    "country": "CO",
+    "country_source": "rir"
   },
   "139858": {
     "asn": "139858",
@@ -7597,14 +7770,16 @@
     "name": "GLOBALCONNECT-AS12552 - GlobalConnect AB",
     "holder": "GLOBALCONNECT-AS12552 - GlobalConnect AB",
     "announced": true,
-    "country": ""
+    "country": "SE",
+    "country_source": "rir"
   },
   "41722": {
     "asn": "41722",
     "name": "MIRAN-AS - Miran Ltd.",
     "holder": "MIRAN-AS - Miran Ltd.",
     "announced": true,
-    "country": "AS"
+    "country": "RU",
+    "country_source": "rir"
   },
   "140849": {
     "asn": "140849",
@@ -7646,7 +7821,8 @@
     "name": "INVESCO - Invesco Group Services",
     "holder": "INVESCO - Invesco Group Services",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "137485": {
     "asn": "137485",
@@ -7786,7 +7962,8 @@
     "name": "OOTCEI-AS-AP Office of the Chief Electric Inspector",
     "holder": "OOTCEI-AS-AP Office of the Chief Electric Inspector",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "151835": {
     "asn": "151835",
@@ -7800,7 +7977,8 @@
     "name": "FREIFUNK-ESSEN - Freifunk Essen e.V.",
     "holder": "FREIFUNK-ESSEN - Freifunk Essen e.V.",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "141436": {
     "asn": "141436",
@@ -7842,7 +8020,8 @@
     "name": "PUBLIC-INTERNET - Public Internet Ltd",
     "holder": "PUBLIC-INTERNET - Public Internet Ltd",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "137579": {
     "asn": "137579",
@@ -7877,7 +8056,8 @@
     "name": "STARHUB-INTERNET StarHub Ltd",
     "holder": "STARHUB-INTERNET StarHub Ltd",
     "announced": true,
-    "country": ""
+    "country": "SG",
+    "country_source": "rir"
   },
   "140241": {
     "asn": "140241",
@@ -7949,7 +8129,8 @@
     "name": "VBC-AS-AP Vision Blue Communication",
     "holder": "VBC-AS-AP Vision Blue Communication",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "138336": {
     "asn": "138336",
@@ -8120,7 +8301,8 @@
     "name": "TELEGRAPH-AS - Telegraph42 Management GmbH",
     "holder": "TELEGRAPH-AS - Telegraph42 Management GmbH",
     "announced": true,
-    "country": "AS"
+    "country": "DE",
+    "country_source": "rir"
   },
   "58445": {
     "asn": "58445",
@@ -8141,7 +8323,8 @@
     "name": "Durand do Brasil Ltda",
     "holder": "Durand do Brasil Ltda",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "141346": {
     "asn": "141346",
@@ -8269,7 +8452,8 @@
     "name": "SERVERIUS-AS - Serverius Holding B.V.",
     "holder": "SERVERIUS-AS - Serverius Holding B.V.",
     "announced": true,
-    "country": "AS"
+    "country": "NL",
+    "country_source": "rir"
   },
   "139808": {
     "asn": "139808",
@@ -8297,7 +8481,8 @@
     "name": "NTS - NTS workspace AG",
     "holder": "NTS - NTS workspace AG",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "138601": {
     "asn": "138601",
@@ -8341,7 +8526,8 @@
     "name": "DIGIWEB-AS - Digiweb ltd",
     "holder": "DIGIWEB-AS - Digiweb ltd",
     "announced": true,
-    "country": "AS"
+    "country": "IE",
+    "country_source": "rir"
   },
   "138600": {
     "asn": "138600",
@@ -8433,7 +8619,8 @@
     "name": "MONZOON-AS - Monzoon Networks AG",
     "holder": "MONZOON-AS - Monzoon Networks AG",
     "announced": true,
-    "country": "AS"
+    "country": "CH",
+    "country_source": "rir"
   },
   "150316": {
     "asn": "150316",
@@ -8461,14 +8648,16 @@
     "name": "EDCL-AS-AP Eons Data Communications Limited",
     "holder": "EDCL-AS-AP Eons Data Communications Limited",
     "announced": true,
-    "country": "AP"
+    "country": "HK",
+    "country_source": "rir"
   },
   "65260": {
     "asn": "65260",
     "name": "-Private Use AS-",
     "holder": "-Private Use AS-",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "138621": {
     "asn": "138621",
@@ -8560,7 +8749,8 @@
     "name": "UGNI - UNITED GROUP NETWORK INFRASTRUCTURE d.o.o. Beograd",
     "holder": "UGNI - UNITED GROUP NETWORK INFRASTRUCTURE d.o.o. Beograd",
     "announced": true,
-    "country": ""
+    "country": "RS",
+    "country_source": "rir"
   },
   "153569": {
     "asn": "153569",
@@ -8707,7 +8897,8 @@
     "name": "ASN-WINDTRE - WIND TRE S.P.A.",
     "holder": "ASN-WINDTRE - WIND TRE S.P.A.",
     "announced": true,
-    "country": ""
+    "country": "IT",
+    "country_source": "rir"
   },
   "136759": {
     "asn": "136759",
@@ -8814,21 +9005,24 @@
     "name": "SAIX-NET",
     "holder": "SAIX-NET",
     "announced": true,
-    "country": ""
+    "country": "ZA",
+    "country_source": "rir"
   },
   "2518": {
     "asn": "2518",
     "name": "BIGLOBE BIGLOBE Inc.",
     "holder": "BIGLOBE BIGLOBE Inc.",
     "announced": true,
-    "country": ""
+    "country": "JP",
+    "country_source": "rir"
   },
   "35426": {
     "asn": "35426",
     "name": "NEXTMAP - NXT Initiative SAS",
     "holder": "NEXTMAP - NXT Initiative SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "139239": {
     "asn": "139239",
@@ -8870,7 +9064,8 @@
     "name": "LINK BRASIL TELECOMUNICACOES LTDA",
     "holder": "LINK BRASIL TELECOMUNICACOES LTDA",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "150002": {
     "asn": "150002",
@@ -8891,7 +9086,8 @@
     "name": "QUANTCOM-AS - Quantcom, a.s.",
     "holder": "QUANTCOM-AS - Quantcom, a.s.",
     "announced": true,
-    "country": "AS"
+    "country": "CZ",
+    "country_source": "rir"
   },
   "134153": {
     "asn": "134153",
@@ -8926,7 +9122,8 @@
     "name": "OPEN-PEERING-AS - Broadband Hosting B.V.",
     "holder": "OPEN-PEERING-AS - Broadband Hosting B.V.",
     "announced": false,
-    "country": "AS"
+    "country": "NL",
+    "country_source": "rir"
   },
   "56054": {
     "asn": "56054",
@@ -9086,7 +9283,8 @@
     "name": "RETELIT-AS - Retelit Digital Services S.p.A.",
     "holder": "RETELIT-AS - Retelit Digital Services S.p.A.",
     "announced": true,
-    "country": "AS"
+    "country": "IT",
+    "country_source": "rir"
   },
   "141745": {
     "asn": "141745",
@@ -9121,14 +9319,16 @@
     "name": "ETISALAT-AS - EMIRATES TELECOMMUNICATIONS GROUP COMPANY (ETISALAT GROUP) PJSC",
     "holder": "ETISALAT-AS - EMIRATES TELECOMMUNICATIONS GROUP COMPANY (ETISALAT GROUP) PJSC",
     "announced": true,
-    "country": "AS"
+    "country": "AE",
+    "country_source": "rir"
   },
   "212483": {
     "asn": "212483",
     "name": "LEVEL86 - LEVEL EIGHTY-SIX COMMUNICATIONS LTD",
     "holder": "LEVEL86 - LEVEL EIGHTY-SIX COMMUNICATIONS LTD",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "150808": {
     "asn": "150808",
@@ -9149,7 +9349,8 @@
     "name": "TATACOMM-AS TATA Communications formerly VSNL is Leading ISP",
     "holder": "TATACOMM-AS TATA Communications formerly VSNL is Leading ISP",
     "announced": true,
-    "country": "AS"
+    "country": "IN",
+    "country_source": "rir"
   },
   "149162": {
     "asn": "149162",
@@ -9299,7 +9500,8 @@
     "name": "ZET-NET - INTERKVM HOST SRL",
     "holder": "ZET-NET - INTERKVM HOST SRL",
     "announced": true,
-    "country": ""
+    "country": "RO",
+    "country_source": "rir"
   },
   "137519": {
     "asn": "137519",
@@ -9341,7 +9543,8 @@
     "name": "EUTPNET - Marcin Gondek",
     "holder": "EUTPNET - Marcin Gondek",
     "announced": true,
-    "country": ""
+    "country": "PL",
+    "country_source": "rir"
   },
   "134128": {
     "asn": "134128",
@@ -9561,7 +9764,8 @@
     "name": "ZEN-NET - Zenlayer Inc",
     "holder": "ZEN-NET - Zenlayer Inc",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "149306": {
     "asn": "149306",
@@ -9589,14 +9793,16 @@
     "name": "CONNESI - Connesi s.p.a.",
     "holder": "CONNESI - Connesi s.p.a.",
     "announced": true,
-    "country": ""
+    "country": "IT",
+    "country_source": "rir"
   },
   "153395": {
     "asn": "153395",
     "name": "NESP-AS-AP Northern Electricity Supply PLC",
     "holder": "NESP-AS-AP Northern Electricity Supply PLC",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "139927": {
     "asn": "139927",
@@ -9760,7 +9966,8 @@
     "name": "AS-ARCADE - Arcade Solutions AG",
     "holder": "AS-ARCADE - Arcade Solutions AG",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "139931": {
     "asn": "139931",
@@ -9872,7 +10079,8 @@
     "name": "VODAFONE_ICELAND - Ljosleidarinn ehf",
     "holder": "VODAFONE_ICELAND - Ljosleidarinn ehf",
     "announced": true,
-    "country": ""
+    "country": "IS",
+    "country_source": "rir"
   },
   "141723": {
     "asn": "141723",
@@ -9900,7 +10108,8 @@
     "name": "SIACOM-AS - SIACOM JSC",
     "holder": "SIACOM-AS - SIACOM JSC",
     "announced": true,
-    "country": "AS"
+    "country": "GE",
+    "country_source": "rir"
   },
   "150168": {
     "asn": "150168",
@@ -9914,7 +10123,8 @@
     "name": "SOLNET - BSE Software GmbH",
     "holder": "SOLNET - BSE Software GmbH",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "139335": {
     "asn": "139335",
@@ -9928,7 +10138,8 @@
     "name": "Network-Platforms",
     "holder": "Network-Platforms",
     "announced": true,
-    "country": ""
+    "country": "ZA",
+    "country_source": "rir"
   },
   "134806": {
     "asn": "134806",
@@ -9942,7 +10153,8 @@
     "name": "RIPE-NCC-AS - Reseaux IP Europeens Network Coordination Centre (RIPE NCC)",
     "holder": "RIPE-NCC-AS - Reseaux IP Europeens Network Coordination Centre (RIPE NCC)",
     "announced": true,
-    "country": "AS"
+    "country": "NL",
+    "country_source": "rir"
   },
   "150312": {
     "asn": "150312",
@@ -9998,7 +10210,8 @@
     "name": "VOCUS-BACKBONE-AS Vocus Connect International Backbone",
     "holder": "VOCUS-BACKBONE-AS Vocus Connect International Backbone",
     "announced": true,
-    "country": "AU"
+    "country": "AU",
+    "country_source": "rir"
   },
   "149453": {
     "asn": "149453",
@@ -10026,14 +10239,16 @@
     "name": "MILECOM-AS - JSC \"ER-Telecom Holding\"",
     "holder": "MILECOM-AS - JSC \"ER-Telecom Holding\"",
     "announced": true,
-    "country": "AS"
+    "country": "RU",
+    "country_source": "rir"
   },
   "57777": {
     "asn": "57777",
     "name": "MASSAR - Jeroen Massar",
     "holder": "MASSAR - Jeroen Massar",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "135098": {
     "asn": "135098",
@@ -10192,7 +10407,8 @@
     "name": "ALPINEDC - AlpineDC SA",
     "holder": "ALPINEDC - AlpineDC SA",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "151960": {
     "asn": "151960",
@@ -10241,7 +10457,8 @@
     "name": "NHM - NHM - S.R.L.",
     "holder": "NHM - NHM - S.R.L.",
     "announced": true,
-    "country": ""
+    "country": "IT",
+    "country_source": "rir"
   },
   "140991": {
     "asn": "140991",
@@ -10262,7 +10479,8 @@
     "name": "FREXPRESS-AS-AP FR Express",
     "holder": "FREXPRESS-AS-AP FR Express",
     "announced": false,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "136903": {
     "asn": "136903",
@@ -10276,7 +10494,8 @@
     "name": "ALOO TELECOM - FSF TECNOLOGIA SA",
     "holder": "ALOO TELECOM - FSF TECNOLOGIA SA",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "139202": {
     "asn": "139202",
@@ -11008,7 +11227,8 @@
     "name": "UNITEDNETWORK-AS-AP UNITED NETWORK",
     "holder": "UNITEDNETWORK-AS-AP UNITED NETWORK",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "136268": {
     "asn": "136268",
@@ -11197,7 +11417,8 @@
     "name": "CLARO S.A.",
     "holder": "CLARO S.A.",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "142210": {
     "asn": "142210",
@@ -11218,7 +11439,8 @@
     "name": "DNET - Antonios A. Chariton",
     "holder": "DNET - Antonios A. Chariton",
     "announced": true,
-    "country": ""
+    "country": "GR",
+    "country_source": "rir"
   },
   "147175": {
     "asn": "147175",
@@ -11274,13 +11496,14 @@
     "name": "TSTNETWORK-AS-AP TST Network",
     "holder": "TSTNETWORK-AS-AP TST Network",
     "announced": true,
-    "country": "BD",
+    "country": "",
     "geo_country": "BD",
     "geo_country_data": {
       "dominant_country": "BD",
       "breakdown": [],
       "bd_percentage": 100.0
-    }
+    },
+    "country_source": "rir"
   },
   "140889": {
     "asn": "140889",
@@ -11693,14 +11916,16 @@
     "name": "PONYNET - FranTech Solutions",
     "holder": "PONYNET - FranTech Solutions",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "138585": {
     "asn": "138585",
     "name": "OFFTECHITBD-AS-AP OffTechIT Bangladesh",
     "holder": "OFFTECHITBD-AS-AP OffTechIT Bangladesh",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "138612": {
     "asn": "138612",
@@ -12162,7 +12387,8 @@
     "name": "PEOPLENTECHDNS-AS-AP People N Tech Limited",
     "holder": "PEOPLENTECHDNS-AS-AP People N Tech Limited",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "142028": {
     "asn": "142028",
@@ -12218,7 +12444,8 @@
     "name": "KDDI-EUROPE - KDDI Europe Ltd",
     "holder": "KDDI-EUROPE - KDDI Europe Ltd",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "133099": {
     "asn": "133099",
@@ -12289,7 +12516,8 @@
     "name": "CLOUDFLARENET - Cloudflare",
     "holder": "CLOUDFLARENET - Cloudflare",
     "announced": true,
-    "country": "US"
+    "country": "US",
+    "country_source": "rir"
   },
   "152481": {
     "asn": "152481",
@@ -12686,7 +12914,8 @@
     "name": "HOTLINGNETWORK-AS-AP Hot Ling Network",
     "holder": "HOTLINGNETWORK-AS-AP Hot Ling Network",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "150662": {
     "asn": "150662",
@@ -12798,7 +13027,8 @@
     "name": "HUTCHISON-AS-AP HGC Global Communications Limited",
     "holder": "HUTCHISON-AS-AP HGC Global Communications Limited",
     "announced": true,
-    "country": ""
+    "country": "HK",
+    "country_source": "rir"
   },
   "141217": {
     "asn": "141217",
@@ -12835,7 +13065,8 @@
     "name": "GOCODEIT-EDGE - GoCodeIT Inc",
     "holder": "GOCODEIT-EDGE - GoCodeIT Inc",
     "announced": true,
-    "country": ""
+    "country": "CA",
+    "country_source": "rir"
   },
   "140993": {
     "asn": "140993",
@@ -13011,7 +13242,8 @@
     "name": "GLOBALLAYER - Global Layer B.V.",
     "holder": "GLOBALLAYER - Global Layer B.V.",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "149179": {
     "asn": "149179",
@@ -13255,7 +13487,8 @@
     "name": "AS-COLOCROSSING - HostPapa",
     "holder": "AS-COLOCROSSING - HostPapa",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "138548": {
     "asn": "138548",
@@ -13545,7 +13778,8 @@
     "name": "CLOUDIE-AS-AP Cloudie Limited",
     "holder": "CLOUDIE-AS-AP Cloudie Limited",
     "announced": true,
-    "country": ""
+    "country": "HK",
+    "country_source": "rir"
   },
   "137584": {
     "asn": "137584",
@@ -13867,7 +14101,7 @@
     "name": "ROOTLAYERNET - RootLayer Web Services Ltd.",
     "holder": "ROOTLAYERNET - RootLayer Web Services Ltd.",
     "announced": true,
-    "country": "BD",
+    "country": "US",
     "geo_country": "NL",
     "geo_country_data": {
       "dominant_country": "NL",
@@ -13898,14 +14132,16 @@
         }
       ],
       "bd_percentage": 0
-    }
+    },
+    "country_source": "rir"
   },
   "3356": {
     "asn": "3356",
     "name": "LEVEL3 - Level 3 Parent",
     "holder": "LEVEL3 - Level 3 Parent",
     "announced": true,
-    "country": "US"
+    "country": "US",
+    "country_source": "rir"
   },
   "149653": {
     "asn": "149653",
@@ -14017,7 +14253,8 @@
     "name": "VIVA-ARMENIA - Viva Armenia CJSC",
     "holder": "VIVA-ARMENIA - Viva Armenia CJSC",
     "announced": true,
-    "country": ""
+    "country": "AM",
+    "country_source": "rir"
   },
   "134685": {
     "asn": "134685",
@@ -14115,7 +14352,8 @@
     "name": "JAGUAR-AS - Free Pro SAS",
     "holder": "JAGUAR-AS - Free Pro SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "141166": {
     "asn": "141166",
@@ -14150,7 +14388,8 @@
     "name": "HINET Data Communication Business Group",
     "holder": "HINET Data Communication Business Group",
     "announced": true,
-    "country": ""
+    "country": "TW",
+    "country_source": "rir"
   },
   "140269": {
     "asn": "140269",
@@ -14164,7 +14403,8 @@
     "name": "MSDIGITALTELECOM-AS-AP MS DIGITAL TELECOM",
     "holder": "MSDIGITALTELECOM-AS-AP MS DIGITAL TELECOM",
     "announced": true,
-    "country": "BD"
+    "country": "",
+    "country_source": "rir"
   },
   "137034": {
     "asn": "137034",
@@ -14248,7 +14488,8 @@
     "name": "INTAL-ASN - \"Uzbektelekom\" Joint Stock Company",
     "holder": "INTAL-ASN - \"Uzbektelekom\" Joint Stock Company",
     "announced": true,
-    "country": ""
+    "country": "UZ",
+    "country_source": "rir"
   },
   "141744": {
     "asn": "141744",
@@ -14958,7 +15199,8 @@
     "name": "RETNRU-AS - JSC \"RetnNet\"",
     "holder": "RETNRU-AS - JSC \"RetnNet\"",
     "announced": true,
-    "country": ""
+    "country": "RU",
+    "country_source": "rir"
   },
   "142551": {
     "asn": "142551",
@@ -15147,7 +15389,8 @@
     "name": "TTNET-MY TIME dotCom Berhad No. 14",
     "holder": "TTNET-MY TIME dotCom Berhad No. 14",
     "announced": true,
-    "country": "MY"
+    "country": "MY",
+    "country_source": "rir"
   },
   "131192": {
     "asn": "131192",
@@ -15161,7 +15404,8 @@
     "name": "WORLDSTREAM - WorldStream B.V.",
     "holder": "WORLDSTREAM - WorldStream B.V.",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "149032": {
     "asn": "149032",
@@ -15352,7 +15596,8 @@
     "name": "-Private Use AS-",
     "holder": "-Private Use AS-",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "136997": {
     "asn": "136997",
@@ -15590,7 +15835,8 @@
     "name": "RELIANCEJIO-IN Reliance Jio Infocomm Limited",
     "holder": "RELIANCEJIO-IN Reliance Jio Infocomm Limited",
     "announced": true,
-    "country": "IN"
+    "country": "IN",
+    "country_source": "rir"
   },
   "140215": {
     "asn": "140215",
@@ -15625,7 +15871,8 @@
     "name": "EXASCALE - Exascale Ltd",
     "holder": "EXASCALE - Exascale Ltd",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "149658": {
     "asn": "149658",
@@ -15807,7 +16054,8 @@
     "name": "SEABORN - Seabras 1 USA",
     "holder": "SEABORN - Seabras 1 USA",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "152646": {
     "asn": "152646",
@@ -15842,7 +16090,8 @@
     "name": "TELKOMNET-AS-AP PT Telekomunikasi Indonesia",
     "holder": "TELKOMNET-AS-AP PT Telekomunikasi Indonesia",
     "announced": true,
-    "country": ""
+    "country": "ID",
+    "country_source": "rir"
   },
   "147063": {
     "asn": "147063",
@@ -16094,7 +16343,8 @@
     "name": "WOW - Wowrack.com",
     "holder": "WOW - Wowrack.com",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "139691": {
     "asn": "139691",
@@ -16108,7 +16358,8 @@
     "name": "BGPTUNNEL - iFog GmbH",
     "holder": "BGPTUNNEL - iFog GmbH",
     "announced": true,
-    "country": ""
+    "country": "CH",
+    "country_source": "rir"
   },
   "149019": {
     "asn": "149019",
@@ -16818,21 +17069,24 @@
     "name": "PEER1-1031 - PEER 1031 LLC",
     "holder": "PEER1-1031 - PEER 1031 LLC",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "9505": {
     "asn": "9505",
     "name": "TWGATE-AP Taiwan Internet Gateway",
     "holder": "TWGATE-AP Taiwan Internet Gateway",
     "announced": true,
-    "country": ""
+    "country": "TW",
+    "country_source": "rir"
   },
   "263152": {
     "asn": "263152",
     "name": "MIGO TELECOM",
     "holder": "MIGO TELECOM",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "133599": {
     "asn": "133599",
@@ -16846,35 +17100,40 @@
     "name": "DOMINICAN TELECOM PRIME",
     "holder": "DOMINICAN TELECOM PRIME",
     "announced": true,
-    "country": ""
+    "country": "DO",
+    "country_source": "rir"
   },
   "20080": {
     "asn": "20080",
     "name": "AMPATH - Florida International University",
     "holder": "AMPATH - Florida International University",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "1916": {
     "asn": "1916",
     "name": "Rede Nacional de Ensino e Pesquisa",
     "holder": "Rede Nacional de Ensino e Pesquisa",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "852": {
     "asn": "852",
     "name": "TELUS Communications",
     "holder": "TELUS Communications",
     "announced": true,
-    "country": ""
+    "country": "CA",
+    "country_source": "rir"
   },
   "264479": {
     "asn": "264479",
     "name": "Turbozone Internet",
     "holder": "Turbozone Internet",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "142252": {
     "asn": "142252",
@@ -16888,28 +17147,32 @@
     "name": "TECHIT - TECHIT.BE SRL",
     "holder": "TECHIT - TECHIT.BE SRL",
     "announced": true,
-    "country": ""
+    "country": "BE",
+    "country_source": "rir"
   },
   "263444": {
     "asn": "263444",
     "name": "Open X Tecnologia Ltda",
     "holder": "Open X Tecnologia Ltda",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "12637": {
     "asn": "12637",
     "name": "SEEWEB - SEEWEB s.r.l.",
     "holder": "SEEWEB - SEEWEB s.r.l.",
     "announced": true,
-    "country": ""
+    "country": "IT",
+    "country_source": "rir"
   },
   "39249": {
     "asn": "39249",
     "name": "KICUA-AS - Netassist International EOOD",
     "holder": "KICUA-AS - Netassist International EOOD",
     "announced": true,
-    "country": ""
+    "country": "BG",
+    "country_source": "rir"
   },
   "137007": {
     "asn": "137007",
@@ -16930,7 +17193,8 @@
     "name": "LWLCOM - LWLcom GmbH",
     "holder": "LWLCOM - LWLcom GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "149508": {
     "asn": "149508",
@@ -16944,7 +17208,8 @@
     "name": "TEIN2-SG-AP Trans-Eurasia Information Network TEIN2 - SG",
     "holder": "TEIN2-SG-AP Trans-Eurasia Information Network TEIN2 - SG",
     "announced": false,
-    "country": ""
+    "country": "CN",
+    "country_source": "rir"
   },
   "140058": {
     "asn": "140058",
@@ -16993,7 +17258,8 @@
     "name": "GRUPO YAX",
     "holder": "GRUPO YAX",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "153884": {
     "asn": "153884",
@@ -17021,21 +17287,24 @@
     "name": "MF-MGSM-AS - PJSC MegaFon",
     "holder": "MF-MGSM-AS - PJSC MegaFon",
     "announced": true,
-    "country": ""
+    "country": "RU",
+    "country_source": "rir"
   },
   "65521": {
     "asn": "65521",
     "name": "-Private Use AS-",
     "holder": "-Private Use AS-",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "134148": {
     "asn": "134148",
     "name": "SINGAREN-GIX-AS-AP-2 SingAREN",
     "holder": "SINGAREN-GIX-AS-AP-2 SingAREN",
     "announced": true,
-    "country": ""
+    "country": "SG",
+    "country_source": "rir"
   },
   "136952": {
     "asn": "136952",
@@ -17056,28 +17325,32 @@
     "name": "SGIX-SG Singapore Internet Exchange Limited",
     "holder": "SGIX-SG Singapore Internet Exchange Limited",
     "announced": false,
-    "country": "SG"
+    "country": "SG",
+    "country_source": "rir"
   },
   "7575": {
     "asn": "7575",
     "name": "AARNET-AS-AP Australian Academic and Research Network AARNet",
     "holder": "AARNET-AS-AP Australian Academic and Research Network AARNet",
     "announced": true,
-    "country": ""
+    "country": "AU",
+    "country_source": "rir"
   },
   "16735": {
     "asn": "16735",
     "name": "ALGAR TELECOM SA",
     "holder": "ALGAR TELECOM SA",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "4788": {
     "asn": "4788",
     "name": "TTSSB-MY TM TECHNOLOGY SERVICES SDN. BHD.",
     "holder": "TTSSB-MY TM TECHNOLOGY SERVICES SDN. BHD.",
     "announced": true,
-    "country": "MY"
+    "country": "MY",
+    "country_source": "rir"
   },
   "152305": {
     "asn": "152305",
@@ -17091,7 +17364,8 @@
     "name": "KVANT-TELECOM - JSC KVANT-TELEKOM",
     "holder": "KVANT-TELECOM - JSC KVANT-TELEKOM",
     "announced": true,
-    "country": ""
+    "country": "RU",
+    "country_source": "rir"
   },
   "154579": {
     "asn": "154579",
@@ -17105,21 +17379,24 @@
     "name": "GNM-AS - Global Network Management Inc",
     "holder": "GNM-AS - Global Network Management Inc",
     "announced": true,
-    "country": ""
+    "country": "AG",
+    "country_source": "rir"
   },
   "16265": {
     "asn": "16265",
     "name": "LEASEWEB-NETWORK - LeaseWeb Network B.V.",
     "holder": "LEASEWEB-NETWORK - LeaseWeb Network B.V.",
     "announced": false,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "215638": {
     "asn": "215638",
     "name": "AS-CILIX-LIMITED - Cilix Limited",
     "holder": "AS-CILIX-LIMITED - Cilix Limited",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "131474": {
     "asn": "131474",
@@ -17133,7 +17410,8 @@
     "name": "AS212635 - Jurrian van Iersel",
     "holder": "AS212635 - Jurrian van Iersel",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "142217": {
     "asn": "142217",
@@ -17169,7 +17447,8 @@
     "name": "GULFBRIDGEINTERNATIONAL - Gulf Bridge International Inc.",
     "holder": "GULFBRIDGEINTERNATIONAL - Gulf Bridge International Inc.",
     "announced": true,
-    "country": ""
+    "country": "VG",
+    "country_source": "rir"
   },
   "58642": {
     "asn": "58642",
@@ -17190,35 +17469,40 @@
     "name": "INT-GTB - Getechbrothers, MB",
     "holder": "INT-GTB - Getechbrothers, MB",
     "announced": true,
-    "country": ""
+    "country": "LT",
+    "country_source": "rir"
   },
   "48200": {
     "asn": "48200",
     "name": "OPTEAMAX-AS - Opteamax GmbH",
     "holder": "OPTEAMAX-AS - Opteamax GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "20766": {
     "asn": "20766",
     "name": "GITOYEN-MAIN-AS - Association \"Gitoyen\"",
     "holder": "GITOYEN-MAIN-AS - Association \"Gitoyen\"",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "56308": {
     "asn": "56308",
     "name": "TELIN-NET-SG TELEKOMUNIKASI INDONESIA INTERNATIONAL",
     "holder": "TELIN-NET-SG TELEKOMUNIKASI INDONESIA INTERNATIONAL",
     "announced": true,
-    "country": "SG"
+    "country": "SG",
+    "country_source": "rir"
   },
   "1442217": {
     "asn": "1442217",
     "name": "AS1442217",
     "holder": "AS1442217",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "133323": {
     "asn": "133323",
@@ -17239,28 +17523,32 @@
     "name": "FDCSERVERS - FDCservers.net",
     "holder": "FDCSERVERS - FDCservers.net",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "3399": {
     "asn": "3399",
     "name": "OBE-NET - Obenet AB",
     "holder": "OBE-NET - Obenet AB",
     "announced": true,
-    "country": ""
+    "country": "SE",
+    "country_source": "rir"
   },
   "5394": {
     "asn": "5394",
     "name": "UNIDATA - UNIDATA S.p.A.",
     "holder": "UNIDATA - UNIDATA S.p.A.",
     "announced": true,
-    "country": ""
+    "country": "IT",
+    "country_source": "rir"
   },
   "8714": {
     "asn": "8714",
     "name": "LINX-ROUTESRV - London Internet Exchange Ltd.",
     "holder": "LINX-ROUTESRV - London Internet Exchange Ltd.",
     "announced": false,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "134404": {
     "asn": "134404",
@@ -17274,14 +17562,16 @@
     "name": "AS-EUROFIBER Eurofiber Nederland BV",
     "holder": "AS-EUROFIBER Eurofiber Nederland BV",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "2500": {
     "asn": "2500",
     "name": "WIDE-BB WIDE Project",
     "holder": "WIDE-BB WIDE Project",
     "announced": true,
-    "country": "BB"
+    "country": "JP",
+    "country_source": "rir"
   },
   "138562": {
     "asn": "138562",
@@ -17316,7 +17606,8 @@
     "name": "FLYS INTERATIVA LTDA",
     "holder": "FLYS INTERATIVA LTDA",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "152147": {
     "asn": "152147",
@@ -17358,7 +17649,8 @@
     "name": "ESTO-AS-AP ESTO MEDIA PRIVATE LIMITED",
     "holder": "ESTO-AS-AP ESTO MEDIA PRIVATE LIMITED",
     "announced": true,
-    "country": ""
+    "country": "IN",
+    "country_source": "rir"
   },
   "142240": {
     "asn": "142240",
@@ -17387,14 +17679,16 @@
     "name": "SPACEX-STARLINK - Space Exploration Technologies Corporation",
     "holder": "SPACEX-STARLINK - Space Exploration Technologies Corporation",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "203472": {
     "asn": "203472",
     "name": "POEMA-AS-EU PENG YUJEN",
     "holder": "POEMA-AS-EU PENG YUJEN",
     "announced": true,
-    "country": ""
+    "country": "TW",
+    "country_source": "rir"
   },
   "140035": {
     "asn": "140035",
@@ -17408,7 +17702,8 @@
     "name": "WII - WholeSale Internet, Inc.",
     "holder": "WII - WholeSale Internet, Inc.",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "152322": {
     "asn": "152322",
@@ -17429,7 +17724,8 @@
     "name": "CONECTIVA TELECOM TECNOLOGIA LTDA - ME",
     "holder": "CONECTIVA TELECOM TECNOLOGIA LTDA - ME",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "154439": {
     "asn": "154439",
@@ -17443,7 +17739,8 @@
     "name": "JOYSVC-AS-IN JOY SERVICES",
     "holder": "JOYSVC-AS-IN JOY SERVICES",
     "announced": true,
-    "country": "IN"
+    "country": "IN",
+    "country_source": "rir"
   },
   "150726": {
     "asn": "150726",
@@ -17457,28 +17754,32 @@
     "name": "NEXUSGUARD-AS-AP Nexusguard Pte. Ltd.",
     "holder": "NEXUSGUARD-AS-AP Nexusguard Pte. Ltd.",
     "announced": true,
-    "country": ""
+    "country": "SG",
+    "country_source": "rir"
   },
   "212895": {
     "asn": "212895",
     "name": "ROUTE64_ORG Johannes Ernst",
     "holder": "ROUTE64_ORG Johannes Ernst",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "7721": {
     "asn": "7721",
     "name": "QC-NET Qin Cloud Networks",
     "holder": "QC-NET Qin Cloud Networks",
     "announced": true,
-    "country": ""
+    "country": "CN",
+    "country_source": "rir"
   },
   "29390": {
     "asn": "29390",
     "name": "CTU-AS Netassist International EOOD",
     "holder": "CTU-AS Netassist International EOOD",
     "announced": true,
-    "country": ""
+    "country": "BG",
+    "country_source": "rir"
   },
   "154671": {
     "asn": "154671",
@@ -17522,21 +17823,24 @@
     "name": "IPTP IPTP LTD",
     "holder": "IPTP IPTP LTD",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "63199": {
     "asn": "63199",
     "name": "CDSC-AS1 - CDS Global Cloud Co., Ltd",
     "holder": "CDSC-AS1 - CDS Global Cloud Co., Ltd",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "62610": {
     "asn": "62610",
     "name": "ZEN-DPS - Zenlayer Inc",
     "holder": "ZEN-DPS - Zenlayer Inc",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "153810": {
     "asn": "153810",
@@ -17572,7 +17876,8 @@
     "name": "MTS MTS PJSC",
     "holder": "MTS MTS PJSC",
     "announced": true,
-    "country": ""
+    "country": "RU",
+    "country_source": "rir"
   },
   "153622": {
     "asn": "153622",
@@ -17623,7 +17928,8 @@
     "name": "AS1141217",
     "holder": "AS1141217",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "153169": {
     "asn": "153169",
@@ -17652,28 +17958,32 @@
     "name": "ACCELIA ACCELIA",
     "holder": "ACCELIA ACCELIA",
     "announced": true,
-    "country": ""
+    "country": "JP",
+    "country_source": "rir"
   },
   "21859": {
     "asn": "21859",
     "name": "ZEN-ECN - Zenlayer Inc",
     "holder": "ZEN-ECN - Zenlayer Inc",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "12577": {
     "asn": "12577",
     "name": "MMC-AT-AS MMC GmbH",
     "holder": "MMC-AT-AS MMC GmbH",
     "announced": true,
-    "country": ""
+    "country": "AT",
+    "country_source": "rir"
   },
   "38536": {
     "asn": "38536",
     "name": "STPI-DEHRADUN Software Technology Parks of India",
     "holder": "STPI-DEHRADUN Software Technology Parks of India",
     "announced": true,
-    "country": ""
+    "country": "IN",
+    "country_source": "rir"
   },
   "154132": {
     "asn": "154132",
@@ -17790,28 +18100,32 @@
     "name": "IDNIC-ID Indonesia Network Information Center",
     "holder": "IDNIC-ID Indonesia Network Information Center",
     "announced": true,
-    "country": "ID"
+    "country": "ID",
+    "country_source": "rir"
   },
   "44066": {
     "asn": "44066",
     "name": "DE-FIRSTCOLO firstcolo GmbH",
     "holder": "DE-FIRSTCOLO firstcolo GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "6774": {
     "asn": "6774",
     "name": "ASN-BICS Belgacom International Carrier Services SA",
     "holder": "ASN-BICS Belgacom International Carrier Services SA",
     "announced": true,
-    "country": ""
+    "country": "BE",
+    "country_source": "rir"
   },
   "262761": {
     "asn": "262761",
     "name": "AS262761 - Sinal Br Telecom Ltda",
     "holder": "AS262761 - Sinal Br Telecom Ltda",
     "announced": true,
-    "country": ""
+    "country": "BR",
+    "country_source": "rir"
   },
   "150449": {
     "asn": "150449",
@@ -17825,14 +18139,16 @@
     "name": "FPT-VN - FPT Telecom Company",
     "holder": "FPT-VN - FPT Telecom Company",
     "announced": true,
-    "country": "VN"
+    "country": "VN",
+    "country_source": "rir"
   },
   "210919": {
     "asn": "210919",
     "name": "korea Navox co.,Ltd",
     "holder": "korea Navox co.,Ltd",
     "announced": false,
-    "country": ""
+    "country": "KR",
+    "country_source": "rir"
   },
   "154311": {
     "asn": "154311",
@@ -18095,21 +18411,24 @@
     "name": "CREANOVA-AS Oy Crea Nova Hosting Solution Ltd",
     "holder": "CREANOVA-AS Oy Crea Nova Hosting Solution Ltd",
     "announced": true,
-    "country": ""
+    "country": "FI",
+    "country_source": "rir"
   },
   "65530": {
     "asn": "65530",
     "name": "AS65530",
     "holder": "AS65530",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "64548": {
     "asn": "64548",
     "name": "AS64548",
     "holder": "AS64548",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "154708": {
     "asn": "154708",
@@ -18130,21 +18449,24 @@
     "name": "AS65000",
     "holder": "AS65000",
     "announced": true,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "135848": {
     "asn": "135848",
     "name": "DIGITAX-AS - Digitax India Communications Pvt Ltd.",
     "holder": "DIGITAX-AS - Digitax India Communications Pvt Ltd.",
     "announced": true,
-    "country": ""
+    "country": "IN",
+    "country_source": "rir"
   },
   "207208": {
     "asn": "207208",
     "name": "Mevspace-projects MEVSPACE sp. z o.o.",
     "holder": "Mevspace-projects MEVSPACE sp. z o.o.",
     "announced": true,
-    "country": ""
+    "country": "PL",
+    "country_source": "rir"
   },
   "153508": {
     "asn": "153508",
@@ -18203,14 +18525,16 @@
     "name": "FIANS-AS-AP - Fast ICT and Net Solution",
     "holder": "FIANS-AS-AP - Fast ICT and Net Solution",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "4849": {
     "asn": "4849",
     "name": "S3Company S3 Company Ltd",
     "holder": "S3Company S3 Company Ltd",
     "announced": true,
-    "country": ""
+    "country": "BG",
+    "country_source": "rir"
   },
   "154720": {
     "asn": "154720",
@@ -18224,7 +18548,8 @@
     "name": "AS-UPIX-40850 - UPIX NETWORKS INTERNATIONAL LLC",
     "holder": "AS-UPIX-40850 - UPIX NETWORKS INTERNATIONAL LLC",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "137581": {
     "asn": "137581",
@@ -18556,7 +18881,8 @@
     "name": "LUCK-NETO-01 - NetO Corp",
     "holder": "LUCK-NETO-01 - NetO Corp",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "154723": {
     "asn": "154723",
@@ -18570,7 +18896,8 @@
     "name": "EE SmartApe OU",
     "holder": "EE SmartApe OU",
     "announced": true,
-    "country": ""
+    "country": "EE",
+    "country_source": "rir"
   },
   "149826": {
     "asn": "149826",
@@ -18584,14 +18911,16 @@
     "name": "Kissgroup KISSGROUP SAS",
     "holder": "Kissgroup KISSGROUP SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "401753": {
     "asn": "401753",
     "name": "BIXCE - BIXCE Inc",
     "holder": "BIXCE - BIXCE Inc",
     "announced": true,
-    "country": ""
+    "country": "VG",
+    "country_source": "rir"
   },
   "152856": {
     "asn": "152856",
@@ -18728,28 +19057,32 @@
     "name": "AS64515",
     "holder": "AS64515",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "64579": {
     "asn": "64579",
     "name": "AS64579",
     "holder": "AS64579",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "12735": {
     "asn": "12735",
     "name": "ASTurkNet TurkNet Iletisim Hizmetleri A.S.",
     "holder": "ASTurkNet TurkNet Iletisim Hizmetleri A.S.",
     "announced": true,
-    "country": ""
+    "country": "TR",
+    "country_source": "rir"
   },
   "59689": {
     "asn": "59689",
     "name": "CODE40-AS Code40 SAS",
     "holder": "CODE40-AS Code40 SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "150791": {
     "asn": "150791",
@@ -18763,7 +19096,8 @@
     "name": "AS65421",
     "holder": "AS65421",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "152327": {
     "asn": "152327",
@@ -18777,35 +19111,40 @@
     "name": "CP-IN - C-MET, Pune",
     "holder": "CP-IN - C-MET, Pune",
     "announced": false,
-    "country": "IN"
+    "country": "IN",
+    "country_source": "rir"
   },
   "1362662": {
     "asn": "1362662",
     "name": "AS1362662",
     "holder": "AS1362662",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "137352": {
     "asn": "137352",
     "name": "IDNIC-CLOUDATA-AS-ID - PT. Cloudata Indonesia",
     "holder": "IDNIC-CLOUDATA-AS-ID - PT. Cloudata Indonesia",
     "announced": true,
-    "country": "ID"
+    "country": "ID",
+    "country_source": "rir"
   },
   "13821": {
     "asn": "13821",
     "name": "ACML - AllianceBernstein L.P.",
     "holder": "ACML - AllianceBernstein L.P.",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "215628": {
     "asn": "215628",
     "name": "AS-XENOX-AT Xenox IT & Kommunikations GmbH",
     "holder": "AS-XENOX-AT Xenox IT & Kommunikations GmbH",
     "announced": true,
-    "country": "AT"
+    "country": "AT",
+    "country_source": "rir"
   },
   "154749": {
     "asn": "154749",
@@ -18819,7 +19158,8 @@
     "name": "WISHNET-AS-AP - WISH NET PRIVATE LIMITED",
     "holder": "WISHNET-AS-AP - WISH NET PRIVATE LIMITED",
     "announced": true,
-    "country": ""
+    "country": "IN",
+    "country_source": "rir"
   },
   "154725": {
     "asn": "154725",
@@ -18864,7 +19204,8 @@
     "name": "AS1385361",
     "holder": "AS1385361",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "154750": {
     "asn": "154750",
@@ -18878,14 +19219,16 @@
     "name": "FATIHUNLU-TR Fatih Unlu",
     "holder": "FATIHUNLU-TR Fatih Unlu",
     "announced": true,
-    "country": "TR"
+    "country": "TR",
+    "country_source": "rir"
   },
   "136529": {
     "asn": "136529",
     "name": "HRSAUSTRALASIAPTYLTD-AS-AP - HRS AUSTRALASIA PTY LTD",
     "holder": "HRSAUSTRALASIAPTYLTD-AS-AP - HRS AUSTRALASIA PTY LTD",
     "announced": true,
-    "country": ""
+    "country": "AU",
+    "country_source": "rir"
   },
   "133211": {
     "asn": "133211",
@@ -18899,14 +19242,16 @@
     "name": "AS64659",
     "holder": "AS64659",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "135035": {
     "asn": "135035",
     "name": "GST-AS-AP - GO SMART TECHNOLOGIES",
     "holder": "GST-AS-AP - GO SMART TECHNOLOGIES",
     "announced": false,
-    "country": ""
+    "country": "IN",
+    "country_source": "rir"
   },
   "134382": {
     "asn": "134382",
@@ -18927,14 +19272,16 @@
     "name": "KNZL-AS-AP - KeepItSafe New Zealand Limited",
     "holder": "KNZL-AS-AP - KeepItSafe New Zealand Limited",
     "announced": false,
-    "country": ""
+    "country": "NZ",
+    "country_source": "rir"
   },
   "56911": {
     "asn": "56911",
     "name": "ASN-WARIAN Warian S.R.L.",
     "holder": "ASN-WARIAN Warian S.R.L.",
     "announced": true,
-    "country": ""
+    "country": "IT",
+    "country_source": "rir"
   },
   "154786": {
     "asn": "154786",
@@ -18948,7 +19295,8 @@
     "name": "AS64555",
     "holder": "AS64555",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "154603": {
     "asn": "154603",
@@ -19034,7 +19382,8 @@
     "name": "StormNetworks Storm Networks LLC",
     "holder": "StormNetworks Storm Networks LLC",
     "announced": true,
-    "country": ""
+    "country": "RU",
+    "country_source": "rir"
   },
   "134780": {
     "asn": "134780",
@@ -19048,14 +19397,16 @@
     "name": "HOMENOC - Home NOC Operators Group",
     "holder": "HOMENOC - Home NOC Operators Group",
     "announced": true,
-    "country": ""
+    "country": "JP",
+    "country_source": "rir"
   },
   "133275": {
     "asn": "133275",
     "name": "Gigantic-AS - Gigantic Infotel Pvt Ltd",
     "holder": "Gigantic-AS - Gigantic Infotel Pvt Ltd",
     "announced": true,
-    "country": ""
+    "country": "IN",
+    "country_source": "rir"
   },
   "154718": {
     "asn": "154718",
@@ -19738,7 +20089,8 @@
     "name": "AS64545",
     "holder": "AS64545",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "154484": {
     "asn": "154484",
@@ -19752,21 +20104,24 @@
     "name": "RISE-HK - RISE",
     "holder": "RISE-HK - RISE",
     "announced": true,
-    "country": "HK"
+    "country": "HK",
+    "country_source": "rir"
   },
   "6403": {
     "asn": "6403",
     "name": "OPN - Oregon Public Networking",
     "holder": "OPN - Oregon Public Networking",
     "announced": false,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "34872": {
     "asn": "34872",
     "name": "Servperso_Systems Sarah Rossius trading as Servperso Systems",
     "holder": "Servperso_Systems Sarah Rossius trading as Servperso Systems",
     "announced": true,
-    "country": ""
+    "country": "BE",
+    "country_source": "rir"
   },
   "154828": {
     "asn": "154828",
@@ -19780,35 +20135,40 @@
     "name": "NetIX NetIX Communications JSC",
     "holder": "NetIX NetIX Communications JSC",
     "announced": true,
-    "country": ""
+    "country": "BG",
+    "country_source": "rir"
   },
   "13004": {
     "asn": "13004",
     "name": "SOX Serbian Open Exchange DOO",
     "holder": "SOX Serbian Open Exchange DOO",
     "announced": true,
-    "country": ""
+    "country": "RS",
+    "country_source": "rir"
   },
   "52055": {
     "asn": "52055",
     "name": "NetIX-Greece NetIX Communications JSC",
     "holder": "NetIX-Greece NetIX Communications JSC",
     "announced": false,
-    "country": ""
+    "country": "BG",
+    "country_source": "rir"
   },
   "206499": {
     "asn": "206499",
     "name": "LOCIX LOCIX LIMITED",
     "holder": "LOCIX LOCIX LIMITED",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "62000": {
     "asn": "62000",
     "name": "AS62000 SERVERD SAS",
     "holder": "AS62000 SERVERD SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "149049": {
     "asn": "149049",
@@ -19836,7 +20196,8 @@
     "name": "CA-INC - Avago Technologies U.S. Inc.",
     "holder": "CA-INC - Avago Technologies U.S. Inc.",
     "announced": false,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "149437": {
     "asn": "149437",
@@ -19864,14 +20225,16 @@
     "name": "PYRO-AS Institute for Pyrotechnical Cleaning (limited company)",
     "holder": "PYRO-AS Institute for Pyrotechnical Cleaning (limited company)",
     "announced": false,
-    "country": ""
+    "country": "FI",
+    "country_source": "rir"
   },
   "6206": {
     "asn": "6206",
     "name": "NETROUTING-AS Netrouting B.V.",
     "holder": "NETROUTING-AS Netrouting B.V.",
     "announced": false,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "154854": {
     "asn": "154854",
@@ -19899,21 +20262,24 @@
     "name": "TERASWITCH - TeraSwitch Networks Inc.",
     "holder": "TERASWITCH - TeraSwitch Networks Inc.",
     "announced": true,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "65349": {
     "asn": "65349",
     "name": "AS65349",
     "holder": "AS65349",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "15830": {
     "asn": "15830",
     "name": "Equinix Equinix (EMEA) Acquisition Enterprises B.V.",
     "holder": "Equinix Equinix (EMEA) Acquisition Enterprises B.V.",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "154872": {
     "asn": "154872",
@@ -19927,21 +20293,24 @@
     "name": "DATAMENA-ASN Emirates Integrated Telecommunications Company PJSC",
     "holder": "DATAMENA-ASN Emirates Integrated Telecommunications Company PJSC",
     "announced": true,
-    "country": ""
+    "country": "AE",
+    "country_source": "rir"
   },
   "64893": {
     "asn": "64893",
     "name": "AS64893",
     "holder": "AS64893",
     "announced": false,
-    "country": ""
+    "country": "",
+    "country_source": "rir"
   },
   "6797": {
     "asn": "6797",
     "name": "GLOBALCONNECT-NET GlobalConnect AB",
     "holder": "GLOBALCONNECT-NET GlobalConnect AB",
     "announced": true,
-    "country": ""
+    "country": "SE",
+    "country_source": "rir"
   },
   "58803": {
     "asn": "58803",
@@ -20004,7 +20373,8 @@
     "name": "XTOM xTom Pty Ltd",
     "holder": "XTOM xTom Pty Ltd",
     "announced": true,
-    "country": ""
+    "country": "AU",
+    "country_source": "rir"
   },
   "135095": {
     "asn": "135095",
@@ -20052,7 +20422,8 @@
     "name": "SYSTAILOR-FR SYSTAILOR SAS",
     "holder": "SYSTAILOR-FR SYSTAILOR SAS",
     "announced": true,
-    "country": "FR"
+    "country": "FR",
+    "country_source": "rir"
   },
   "154646": {
     "asn": "154646",
@@ -20089,7 +20460,8 @@
     "name": "COGENT-1239 - Cogent Communications, LLC",
     "holder": "COGENT-1239 - Cogent Communications, LLC",
     "announced": false,
-    "country": ""
+    "country": "US",
+    "country_source": "rir"
   },
   "154903": {
     "asn": "154903",
@@ -20117,7 +20489,8 @@
     "name": "DATAFOREST dataforest GmbH",
     "holder": "DATAFOREST dataforest GmbH",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "139304": {
     "asn": "139304",
@@ -20144,14 +20517,16 @@
     "name": "REPUBLICTELECOM-SG - MyRepublic Ltd.",
     "holder": "REPUBLICTELECOM-SG - MyRepublic Ltd.",
     "announced": true,
-    "country": "SG"
+    "country": "SG",
+    "country_source": "rir"
   },
   "37989": {
     "asn": "37989",
     "name": "DCS1PTELTD-AS-AP - DCS1 Pte. Ltd.",
     "holder": "DCS1PTELTD-AS-AP - DCS1 Pte. Ltd.",
     "announced": true,
-    "country": ""
+    "country": "SG",
+    "country_source": "rir"
   },
   "136621": {
     "asn": "136621",
@@ -20180,35 +20555,40 @@
     "name": "XYPHEN Innovation Harbor B.V.",
     "holder": "XYPHEN Innovation Harbor B.V.",
     "announced": true,
-    "country": ""
+    "country": "NL",
+    "country_source": "rir"
   },
   "201814": {
     "asn": "201814",
     "name": "Mevspace MEVSPACE sp. z o.o.",
     "holder": "Mevspace MEVSPACE sp. z o.o.",
     "announced": true,
-    "country": ""
+    "country": "PL",
+    "country_source": "rir"
   },
   "135607": {
     "asn": "135607",
     "name": "INFINIVAN-AS-AP - Infinivan Incorporated",
     "holder": "INFINIVAN-AS-AP - Infinivan Incorporated",
     "announced": true,
-    "country": ""
+    "country": "PH",
+    "country_source": "rir"
   },
   "680": {
     "asn": "680",
     "name": "DFN Verein zur Foerderung eines Deutschen Forschungsnetzes e.V.",
     "holder": "DFN Verein zur Foerderung eines Deutschen Forschungsnetzes e.V.",
     "announced": true,
-    "country": ""
+    "country": "DE",
+    "country_source": "rir"
   },
   "59210": {
     "asn": "59210",
     "name": "PHOENIXNAP-AS-SG1 - PhoenixNAP",
     "holder": "PHOENIXNAP-AS-SG1 - PhoenixNAP",
     "announced": true,
-    "country": ""
+    "country": "SG",
+    "country_source": "rir"
   },
   "154999": {
     "asn": "154999",
@@ -20243,14 +20623,16 @@
     "name": "CITYLINK-AS-KH - CityLink Corporation, LTD",
     "holder": "CITYLINK-AS-KH - CityLink Corporation, LTD",
     "announced": true,
-    "country": "KH"
+    "country": "KH",
+    "country_source": "rir"
   },
   "48101": {
     "asn": "48101",
     "name": "TROOLI-AS Trooli Ltd.",
     "holder": "TROOLI-AS Trooli Ltd.",
     "announced": true,
-    "country": ""
+    "country": "GB",
+    "country_source": "rir"
   },
   "137871": {
     "asn": "137871",
@@ -20264,7 +20646,8 @@
     "name": "XYZTELECOM-AS-AP - XYZ Telecom Pty Ltd",
     "holder": "XYZTELECOM-AS-AP - XYZ Telecom Pty Ltd",
     "announced": true,
-    "country": ""
+    "country": "AU",
+    "country_source": "rir"
   },
   "151412": {
     "asn": "151412",
@@ -20278,7 +20661,8 @@
     "name": "VIRTUASYS-EU VIRTUA SYSTEMS SAS",
     "holder": "VIRTUASYS-EU VIRTUA SYSTEMS SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   },
   "155053": {
     "asn": "155053",
@@ -20292,13 +20676,15 @@
     "name": "IRINN-INTERWIRE-AS-IN - De-cix Interwire Internet Services Private Limited",
     "holder": "IRINN-INTERWIRE-AS-IN - De-cix Interwire Internet Services Private Limited",
     "announced": true,
-    "country": "IN"
+    "country": "IN",
+    "country_source": "rir"
   },
   "16276": {
     "asn": "16276",
     "name": "OVH OVH SAS",
     "holder": "OVH OVH SAS",
     "announced": true,
-    "country": ""
+    "country": "FR",
+    "country_source": "rir"
   }
 }
