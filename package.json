@@ -4,5 +4,8 @@
   "type": "module",
   "scripts": {
     "test:js": "node --test tests-js/*.test.js"
+  },
+  "devDependencies": {
+    "d3-force": "3.0.0"
   }
 }

@@ -40,6 +40,11 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: "24"
+          cache: "npm"
+
+      - name: Install Node dependencies
+        run: |
+          npm ci
 
       - name: Install Python dependencies
         run: |
@@ -61,6 +66,10 @@ jobs:
           PYTHONUNBUFFERED: "1"
         run: |
           python -u scripts/update_bgp_data.py --country BD ${{ inputs.use_mrt_fallback && '--use-mrt-fallback' || '' }}
+
+      - name: Precompute network graph layout
+        run: |
+          node scripts/precompute_layout.mjs --country BD
 
       - name: Remove raw JSONL file
         run: |

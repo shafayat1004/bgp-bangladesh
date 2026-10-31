@@ -137,12 +137,12 @@ function setupTimeline() {
     onSelectLatest: () => {
       currentData = latestData;
       setDataSourceLabel(`Static data from: ${latestDateStr}`);
-      onDataLoaded();
+      onDataLoaded({ inPlace: true });
     },
     onSelectSnapshot: (viz, ts) => {
       currentData = viz;
       setDataSourceLabel(`Snapshot: ${formatTimestamp(ts)}`);
-      onDataLoaded();
+      onDataLoaded({ inPlace: true });
     },
   });
 }
@@ -151,17 +151,28 @@ function setupTimeline() {
 // Data Loaded Handler
 // ────────────────────────────────────────
 
-function onDataLoaded() {
+// inPlace: the active view may swap the data without a full rebuild (used by the
+// history slider so the network graph keeps its layout between snapshots).
+function onDataLoaded({ inPlace = false } = {}) {
   if (!currentData) return;
   populateSidebar(currentData, (asn) => {
     const mod = vizModules[activeTab];
     if (mod?.highlightASN) mod.highlightASN(asn);
   });
-  
+
   // Load with user's saved filter preference
   const prefs = loadPreferences();
   const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 100;
   const defaultMaxTraffic = prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity;
+
+  const mod = vizModules[activeTab];
+  if (inPlace && mod?.updateData) {
+    mod.updateData(currentData, { minTraffic: defaultMinTraffic, maxTraffic: defaultMaxTraffic });
+    if (activeTypeFilters.size < 6 && mod.filterByTypes) {
+      mod.filterByTypes(activeTypeFilters);
+    }
+    return;
+  }
   switchTab(activeTab, { minTraffic: defaultMinTraffic, maxTraffic: defaultMaxTraffic });
 }
 

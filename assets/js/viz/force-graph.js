@@ -5,6 +5,7 @@
  */
 
 import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
+import { selectGraph, bandPosition, createSimulation, configureForces, hasBakedLayout, applyBakedPositions } from './force-layout.js';
 
 const TYPE_COLORS = {
   'outside': '#ff6b6b',
@@ -39,6 +40,11 @@ let minTraffic = 100;
 let maxTraffic = Infinity;
 let renderedEdges = [];
 let stopTimer = null;
+let zoom = null;
+let initialTransform = null;
+
+// Space the edge legend takes at the bottom of the panel, kept clear when fitting.
+const LEGEND_HEIGHT = 90;
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -64,39 +70,41 @@ export function loadData(data, options = {}) {
 
   g = svg.append('g');
 
-  const zoom = d3.zoom().scaleExtent([0.1, 5])
+  zoom = d3.zoom().scaleExtent([0.1, 5])
     .on('zoom', (event) => g.attr('transform', event.transform));
   svg.call(zoom);
-  
-  svg.call(zoom.transform, d3.zoomIdentity.scale(0.6).translate(width * 0.33, height * 0.33));
-  
+
   svg.on('click', () => clearHighlight());
 
   createLegend(height);
 
-  simulation = d3.forceSimulation()
-    .force('link', d3.forceLink().id(d => d.asn).distance(180).strength(0.08))
-    .force('charge', d3.forceManyBody().strength(-400).distanceMax(450))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide().radius(d => Math.max(8, Math.sqrt(d.traffic / 100) * 2 + 5)).strength(0.9))
-    .force('x', d3.forceX(d => {
-      if (d.type === 'local-company' || d.type === 'local-isp') return width * 0.15;
-      if (d.type === 'iig' || d.type === 'inside') return width * 0.32;
-      if (d.type === 'detected-iig') return width * 0.5;
-      if (d.type === 'offshore-enterprise') return width * 0.68;
-      if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') return width * 0.78;
-      return width * 0.88;
-    }).strength(0.35))
-    .force('y', d3.forceY(d => {
-      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.1;
-      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.35;
-      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.65;
-      return height * 0.9;
-    }).strength(0.85))
-    .velocityDecay(0.55)
-    .alphaDecay(0.02);
+  simulation = createSimulation(d3);
 
-  render();
+  // Positions baked into the data by scripts/precompute_layout.mjs let the graph
+  // appear settled without simulating.
+  const baked = hasBakedLayout(data, minTraffic, maxTraffic);
+  if (data.layout) applyBakedPositions(data.layout, data.nodes);
+  render({ alpha: baked ? 0 : (data.layout ? 0.3 : 1) });
+
+  initialTransform = baked
+    ? fitTransform(simulation.nodes(), width, height - LEGEND_HEIGHT)
+    : d3.zoomIdentity.scale(0.6).translate(width * 0.33, height * 0.33);
+  svg.call(zoom.transform, initialTransform);
+}
+
+/** Zoom transform that fits all nodes (with their radius) into the view. */
+function fitTransform(nodeList, width, height) {
+  if (!nodeList.length) return d3.zoomIdentity;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const d of nodeList) {
+    const r = Math.max(5, Math.sqrt(d.traffic / 100) * (currentNodeSize / 10));
+    x0 = Math.min(x0, d.x - r); y0 = Math.min(y0, d.y - r);
+    x1 = Math.max(x1, d.x + r); y1 = Math.max(y1, d.y + r);
+  }
+  const k = Math.min(5, Math.max(0.1, 0.95 * Math.min(width / (x1 - x0), height / (y1 - y0))));
+  return d3.zoomIdentity
+    .translate(width / 2 - k * (x0 + x1) / 2, height / 2 - k * (y0 + y1) / 2)
+    .scale(k);
 }
 
 function createLegend(height) {
@@ -157,44 +165,72 @@ function createLegend(height) {
   });
 }
 
-function render() {
+/**
+ * Copy positions from the nodes currently in the simulation onto the next
+ * dataset's nodes (matched by ASN) so the layout keeps its shape when the data
+ * changes. Unmatched nodes lose any stale position and get placed in their band.
+ * Exported for unit testing. Returns the number of matched nodes.
+ */
+export function carryOverPositions(prevNodes, nextNodes) {
+  const prevByAsn = new Map();
+  for (const n of prevNodes || []) {
+    if (Number.isFinite(n.x) && Number.isFinite(n.y)) prevByAsn.set(n.asn, n);
+  }
+  let matched = 0;
+  for (const n of nextNodes || []) {
+    const p = prevByAsn.get(n.asn);
+    if (p) {
+      n.x = p.x;
+      n.y = p.y;
+      matched++;
+    } else {
+      delete n.x;
+      delete n.y;
+    }
+    n.vx = 0;
+    n.vy = 0;
+  }
+  return matched;
+}
+
+/**
+ * Swap in a new dataset (e.g. a history snapshot) without rebuilding the view:
+ * keeps the zoom, carries node positions over and only gently reheats the layout.
+ */
+export function updateData(data, options = {}) {
+  if (!simulation || !g) { loadData(data, options); return; }
+  if (options.minTraffic !== undefined) minTraffic = options.minTraffic;
+  if (options.maxTraffic !== undefined) maxTraffic = options.maxTraffic;
+  // Snapshots with baked positions were laid out from each other, so they line
+  // up without simulating; otherwise keep the current layout and relax gently.
+  const baked = hasBakedLayout(data, minTraffic, maxTraffic);
+  if (baked) applyBakedPositions(data.layout, data.nodes);
+  else carryOverPositions(simulation.nodes(), data.nodes);
+  currentData = data;
+  const prevHighlight = highlightedNode;
+  highlightedNode = null;
+  render({ alpha: baked ? 0 : 0.1 });
+  if (prevHighlight) highlightASN(prevHighlight);
+}
+
+// alpha 0 draws the current positions as they are, without running the simulation.
+function render({ alpha = 1 } = {}) {
   if (!currentData || !g) return;
 
   const container = document.getElementById('viz-panel');
   if (!container) return;
-  const width = container.clientWidth;
-  const height = container.clientHeight;
+  // Baked data has its own coordinate space (fitted by the zoom); otherwise use the panel.
+  const width = currentData.layout ? currentData.layout.width : container.clientWidth;
+  const height = currentData.layout ? currentData.layout.height : container.clientHeight;
 
-  renderedEdges = currentData.edges.filter(e => e.count >= minTraffic && e.count <= maxTraffic);
-  const usedNodes = new Set();
-  renderedEdges.forEach(e => {
-    usedNodes.add(e.source?.asn || e.source);
-    usedNodes.add(e.target?.asn || e.target);
-  });
-  const filteredNodes = currentData.nodes.filter(n => usedNodes.has(n.asn));
+  const selected = selectGraph(currentData, minTraffic, maxTraffic);
+  renderedEdges = selected.edges;
+  const filteredNodes = selected.nodes;
 
   // Pre-position nodes
   filteredNodes.forEach(d => {
     if (d.x === undefined || d.y === undefined) {
-      if (d.type === 'local-company' || d.type === 'local-isp') {
-        d.x = width * 0.15 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.1 + (Math.random() - 0.5) * 50;
-      } else if (d.type === 'iig' || d.type === 'inside') {
-        d.x = width * 0.32 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.35 + (Math.random() - 0.5) * 50;
-      } else if (d.type === 'detected-iig') {
-        d.x = width * 0.5 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.35 + (Math.random() - 0.5) * 50;
-      } else if (d.type === 'offshore-enterprise') {
-        d.x = width * 0.68 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.65 + (Math.random() - 0.5) * 50;
-      } else if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') {
-        d.x = width * 0.78 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.65 + (Math.random() - 0.5) * 50;
-      } else {
-        d.x = width * 0.88 + (Math.random() - 0.5) * width * 0.1;
-        d.y = height * 0.9 + (Math.random() - 0.5) * 50;
-      }
+      [d.x, d.y] = bandPosition(d.type, width, height);
     }
   });
 
@@ -235,6 +271,8 @@ function render() {
     byType[type].slice(0, TOP_LABELS_PER_TYPE).forEach(n => labelASNs.add(n.asn));
   }
 
+  // A gentle reheat keeps nodes near their places, so labels can stay visible.
+  const labelsDuringLayout = showLabels && alpha < 1;
   nodes.filter(d => labelASNs.has(d.asn))
     .append('text')
     .attr('class', 'node-label')
@@ -243,31 +281,30 @@ function render() {
       const flag = d.country ? countryToFlag(d.country) : '';
       return `${flag} ${d.name || `AS${d.asn}`}`;
     })
-    .style('display', 'none');
+    .style('display', labelsDuringLayout ? 'block' : 'none');
 
   nodes.on('mouseover', showTooltipHandler)
     .on('mousemove', moveTooltipHandler)
     .on('mouseout', hideTooltipHandler)
     .on('click', highlightNodeHandler);
 
-  const nodeCount = filteredNodes.length;
-  const chargeStrength = Math.max(-600, -350 - nodeCount * 2.5);
-  const distMax = nodeCount > 500 ? 300 : 450;
-  const collStrength = nodeCount > 500 ? 0.5 : 0.9;
-
-  simulation.force('charge').strength(chargeStrength).distanceMax(distMax);
-  simulation.force('collision').strength(collStrength);
-
+  configureForces(d3, simulation, { width, height, nodeCount: filteredNodes.length });
   simulation.nodes(filteredNodes).on('tick', ticked);
   simulation.force('link').links(renderedEdges);
-  
-  simulation.alpha(1).restart();
-  
+
+  if (stopTimer) clearTimeout(stopTimer);
+  if (alpha === 0) {
+    simulation.stop();
+    ticked();
+    return;
+  }
+
+  simulation.alpha(alpha).restart();
+
   simulation.on('end', () => {
     if (showLabels) d3.selectAll('.node-label').style('display', 'block');
   });
 
-  if (stopTimer) clearTimeout(stopTimer);
   stopTimer = setTimeout(() => {
     if (simulation) {
       simulation.stop();
@@ -352,7 +389,13 @@ export function highlightASN(asn) {
 export function updateFilter(minVal, maxVal) {
   minTraffic = minVal !== undefined ? minVal : minTraffic;
   maxTraffic = maxVal !== undefined ? maxVal : maxTraffic;
-  render();
+  // Back on the baked filter: restore the baked layout; otherwise relax from the current one.
+  if (hasBakedLayout(currentData, minTraffic, maxTraffic)) {
+    applyBakedPositions(currentData.layout, currentData.nodes);
+    render({ alpha: 0 });
+  } else {
+    render({ alpha: currentData?.layout ? 0.3 : 1 });
+  }
 }
 export function setNodeSize(size) {
   currentNodeSize = size;
@@ -371,7 +414,7 @@ export function toggleLabelsVisibility() {
     d3.selectAll('.node-label').style('display', 'none');
   }
 }
-export function resetView() { if (svg) svg.transition().duration(750).call(d3.zoom().transform, d3.zoomIdentity); clearHighlight(); }
+export function resetView() { if (svg && zoom) svg.transition().duration(750).call(zoom.transform, initialTransform || d3.zoomIdentity); clearHighlight(); }
 
 export function filterByTypes(activeTypes) {
   if (!nodes || !links) return;
