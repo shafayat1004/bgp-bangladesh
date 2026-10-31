@@ -13,6 +13,8 @@ the Network Graph layout (`scripts/precompute_layout.mjs`, see the
 - `data/BD/viz_data.json`: nodes (networks), edges (connections), stats
 - `data/BD/asn_names.json`: a **cache** of per-ASN facts (name, country)
 - `data/BD/country_resources.json`: last good list of BD ASNs and prefixes
+- `data/BD/announced_prefixes.json`: last good announced prefixes per BD ASN;
+  the `[1b/4]` step has a time budget and falls back to it
 - `data/BD/metadata.json`, and `data/BD/history/` (one snapshot per run,
   7 days kept, `index.json` lists them)
 
@@ -63,6 +65,12 @@ Say which one you used.
 RIPEstat allows about 8 parallel requests; the pipeline rate-limits to 4 per
 second (`RateLimiter`) and retries timeouts and 429/5xx (`get_with_retries`).
 Read timeouts during a big lookup are normal.
+
+A partial `bgp-state` fetch looks exactly like a real drop in routes. Failed
+batches get one more split retry at the end, and `enforce_route_completeness`
+fails the run when more than `MAX_MISSING_PREFIX_SHARE` of prefixes still
+have no routes. `metadata.json` `completeness` records what was fetched,
+retried and taken from cache.
 
 ## Caches keep old answers
 

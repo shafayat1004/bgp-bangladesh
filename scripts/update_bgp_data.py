@@ -27,9 +27,11 @@ import os
 import time
 import ipaddress
 import argparse
+import threading
 import requests
 from datetime import datetime, timedelta, timezone
 from concurrent.futures import ThreadPoolExecutor, as_completed, wait
+from concurrent.futures import TimeoutError as FuturesTimeoutError
 
 # Use orjson for 10-50x faster JSON serialization when available
 try:
@@ -90,6 +92,21 @@ CONTROL_MIN_OBSERVATIONS = 100
 # How many days of per-run snapshots to retain for the history time-slider.
 # Snapshots older than this are pruned on each successful run.
 RETENTION_DAYS = 7
+
+# Time budget for the announced-prefixes step ([1b/4]). Good runs take 4-12
+# minutes, bad ones 40+, which left too little of the job for the route
+# fetch. Past the budget, remaining ASNs use their cached announced prefixes.
+ANNOUNCED_PREFIXES_BUDGET_SECONDS = 12 * 60
+
+# bgp-state batches that still fail are retried once more at the end, after
+# this pause, each split into this many smaller requests.
+ROUTE_RETRY_PAUSE_SECONDS = 30
+ROUTE_RETRY_SPLIT = 4
+
+# Largest share of prefixes allowed to have no routes after that retry. Normal
+# runs differ by about +/-1% in routes, so a loss under 0.5% can't pass as a
+# real change; anything above fails the run and keeps the committed data.
+MAX_MISSING_PREFIX_SHARE = 0.005
 
 # How many of the busiest connections viz_data.json draws (keeps the file small)
 TOP_INTL_EDGES = 1500
@@ -421,84 +438,205 @@ def get_country_resources(country_code, rate_limiter=None):
     sys.exit(1)
 
 
-def fetch_announced_prefixes(asns, rate_limiter):
-    """Fetch actually-announced prefixes for ALL country ASNs in parallel.
-    
+def _fetch_announced_for_asn(asn, rate_limiter, stop, max_retries=2):
+    """Announced prefixes for one ASN, or None if every attempt failed.
+
+    Gives up early once `stop` is set (the step ran out of time).
+    """
+    for attempt in range(max_retries + 1):
+        if stop.is_set():
+            return None
+        try:
+            rate_limiter.acquire()
+            resp = requests.get(
+                f"{BASE}/announced-prefixes/data.json",
+                params={"resource": f"AS{asn}"},
+                headers=UA,
+                timeout=30
+            )
+
+            if resp.status_code == 429:
+                retry_after = int(resp.headers.get('Retry-After', 30))
+                if attempt < max_retries:
+                    time.sleep(retry_after)
+                    continue
+                return None
+
+            resp.raise_for_status()
+            asn_data = resp.json().get("data", {})
+            return [p["prefix"] for p in asn_data.get("prefixes", []) if p.get("prefix")]
+
+        except requests.RequestException:
+            if attempt < max_retries:
+                time.sleep(2 ** attempt)
+                continue
+            return None
+
+    return None
+
+
+def fetch_announced_prefixes(asns, rate_limiter, budget_seconds=None, fetch_one=None):
+    """Fetch actually-announced prefixes for country ASNs in parallel.
+
     The country-resource-list API returns allocated IP blocks, but ASNs may announce
     more-specific subnets (e.g. /24 out of a /23 allocation). Querying the
     announced-prefixes API per ASN captures these.
+
+    Requests run on one pool (a slow answer doesn't hold up the others). When
+    `budget_seconds` runs out, the remaining ASNs are left unfetched so the
+    route fetch keeps enough of the job's time; `get_announced_prefixes` fills
+    them from the cache.
+
+    Returns {"prefixes_by_asn", "failed", "not_fetched", "timed_out",
+    "elapsed_seconds"}.
     """
     asn_list = list(asns)
     total = len(asn_list)
-    all_prefixes = set()
-    completed = 0
-    failed = 0
     concurrency = CONCURRENCY
-    
-    print(f"\n[1b/4] Fetching announced prefixes for ALL {total} ASNs ({concurrency} parallel)...")
+    if fetch_one is None:
+        def fetch_one(asn, stop):
+            return _fetch_announced_for_asn(asn, rate_limiter, stop)
+
+    budget_note = f", time budget {budget_seconds / 60:g} min" if budget_seconds else ""
+    print(f"\n[1b/4] Fetching announced prefixes for {total} ASNs ({concurrency} parallel{budget_note})...")
     print("       This captures more-specific subnets not in allocation list.")
     start_time = time.time()
-    
-    def fetch_one(asn, max_retries=2):
-        """Fetch announced prefixes for a single ASN with retries."""
-        for attempt in range(max_retries + 1):
+
+    prefixes_by_asn = {}
+    failed = set()
+    timed_out = False
+    stop = threading.Event()
+    executor = ThreadPoolExecutor(max_workers=concurrency)
+    futures = {executor.submit(fetch_one, asn, stop): asn for asn in asn_list}
+    try:
+        for future in as_completed(futures, timeout=budget_seconds):
+            asn = futures[future]
             try:
-                rate_limiter.acquire()
-                resp = requests.get(
-                    f"{BASE}/announced-prefixes/data.json",
-                    params={"resource": f"AS{asn}"},
-                    headers=UA,
-                    timeout=30
-                )
-                
-                if resp.status_code == 429:
-                    retry_after = int(resp.headers.get('Retry-After', 30))
-                    if attempt < max_retries:
-                        time.sleep(retry_after)
-                        continue
-                    return {"success": False, "prefixes": [], "asn": asn}
-                
-                resp.raise_for_status()
-                asn_data = resp.json().get("data", {})
-                pfxs = [p["prefix"] for p in asn_data.get("prefixes", []) if p.get("prefix")]
-                return {"success": True, "prefixes": pfxs, "asn": asn}
-                
-            except requests.RequestException:
-                if attempt < max_retries:
-                    time.sleep(2 ** attempt)
-                    continue
-                return {"success": False, "prefixes": [], "asn": asn}
-        
-        return {"success": False, "prefixes": [], "asn": asn}
-    
-    # Process in parallel waves
-    for i in range(0, total, concurrency):
-        batch = asn_list[i:i + concurrency]
-        
-        with ThreadPoolExecutor(max_workers=concurrency) as executor:
-            futures = {executor.submit(fetch_one, asn): asn for asn in batch}
-            
-            for future in as_completed(futures):
-                result = future.result()
-                if result["success"]:
-                    all_prefixes.update(result["prefixes"])
-                    completed += 1
-                else:
-                    failed += 1
-        
-        # Progress update every wave
-        elapsed = time.time() - start_time
-        done = completed + failed
-        if done > 0:
-            eta = (total - done) * (elapsed / done)
-            print(f"      Progress: {done}/{total} ASNs ({completed} ok, {failed} failed) - ETA {eta:.0f}s")
-    
+                pfxs = future.result()
+            except Exception:
+                pfxs = None
+            if pfxs is None:
+                failed.add(asn)
+            else:
+                prefixes_by_asn[asn] = pfxs
+
+            done = len(prefixes_by_asn) + len(failed)
+            if done % 200 == 0 or done == total:
+                elapsed = time.time() - start_time
+                eta = (total - done) * (elapsed / done)
+                print(f"      Progress: {done}/{total} ASNs ({len(prefixes_by_asn)} ok, {len(failed)} failed) - ETA {eta:.0f}s")
+    except FuturesTimeoutError:
+        timed_out = True
+        stop.set()
+    finally:
+        # On a timeout don't wait for requests still in flight; they stop at
+        # their next attempt.
+        executor.shutdown(wait=not timed_out, cancel_futures=True)
+
     elapsed = time.time() - start_time
-    print(f"      Done: {len(all_prefixes)} announced prefixes from {completed} ASNs in {elapsed:.1f}s")
-    if failed > 0:
-        print(f"      WARNING: {failed} ASNs failed to fetch announced prefixes")
-    
-    return all_prefixes
+    not_fetched = [a for a in asn_list if a not in prefixes_by_asn and a not in failed]
+    n_prefixes = len({p for pfxs in prefixes_by_asn.values() for p in pfxs})
+    print(f"      Done: {n_prefixes} announced prefixes from {len(prefixes_by_asn)} ASNs in {elapsed:.1f}s")
+    if failed:
+        print(f"      WARNING: {len(failed)} ASNs failed to fetch announced prefixes")
+    if timed_out:
+        print(f"      WARNING: time budget used up; {len(not_fetched)} ASNs not fetched")
+
+    return {
+        "prefixes_by_asn": prefixes_by_asn,
+        "failed": [a for a in asn_list if a in failed],
+        "not_fetched": not_fetched,
+        "timed_out": timed_out,
+        "elapsed_seconds": round(elapsed, 1),
+    }
+
+
+def _asn_sort_key(asn):
+    return int(asn) if str(asn).isdigit() else 0
+
+
+def _load_announced_prefixes_cache(path):
+    """Last good announced prefixes per ASN ({asn: [prefix, ...]}), or {}."""
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path) as f:
+            payload = json.load(f)
+    except (OSError, ValueError):
+        print(f"      WARNING: could not read {path}; ignoring the announced-prefix cache")
+        return {}
+    return {str(a): list(p) for a, p in payload.get("asns", {}).items()}
+
+
+def _save_announced_prefixes_cache(path, country_code, prefixes_by_asn):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    payload = {
+        "country": country_code.upper(),
+        "updated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "asns": {a: prefixes_by_asn[a] for a in sorted(prefixes_by_asn, key=_asn_sort_key)},
+    }
+    with open(path, "w") as f:
+        json.dump(payload, f, indent=2)
+    print(f"      Cached announced prefixes for {len(prefixes_by_asn)} ASNs to {path}")
+
+
+def get_announced_prefixes(asns, rate_limiter, cache_path, country_code="BD",
+                           budget_seconds=ANNOUNCED_PREFIXES_BUDGET_SECONDS,
+                           fetch=fetch_announced_prefixes):
+    """Announced prefixes for all country ASNs, bounded in time.
+
+    ASNs that fail or aren't reached within the budget use their last good
+    answer from `cache_path` (announced prefixes barely change between runs:
+    12,664-12,745 over a week). ASNs the cache doesn't know are fetched first,
+    and without a cache there's no budget, so a timeout only ever skips ASNs
+    that have a fallback.
+
+    Returns (set of prefixes, report dict for metadata.json).
+    """
+    cache = _load_announced_prefixes_cache(cache_path)
+    asns = [str(a) for a in asns]
+    ordered = (sorted((a for a in asns if a not in cache), key=_asn_sort_key)
+               + sorted((a for a in asns if a in cache), key=_asn_sort_key))
+    budget = budget_seconds if cache else None
+    if cache:
+        print(f"      Announced-prefix cache has {len(cache)} ASNs ({cache_path})")
+    elif budget_seconds:
+        print("      No announced-prefix cache yet: fetching every ASN without a time budget.")
+
+    result = fetch(ordered, rate_limiter, budget_seconds=budget)
+    fresh = result["prefixes_by_asn"]
+
+    merged = {}
+    from_cache = 0
+    missing = 0
+    for asn in ordered:
+        if asn in fresh:
+            merged[asn] = sorted(set(fresh[asn]))
+        elif asn in cache:
+            merged[asn] = cache[asn]
+            from_cache += 1
+        else:
+            missing += 1
+
+    if fresh or not os.path.exists(cache_path):
+        _save_announced_prefixes_cache(cache_path, country_code, merged)
+    if from_cache:
+        print(f"      Used cached announced prefixes for {from_cache} ASNs")
+    if missing:
+        print(f"      WARNING: {missing} ASNs have no announced prefixes (not fetched, not cached)")
+
+    report = {
+        "asns": len(asns),
+        "fetched": len(fresh),
+        "failed": len(result["failed"]),
+        "from_cache": from_cache,
+        "missing": missing,
+        "used_cache": from_cache > 0,
+        "timed_out": result["timed_out"],
+        "budget_seconds": budget,
+        "seconds": result["elapsed_seconds"],
+    }
+    return {p for pfxs in merged.values() for p in pfxs}, report
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -527,97 +665,189 @@ def chunk_prefixes(prefixes, max_len=1800):
     return chunks
 
 
-def fetch_bgp_routes(prefixes, rate_limiter):
-    """Fetch BGP routes for all prefixes from RIPEstat in parallel."""
+def _fetch_bgp_state_batch(batch, rate_limiter, max_retries=3):
+    """bgp-state routes for one batch of prefixes, or None if every attempt failed."""
+    label = f"{batch[0]} (+{len(batch) - 1})"
+    for attempt in range(max_retries + 1):
+        try:
+            rate_limiter.acquire()
+            params = {"resource": ",".join(batch)}
+            url = f"{BASE}/bgp-state/data.json"
+
+            r = requests.get(url, params=params, headers=UA, timeout=120)
+
+            # Handle rate limiting
+            if r.status_code == 429:
+                retry_after = int(r.headers.get('Retry-After', 60))
+                if attempt < max_retries:
+                    print(f"      Batch {label}: Rate limited, waiting {retry_after}s (attempt {attempt + 1}/{max_retries})...")
+                    time.sleep(retry_after)
+                    continue
+
+            r.raise_for_status()
+            data = r.json()
+            routes = data.get("data", {}).get("bgp_state", [])
+
+            # Strip community field — never used in analysis, saves ~40% memory/disk
+            for rt in routes:
+                rt.pop("community", None)
+
+            # Success - log if this was after retries
+            if attempt > 0:
+                print(f"      Batch {label}: Success after {attempt + 1} attempts")
+
+            return routes
+
+        except requests.RequestException as e:
+            if attempt < max_retries:
+                # Exponential backoff: 1s, 2s, 4s
+                wait_time = 2 ** attempt
+                print(f"      Batch {label}: {type(e).__name__} - retrying in {wait_time}s (attempt {attempt + 1}/{max_retries})...")
+                time.sleep(wait_time)
+            else:
+                print(f"      WARNING: Batch {label} failed after {max_retries + 1} attempts: {e}")
+                return None
+
+    return None
+
+
+def _run_route_batches(batches, fetch_batch):
+    """Run batches on one pool of CONCURRENCY workers.
+
+    Returns (routes, failed batches in their original order).
+    """
+    total = len(batches)
+    all_routes = []
+    failed = {}
+    start_time = time.time()
+    with ThreadPoolExecutor(max_workers=CONCURRENCY) as executor:
+        futures = {executor.submit(fetch_batch, batch): idx for idx, batch in enumerate(batches)}
+        for done, future in enumerate(as_completed(futures), 1):
+            idx = futures[future]
+            try:
+                routes = future.result()
+            except Exception as e:
+                print(f"      WARNING: batch {idx + 1} raised {type(e).__name__}: {e}")
+                routes = None
+            if routes is None:
+                failed[idx] = batches[idx]
+            else:
+                all_routes.extend(routes)
+
+            if done % 5 == 0 or done == total:
+                elapsed = time.time() - start_time
+                remaining = (total - done) * elapsed / done
+                print(f"      Progress: {done - len(failed)}/{total} batches ({len(all_routes):,} routes, ETA: {remaining/60:.1f} min)...")
+    return all_routes, [failed[i] for i in sorted(failed)]
+
+
+def _split_batch(batch, parts):
+    size = max(1, -(-len(batch) // parts))
+    return [batch[i:i + size] for i in range(0, len(batch), size)]
+
+
+def fetch_bgp_routes(prefixes, rate_limiter, fetch_batch=None,
+                     retry_pause=ROUTE_RETRY_PAUSE_SECONDS):
+    """Fetch BGP routes for all prefixes from RIPEstat in parallel.
+
+    Batches that still fail after their own retries (RIPEstat 500s come in
+    bursts) are tried once more at the end, after a pause, split into
+    ROUTE_RETRY_SPLIT smaller requests so one bad prefix can't lose a whole
+    batch.
+
+    Returns (routes, report). The report counts batches and the prefixes
+    whose routes are missing; `enforce_route_completeness` decides whether
+    the run may be committed.
+    """
+    if fetch_batch is None:
+        def fetch_batch(batch):
+            return _fetch_bgp_state_batch(batch, rate_limiter)
+
     batches = chunk_prefixes(prefixes)
     total_batches = len(batches)
-    all_routes = []
-    
-    concurrency = CONCURRENCY
-    print(f"\n[2/4] Fetching BGP routes in {total_batches} batches ({concurrency} parallel)...")
+
+    print(f"\n[2/4] Fetching BGP routes in {total_batches} batches ({CONCURRENCY} parallel)...")
     print("      This will take 3-10 minutes depending on API speed.")
     print("      Press Ctrl+C to abort.\n")
-    
+
     start_time = time.time()
-    completed = 0
-    failed = 0
-    
-    def fetch_batch_with_retry(batch_idx, batch, max_retries=3):
-        """Fetch a single batch with rate limiting and retry logic."""
-        for attempt in range(max_retries + 1):
-            try:
-                rate_limiter.acquire()
-                params = {"resource": ",".join(batch)}
-                url = f"{BASE}/bgp-state/data.json"
-                
-                r = requests.get(url, params=params, headers=UA, timeout=120)
-                
-                # Handle rate limiting
-                if r.status_code == 429:
-                    retry_after = int(r.headers.get('Retry-After', 60))
-                    if attempt < max_retries:
-                        print(f"      Batch {batch_idx}: Rate limited, waiting {retry_after}s (attempt {attempt + 1}/{max_retries})...")
-                        time.sleep(retry_after)
-                        continue
-                
-                r.raise_for_status()
-                data = r.json()
-                routes = data.get("data", {}).get("bgp_state", [])
-                
-                # Strip community field — never used in analysis, saves ~40% memory/disk
-                for rt in routes:
-                    rt.pop("community", None)
-                
-                # Success - log if this was after retries
-                if attempt > 0:
-                    print(f"      Batch {batch_idx}: Success after {attempt + 1} attempts")
-                
-                return {"success": True, "routes": routes, "batch_idx": batch_idx}
-                
-            except requests.RequestException as e:
-                if attempt < max_retries:
-                    # Exponential backoff: 2s, 4s, 8s
-                    wait_time = 2 ** attempt
-                    print(f"      Batch {batch_idx}: {type(e).__name__} - retrying in {wait_time}s (attempt {attempt + 1}/{max_retries})...")
-                    time.sleep(wait_time)
-                else:
-                    print(f"      WARNING: Batch {batch_idx} failed after {max_retries + 1} attempts: {e}")
-                    return {"success": False, "routes": [], "batch_idx": batch_idx}
-        
-        return {"success": False, "routes": [], "batch_idx": batch_idx}
-    
-    # Process batches in parallel waves
-    for i in range(0, total_batches, concurrency):
-        batch_group = batches[i:i + concurrency]
-        
-        with ThreadPoolExecutor(max_workers=concurrency) as executor:
-            futures = {
-                executor.submit(fetch_batch_with_retry, i + idx + 1, batch): i + idx + 1 
-                for idx, batch in enumerate(batch_group)
-            }
-            
-            for future in as_completed(futures):
-                result = future.result()
-                if result["success"]:
-                    all_routes.extend(result["routes"])
-                    completed += 1
-                else:
-                    failed += 1
-                
-                # Progress update
-                elapsed = time.time() - start_time
-                avg_per_batch = elapsed / (completed + failed) if (completed + failed) > 0 else 0
-                remaining = (total_batches - completed - failed) * avg_per_batch
-                
-                if (completed + failed) % 5 == 0 or (completed + failed) == total_batches:
-                    print(f"      Progress: {completed}/{total_batches} batches ({len(all_routes):,} routes, ETA: {remaining/60:.1f} min)...")
-    
+    all_routes, failed = _run_route_batches(batches, fetch_batch)
+
+    retry_requests = []
+    still_failed = []
+    if failed:
+        retry_requests = [part for batch in failed for part in _split_batch(batch, ROUTE_RETRY_SPLIT)]
+        print(f"\n      {len(failed)} batches failed; retrying them as {len(retry_requests)} "
+              f"smaller requests in {retry_pause}s...")
+        time.sleep(retry_pause)
+        retry_routes, still_failed = _run_route_batches(retry_requests, fetch_batch)
+        all_routes.extend(retry_routes)
+
     elapsed = time.time() - start_time
+    missing = sum(len(batch) for batch in still_failed)
     print(f"\n      Fetch complete! {len(all_routes):,} routes in {elapsed:.0f}s ({elapsed/60:.1f} min)")
-    if failed > 0:
-        print(f"      WARNING: {failed} batches failed even after retries")
-    
-    return all_routes
+    if failed:
+        print(f"      Retry recovered {len(retry_requests) - len(still_failed)}/{len(retry_requests)} requests")
+    if missing:
+        print(f"      WARNING: routes missing for {missing} of {len(prefixes)} prefixes:")
+        for batch in still_failed:
+            print(f"        {batch[0]} .. {batch[-1]} ({len(batch)} prefixes)")
+
+    report = {
+        "batches": total_batches,
+        "batches_failed_first_try": len(failed),
+        "retry_requests": len(retry_requests),
+        "retry_requests_failed": len(still_failed),
+        "prefixes": len(prefixes),
+        "prefixes_missing": missing,
+        "seconds": round(elapsed, 1),
+    }
+    return all_routes, report
+
+
+def enforce_route_completeness(report, max_missing_share=MAX_MISSING_PREFIX_SHARE):
+    """Fail the run when too many prefixes have no routes.
+
+    A partial fetch looks exactly like a real drop in routes, and history
+    snapshots are never rewritten, so it would stay as a fake dip. Raising
+    here, before any output is written, keeps the committed data. A loss at
+    or below `max_missing_share` (smaller than normal run-to-run change) is
+    committed with a warning and recorded in metadata.json.
+    """
+    missing = report["prefixes_missing"]
+    if not missing:
+        return
+    total = max(report["prefixes"], 1)
+    share = missing / total
+    if share > max_missing_share:
+        raise RuntimeError(
+            f"Routes missing for {missing} of {total} prefixes ({share:.2%}) after "
+            f"retrying failed bgp-state batches (limit {max_missing_share:.2%}); "
+            f"refusing to commit a partial fetch."
+        )
+    print(f"      WARNING: committing with routes missing for {missing} prefixes "
+          f"({share:.2%}, limit {max_missing_share:.2%}); recorded in metadata.json")
+
+
+def build_completeness(route_report, announced_report):
+    """How complete this run's fetch was, for metadata.json.
+
+    `complete` is True only when every prefix returned routes and every ASN's
+    announced prefixes were fetched fresh; None when the run didn't fetch
+    bgp-state batches (MRT fallback).
+    """
+    if route_report is None:
+        complete = None
+    else:
+        complete = (route_report["prefixes_missing"] == 0
+                    and announced_report is not None
+                    and announced_report["from_cache"] == 0
+                    and announced_report["missing"] == 0)
+    return {
+        "complete": complete,
+        "routes": route_report,
+        "announced_prefixes": announced_report,
+    }
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1832,6 +2062,7 @@ def main():
     out_viz = os.path.join(data_dir, "viz_data.json")
     out_asn = os.path.join(data_dir, "asn_names.json")
     out_meta = os.path.join(data_dir, "metadata.json")
+    out_announced = os.path.join(data_dir, "announced_prefixes.json")
     
     print("═" * 70)
     print(f"BGP Data Update - {country}")
@@ -1865,6 +2096,8 @@ def main():
     data_is_mrt = False        # True when AS paths came from the MRT fallback
     ripestat_healthy = True    # re-evaluated only when fetching live from RIPEstat
     control_obs = None         # control-probe observation count (when fetched)
+    route_report = None        # bgp-state batch counts (fetch_bgp_routes)
+    announced_report = None    # announced-prefixes step counts
 
     if args.reprocess:
         # Reprocess mode: stream from cached JSONL (or fallback to legacy JSON)
@@ -1893,8 +2126,10 @@ def main():
         country_asns, alloc_prefixes = get_country_resources(args.country, rate_limiter)
         
         # Step 1b: Fetch actually-announced prefixes for ALL country ASNs
-        # This catches more-specific subnets (e.g. /24 from /23 allocation)
-        announced = fetch_announced_prefixes(country_asns, rate_limiter)
+        # This catches more-specific subnets (e.g. /24 from /23 allocation).
+        # Time-bounded; ASNs not fetched in time use their cached prefixes.
+        announced, announced_report = get_announced_prefixes(
+            country_asns, rate_limiter, out_announced, country_code=country)
         
         # Merge allocation prefixes + announced prefixes for complete coverage
         all_prefixes = set(alloc_prefixes) | announced
@@ -1922,7 +2157,13 @@ def main():
                   f"observations -> {'HEALTHY' if ripestat_healthy else 'UNHEALTHY (likely upstream outage)'}")
 
             # Step 2b: Fetch BGP routes in parallel from RIPEstat bgp-state.
-            routes = fetch_bgp_routes(list(all_prefixes), rate_limiter)
+            routes, route_report = fetch_bgp_routes(list(all_prefixes), rate_limiter)
+
+            # Never commit a partial fetch as if it were real: it would sit in
+            # history as a fake dip. Raises before any output is written. When
+            # the control probe failed, the guard below explains that instead.
+            if ripestat_healthy:
+                enforce_route_completeness(route_report)
         
         # Deduplicate routes by (target_prefix, cleaned_path) before saving
         print(f"\nDeduplicating {len(routes):,} routes by (prefix, path)...")
@@ -2041,6 +2282,8 @@ def main():
         "stats": viz_data["stats"],
         "source": data_source[0],
         "source_url": data_source[1],
+        # How complete this run's fetch was (null for --reprocess runs).
+        "completeness": None if args.reprocess else build_completeness(route_report, announced_report),
     }
     with open(out_meta, "w") as f:
         json.dump(metadata, f, indent=2)

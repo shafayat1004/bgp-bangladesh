@@ -580,6 +580,227 @@ class TestHistorySnapshots(unittest.TestCase):
         self.assertEqual(index["snapshots"][1]["file"], _snapshot_filename(newer))
 
 
+def _prefixes(n):
+    return [f"10.{i // 256}.{i % 256}.0/24" for i in range(n)]
+
+
+class TestFetchBgpRoutes(unittest.TestCase):
+    """bgp-state batches: final retry pass and the completeness report."""
+
+    def _run(self, prefixes, fetch_batch):
+        with mock.patch.object(ubd.time, "sleep"):
+            return ubd.fetch_bgp_routes(prefixes, ubd.RateLimiter(1000),
+                                        fetch_batch=fetch_batch, retry_pause=0)
+
+    def test_all_batches_ok(self):
+        prefixes = _prefixes(400)
+
+        def fetch(batch):
+            return [{"target_prefix": p, "path": [1, 2]} for p in batch]
+
+        routes, report = self._run(prefixes, fetch)
+        self.assertEqual(len(routes), 400)
+        self.assertGreater(report["batches"], 1)
+        self.assertEqual(report["batches_failed_first_try"], 0)
+        self.assertEqual(report["prefixes"], 400)
+        self.assertEqual(report["prefixes_missing"], 0)
+
+    def test_failed_batch_is_retried_at_the_end(self):
+        import threading
+
+        prefixes = _prefixes(400)
+        first_pass = len(ubd.chunk_prefixes(prefixes))
+        calls = []
+        lock = threading.Lock()
+
+        def fetch(batch):
+            # Every request of the first pass fails: a transient run of 500s.
+            with lock:
+                calls.append(batch)
+                n = len(calls)
+            if n <= first_pass:
+                return None
+            return [{"target_prefix": p, "path": [1, 2]} for p in batch]
+
+        routes, report = self._run(prefixes, fetch)
+        self.assertEqual(len(routes), 400)
+        self.assertEqual(report["batches_failed_first_try"], report["batches"])
+        self.assertEqual(report["prefixes_missing"], 0)
+
+    def test_persistent_failure_only_loses_the_split_containing_it(self):
+        prefixes = _prefixes(400)
+        bad = prefixes[5]
+
+        def fetch(batch):
+            if bad in batch:
+                return None
+            return [{"target_prefix": p, "path": [1, 2]} for p in batch]
+
+        routes, report = self._run(prefixes, fetch)
+        first_batch = ubd.chunk_prefixes(prefixes)[0]
+        self.assertEqual(report["batches_failed_first_try"], 1)
+        self.assertGreater(report["prefixes_missing"], 0)
+        # The retry splits the failed batch, so most of it is recovered.
+        self.assertLess(report["prefixes_missing"], len(first_batch) // 2)
+        self.assertNotIn(bad, {r["target_prefix"] for r in routes})
+        self.assertEqual(len(routes), 400 - report["prefixes_missing"])
+
+
+class TestEnforceRouteCompleteness(unittest.TestCase):
+    def test_complete_run_passes(self):
+        ubd.enforce_route_completeness({"prefixes": 1000, "prefixes_missing": 0})
+
+    def test_small_loss_below_threshold_passes(self):
+        limit = int(1000 * ubd.MAX_MISSING_PREFIX_SHARE)
+        ubd.enforce_route_completeness({"prefixes": 1000, "prefixes_missing": limit})
+
+    def test_loss_above_threshold_fails_the_run(self):
+        limit = int(1000 * ubd.MAX_MISSING_PREFIX_SHARE)
+        with self.assertRaises(RuntimeError):
+            ubd.enforce_route_completeness({"prefixes": 1000, "prefixes_missing": limit + 1})
+
+    def test_threshold_is_below_run_to_run_noise(self):
+        # Normal runs move valid observations by about +/-1%; a guard looser
+        # than that would let a partial fetch pass as a real change.
+        self.assertLessEqual(ubd.MAX_MISSING_PREFIX_SHARE, 0.005)
+
+
+class TestFetchAnnouncedPrefixes(unittest.TestCase):
+    def test_collects_successes_and_failures(self):
+        def fetch_one(asn, stop):
+            if asn == "2":
+                return None
+            return [f"{asn}.0.0.0/8"]
+
+        result = ubd.fetch_announced_prefixes(["1", "2", "3"], ubd.RateLimiter(1000),
+                                              fetch_one=fetch_one)
+        self.assertEqual(result["prefixes_by_asn"], {"1": ["1.0.0.0/8"], "3": ["3.0.0.0/8"]})
+        self.assertEqual(result["failed"], ["2"])
+        self.assertEqual(result["not_fetched"], [])
+        self.assertFalse(result["timed_out"])
+
+    def test_stops_at_the_time_budget(self):
+        import time as _time
+
+        def slow(asn, stop):
+            _time.sleep(0.05)
+            return []
+
+        asns = [str(i) for i in range(400)]
+        start = _time.time()
+        result = ubd.fetch_announced_prefixes(asns, ubd.RateLimiter(1000),
+                                              budget_seconds=0.2, fetch_one=slow)
+        self.assertTrue(result["timed_out"])
+        self.assertLess(_time.time() - start, 1.5)
+        self.assertGreater(len(result["not_fetched"]), 0)
+        self.assertEqual(len(result["prefixes_by_asn"]) + len(result["failed"])
+                         + len(result["not_fetched"]), 400)
+
+
+class TestGetAnnouncedPrefixes(unittest.TestCase):
+    def _cache(self, tmp, by_asn):
+        path = os.path.join(tmp, "announced_prefixes.json")
+        with open(path, "w") as f:
+            json.dump({"country": "BD", "updated_at": "2026-10-31T00:00:00Z",
+                       "asns": by_asn}, f)
+        return path
+
+    def test_falls_back_to_cache_for_failed_asns(self):
+        import tempfile
+
+        def fake_fetch(asns, rate_limiter, budget_seconds=None):
+            return {"prefixes_by_asn": {"1": ["1.0.0.0/24"], "3": ["3.0.0.0/24"]},
+                    "failed": ["2"], "not_fetched": [], "timed_out": False,
+                    "elapsed_seconds": 1.0}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self._cache(tmp, {"1": ["1.0.0.0/23"], "2": ["2.0.0.0/24"]})
+            prefixes, report = ubd.get_announced_prefixes(
+                {"1", "2", "3"}, ubd.RateLimiter(1000), path, fetch=fake_fetch)
+            with open(path) as f:
+                saved = json.load(f)
+
+        self.assertEqual(prefixes, {"1.0.0.0/24", "2.0.0.0/24", "3.0.0.0/24"})
+        self.assertEqual(report["asns"], 3)
+        self.assertEqual(report["fetched"], 2)
+        self.assertEqual(report["failed"], 1)
+        self.assertEqual(report["from_cache"], 1)
+        self.assertEqual(report["missing"], 0)
+        self.assertTrue(report["used_cache"])
+        # The cache keeps the last good answer per ASN.
+        self.assertEqual(saved["asns"], {"1": ["1.0.0.0/24"], "2": ["2.0.0.0/24"],
+                                         "3": ["3.0.0.0/24"]})
+
+    def test_budget_applies_only_when_a_cache_exists(self):
+        import tempfile
+
+        seen = {}
+
+        def fake_fetch(asns, rate_limiter, budget_seconds=None):
+            seen["budget"] = budget_seconds
+            seen["order"] = list(asns)
+            return {"prefixes_by_asn": {a: [] for a in asns}, "failed": [],
+                    "not_fetched": [], "timed_out": False, "elapsed_seconds": 0.0}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "announced_prefixes.json")
+            ubd.get_announced_prefixes({"1"}, ubd.RateLimiter(1000), path,
+                                       budget_seconds=60, fetch=fake_fetch)
+            self.assertIsNone(seen["budget"])
+
+            self._cache(tmp, {"1": [], "2": []})
+            ubd.get_announced_prefixes({"1", "2", "9"}, ubd.RateLimiter(1000), path,
+                                       budget_seconds=60, fetch=fake_fetch)
+            self.assertEqual(seen["budget"], 60)
+            # ASNs the cache doesn't know yet go first, so a timeout skips
+            # only ASNs that have a fallback.
+            self.assertEqual(seen["order"][0], "9")
+
+    def test_timeout_without_cache_entry_counts_as_missing(self):
+        import tempfile
+
+        def fake_fetch(asns, rate_limiter, budget_seconds=None):
+            return {"prefixes_by_asn": {"1": ["1.0.0.0/24"]}, "failed": [],
+                    "not_fetched": ["2", "3"], "timed_out": True,
+                    "elapsed_seconds": 60.0}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self._cache(tmp, {"2": ["2.0.0.0/24"]})
+            prefixes, report = ubd.get_announced_prefixes(
+                {"1", "2", "3"}, ubd.RateLimiter(1000), path, fetch=fake_fetch)
+
+        self.assertEqual(prefixes, {"1.0.0.0/24", "2.0.0.0/24"})
+        self.assertTrue(report["timed_out"])
+        self.assertEqual(report["from_cache"], 1)
+        self.assertEqual(report["missing"], 1)
+
+
+class TestRunCompleteness(unittest.TestCase):
+    ROUTES_OK = {"batches": 145, "batches_failed_first_try": 2, "prefixes": 15000,
+                 "prefixes_missing": 0}
+    ANNOUNCED_OK = {"asns": 2023, "fetched": 2023, "failed": 0, "from_cache": 0,
+                    "missing": 0, "used_cache": False, "timed_out": False}
+
+    def test_complete_when_nothing_missing_or_cached(self):
+        c = ubd.build_completeness(self.ROUTES_OK, self.ANNOUNCED_OK)
+        self.assertTrue(c["complete"])
+        self.assertEqual(c["routes"], self.ROUTES_OK)
+        self.assertEqual(c["announced_prefixes"], self.ANNOUNCED_OK)
+
+    def test_missing_prefixes_make_it_incomplete(self):
+        routes = dict(self.ROUTES_OK, prefixes_missing=30)
+        self.assertFalse(ubd.build_completeness(routes, self.ANNOUNCED_OK)["complete"])
+
+    def test_cached_announced_prefixes_make_it_incomplete(self):
+        announced = dict(self.ANNOUNCED_OK, fetched=1500, from_cache=523,
+                         used_cache=True, timed_out=True)
+        self.assertFalse(ubd.build_completeness(self.ROUTES_OK, announced)["complete"])
+
+    def test_unknown_without_route_report(self):
+        # MRT fallback runs don't fetch bgp-state batches.
+        self.assertIsNone(ubd.build_completeness(None, self.ANNOUNCED_OK)["complete"])
+
+
 def _analysis(edge_intl, edge_domestic, direct_peers_map=None, valid_obs=0):
     """A minimal analysis dict, with the counters derived from the edges."""
     outside, iig, local = collections.Counter(), collections.Counter(), collections.Counter()
