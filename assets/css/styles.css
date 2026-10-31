@@ -402,7 +402,9 @@ input[type="range"]::-webkit-slider-thumb {
 .node.dimmed { opacity: 0.08; }
 
 .link { stroke-opacity: 0.4; fill: none; transition: stroke-opacity var(--transition), filter var(--transition); }
-.link.highlighted { stroke-opacity: 0.95; stroke-width: 3px !important; filter: drop-shadow(0 0 4px rgba(79, 195, 247, 0.6)); }
+/* No glow filter on links: a big gateway highlights ~700 links and filtering
+   them all took ~0.7 s per redraw (e.g. on each history slider step). */
+.link.highlighted { stroke-opacity: 0.95; stroke-width: 3px !important; }
 .link.dimmed { stroke-opacity: 0.01; }
 
 .node-label {

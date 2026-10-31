@@ -28,24 +28,46 @@ git push
 ### Run Locally
 
 ```bash
-# Serve the site locally (Python 3)
-python3 -m http.server 8000
+npm install
 
-# Or with Node.js
-npx serve .
+# Serve the site with caching off (edits show up on reload)
+npm run serve
 
 # Then open http://localhost:8000
 ```
 
-### Run Unit Tests
+### Run Tests and Checks
 
 ```bash
 # Python tests (classification + route analysis helpers)
 python3 -m unittest discover -s tests -p "test_*.py" -v
 
-# JavaScript tests (live data processor classification logic)
+# JavaScript unit tests
 npm run test:js
+
+# Browser tests: graph stability, history slider, keyboard access, phone sidebar
+npm run test:e2e
+
+# Accessibility audit (axe, WCAG 2.2 AA) of every view on desktop and phone
+npm run audit:a11y
+
+# Screenshots of every view at desktop and phone sizes -> .dev-output/screenshots/
+npm run screenshots
+
+# Performance of the network graph and history slider, with budgets
+npm run profile -- --check
 ```
+
+The browser tools use your installed Chrome, or Playwright's Chromium
+(`npx playwright install chromium`).
+
+### Network Graph Layout
+
+The network graph's node positions are computed when the data is updated
+(`scripts/precompute_layout.mjs`, run by the update workflow) and stored in the
+data files, so the page draws the graph without simulating. To try it locally,
+run `npm run layout`; don't commit the resulting `data/` changes, the workflow
+bakes them on its next run.
 
 ---
 
