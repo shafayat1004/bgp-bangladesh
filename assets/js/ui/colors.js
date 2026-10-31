@@ -5,7 +5,8 @@
  * The page uses the calm "house" palette: sand paper, ink text, phthalo green
  * accent. Category colours are the Okabe-Ito hues (safe for colour vision
  * deficiency, issue #17), muted to sit on the paper. Every pair stays at least
- * 15 CIE ΔE apart under protan, deutan and tritan simulation.
+ * 14.7 CIE ΔE apart under protan, deutan and tritan simulation (closest:
+ * detected-iig vs offshore-gateway under tritan; the next closest is 15+).
  *
  * The same values are CSS custom properties in assets/css/styles.css
  * (--cat-*, --text, ...); tests-js/colors.test.js keeps the two in step.

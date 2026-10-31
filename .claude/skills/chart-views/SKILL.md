@@ -79,6 +79,14 @@ A history slider step or a filter change must not make the view jump (issue #5):
   all types are ticked), with the same set. Treat an unchanged filter as a
   no-op; resetting the page there sent the Data Table back to page 1 on every
   step (`typeFilterKey` in `table.js`).
+- **Reserve space for anything that appears after the first draw.** Views read
+  the panel's size once, when they draw. The history bar used to start as
+  `display: none` and appear when the history list loaded; the panel then
+  shrank 47px under a graph already drawn for the taller size, and its legend
+  sat below the visible edge (cut off on desktop, gone on phones). Late UI
+  starts as `visibility: hidden` (the bar's `timeline-pending` class), so the
+  panel has its final size before any view draws; collapse it only once you
+  know it will never show.
 - Animate only in response to the user. A slide-in on the table's detail
   panel replayed on every date step because the row was re-rendered; add the
   animation class only when the user opens it.

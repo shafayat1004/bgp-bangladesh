@@ -38,6 +38,14 @@ Run what matches the change; when unsure, run all of it.
    can't tell whether the picture is right. Check that nothing overlaps, the
    chart fills its panel, and text is legible at that size. Any `SHIFT` line
    on something you touched is a regression to fix, not a note.
+   **Touch behaviour needs real Safari.** For changes to hover or press
+   styles, anything held or long-pressed, the viewport meta, `theme-color`,
+   safe areas, the phone drawer or bottom sheet: the screenshots run in
+   Chromium's device mode, which doesn't show sticky hover, long-press text
+   selection, the status bar or rubber-banding. Check before and after in the
+   iOS Simulator (the `checking-mobile-web-in-ios-simulator` skill); a
+   stuck-green "Reset View" and a page-wide selection from holding ‹ only
+   showed up there.
 4. **Accessibility** – `npm run audit:a11y` must end with "No axe violations".
    Each failure prints the rule, a help link and the offending elements.
 5. **Performance** – for changes to the Network Graph, the slider, chart CSS or
@@ -71,6 +79,13 @@ Run what matches the change; when unsure, run all of it.
    issue already covers it (`gh issue list`; roadmap #24) and mention it, or
    suggest a new one.
 
+   For a wider review, the `web-design-guidelines` and `mobile-native` skills
+   list code-level rules (focus, touch, safe areas, transitions, copy). Treat
+   their output as leads: confirm each in a browser before fixing. Some don't
+   show in Safari (unpadded safe areas, landscape text size), and some rules
+   don't fit this site (Title Case buttons; a dark-mode `theme-color` on a
+   light-only site).
+
 7. **Pipeline or data changes** – if you touched `scripts/*.py`, the live
    fetch in `assets/js/api/`, or anything under `data/`, also run
    `python3 -m unittest discover -s tests -p "test_*.py"` and follow the
@@ -84,6 +99,11 @@ Run what matches the change; when unsure, run all of it.
   worse and the e2e "baked positions" test skips; run `npm run layout` (don't
   commit the data, see CLAUDE.md). `git checkout -- data`, switching branches
   or pulling a bot commit removes a local bake, so check before profiling.
+- **Share image** (`npm run og-image`, after visible changes to the graph or
+  palette): bake first (`npm run layout`), regenerate, look at the PNG, then
+  `git checkout -- data` so the bake isn't committed. The script sizes the
+  window by measuring and stops if the chart area isn't 1200x630; a cropped
+  image means something else changed the page around the chart.
 - **Flaky timing**: rerun once before chasing a timing failure.
 - **Need more detail** than the scripts give? Import the helpers from
   `scripts/dev/lib/site.mjs` (`startServer`, `launchBrowser`, `openSite`,
@@ -111,4 +131,6 @@ Say which checks ran and their results, which screenshots you looked at, what
 the visitor review found (including problems you left for an issue), and
 anything you couldn't verify (for example, no screen reader pass, or only
 desktop checked). In the PR, fill in `.github/pull_request_template.md`: one
-`Fixes #N` line per issue the PR finishes, so merging closes it.
+`Fixes #N` line per issue the PR finishes, so merging closes it. Tick a
+checklist box only for a command you ran on the final code; if you checked
+something another way, leave the box empty and say what you did instead.
