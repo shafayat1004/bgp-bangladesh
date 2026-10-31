@@ -13,6 +13,8 @@ import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './u
 import { wasmSupported, createAnalysisWorker } from './wasm-bridge.js';
 import { describePath, renderMyPath } from './ui/my-path.js';
 import { initGlossary, setGlossaryData, addTermHelp, renderGlossaryList, CATEGORY_LABELS } from './ui/glossary.js';
+import { initSearch } from './ui/search.js';
+import { friendlyName } from './ui/names.js';
 
 import * as ForceGraph from './viz/force-graph.js';
 import * as Sankey from './viz/sankey.js';
@@ -51,6 +53,7 @@ async function init() {
     ['asn', 'bgp', 'route', 'local-company', 'iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway', 'outside'],
     { 'local-company': 'blue', 'iig': 'green', 'detected-iig': 'amber', 'offshore-enterprise': 'cyan', 'offshore-gateway': 'pink', 'outside': 'red' });
   addTermHelp(document);
+  initSearch({ getData: () => currentData, onSelect: (node) => focusNetwork(node.asn) });
   showModal();
   activeTab = getActiveTab();
   setupTabs();
@@ -436,6 +439,35 @@ function showMyPath(lookup) {
   if (path.status === 'found' && !hiddenBy) vizModules[activeTab]?.highlightASN?.(lookup.asn);
 }
 
+// Views that can show any network; Gateway Ranking only shows gateways and
+// Country Origins none, so a search from there opens the network in the table.
+const SHOWS_ANY_NETWORK = new Set(['force-graph', 'sankey', 'hierarchical', 'table']);
+const GATEWAY_TYPES = new Set(['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway']);
+
+/** Show one network (from search): make sure filters don't hide it, then highlight it. */
+function focusNetwork(asn) {
+  const node = currentData?.nodes.find(n => n.asn === asn);
+  if (!node) return;
+  const name = friendlyName(node);
+
+  const { minTraffic, maxTraffic } = savedLoadOptions();
+  const notes = [];
+  if ((node.traffic || 0) < minTraffic || (node.traffic || 0) > maxTraffic) {
+    setRouteFilter(0, Infinity);
+    notes.push('Min/Max Routes reset to show all networks');
+  }
+  if (!activeTypeFilters.has(node.type)) {
+    const cb = document.querySelector(`#type-filter-checks input[data-type="${node.type}"]`);
+    if (cb) { cb.checked = true; cb.dispatchEvent(new Event('change')); }
+    notes.push(`${CATEGORY_LABELS[node.type]} shown again`);
+  }
+
+  const fits = SHOWS_ANY_NETWORK.has(activeTab) || (activeTab === 'bar-gateway' && GATEWAY_TYPES.has(node.type));
+  if (!fits) switchTab('table');
+  vizModules[activeTab]?.highlightASN?.(asn);
+  showToast('info', `Showing ${name} (AS${asn}, ${CATEGORY_LABELS[node.type] || node.type})${notes.length ? `. ${notes.join('; ')}.` : ''}`, 4000);
+}
+
 // Move the Min/Max Routes sliders as if the user had, so labels, saved
 // preferences and the view all follow.
 function setRouteFilter(min, max) {
@@ -457,7 +489,6 @@ function setupFilters() {
   const maxTrafficSlider = document.getElementById('filter-max-traffic');
   const maxTrafficLabel = document.getElementById('filter-max-traffic-label');
   const sizeSlider = document.getElementById('filter-node-size');
-  const searchInput = document.getElementById('search-asn');
 
   // Min traffic filter
   if (minTrafficSlider) {
@@ -522,38 +553,6 @@ function setupFilters() {
       savePreferences({ ...loadPreferences(), nodeSize: val });
       const mod = vizModules[activeTab];
       if (mod?.setNodeSize) mod.setNodeSize(val);
-    });
-  }
-
-  // ASN Search
-  if (searchInput) {
-    let searchTimeout;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
-        const query = e.target.value.trim().toLowerCase();
-        if (!query || !currentData) return;
-
-        // Normalize search: strip "AS" prefix if present for ASN matching
-        const normalizedQuery = query.replace(/^as/i, '');
-
-        // Search for matching ASNs
-        const matches = currentData.nodes.filter(n => 
-          n.asn.includes(normalizedQuery) ||
-          (n.name || '').toLowerCase().includes(query) ||
-          (n.description || '').toLowerCase().includes(query)
-        );
-
-        if (matches.length > 0) {
-          const mod = vizModules[activeTab];
-          if (mod?.highlightASN) {
-            mod.highlightASN(matches[0].asn);
-            showToast('info', `Found: ${matches[0].name || `AS${matches[0].asn}`}${matches.length > 1 ? ` (+${matches.length - 1} more)` : ''}`, 3000);
-          }
-        } else if (query.length > 2) {
-          showToast('warning', 'No matching network found', 2000);
-        }
-      }, 500);
     });
   }
 }
@@ -839,6 +838,13 @@ window.addEventListener('resize', () => {
       }
     }
   }, 300);
+});
+
+// iOS Safari can leave the page scrolled after a pinch zoom, which puts the
+// tabs under the status bar. The page itself never scrolls, so put it back
+// once the zoom returns to normal (#31).
+window.visualViewport?.addEventListener('resize', () => {
+  if (window.visualViewport.scale <= 1.01 && (window.scrollX || window.scrollY)) window.scrollTo(0, 0);
 });
 
 // ────────────────────────────────────────

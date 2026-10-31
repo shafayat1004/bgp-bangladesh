@@ -108,14 +108,6 @@
           </div>
         </div>
 
-        <!-- Search ASN -->
-        <div class="controls-section">
-          <div class="control-group">
-            <label for="search-asn">Search networks</label>
-            <input type="search" id="search-asn" placeholder="Name or ASN, e.g. 58717" class="search-input" autocomplete="off">
-          </div>
-        </div>
-
         <!-- Filters -->
         <div class="controls-section">
           <div class="control-group">
@@ -200,6 +192,20 @@
       <!-- Top bar -->
       <div id="top-bar">
         <h1 class="top-bar-title">Bangladesh Internet Path Visualization</h1>
+        <div class="site-search" role="search">
+          <label for="site-search" class="visually-hidden">Search networks by name or ASN</label>
+          <svg class="site-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12.5 12.5 17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="search" id="site-search" class="site-search-input" placeholder="Search networks" autocomplete="off" autocapitalize="off" spellcheck="false"
+                 role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="site-search-list" aria-describedby="site-search-hint">
+          <kbd class="site-search-key" aria-hidden="true">/</kbd>
+          <span id="site-search-hint" class="visually-hidden">Name or ASN, for example 58717. Press slash to search from anywhere.</span>
+          <ul id="site-search-list" class="site-search-list" role="listbox" aria-label="Matching networks" hidden></ul>
+          <button type="button" id="site-search-close" class="site-search-close" aria-label="Close search">&times;</button>
+          <div id="site-search-status" class="visually-hidden" role="status" aria-live="polite"></div>
+        </div>
+        <button type="button" id="site-search-open" class="site-search-open" aria-label="Search networks" aria-expanded="false" aria-controls="site-search">
+          <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12.5 12.5 17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
       </div>
 
       <!-- Tab navigation -->

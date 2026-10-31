@@ -281,3 +281,75 @@ test('glossary "?": tap opens and a tap elsewhere closes (phone sidebar)', async
   assert.equal(await page.evaluate(() => document.getElementById('sidebar').classList.contains('active')), true, 'first Escape only closes the popover');
   await site.close();
 });
+
+test('header search: "/" focuses it, arrows and Enter choose, the view highlights the network', async () => {
+  const site = await openSite(browser, server.url, { tab: 'hierarchical' });
+  const { page } = site;
+  await page.keyboard.press('/');
+  assert.equal(await page.evaluate(() => document.activeElement.id), 'site-search');
+  await page.keyboard.type('AS58717');
+  const first = await page.evaluate(() => ({
+    expanded: document.getElementById('site-search').getAttribute('aria-expanded'),
+    text: document.querySelector('#site-search-list [role="option"]')?.textContent,
+  }));
+  assert.equal(first.expanded, 'true');
+  assert.match(first.text, /Summit Communications Ltd\s+AS58717/);
+  await page.keyboard.press('ArrowDown');
+  assert.equal(await page.evaluate(() => document.getElementById('site-search').getAttribute('aria-activedescendant')), 'site-search-opt-0');
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(300);
+  assert.equal(await page.evaluate(() => document.querySelector('.hier-node[data-asn="58717"]').getAttribute('opacity')), '1');
+  assert.equal(await page.evaluate(() => document.getElementById('site-search-list').hidden), true);
+
+  // Escape closes the list, then clears the text.
+  await page.keyboard.type(' ');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.evaluate(() => document.getElementById('site-search-list').hidden), true);
+  await page.keyboard.press('Escape');
+  assert.equal(await page.evaluate(() => document.getElementById('site-search').value), '');
+  // "/" typed into a text field is just text.
+  await page.keyboard.type('a/b');
+  assert.equal(await page.evaluate(() => document.getElementById('site-search').value), 'a/b');
+  await site.close();
+});
+
+test('header search on a phone: button opens it, 16px text (no iOS zoom), choosing closes it', async () => {
+  const site = await openSite(browser, server.url, { viewport: 'phone', tab: 'bar-gateway' });
+  const { page } = site;
+  await page.tap('#site-search-open');
+  const opened = await page.evaluate(() => ({
+    focus: document.activeElement.id,
+    fontSize: getComputedStyle(document.getElementById('site-search')).fontSize,
+  }));
+  assert.deepEqual(opened, { focus: 'site-search', fontSize: '16px' });
+  await page.keyboard.type('link3');
+  await page.tap('#site-search-list [role="option"]');
+  await page.waitForTimeout(300);
+  const after = await page.evaluate(() => ({
+    open: document.getElementById('top-bar').classList.contains('search-open'),
+    focus: document.activeElement.id,
+    tab: document.querySelector('[role=tab][aria-selected=true]').id,
+    detail: !!document.querySelector('.detail-panel'),
+  }));
+  // Gateway Ranking only lists gateways, so a local company opens in the table.
+  assert.deepEqual(after, { open: false, focus: 'site-search-open', tab: 'tab-table', detail: true });
+  assert.equal(await page.evaluate(() => getComputedStyle(document.getElementById('table-search')).fontSize), '16px');
+  await site.close();
+});
+
+test('header search: a network hidden by the Min Routes filter is still shown', async () => {
+  const site = await openSite(browser, server.url, { tab: 'table' });
+  const { page } = site;
+  const small = await page.evaluate(async () => {
+    const d = await fetch('data/BD/viz_data.json').then(r => r.json());
+    return d.nodes.filter(n => n.traffic < 100).sort((a, b) => a.traffic - b.traffic)[0]?.asn;
+  });
+  assert.ok(small, 'data has a network under 100 routes');
+  await page.focus('#site-search');
+  await page.keyboard.type(small);
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(300);
+  assert.equal(await page.evaluate(() => document.getElementById('filter-min-traffic').value), '0');
+  assert.equal(await page.evaluate((asn) => !!document.querySelector(`#table-body tr[data-asn="${asn}"]`), small), true);
+  await site.close();
+});
