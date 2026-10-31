@@ -26,6 +26,11 @@ let pageSize = 50;
 let showEdges = false;
 let activeTypeFilters = null; // null = show all
 let expandedASN = null; // currently expanded detail panel ASN
+let animateDetail = false; // slide the detail panel in only when the user opens it
+let typeFilterKey = null; // which type filter is applied, to tell real changes from re-applies
+
+// Full text for cells that may be cut off with an ellipsis.
+const attr = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -38,6 +43,20 @@ export function loadData(data, options = {}) {
   currentPage = 0;
   expandedASN = null;
   render();
+}
+
+// History slider: swap the data without touching the user's sort, page,
+// search, open row or scroll position, so the table doesn't jump.
+export function updateData(data, options = {}) {
+  currentData = data;
+  currentOptions = { ...currentOptions, ...options };
+  if (expandedASN && !data.nodes.some(n => n.asn === expandedASN)) expandedASN = null;
+  const wrapper = document.querySelector('#table-container .table-wrapper');
+  const scroll = wrapper ? [wrapper.scrollTop, wrapper.scrollLeft] : null;
+  const focusedRow = document.activeElement?.closest?.('#table-body tr[data-asn]')?.dataset.asn;
+  renderTable();
+  if (wrapper && scroll) [wrapper.scrollTop, wrapper.scrollLeft] = scroll;
+  if (focusedRow) focusRowToggle(focusedRow);
 }
 
 function render() {
@@ -58,7 +77,7 @@ function render() {
         </select>
       </div>
     </div>
-    <div class="table-wrapper"><table class="data-table"><caption class="visually-hidden">${showEdges ? 'Connections between networks, with route counts' : 'Networks seen on BGP paths into Bangladesh'}</caption><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
+    <div class="table-wrapper"><table class="data-table ${showEdges ? 'data-table-edges' : 'data-table-nodes'}"><caption class="visually-hidden">${showEdges ? 'Connections between networks, with route counts' : 'Networks seen on BGP paths into Bangladesh'}</caption><colgroup id="table-cols"></colgroup><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
     <div class="table-footer" id="table-footer"></div>
   `;
 
@@ -260,6 +279,9 @@ function buildDetailPanel(n) {
 // Sortable column headers: a button in each header (keyboard operable) and
 // aria-sort on the sorted column. Focus returns to the header after re-render.
 function renderSortableHeader(thead, columns) {
+  // Fixed column widths (table-layout: fixed) so new data never resizes them.
+  const cols = document.getElementById('table-cols');
+  if (cols) cols.innerHTML = columns.map(c => `<col${c.width ? ` style="width:${c.width}"` : ''}>`).join('');
   thead.innerHTML = '<tr>' + columns.map(c => {
     const sorted = currentSort.column === c.key;
     const ariaSort = sorted ? (currentSort.asc ? 'ascending' : 'descending') : 'none';
@@ -298,15 +320,15 @@ function renderNodesTable() {
   const footer = document.getElementById('table-footer');
 
   const columns = [
-    { key: 'rank', label: 'Rank', numeric: true },
-    { key: 'asn', label: 'ASN', numeric: false },
+    { key: 'rank', label: 'Rank', numeric: true, width: '64px' },
+    { key: 'asn', label: 'ASN', numeric: false, width: '96px' },
     { key: 'name', label: 'Company', numeric: false },
-    { key: 'country', label: 'Registered', numeric: false },
-    { key: 'geo_country', label: 'IP Location', numeric: false },
-    { key: 'peering_country', label: 'Peering At', numeric: false },
-    { key: 'type', label: 'Type', numeric: false },
-    { key: 'traffic', label: 'Routes', numeric: true },
-    { key: 'percentage', label: 'Share %', numeric: true },
+    { key: 'country', label: 'Registered', numeric: false, width: '112px' },
+    { key: 'geo_country', label: 'IP Location', numeric: false, width: '116px' },
+    { key: 'peering_country', label: 'Peering At', numeric: false, width: '112px' },
+    { key: 'type', label: 'Type', numeric: false, width: '156px' },
+    { key: 'traffic', label: 'Routes', numeric: true, width: '100px' },
+    { key: 'percentage', label: 'Share %', numeric: true, width: '96px' },
   ];
 
   renderSortableHeader(thead, columns);
@@ -347,6 +369,7 @@ function renderNodesTable() {
   });
 
   const totalPages = Math.ceil(rows.length / pageSize) || 1;
+  currentPage = Math.min(currentPage, totalPages - 1);
   const pageRows = rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
   let tbodyHtml = '';
@@ -365,7 +388,7 @@ function renderNodesTable() {
     tbodyHtml += `<tr data-asn="${n.asn}" class="clickable-row${isExpanded ? ' row-expanded' : ''}">
       <td>${n.rank || '-'}</td>
       <td><button type="button" class="row-toggle" aria-expanded="${isExpanded}"${isExpanded ? ` aria-controls="detail-${n.asn}"` : ''} aria-label="AS${n.asn} details">AS${n.asn}</button></td>
-      <td>${regFlag} ${n.name || '-'}${licenseBadge}</td>
+      <td title="${attr(n.name)}">${regFlag} ${n.name || '-'}${licenseBadge}</td>
       <td>${regFlag} ${n.country || '-'}</td>
       <td class="${geoClass}">${geoDisplay}</td>
       <td>${peerDisplay}</td>
@@ -376,10 +399,11 @@ function renderNodesTable() {
 
     // Insert detail panel row if this ASN is expanded
     if (isExpanded) {
-      tbodyHtml += `<tr class="detail-row" id="detail-${n.asn}"><td colspan="${columns.length}">${buildDetailPanel(n)}</td></tr>`;
+      tbodyHtml += `<tr class="detail-row${animateDetail ? ' detail-row-enter' : ''}" id="detail-${n.asn}"><td colspan="${columns.length}">${buildDetailPanel(n)}</td></tr>`;
     }
   }
   tbody.innerHTML = tbodyHtml;
+  animateDetail = false;
 
   // Click handler: toggle detail panel
   tbody.querySelectorAll('tr.clickable-row').forEach(tr => {
@@ -393,6 +417,7 @@ function renderNodesTable() {
       } else {
         // Expand this ASN
         expandedASN = asn;
+        animateDetail = true;
       }
       renderTable();
       focusRowToggle(asn);
@@ -432,12 +457,12 @@ function renderEdgesTable() {
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
 
   const columns = [
-    { key: 'source', label: 'Source ASN', numeric: false },
+    { key: 'source', label: 'Source ASN', numeric: false, width: '120px' },
     { key: 'source_name', label: 'Source Name', numeric: false },
-    { key: 'target', label: 'Target ASN', numeric: false },
+    { key: 'target', label: 'Target ASN', numeric: false, width: '120px' },
     { key: 'target_name', label: 'Target Name', numeric: false },
-    { key: 'edge_type', label: 'Type', numeric: false },
-    { key: 'count', label: 'Route Count', numeric: true },
+    { key: 'edge_type', label: 'Type', numeric: false, width: '120px' },
+    { key: 'count', label: 'Route Count', numeric: true, width: '120px' },
   ];
 
   renderSortableHeader(thead, columns);
@@ -482,6 +507,7 @@ function renderEdgesTable() {
   });
 
   const totalPages = Math.ceil(rows.length / pageSize) || 1;
+  currentPage = Math.min(currentPage, totalPages - 1);
   const pageRows = rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
   tbody.innerHTML = pageRows.map(r => {
@@ -490,9 +516,9 @@ function renderEdgesTable() {
     const typeCls = r.edge_type === 'domestic' ? 'type-local-company' : 'type-outside';
     return `<tr>
       <td>${sf}AS${r.source}</td>
-      <td>${sf}${r.source_name || '-'}</td>
+      <td title="${attr(r.source_name)}">${sf}${r.source_name || '-'}</td>
       <td>${tf}AS${r.target}</td>
-      <td>${tf}${r.target_name || '-'}</td>
+      <td title="${attr(r.target_name)}">${tf}${r.target_name || '-'}</td>
       <td><span class="type-badge ${typeCls}">${r.edge_type}</span></td>
       <td class="num">${r.count.toLocaleString()}</td>
     </tr>`;
@@ -516,6 +542,7 @@ export function highlightASN(asn) {
   // Expand the detail panel for this ASN and filter to show it
   searchQuery = asn;
   expandedASN = asn;
+  animateDetail = true;
   currentPage = 0;
   const searchEl = document.getElementById('table-search');
   if (searchEl) searchEl.value = asn;
@@ -527,6 +554,11 @@ export function updateFilter(minVal, maxVal) {
   render(); 
 }
 export function filterByTypes(activeTypes) {
+  // main.js re-applies the same filter after every date step; only a real
+  // change should send the user back to page 1.
+  const key = [...activeTypes].sort().join();
+  if (key === typeFilterKey) return;
+  typeFilterKey = key;
   activeTypeFilters = activeTypes;
   currentPage = 0;
   render();

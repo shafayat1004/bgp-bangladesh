@@ -32,7 +32,9 @@ Bangladesh's routes?"). Then:
 Only when the content is genuinely larger than the screen and spatial
 (Network Graph, Layered View, Traffic Flow). Bar charts, rankings, tables and
 summaries fit the panel and use normal vertical scrolling; making them pan or
-zoom adds movement without adding understanding (issue #8).
+zoom adds movement without adding understanding (issue #8). Gateway Ranking
+and Country Origins are HTML lists with CSS bars (`bar-list.js`): fixed row
+heights, fitted to the panel width, scrolling like a page.
 
 ## Words on screen
 
@@ -65,11 +67,11 @@ rest are feature-detected (`mod.updateData?.(...)`).
 |---|---|---|
 | `init(containerId)` | tab opens, panel resized | create the `<svg>` (and any `.viz-controls`) inside the container |
 | `loadData(data, options)` | first draw, tab switch, live fetch, "Static Data" | full draw; `options` has `minTraffic`, `maxTraffic`, `nodeSize`. Reset zoom/highlight here |
-| `updateData(data, options)` | history slider step | keep the user's pan/zoom, scroll, sort, selection and highlight; without it the slider falls back to a full rebuild, which resets their view (the Data Table still lacks one) |
+| `updateData(data, options)` | history slider step | keep the user's pan/zoom, scroll, sort, selection and highlight; without it the slider falls back to a full rebuild, which resets their view |
 | `destroy()` | leaving the tab | clear the panel, stop timers/simulations |
 | `updateFilter(min, max)` | Min/Max Routes sliders | redraw with the new range, keep the view |
 | `filterByTypes(activeTypes)` | type checkboxes | hide rather than redraw where possible |
-| `highlightASN(asn)` | sidebar list, search, What's My ASN | |
+| `highlightASN(asn)` | sidebar list, search, "How does my internet reach the world?" | |
 | `resetView()` | Reset View button, `0` key | back to the fitted view |
 | `toggleLabelsVisibility()`, `setNodeSize(n)` | sidebar controls | optional |
 

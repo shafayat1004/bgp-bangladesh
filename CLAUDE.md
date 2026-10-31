@@ -81,7 +81,4 @@ The dev scripts use installed Chrome, or Playwright's Chromium (`npx playwright 
 
 ## Known issues
 
-- Moving "Max Routes" to ∞ saves `Infinity` to localStorage, which JSON turns into `null`; on reload the filter compares `count <= null` and the graphs come up empty.
 - `wasm/bgp-wasm/` (the WASM accelerator) isn't committed; the 404 for `bgp_wasm.js` is expected and the JS fallback runs.
-- Bar chart SVGs are taller than their panel, so some bars need zooming to reach.
-- Landscape phones (e.g. 844×390) leave only ~212 px for the chart.

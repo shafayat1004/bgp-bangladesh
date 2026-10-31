@@ -11,6 +11,7 @@ import { initTimeline, formatTimestamp } from './ui/timeline.js';
 import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel } from './ui/loading.js';
 import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './ui/export.js';
 import { wasmSupported, createAnalysisWorker } from './wasm-bridge.js';
+import { describePath, renderMyPath } from './ui/my-path.js';
 
 import * as ForceGraph from './viz/force-graph.js';
 import * as Sankey from './viz/sankey.js';
@@ -225,14 +226,7 @@ function switchTab(tabId, options = {}) {
   const mod = vizModules[tabId];
   if (mod) {
     mod.init('viz-panel');
-    const prefs = loadPreferences();
-    const loadOptions = {
-      minTraffic: options.minTraffic !== undefined ? options.minTraffic : (prefs.minTraffic !== undefined ? prefs.minTraffic : 100),
-      maxTraffic: options.maxTraffic !== undefined ? options.maxTraffic : (prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity),
-      nodeSize: prefs.nodeSize || 15,
-      ...options
-    };
-    mod.loadData(currentData, loadOptions);
+    mod.loadData(currentData, { ...savedLoadOptions(), ...options });
 
     // Capture current dimensions for resize detection
     const vizPanel = document.getElementById('viz-panel');
@@ -246,6 +240,16 @@ function switchTab(tabId, options = {}) {
       mod.filterByTypes(activeTypeFilters);
     }
   }
+}
+
+// The user's saved filters, for a view drawn from scratch.
+function savedLoadOptions() {
+  const prefs = loadPreferences();
+  return {
+    minTraffic: prefs.minTraffic !== undefined ? prefs.minTraffic : 100,
+    maxTraffic: prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity,
+    nodeSize: prefs.nodeSize || 15,
+  };
 }
 
 function highlightTab(tabId) {
@@ -337,7 +341,8 @@ function setupMobileMenu() {
 
   if (!mobileMenuBtn || !sidebar || !overlay) return;
 
-  const isMobile = () => window.innerWidth <= 900;
+  // Same breakpoint as the CSS: narrow screens and landscape phones.
+  const isMobile = () => window.matchMedia('(max-width: 900px), (max-height: 500px)').matches;
   const main = document.getElementById('main');
 
   // On small screens the sidebar is an off-canvas panel: while closed it is
@@ -387,7 +392,7 @@ function setupMobileMenu() {
   const vizPanel = document.getElementById('viz-panel');
   if (vizPanel) {
     vizPanel.addEventListener('click', (e) => {
-      if (window.innerWidth > 900) return;
+      if (!isMobile()) return;
       // Only dismiss if tapping on empty space (not a node/link)
       const target = e.target;
       if (target.tagName === 'svg' || target.classList.contains('viz-container') || target.id === 'viz-panel') {
@@ -404,30 +409,43 @@ function setupMobileMenu() {
 
 async function detectMyASN() {
   const btn = document.getElementById('btn-my-asn');
-  if (btn) { btn.disabled = true; btn.textContent = 'Detecting...'; }
+  const resultEl = document.getElementById('my-asn-result');
+  const label = btn?.textContent;
+  if (btn) { btn.disabled = true; btn.textContent = 'Looking up your network...'; }
 
   try {
-    const result = await ripeClient.getMyASN();
-    showMyASNResult(result);
-
-    // Check if this ASN is in our data
-    if (currentData) {
-      const found = currentData.nodes.find(n => n.asn === result.asn);
-      if (found) {
-        const typeLabel = TYPE_LABEL_MAP[found.type] || found.type;
-        showToast('success', `Your ASN (AS${result.asn}) is visible as a ${typeLabel}!`, 8000);
-        const mod = vizModules[activeTab];
-        if (mod?.highlightASN) mod.highlightASN(result.asn);
-      } else {
-        showToast('info', `Your ASN (AS${result.asn}) is not in the visible data. Your traffic likely routes through one of the ${currentData.stats.total_iig + (currentData.stats.total_detected_iig || 0)} gateways displayed. Try lowering the "Min Routes" filter to 0 to see smaller ISPs.`, 10000);
-      }
-    }
+    const lookup = await ripeClient.getMyASN();
+    if (!currentData || !resultEl) return;
+    showMyPath(lookup);
   } catch (err) {
-    showMyASNResult({ error: `Could not detect your ASN: ${err.message}` });
-    showToast('error', `ASN detection failed: ${err.message}`);
+    showMyASNResult({ error: `Could not find your network: ${err.message}` });
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = "What's My ASN?"; }
+    if (btn) { btn.disabled = false; btn.textContent = label; }
   }
+}
+
+function showMyPath(lookup) {
+  const path = describePath(currentData, lookup.asn);
+  const { minTraffic, maxTraffic } = savedLoadOptions();
+  const traffic = path.node?.traffic || 0;
+  const hiddenBy = path.status === 'found' && (traffic < minTraffic || traffic > maxTraffic) ? 'filter' : null;
+  renderMyPath(document.getElementById('my-asn-result'), lookup, path, {
+    hiddenBy,
+    onShowAll: () => {
+      setRouteFilter(0, Infinity);
+      showMyPath(lookup);
+    },
+  });
+  if (path.status === 'found' && !hiddenBy) vizModules[activeTab]?.highlightASN?.(lookup.asn);
+}
+
+// Move the Min/Max Routes sliders as if the user had, so labels, saved
+// preferences and the view all follow.
+function setRouteFilter(min, max) {
+  const minSlider = document.getElementById('filter-min-traffic');
+  const maxSlider = document.getElementById('filter-max-traffic');
+  if (maxSlider) { maxSlider.value = Number.isFinite(max) ? max : maxSlider.max; maxSlider.dispatchEvent(new Event('input')); }
+  if (minSlider) { minSlider.value = min; minSlider.dispatchEvent(new Event('input')); }
 }
 
 // ────────────────────────────────────────
@@ -471,7 +489,7 @@ function setupFilters() {
 
   // Max traffic filter
   if (maxTrafficSlider) {
-    const defaultMax = prefs.maxTraffic !== undefined ? prefs.maxTraffic : 40000;
+    const defaultMax = prefs.maxTraffic !== undefined ? Math.min(prefs.maxTraffic, 40000) : 40000;
     maxTrafficSlider.value = defaultMax;
     if (maxTrafficLabel) {
       maxTrafficLabel.textContent = defaultMax >= 40000 ? '∞' : defaultMax.toLocaleString();
@@ -813,10 +831,14 @@ window.addEventListener('resize', () => {
       lastWidth = currentWidth;
       lastHeight = currentHeight;
       
-      if (currentData && vizModules[activeTab]) {
-        vizModules[activeTab].destroy?.();
-        vizModules[activeTab].init('viz-panel');
-        vizModules[activeTab].loadData(currentData);
+      // Redraw for the new size (e.g. a phone turned sideways), keeping the
+      // user's filters.
+      const mod = vizModules[activeTab];
+      if (currentData && mod) {
+        mod.destroy?.();
+        mod.init('viz-panel');
+        mod.loadData(currentData, savedLoadOptions());
+        if (activeTypeFilters.size < 6) mod.filterByTypes?.(activeTypeFilters);
       }
     }
   }, 300);

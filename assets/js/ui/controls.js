@@ -8,15 +8,28 @@ import { countryToFlag } from '../api/ripestat.js';
 const PREFS_KEY = 'bgp_bd_prefs';
 const TAB_KEY = 'bgp_bd_active_tab';
 
+/**
+ * JSON has no Infinity, so "no Max Routes limit" is stored as null and turned
+ * back into Infinity on load. Exported for unit testing.
+ */
+export function parsePreferences(raw) {
+  const prefs = raw ? JSON.parse(raw) : {};
+  if (prefs.maxTraffic === null) prefs.maxTraffic = Infinity;
+  return prefs;
+}
+
+export function serializePreferences(prefs) {
+  return JSON.stringify({ ...prefs, ...(prefs.maxTraffic === Infinity && { maxTraffic: null }) });
+}
+
 export function loadPreferences() {
   try {
-    const raw = localStorage.getItem(PREFS_KEY);
-    return raw ? JSON.parse(raw) : {};
+    return parsePreferences(localStorage.getItem(PREFS_KEY));
   } catch { return {}; }
 }
 
 export function savePreferences(prefs) {
-  try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch {}
+  try { localStorage.setItem(PREFS_KEY, serializePreferences(prefs)); } catch {}
 }
 
 export function getActiveTab() {
@@ -131,24 +144,15 @@ function populateList(containerId, data, type, cssClass, onNodeClick) {
 }
 
 /**
- * Display "What's My ASN?" result
+ * Show why the "How does my internet reach the world?" lookup failed.
+ * (The story itself is drawn by my-path.js.)
  */
 export function showMyASNResult(result) {
   const el = document.getElementById('my-asn-result');
   if (!el) return;
-
-  if (result.error) {
-    el.innerHTML = `<div class="my-asn-error">${result.error}</div>`;
-    return;
-  }
-
-  const flag = result.country ? countryToFlag(result.country) : '';
-  el.innerHTML = `
-    <div class="my-asn-card">
-      <div class="my-asn-row"><span class="my-asn-label">Your IP:</span><span class="my-asn-value">${result.ip}</span></div>
-      <div class="my-asn-row"><span class="my-asn-label">Your ASN:</span><span class="my-asn-value">${flag} AS${result.asn}</span></div>
-      <div class="my-asn-row"><span class="my-asn-label">Network:</span><span class="my-asn-value">${result.holder}</span></div>
-      <div class="my-asn-row"><span class="my-asn-label">Prefix:</span><span class="my-asn-value">${result.prefix}</span></div>
-    </div>
-  `;
+  el.innerHTML = '';
+  const msg = document.createElement('div');
+  msg.className = 'my-asn-error';
+  msg.textContent = result.error;
+  el.appendChild(msg);
 }

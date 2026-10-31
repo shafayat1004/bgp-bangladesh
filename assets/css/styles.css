@@ -175,14 +175,26 @@ input[type="range"]:focus-visible,
 }
 
 /* ── Tabs ── */
+/* The baseline is an inset shadow rather than a border so the active tab's
+   underline can cover it without a negative margin; overflow clips to the
+   padding box, and a tab reaching into the border made the bar scroll
+   vertically. When the tabs don't fit, they scroll sideways and the right
+   edge fades to show there is more. */
 #tab-nav {
   display: flex;
+  flex-shrink: 0;
   gap: 2px;
   padding: 0 16px;
   background: var(--bg-secondary);
-  border-bottom: 2px solid var(--border);
+  box-shadow: inset 0 -2px 0 var(--border);
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to right, transparent 0, black 8px, black calc(100% - 24px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 8px, black calc(100% - 24px), transparent 100%);
 }
+
+#tab-nav::-webkit-scrollbar { display: none; }
 
 .tab-btn {
   padding: 10px 16px;
@@ -195,7 +207,11 @@ input[type="range"]:focus-visible,
   font-weight: 500;
   white-space: nowrap;
   transition: var(--transition);
-  margin-bottom: -2px;
+}
+
+/* Narrow desktops: tighter tabs so all six fit beside the sidebar. */
+@media (max-width: 1150px) {
+  .tab-btn { padding: 10px 11px; }
 }
 
 .tab-btn:hover {
@@ -267,7 +283,7 @@ input[type="range"]:focus-visible,
 }
 
 .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.stat-value { font-size: 18px; font-weight: bold; color: var(--accent); }
+.stat-value { font-size: 18px; font-weight: bold; color: var(--accent); font-variant-numeric: tabular-nums; }
 
 /* ── ASN List ── */
 .sidebar-section-title {
@@ -312,7 +328,7 @@ input[type="range"]:focus-visible,
 
 .asn-name { font-weight: bold; font-size: 12px; }
 .asn-details { font-size: 10px; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.asn-traffic { font-size: 11px; color: var(--accent); margin-top: 2px; }
+.asn-traffic { font-size: 11px; color: var(--accent); margin-top: 2px; font-variant-numeric: tabular-nums; }
 
 /* ── Controls ── */
 .controls-section {
@@ -681,6 +697,24 @@ input[type="range"]::-webkit-slider-thumb {
   width: 100%;
   border-collapse: collapse;
   font-size: 12px;
+  /* Fixed layout: column widths come from <colgroup>, not the content, so
+     a date step never resizes columns. Narrow screens scroll sideways inside
+     .table-wrapper instead of squeezing. */
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table-nodes { min-width: 1060px; }
+.data-table-edges { min-width: 820px; }
+
+/* One line per cell at a fixed height; long names end in an ellipsis and
+   show in full on hover (title) and in the row's details. */
+.data-table > thead > tr > th,
+.data-table > tbody > tr:not(.detail-row) > td {
+  height: 34px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .data-table th {
@@ -826,6 +860,101 @@ input[type="range"]::-webkit-slider-thumb {
   border-left: 1px solid var(--border);
 }
 
+/* ── Ranking bar lists (bar-list.js): static, fit the width, scroll down ── */
+.bar-view {
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px 20px 24px;
+}
+
+.bar-view:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.bar-view-head { max-width: 960px; margin-bottom: 12px; }
+.bar-view-title { font-size: 16px; font-weight: 600; color: var(--text); }
+.bar-view-summary { margin-top: 4px; font-size: 13px; color: var(--text-muted); }
+.bar-view-empty { font-size: 14px; color: var(--text-muted); }
+
+.bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 8px;
+  list-style: none;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.bar-legend li { display: flex; align-items: center; gap: 6px; }
+.bar-legend-swatch { width: 12px; height: 12px; border-radius: 2px; }
+
+.bar-list {
+  max-width: 960px;
+  list-style: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fixed row height and columns, so a date step changes bar lengths and
+   numbers but never moves anything else. */
+.bar-row {
+  display: grid;
+  grid-template-columns: 2.5ch minmax(0, 15rem) minmax(0, 1fr) 10ch;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.bar-row:hover { background: var(--bg-card); }
+.bar-row.highlighted { background: #1f3340; box-shadow: inset 3px 0 0 var(--accent); }
+
+.bar-rank { color: var(--text-dim); text-align: right; }
+
+.bar-label { display: flex; align-items: center; gap: 6px; min-width: 0; }
+
+.bar-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.bar-tag {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border: 1px solid var(--tag-color);
+  border-radius: 3px;
+  font-size: 10px;
+  color: var(--tag-color);
+  white-space: nowrap;
+}
+
+.bar-track { display: flex; height: 14px; min-width: 0; }
+.bar-seg { min-width: 0; height: 100%; }
+.bar-seg:first-child { border-radius: 2px 0 0 2px; }
+.bar-seg:last-child { border-radius: 0 2px 2px 0; }
+
+.bar-value { color: var(--text-muted); text-align: right; white-space: nowrap; }
+
+@media (max-width: 600px) {
+  .bar-view { padding: 10px 10px 16px; }
+  .bar-view-title { font-size: 14px; }
+  .bar-view-summary { font-size: 12px; }
+  /* Name and tag stack so the name keeps its width. */
+  .bar-row {
+    grid-template-columns: 2.5ch minmax(0, 42%) minmax(0, 1fr) 8ch;
+    gap: 6px;
+    height: 40px;
+    padding: 0 2px;
+    font-size: 11px;
+  }
+  .bar-label { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .bar-name { max-width: 100%; }
+  .bar-tag { padding: 0 4px; font-size: 9px; }
+}
+
 /* ── History time-slider ── */
 #timeline-bar {
   display: flex;
@@ -872,7 +1001,18 @@ input[type="range"]::-webkit-slider-thumb {
   color: var(--text-dim);
 }
 
-#timeline-label { color: var(--text); white-space: nowrap; }
+/* Fixed-width date and space kept for the spinner and LATEST badge, so
+   stepping through dates never resizes the slider. */
+#timeline-label {
+  display: inline-block;
+  width: 7.5rem;
+  text-align: right;
+  color: var(--text);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+#timeline-readout .hidden { display: inline-block !important; visibility: hidden; }
 
 .timeline-badge {
   font-size: 10px;
@@ -950,7 +1090,7 @@ input[type="range"]::-webkit-slider-thumb {
 .stat-mini .stat-value { font-size: 15px; }
 .stat-mini .stat-label { font-size: 9px; }
 
-/* ── What's My ASN? ── */
+/* ── How does my internet reach the world? ── */
 .my-asn-section {
   text-align: center;
 }
@@ -979,24 +1119,21 @@ input[type="range"]::-webkit-slider-thumb {
   transform: none;
 }
 
-.my-asn-card {
+.my-path-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 10px;
   margin-top: 8px;
   text-align: left;
-}
-
-.my-asn-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 3px 0;
   font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
 }
 
-.my-asn-label { color: var(--text-muted); }
-.my-asn-value { color: var(--text); font-weight: 600; }
+.my-path-card p + p, .my-path-card .btn { margin-top: 6px; }
+.my-path-card strong { color: var(--text); }
+.my-path-hint { font-size: 11px; color: var(--text-dim); }
 
 .my-asn-error {
   color: var(--red);
@@ -1066,8 +1203,9 @@ input[type="range"]::-webkit-slider-thumb {
   border: 1px solid rgba(79, 195, 247, 0.2);
   border-top: 2px solid var(--accent);
   border-radius: 0 0 var(--radius) var(--radius);
-  animation: detailSlideDown 0.2s ease-out;
 }
+
+.detail-row-enter .detail-panel { animation: detailSlideDown 0.2s ease-out; }
 
 @keyframes detailSlideDown {
   from { opacity: 0; transform: translateY(-8px); }
@@ -1319,7 +1457,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* ── Responsive ── */
-@media (max-width: 900px) {
+/* Phones and tablets, and landscape phones (short but wide viewports). */
+@media (max-width: 900px), (max-height: 500px) {
   #app { flex-direction: column; }
   
   .mobile-menu-btn {
@@ -1359,20 +1498,6 @@ input[type="range"]::-webkit-slider-thumb {
     white-space: nowrap;
     min-width: 0;
     flex: 1;
-  }
-  
-  /* Horizontal scroll tabs with fade hints */
-  #tab-nav {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* hide scrollbar for cleaner look */
-    position: relative;
-    mask-image: linear-gradient(to right, transparent 0, black 8px, black calc(100% - 24px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0, black 8px, black calc(100% - 24px), transparent 100%);
-  }
-  
-  #tab-nav::-webkit-scrollbar {
-    display: none;
   }
   
   .tab-btn {
@@ -1428,7 +1553,7 @@ input[type="range"]::-webkit-slider-thumb {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px), (max-height: 500px) {
   .mobile-menu-btn {
     top: 8px;
     left: 8px;
@@ -1674,6 +1799,13 @@ input[type="range"]::-webkit-slider-thumb {
     min-width: 8px;
     min-height: 8px;
   }
+}
+
+/* Landscape phones: height is what's scarce, so the timeline stays on one
+   row with its date beside the slider. */
+@media (max-height: 500px) {
+  #timeline-bar { flex-wrap: nowrap; }
+  #timeline-readout { flex: 0 0 auto; }
 }
 
 @media (max-width: 400px) {

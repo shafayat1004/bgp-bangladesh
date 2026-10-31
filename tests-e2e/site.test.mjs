@@ -135,6 +135,29 @@ test('data table sorts and expands rows from the keyboard', async () => {
   await site.close();
 });
 
+test('history slider keeps the data table still: sort, page, scroll and row height', async () => {
+  const site = await openSite(browser, server.url, { tab: 'table' });
+  const { page } = site;
+  await page.click('#table-head th[data-col="name"] button');
+  await page.click('#page-next');
+  await page.evaluate(() => { document.querySelector('.table-wrapper').scrollTop = 200; });
+  const state = () => page.evaluate(() => ({
+    sort: document.querySelector('#table-head th[aria-sort]:not([aria-sort="none"])')?.dataset.col,
+    page: document.querySelector('.table-pagination span').textContent,
+    scroll: document.querySelector('.table-wrapper').scrollTop,
+    rowHeights: [...new Set([...document.querySelectorAll('#table-body tr.clickable-row')].map(r => Math.round(r.getBoundingClientRect().height)))],
+    colWidths: [...document.querySelectorAll('#table-head th')].map(th => Math.round(th.getBoundingClientRect().width)),
+  }));
+  const before = await state();
+  await page.click('#timeline-prev');
+  await page.waitForFunction(() => document.getElementById('timeline-spinner').classList.contains('hidden'));
+  await page.waitForTimeout(300);
+  const after = await state();
+  assert.equal(before.rowHeights.length, 1, 'rows should all be one height');
+  assert.deepEqual(after, before);
+  await site.close();
+});
+
 test('phone sidebar: inert while closed, Escape closes and returns focus', async () => {
   const site = await openSite(browser, server.url, { viewport: 'phone', tab: 'hierarchical' });
   const { page } = site;
