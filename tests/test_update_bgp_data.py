@@ -985,6 +985,40 @@ class TestLicenceFiles(unittest.TestCase):
         self.assertEqual(load_licensed_asns("/no/such/file.json"), set())
 
 
+class TestReclassifyStored(unittest.TestCase):
+    def test_applies_current_rules_to_a_stored_snapshot(self):
+        from scripts.reclassify_stored import reclassify_viz
+        node = lambda asn, t, country="BD": {"asn": asn, "type": t, "licensed": False, "country": country,
+                                              "geo_country": "", "announced": True, "traffic": 0,
+                                              "rank": 1, "percentage": 0}
+        viz = {
+            "nodes": [node("174", "outside", "US"), node("100", "iig"), node("45588", "local-company"),
+                      node("300", "detected-iig"), node("400", "detected-iig"), node("500", "local-company")],
+            "edges": [
+                {"source": "174", "target": "100", "count": 60, "type": "international"},
+                {"source": "174", "target": "300", "count": 30, "type": "international"},
+                {"source": "174", "target": "400", "count": 10, "type": "international"},
+                {"source": "45588", "target": "100", "count": 40, "type": "domestic"},
+                {"source": "500", "target": "400", "count": 5, "type": "domestic"},
+                {"source": "300", "target": "100", "count": 8, "type": "domestic"},
+            ],
+            "stats": {"total_iig": 1, "total_detected_iig": 2, "total_local_company": 2},
+            "layout": {"positions": {}},
+        }
+        moved = reclassify_viz(viz, iig_asns={"100", "45588"}, igw_asns={"300"})
+        nodes = {n["asn"]: n for n in viz["nodes"]}
+        self.assertEqual(moved, {"45588": ("local-company", "iig"), "300": ("detected-iig", "local-company")})
+        self.assertEqual(nodes["400"]["type"], "detected-iig")      # a BD network goes through it
+        self.assertEqual(nodes["300"]["abroad_link"], "also-abroad")
+        self.assertTrue(nodes["300"]["igw"])
+        self.assertEqual(nodes["500"]["abroad_link"], "")
+        self.assertEqual(viz["stats"]["total_iig"], 2)
+        self.assertEqual(viz["stats"]["total_detected_iig"], 1)
+        self.assertAlmostEqual(nodes["100"]["percentage"], 60.0)
+        self.assertNotIn("layout", viz)
+        self.assertEqual(list(nodes["300"])[-3:], ["traffic", "rank", "percentage"])
+
+
 @unittest.skipUnless(os.environ.get("RUN_NETWORK_TESTS") == "1",
                      "network test; set RUN_NETWORK_TESTS=1 to enable")
 class TestLiveBrokerSmoke(unittest.TestCase):

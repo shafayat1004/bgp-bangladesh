@@ -138,6 +138,12 @@ data is written once and never recomputed (only a missing layout is added).
 
 ## Correcting the data itself
 
+After a classification-rule or licence-list change, `scripts/reclassify_stored.py`
+re-applies the rules to `viz_data.json` and every snapshot from the data they
+already hold (no fetch), and drops their baked layouts; re-bake with
+`node scripts/precompute_layout.mjs --country BD --force`. Run it in a clean
+worktree of `origin/main` and check it with `diff_viz_data.py` as below.
+
 Normally don't commit `data/`: the bot commits there every 4 hours and the
 next run fixes the current files anyway. Make a one-off data correction only
 when waiting is worse, e.g. wrong values would otherwise sit in 7 days of
