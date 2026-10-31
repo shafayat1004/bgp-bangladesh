@@ -1028,7 +1028,7 @@ export const SHARED_TYPE_LABELS = CATEGORY_LABELS;
  */
 export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
   const regFlag = d.country ? countryToFlag(d.country) : '';
-  const licenseBadge = d.licensed ? ' <span style="color:#51cf66;font-size:9px">[Licensed IIG]</span>' : '';
+  const licenseBadge = d.licensed ? ' <span class="tip-licensed">[Licensed IIG]</span>' : '';
   const typeLabel = typeLabels[d.type] || d.type || '';
 
   // Determine if geo differs from registration
@@ -1052,8 +1052,8 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
       const loc = d.geo_breakdown[0];
       const flag = countryToFlag(loc.country);
       const cityInfo = loc.city ? ` (${loc.city})` : '';
-      const style = loc.country !== d.country ? 'color:#fcc419;font-weight:bold' : '';
-      html += `<div class="tooltip-row"><span class="tooltip-label">IP Location:</span><span class="tooltip-value" style="${style}">${flag} ${loc.country}${cityInfo}${loc.country !== d.country ? ' ⚠' : ''}</span></div>`;
+      const warn = loc.country !== d.country ? ' tip-warn' : '';
+      html += `<div class="tooltip-row"><span class="tooltip-label">IP Location:</span><span class="tooltip-value${warn}">${flag} ${loc.country}${cityInfo}${loc.country !== d.country ? ' ⚠' : ''}</span></div>`;
     } else {
       html += `<div class="tooltip-row"><span class="tooltip-label">IP locations, per address block:</span></div>`;
       for (const loc of d.geo_breakdown) {
@@ -1065,8 +1065,8 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
   } else if (geoKnown) {
     // Fallback to simple geo_country if no breakdown available
     const geoFlag = countryToFlag(d.geo_country);
-    const geoStyle = geoDiffers ? 'color:#fcc419;font-weight:bold' : '';
-    html += `<div class="tooltip-row"><span class="tooltip-label">IP Location:</span><span class="tooltip-value" style="${geoStyle}">${geoFlag} ${d.geo_country}${geoDiffers ? ' ⚠' : ''}</span></div>`;
+    const geoWarn = geoDiffers ? ' tip-warn' : '';
+    html += `<div class="tooltip-row"><span class="tooltip-label">IP Location:</span><span class="tooltip-value${geoWarn}">${geoFlag} ${d.geo_country}${geoDiffers ? ' ⚠' : ''}</span></div>`;
   }
 
   // Show BGP peering location for offshore ASNs
@@ -1096,9 +1096,9 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
     html += `<div class="tooltip-insight">Registered in ${d.country || 'BD'} but located in ${peerLoc}. No other Bangladeshi networks connect through it, so it looks like a company with servers abroad.</div>`;
   } else if (d.type === 'offshore-gateway') {
     const peerLoc = d.peering_country || d.geo_country;
-    html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but located in ${peerLoc}, and other Bangladeshi networks connect through it, so it may be acting as an unlicensed gateway (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#e64980;text-decoration:underline">licence list</a>).</div>`;
+    html += `<div class="tooltip-insight tip-offshore">Registered in ${d.country || 'BD'} but located in ${peerLoc}, and other Bangladeshi networks connect through it, so it may be acting as an unlicensed gateway (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank">licence list</a>).</div>`;
   } else if (d.type === 'detected-iig') {
-    html += `<div class="tooltip-insight" style="color:#fcc419">Not on <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#fcc419;text-decoration:underline">BTRC's licence list</a>, but other Bangladeshi networks connect through it, so it may be acting as an unlicensed gateway.</div>`;
+    html += `<div class="tooltip-insight tip-warn">Not on <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank">BTRC's licence list</a>, but other Bangladeshi networks connect through it, so it may be acting as an unlicensed gateway.</div>`;
   }
 
   return html;

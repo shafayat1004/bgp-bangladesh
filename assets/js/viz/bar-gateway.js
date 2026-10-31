@@ -9,13 +9,11 @@ import { CATEGORY_LABELS } from '../ui/glossary.js';
 import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
 import { renderBarList, highlightBarRow } from './bar-list.js';
 import { friendlyName } from '../ui/names.js';
+import { CATEGORY_COLORS, LINK_COLORS } from '../ui/colors.js';
 
-const TYPE_COLORS = {
-  'iig': '#51cf66',
-  'detected-iig': '#fcc419',
-  'offshore-enterprise': '#17a2b8',
-  'offshore-gateway': '#e64980',
-};
+// The gateway categories this ranking shows, with their colours.
+const TYPE_COLORS = Object.fromEntries(
+  ['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway'].map(t => [t, CATEGORY_COLORS[t]]));
 
 const TYPE_LABELS = CATEGORY_LABELS;
 
@@ -27,8 +25,8 @@ const TYPE_TAGS = {
   'offshore-gateway': 'Offshore gateway',
 };
 
-const INTL_COLOR = '#ff6b6b';    // matches "Outside BD (International)"
-const LOCAL_COLOR = '#4dabf7';   // matches "Local Companies"
+const INTL_COLOR = CATEGORY_COLORS.outside;   // matches "International networks"
+const LOCAL_COLOR = LINK_COLORS.domestic;     // matches "Local companies"
 const TOP_N = 40;
 
 let currentData = null;

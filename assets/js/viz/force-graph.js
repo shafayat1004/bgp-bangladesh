@@ -1,6 +1,6 @@
 /**
  * Force-Directed Network Graph Visualization
- * Supports 5 node types: local-isp (blue), iig (green), detected-iig (amber), offshore-peer (orange), outside (red).
+ * Six network categories, coloured from assets/js/ui/colors.js.
  * Standard D3.js implementation.
  */
 
@@ -8,18 +8,8 @@ import { CATEGORY_LABELS } from '../ui/glossary.js';
 import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
 import { selectGraph, bandPosition, createSimulation, configureForces, hasBakedLayout, applyBakedPositions } from './force-layout.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
+import { CATEGORY_COLORS, LINK_COLORS, INK, categoryColor } from '../ui/colors.js';
 
-const TYPE_COLORS = {
-  'outside': '#ff6b6b',
-  'iig': '#51cf66',
-  'detected-iig': '#fcc419',
-  'offshore-enterprise': '#17a2b8',
-  'offshore-gateway': '#e64980',
-  'local-company': '#4dabf7',
-  'inside': '#51cf66',  // backward compat
-  'offshore-peer': '#ffa94d',  // backward compat
-  'local-isp': '#4dabf7',  // backward compat
-};
 
 const TYPE_LABELS = CATEGORY_LABELS;
 
@@ -42,12 +32,12 @@ const LEGEND_HEIGHT = 90;
 const COMPACT_LEGEND_HEIGHT = 44;
 
 const TYPE_LEGEND = [
-  { color: '#4dabf7', label: 'Local' },
-  { color: '#51cf66', label: 'IIG' },
-  { color: '#fcc419', label: 'Detected' },
-  { color: '#17a2b8', label: 'Offshore ent.' },
-  { color: '#e64980', label: 'Offshore gateway' },
-  { color: '#ff6b6b', label: 'International' },
+  { color: CATEGORY_COLORS['local-company'], label: 'Local' },
+  { color: CATEGORY_COLORS['iig'], label: 'IIG' },
+  { color: CATEGORY_COLORS['detected-iig'], label: 'Detected' },
+  { color: CATEGORY_COLORS['offshore-enterprise'], label: 'Offshore ent.' },
+  { color: CATEGORY_COLORS['offshore-gateway'], label: 'Offshore gateway' },
+  { color: CATEGORY_COLORS['outside'], label: 'International' },
 ];
 
 // The layout flows left to right. On a portrait panel it is drawn transposed
@@ -135,25 +125,25 @@ function createCompactLegend(width, height) {
 
   legend.append('rect')
     .attr('width', width - 16).attr('height', COMPACT_LEGEND_HEIGHT - 6)
-    .attr('fill', 'rgba(26, 31, 58, 0.9)')
-    .attr('stroke', '#2a3f5f')
+    .attr('fill', INK.panel).attr('fill-opacity', 0.94)
+    .attr('stroke', INK.line)
     .attr('rx', 4);
 
   const edgeTypes = [
-    { label: 'International', stroke: '#4fc3f7', dash: 'none' },
-    { label: 'Local', stroke: '#42a5f5', dash: '4,2' },
+    { label: 'International', stroke: LINK_COLORS.international, dash: 'none' },
+    { label: 'Local', stroke: LINK_COLORS.domestic, dash: '4,2' },
   ];
   edgeTypes.forEach(({ label, stroke, dash }, i) => {
     const x = 8 + i * 120;
     legend.append('line').attr('x1', x).attr('y1', 12).attr('x2', x + 24).attr('y2', 12)
       .attr('stroke', stroke).attr('stroke-width', 2).attr('stroke-dasharray', dash);
-    legend.append('text').attr('x', x + 29).attr('y', 15).attr('fill', '#ccc').attr('font-size', '9px').text(label);
+    legend.append('text').attr('x', x + 29).attr('y', 15).attr('fill', INK.text).attr('font-size', '9px').text(label);
   });
 
   let x = 8;
   TYPE_LEGEND.forEach(({ color, label }) => {
-    legend.append('circle').attr('cx', x + 4).attr('cy', 27).attr('r', 3.5).attr('fill', color);
-    legend.append('text').attr('x', x + 10).attr('y', 30).attr('fill', '#ccc').attr('font-size', '8px').text(label);
+    legend.append('circle').attr('cx', x + 4).attr('cy', 27).attr('r', 3.5).attr('fill', color).attr('stroke', INK.text).attr('stroke-width', 0.75);
+    legend.append('text').attr('x', x + 10).attr('y', 30).attr('fill', INK.text).attr('font-size', '8px').text(label);
     x += label.length * 4.4 + 16;
   });
   return COMPACT_LEGEND_HEIGHT;
@@ -168,13 +158,13 @@ function createLegend(width, height) {
   legend.append('rect')
     .attr('x', -10).attr('y', -10)
     .attr('width', 400).attr('height', 70)
-    .attr('fill', 'rgba(26, 31, 58, 0.9)')
-    .attr('stroke', '#2a3f5f')
+    .attr('fill', INK.panel).attr('fill-opacity', 0.94)
+    .attr('stroke', INK.line)
     .attr('rx', 4);
 
   legend.append('text')
     .attr('x', 0).attr('y', 0)
-    .attr('fill', '#aaa')
+    .attr('fill', INK.muted)
     .attr('font-size', '11px')
     .attr('font-weight', 'bold')
     .text('Connections:');
@@ -182,30 +172,30 @@ function createLegend(width, height) {
   legend.append('line')
     .attr('x1', 0).attr('y1', 15)
     .attr('x2', 40).attr('y2', 15)
-    .attr('stroke', '#4fc3f7')
+    .attr('stroke', LINK_COLORS.international)
     .attr('stroke-width', 2);
   legend.append('text')
     .attr('x', 45).attr('y', 19)
-    .attr('fill', '#ccc')
+    .attr('fill', INK.text)
     .attr('font-size', '10px')
     .text('International (gateway to network abroad)');
 
   legend.append('line')
     .attr('x1', 0).attr('y1', 35)
     .attr('x2', 40).attr('y2', 35)
-    .attr('stroke', '#42a5f5')
+    .attr('stroke', LINK_COLORS.domestic)
     .attr('stroke-width', 2)
     .attr('stroke-dasharray', '4,2');
   legend.append('text')
     .attr('x', 45).attr('y', 39)
-    .attr('fill', '#ccc')
+    .attr('fill', INK.text)
     .attr('font-size', '10px')
     .text('Local (local company to gateway)');
 
   let legendX = 0;
   TYPE_LEGEND.forEach(({ color, label }) => {
-    legend.append('circle').attr('cx', legendX + 5).attr('cy', 52).attr('r', 4).attr('fill', color);
-    legend.append('text').attr('x', legendX + 12).attr('y', 56).attr('fill', '#ccc').attr('font-size', '8px').text(label);
+    legend.append('circle').attr('cx', legendX + 5).attr('cy', 52).attr('r', 4).attr('fill', color).attr('stroke', INK.text).attr('stroke-width', 0.75);
+    legend.append('text').attr('x', legendX + 12).attr('y', 56).attr('fill', INK.text).attr('font-size', '8px').text(label);
     legendX += label.length * 5 + 20;
   });
   return LEGEND_HEIGHT;
@@ -300,7 +290,7 @@ function render({ alpha = 1 } = {}) {
     .data(renderedEdges)
     .enter().append('path')
     .attr('class', 'link')
-    .attr('stroke', d => d.type === 'domestic' ? '#42a5f5' : '#4fc3f7')
+    .attr('stroke', d => d.type === 'domestic' ? LINK_COLORS.domestic : LINK_COLORS.international)
     .attr('stroke-width', d => Math.max(0.5, Math.sqrt(d.count / 500)))
     .attr('stroke-dasharray', d => d.type === 'domestic' ? '4,2' : 'none');
 
@@ -316,9 +306,9 @@ function render({ alpha = 1 } = {}) {
 
   nodes.append('circle')
     .attr('r', d => Math.max(5, Math.sqrt(d.traffic / 100) * (currentNodeSize / 10)))
-    .attr('fill', d => TYPE_COLORS[d.type] || '#888')
-    .attr('stroke', '#fff')
-    .attr('stroke-width', 1.5);
+    .attr('fill', d => categoryColor(d.type))
+    .attr('stroke', INK.text)
+    .attr('stroke-width', 1);
 
   const TOP_LABELS_PER_TYPE = 30;
   const labelASNs = new Set();

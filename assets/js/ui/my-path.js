@@ -1,5 +1,5 @@
 /**
- * "How does my internet reach the world?"
+ * "How do I reach the world?"
  * Turns the visitor's network (looked up from their IP address) into a short
  * story: which gateways it goes through and which international networks those
  * connect to, with shares of the routes seen.

@@ -99,7 +99,7 @@ rest are feature-detected (`mod.updateData?.(...)`).
 | `destroy()` | leaving the tab | clear the panel, stop timers/simulations |
 | `updateFilter(min, max)` | Min/Max Routes sliders | redraw with the new range, keep the view |
 | `filterByTypes(activeTypes)` | type checkboxes | hide rather than redraw where possible |
-| `highlightASN(asn)` | sidebar list, search, "How does my internet reach the world?" | |
+| `highlightASN(asn)` | sidebar list, search, "How do I reach the world?" | |
 | `resetView()` | Reset View button, `0` key | back to the fitted view |
 | `toggleLabelsVisibility()`, `setNodeSize(n)` | sidebar controls | optional |
 
@@ -172,11 +172,16 @@ simulations replace `source`/`target` with node objects, so read them as
 - **Controls inside the panel** are real `<button type="button">`s with an
   accessible name; toggles carry `aria-pressed`. If a re-render replaces the
   focused control, put focus back on its replacement.
-- **Colours**: text must reach 4.5:1 on the dark panels (`--text-dim` is the
-  lightest gray that passes). Pair colour with a label or shape; never use
-  colour alone. The current green (IIG) and red (international) are hard to
-  tell apart with red-green colour blindness (issue #17), so don't rely on
-  that pair for new distinctions.
+- **Colours**: the site uses the calm house palette (sand paper, ink text,
+  phthalo green accent; rust and ochre are the only warm signals). Take
+  colours from tokens, never new hex values: CSS custom properties in
+  `styles.css`, and `CATEGORY_COLORS` / `LINK_COLORS` / `INK` from
+  `assets/js/ui/colors.js` in script (`tests-js/colors.test.js` keeps the two
+  in step and checks text contrast). Category hues are muted Okabe-Ito, safe
+  for colour blindness, but too light for text: show a category as a swatch,
+  edge or tint beside ink text, and outline shapes in ink. Text must reach
+  4.5:1 (`--text-dim` is the lightest ink that passes on every surface).
+  Pair colour with a label, shape or dash; never use colour alone.
 - **Motion**: honour `prefers-reduced-motion` for d3 transitions (see
   `resetView` in `force-graph.js`); CSS animations are already handled
   globally.
