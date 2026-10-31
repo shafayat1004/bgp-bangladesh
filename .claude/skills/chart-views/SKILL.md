@@ -45,6 +45,15 @@ heights, fitted to the panel width, scrolling like a page.
 - Every technical term gets an explanation reachable by hover, keyboard focus
   and tap (issue #4 adds a shared glossary; use it instead of ad-hoc text).
 - Category names match everywhere: tabs, legend, sidebar, table, tooltips.
+- Show network names with `friendlyName` (`assets/js/ui/names.js`): registry
+  names start with a handle (`LINK3-TECH-AS-BD-AP Link3 Technologies Ltd.`)
+  that means nothing to a visitor. Put the full name and `AS<number>` in a
+  `title` or the details.
+- Country codes aren't always countries: `EU` and `AP` are registry regions.
+  Name countries with `Intl.DisplayNames` and label regions as regions (see
+  `NOT_COUNTRIES` in `bar-country.js`).
+- Shares are of routes seen: "Summit (82% of its routes seen)", not "82% of
+  its traffic".
 
 ## Stay still when the data changes
 
@@ -57,6 +66,16 @@ A history slider step or a filter change must not make the view jump (issue #5):
 - Keep what the user set: zoom/pan, scroll position, sort, page, selection,
   expanded rows. Implement `updateData` for this; without it the slider does a
   full rebuild.
+- `main.js` calls `filterByTypes` again after every date step (whenever not
+  all types are ticked), with the same set. Treat an unchanged filter as a
+  no-op; resetting the page there sent the Data Table back to page 1 on every
+  step (`typeFilterKey` in `table.js`).
+- Animate only in response to the user. A slide-in on the table's detail
+  panel replayed on every date step because the row was re-rendered; add the
+  animation class only when the user opens it.
+- `tests-e2e/site.test.mjs` has a "keeps the data table still" test that
+  compares sort, page, scroll, row heights and column widths across a step;
+  copy it for a new view with state worth keeping.
 
 ## Module contract
 
@@ -65,7 +84,7 @@ rest are feature-detected (`mod.updateData?.(...)`).
 
 | Export | Called when | Notes |
 |---|---|---|
-| `init(containerId)` | tab opens, panel resized | create the `<svg>` (and any `.viz-controls`) inside the container |
+| `init(containerId)` | tab opens, panel resized | create the `<svg>` (and any `.viz-controls`) inside the container; may do nothing for HTML views that draw everything in `loadData` |
 | `loadData(data, options)` | first draw, tab switch, live fetch, "Static Data" | full draw; `options` has `minTraffic`, `maxTraffic`, `nodeSize`. Reset zoom/highlight here |
 | `updateData(data, options)` | history slider step | keep the user's pan/zoom, scroll, sort, selection and highlight; without it the slider falls back to a full rebuild, which resets their view |
 | `destroy()` | leaving the tab | clear the panel, stop timers/simulations |
@@ -91,7 +110,9 @@ simulations replace `source`/`target` with node objects, so read them as
    `aria-controls="viz-panel"`, `aria-selected="false"`, `tabindex="-1"`.
    Arrow-key handling and selection state come from `setupTabs`/`highlightTab`.
 4. Add the name to `TABS` in `scripts/dev/lib/site.mjs` so the screenshots,
-   accessibility audit and e2e tests cover it.
+   accessibility audit and e2e tests cover it. `waitForView` there waits for
+   `#viz-panel svg *, #viz-panel table, #viz-panel .bar-view`; if the new view
+   draws something else, add its selector or every dev script hangs on it.
 
 ## Drawing conventions
 
@@ -104,6 +125,14 @@ simulations replace `source`/`target` with node objects, so read them as
 - **Portrait screens.** Phones are portrait; a left-to-right chart should flow
   top to bottom there (the Network Graph transposes through `sx`/`sy`; Traffic
   Flow has an orientation toggle).
+- **One phone breakpoint.** The CSS treats `(max-width: 900px), (max-height:
+  500px)` as phone/tablet (off-canvas sidebar; landscape phones are short,
+  not narrow), and `(max-width: 600px), (max-height: 500px)` as compact
+  (bottom-sheet tooltip, hidden title bar). In JS use the same query with
+  `matchMedia` (as `isMobile` in `main.js` does), not `innerWidth <= 900`.
+  Older tooltip code in `tooltip.js`, `sankey.js`, `hierarchical.js`,
+  and `force-graph.js` still checks `innerWidth`; align it
+  when you touch those files.
 - **Keep the view across snapshots.** In `updateData`, keep the current zoom
   transform (`hierarchical.js` stores `savedTransform`) and re-apply any
   highlight if that ASN still exists.
@@ -115,9 +144,19 @@ simulations replace `source`/`target` with node objects, so read them as
   `toolbar` to add the buttons to an existing `.viz-controls`. Issue #6 makes
   the buttons repeat when held and the keys work while the pointer is over the
   chart.
-- **Accessibility for static views.** No pan/zoom helper. Give the chart a
-  spoken summary (`role="img"` plus `aria-label`, or better, build it from real
-  HTML lists or tables with CSS bars so screen readers can read each row).
+- **Static rankings: use `bar-list.js`.** `renderBarList(container, view)`
+  draws an HTML `<ol>` with CSS bars: a question as the heading, a takeaway
+  sentence, optional segment legend, fixed-height rows (rank, name with an
+  ellipsis and a text tag, bar, tabular number, extra screen-reader text),
+  hover tooltips, and it keeps the scroll position when called again.
+  `highlightBarRow` marks and scrolls to a row. Gateway Ranking and Country
+  Origins use it; their totals functions (`gatewayTotals`, `countryTotals`)
+  are pure and exported for testing.
+- **Accessibility for static views.** No pan/zoom helper. Prefer real HTML
+  lists or tables (as `bar-list.js` does) so screen readers read each row; a
+  scrolling region needs `tabindex="0"`, a role and a label so keyboard users
+  can scroll it. An SVG-only static chart needs `role="img"` plus a spoken
+  summary.
 - **Spoken labels** state the takeaway with real numbers (counts, top five),
   not "a chart". The Data Table is the full text alternative, so new data
   should appear there too.

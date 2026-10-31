@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: names-from-peeringdb
+expected_outcome: |
+  Changes how `name` is derived in scripts/update_bgp_data.py using PeeringDB
+  org/net names when the holder is a bare handle. Recognises that asn_names.json
+  caches names and that existing entries are never re-fetched, and adds a way to
+  refresh them (e.g. a name_source marker and a refresh pass), without leaving
+  bad values behind on failed lookups. Mirrors the change in the browser live
+  fetch (assets/js/api/ripestat.js) or explicitly explains why not. Adds unit
+  tests with faked network responses. Checks the result on a scratch copy of the
+  real asn_names.json and reports a few before/after names. Doesn't run the full
+  updater into data/ and doesn't commit data.
