@@ -79,6 +79,10 @@ python3 scripts/fetch_bgp_routes.py --country BD --output data/BD/bgp_routes_raw
 
 ---
 
+### `reclassify_stored.py`
+
+**Purpose:** Re-apply the current classification rules and licence lists to the stored `viz_data.json` and every history snapshot, without fetching. Run it after a rule or licence-list change so the history slider doesn't show the change as a jump, then re-bake layouts with `node scripts/precompute_layout.mjs --country BD --force`. Snapshots only hold the drawn connections, so it's close to, not identical with, what the pipeline would produce. Follow the `data-pipeline` skill ("Correcting the data itself") before committing the result.
+
 ### `reprocess_3layer.py` (Legacy)
 **Purpose:** Reprocess existing raw BGP data into visualization format with license-aware classification.
 

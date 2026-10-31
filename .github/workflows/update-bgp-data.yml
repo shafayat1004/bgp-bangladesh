@@ -92,4 +92,17 @@ jobs:
           fi
 
           git commit -m "Update BGP data: $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+
+          # main may have moved during the run (a merge, a data correction).
+          # Replay this commit on top and retry; if that conflicts, fail loudly
+          # rather than overwrite someone else's data change.
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push; then
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "Push attempt $attempt failed; retrying in 15s..."
+            sleep 15
+          done
+          echo "::error::Could not push the data update after 3 attempts"
+          exit 1
