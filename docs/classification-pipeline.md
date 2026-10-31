@@ -58,7 +58,7 @@ flowchart TB
         direction TB
         E1["Select Top Edges:<br/>• top 1500 international edges<br/>• top 2000 domestic edges"]:::processNode
         P4 --> E1
-        E2["Build iigs_with_domestic set<br/>= all gateway ASNs that appear<br/>as TARGET of a domestic edge"]:::processNode
+        E2["Build iigs_with_domestic set<br/>= all gateway ASNs that appear<br/>as TARGET of any domestic edge<br/>(not only the drawn top 2000)"]:::processNode
         E1 --> E2
     end
 
@@ -71,7 +71,7 @@ flowchart TB
         API6["⑥ PeeringDB<br/>net + ix APIs<br/>(batch by ASN list)"]:::apiNode
         API6 --> |"facilities, IXP memberships"| D6["peering_country &<br/>peering_details<br/>per gateway ASN"]:::dataNode
         API7["⑦ BTRC License List<br/>btrc_iig_licenses.json<br/>(static local file)"]:::apiNode
-        API7 --> D7["btrc_licensed_asns set<br/>(38 ASNs across ~26 companies)"]:::dataNode
+        API7 --> D7["btrc_licensed_asns set<br/>(38 ASNs across 32 companies;<br/>always typed iig)"]:::dataNode
     end
 
     E2 --> Phase4
@@ -169,4 +169,21 @@ From MaxMind geolocation data for a gateway ASN:
 - Otherwise → the non-BD country with the highest coverage percentage
 
 ### Has Domestic Customers
-An ASN "has domestic customers" if it appears as the **target** of any top domestic edge — meaning at least one other BD network routes through it.
+An ASN "has domestic customers" if it appears as the **target** of any domestic edge, including ones below the top-2000 drawing cut-off: at least one other BD network routes through it. This is what makes a network a gateway. A BD network that connects abroad directly (an international network sits right before it in the path) but carries no other BD network stays a `local-company`, and `abroad_link` records how it is seen:
+
+- `also-abroad`: seen both behind a network abroad and through a BD gateway, e.g. when a hosting or attack-protection service also announces its addresses.
+- `only-abroad`: seen only behind networks abroad. Routes over local exchanges such as BDIX don't reach the route collectors, so it may still have local paths.
+
+`igw: true` marks an ASN on `btrc_igw_licenses.json`: a licensed international voice gateway, which has its own links to foreign carriers for calls. It is a label only; it doesn't make the network an internet gateway.
+
+### Private-use and reserved ASNs
+They are skipped when a path is cleaned (unless the country's own list includes them). They leak from someone's internal routing, typically between a BD gateway and its customer, and would otherwise appear as an "international network" with the customer as its gateway.
+
+### Licensed ASNs
+An ASN on `btrc_iig_licenses.json` is always `iig`, even when it is only seen reaching the world through a sister ASN of the same licence holder (BTCL AS45588 behind AS17494, Exabyte AS150774 behind AS150178).
+
+### Share (`percentage`)
+Routes crossing the border through or from this network, divided by all routes crossing the border (the sum of international edges). International networks and gateways count their international edges; local companies count the domestic edges they are the source of. Within one category the shares add up to at most 100%.
+
+### Lookups that fail
+A failed geolocation lookup returns nothing, and the last cached answer is kept, so one timeout can't move an offshore network back to Bangladesh. Geolocation covers every gateway in the drawn top-1500 international edges. An ASN whose name lookup failed (cached as the placeholder `AS<n>`) is looked up again on the next run; private-use and reserved ASNs are not.

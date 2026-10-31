@@ -37,6 +37,16 @@ export function createAnalysisState() {
  * @param {Object} state - Analysis state from createAnalysisState() or a previous call
  * @returns {Object} The same state object, mutated with new data
  */
+/**
+ * Private-use, documentation and reserved ASNs: no registry record, owned by nobody.
+ * @param {string} asn
+ * @returns {boolean}
+ */
+export function isReservedASN(asn) {
+  const n = Number(asn);
+  return n === 0 || n === 23456 || (n >= 64496 && n <= 131071) || n >= 4200000000;
+}
+
 export function analyzeRoutesBatch(routes, countryASNs, state) {
   const { seen, outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, directPeers } = state;
 
@@ -46,12 +56,13 @@ export function analyzeRoutesBatch(routes, countryASNs, state) {
     const sourceId = rt.source_id;
     const pathRaw = rt.path || [];
 
+    // Skip private-use and reserved ASNs: they leak from someone's internal
+    // routing (e.g. between a gateway and its customer) and belong to nobody.
     const path = [];
     for (const x of pathRaw) {
       const s = String(x).trim();
-      if (/^\d+$/.test(s) && (path.length === 0 || path[path.length - 1] !== s)) {
-        path.push(s);
-      }
+      if (!/^\d+$/.test(s) || (isReservedASN(s) && !countryASNs.has(s))) continue;
+      if (path.length === 0 || path[path.length - 1] !== s) path.push(s);
     }
 
     if (!target || !sourceId || path.length < 2) continue;
@@ -172,17 +183,50 @@ export function analyzeGateways(routes, countryASNs, onProgress) {
  * @param {string} args.geoCountry
  * @param {Set<string>} args.btrcLicensedASNs
  * @param {Set<string>} args.iigsWithDomestic
- * @param {Object<string, string[]>} args.directPeersMap
  * @returns {'iig'|'detected-iig'|'offshore-enterprise'|'offshore-gateway'|'local-company'}
+ *
+ * A gateway is a network other BD networks reach the world through. A BD
+ * network that connects abroad directly but carries no other BD network stays
+ * a local company; buildVisualizationData records that in abroad_link.
  */
-export function classifyTentativeIIGType({ asn, isBDRegistered, geoCountry, btrcLicensedASNs, iigsWithDomestic, directPeersMap }) {
+export function classifyTentativeIIGType({ asn, isBDRegistered, geoCountry, btrcLicensedASNs, iigsWithDomestic }) {
   if (btrcLicensedASNs.has(asn)) return 'iig';
   if (isBDRegistered && geoCountry && geoCountry !== 'BD') {
     return iigsWithDomestic.has(asn) ? 'offshore-gateway' : 'offshore-enterprise';
   }
   if (iigsWithDomestic.has(asn)) return 'detected-iig';
-  if (isBDRegistered && directPeersMap[asn]?.length) return 'detected-iig';
   return 'local-company';
+}
+
+/**
+ * Set each node's percentage: its routes crossing the border, as a share of all.
+ * A route counts on the international network and gateway at the crossing
+ * (international connections) and on the local network it starts from
+ * (domestic connections it is the source of), so shares within one category
+ * add up to at most 100%. Also corrects history snapshots written before this
+ * rule, which added a gateway's domestic routes to its share.
+ *
+ * @param {{ nodes: Object[], edges: Object[] }} data
+ * @returns {number} total routes crossing the border
+ */
+export function computeShares(data) {
+  const id = (end) => end?.asn || end;
+  const routes = new Map();
+  const add = (asn, count) => routes.set(asn, (routes.get(asn) || 0) + count);
+  let total = 0;
+  for (const e of data.edges) {
+    const count = e.count || 0;
+    if (e.type === 'domestic') {
+      add(id(e.source), count);
+    } else {
+      total += count;
+      add(id(e.source), count);
+      add(id(e.target), count);
+    }
+  }
+  const denom = total || 1;
+  for (const n of data.nodes) n.percentage = ((routes.get(n.asn) || 0) / denom) * 100;
+  return total;
 }
 
 /**
@@ -194,21 +238,23 @@ export function classifyTentativeIIGType({ asn, isBDRegistered, geoCountry, btrc
  * @param {number} topIntlEdges - Number of top international edges to include
  * @param {number} topDomesticEdges - Number of top domestic edges to include
  * @param {Set} btrcLicensedASNs - Set of ASN strings from the BTRC IIG license list
+ * @param {Set} igwLicensedASNs - Set of ASN strings from the BTRC IGW (voice gateway) list
  * @returns {{ nodes, edges, stats }}
  */
-export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEdges = 1500, topDomesticEdges = 2000, btrcLicensedASNs = new Set()) {
+export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEdges = 1500, topDomesticEdges = 2000, btrcLicensedASNs = new Set(), igwLicensedASNs = new Set()) {
   const { outsideCounts, iigCounts, localISPCounts, edgeIntl, edgeDomestic, validObservations } = analysis;
 
   // Sort and take top N edges per type (separate limits for intl and domestic)
   const sortedIntl = [...edgeIntl.entries()].sort((a, b) => b[1] - a[1]).slice(0, topIntlEdges);
   const sortedDomestic = [...edgeDomestic.entries()].sort((a, b) => b[1] - a[1]).slice(0, topDomesticEdges);
 
-  // Pre-compute which tentative IIGs have domestic customers
+  // Which tentative gateways carry other BD networks. Use every domestic
+  // connection, not just the drawn ones: a gateway's customers can all be
+  // below the drawing cut-off.
   const iigsWithDomestic = new Set();
-  for (const [edgeKey] of sortedDomestic) {
+  for (const edgeKey of edgeDomestic.keys()) {
     iigsWithDomestic.add(edgeKey.split('|')[1]);
   }
-  const directPeersMap = analysis.directPeersMap || {};
 
   const nodeMap = {};
   const edges = [];
@@ -221,15 +267,18 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEd
       const isBDRegistered = countryASNs.has(asn);
       const country = detectedCountry || (isBDRegistered ? 'BD' : '');
 
-      // Reclassify tentative IIGs based on license list + geolocation
-      if (type === 'iig') {
+      // A licensed gateway stays one even when it is only seen reaching the
+      // world through a sister network (BTCL AS45588 via AS17494).
+      if (btrcLicensedASNs.has(asn)) {
+        type = 'iig';
+      } else if (type === 'iig') {
+        // Reclassify tentative IIGs based on license list + geolocation
         type = classifyTentativeIIGType({
           asn,
           isBDRegistered,
           geoCountry,
           btrcLicensedASNs,
           iigsWithDomestic,
-          directPeersMap,
         });
       }
 
@@ -246,6 +295,8 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEd
         peering_details: info.peering_details || [],
         peering_source: info.peering_source || '',
         announced: info.announced || false,
+        igw: igwLicensedASNs.has(asn),
+        abroad_link: '',
         traffic: 0,
       };
     }
@@ -273,20 +324,29 @@ export function buildVisualizationData(analysis, asnInfo, countryASNs, topIntlEd
     if (nodeMap[edge.target]) nodeMap[edge.target].traffic += edge.count;
   }
 
-  // Calculate rankings per type
-  const totalIntlTraffic = sortedIntl.reduce((s, [, c]) => s + c, 0) || 1;
+  // A local company with its own link abroad: seen right behind a network
+  // abroad, either as well as through gateways or only that way. (Routes over
+  // local exchanges such as BDIX aren't visible to the route collectors.)
+  const viaGateway = new Set([...edgeDomestic.keys()].map(k => k.split('|')[0]));
+  for (const edge of edges) {
+    const n = nodeMap[edge.target];
+    if (edge.type === 'international' && n.type === 'local-company') {
+      n.abroad_link = viaGateway.has(n.asn) ? 'also-abroad' : 'only-abroad';
+    }
+  }
 
+  const nodes = Object.values(nodeMap);
+  const totalIntlTraffic = computeShares({ nodes, edges }) || 1;
+
+  // Calculate rankings per type
   for (const ntype of ['outside', 'iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway', 'local-company']) {
-    const typed = Object.values(nodeMap)
+    const typed = nodes
       .filter(n => n.type === ntype)
       .sort((a, b) => b.traffic - a.traffic);
     typed.forEach((n, i) => {
       n.rank = i + 1;
-      n.percentage = (n.traffic / totalIntlTraffic) * 100;
     });
   }
-
-  const nodes = Object.values(nodeMap);
 
   return {
     nodes,
