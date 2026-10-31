@@ -78,6 +78,7 @@ The dev scripts use installed Chrome, or Playwright's Chromium (`npx playwright 
 - **Avoid CSS `filter` on many SVG elements.** A drop-shadow on ~700 highlighted links cost ~0.7 s per redraw.
 - **A click on a node also fires d3-drag's `start`.** Never reheat the simulation there, or every click moves the whole graph.
 - Keep the site WCAG 2.2 AA: `npm run audit:a11y` must report no violations and `npm run test:e2e` must pass.
+- **PRs close their issues.** Fill in `.github/pull_request_template.md`: one `Fixes #N` line per issue the PR finishes (GitHub closes it when the PR merges into `main`), `Part of #N` for issues it only moves forward, or `No issue`. The "PR links issues" check fails otherwise. Merges are squash or rebase only.
 
 ## Known issues
 
