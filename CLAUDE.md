@@ -4,6 +4,45 @@ A static site (no build step) that shows how Bangladesh's local ISPs reach the
 internet: local companies → IIGs / detected gateways → offshore → international
 networks, from RIPEstat BGP data. Live at https://www.shafayat.bd/bgp-bangladesh/.
 
+## What the site should feel like
+
+Read this before any UI or content change. The roadmap is issue #24.
+
+- **Audience: curious people with basic internet knowledge**, not network
+  engineers and not complete beginners. Assume they know what an ISP and a
+  website are; don't assume they know ASN, BGP, transit or peering.
+- **Every view answers a question a person has.** For example: How does my
+  internet reach the world? Which gateways carry the most? What happens if one
+  fails? What changed? If a view can't say which question it answers, rethink
+  it. Drawing all ~1,600 networks at the same weight isn't an answer.
+- **Aggregate first, then let people focus.** Show the few things that matter
+  (gateways, big transit, "1,300 smaller networks" as a group), and let a
+  click, search or the sidebar focus on one network.
+- **Plain, accurate words.** Say networks and connections, never nodes and
+  edges. The data counts *route observations*, so say "routes" and don't call
+  it traffic. Every technical term (ASN, IIG, registered country, IP location,
+  peering location, transit, share) gets an explanation that opens on hover,
+  keyboard focus and tap. Use the shared glossary once it exists (issue #4)
+  instead of writing explanations inline.
+- **Calm and predictable.** Nothing should jump when the date or a filter
+  changes: fixed sizes, tabular numbers, stable ordering, and the user's
+  zoom, scroll, sort and selection kept. Things move only when movement helps
+  understanding. Static charts don't pan or zoom.
+- **Standard places and gestures.** Search in the header, controls where
+  people expect them, buttons that repeat when held, arrow keys that work over
+  a chart.
+- **Readable at the default view.** If someone has to zoom to understand the
+  main point, the default is wrong. Check phones (portrait and landscape) as
+  well as desktop.
+- **Trustworthy.** Say where the data comes from, how fresh it is, and why a
+  network is classified the way it is. Gateway classifications must be
+  verifiable (sources and dates).
+- **Accessible by default** (WCAG 2.2 AA): keyboard, screen readers, contrast,
+  reduced motion, no information by colour alone.
+
+Automated checks passing is not the same as this being met. The checks passed
+while the site still had jargon, a jumpy table and an unreadable flow chart.
+
 ## Layout
 
 - `index.html` – page shell: sidebar, ARIA tabs, `#viz-panel`, history slider, intro `<dialog>`, SEO metadata.
@@ -24,7 +63,7 @@ D3 v7 is a global loaded from d3js.org; modules are native ES modules.
 | `npm run test:js` | unit tests (node:test) |
 | `npm run test:e2e` | browser regression tests (graph stability, slider, keyboard, phone sidebar) |
 | `npm run audit:a11y` | axe WCAG 2.2 AA audit of every view, desktop + phone |
-| `npm run screenshots` | every view at desktop + phone into `.dev-output/screenshots/` |
+| `npm run screenshots -- --slider-step` | every view at desktop, phone and landscape phone into `.dev-output/screenshots/`, plus layout shifts after a date step |
 | `npm run profile -- --check` | graph/slider performance with budgets |
 | `npm run layout` | bake Network Graph positions into the data files |
 | `npm run og-image` | regenerate `assets/img/og-image.png` |

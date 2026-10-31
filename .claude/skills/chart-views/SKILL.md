@@ -1,12 +1,60 @@
 ---
 name: chart-views
-description: The contract and conventions for the BGP Bangladesh visualization tabs (Network Graph, Traffic Flow, Layered View, Gateway Ranking, Country Origins, Data Table) - module interface, registering a tab, fitting to the screen, keeping pan/zoom across history snapshots, accessibility and SVG performance rules. Use this whenever adding a new chart or tab, changing how an existing view draws, zooms, highlights or responds to filters and the history slider, or when a view looks tiny, off-screen, resets unexpectedly, or isn't keyboard accessible.
+description: How to design and build the BGP Bangladesh visualization tabs (Network Graph, Traffic Flow, Layered View, Gateway Ranking, Country Origins, Data Table) - what each view must achieve for a non-expert audience, when a view should pan/zoom, layout stability, wording, the module interface, accessibility and SVG performance rules. Use this whenever adding or redesigning a chart or tab, changing how a view draws, zooms, highlights, labels things or responds to filters and the history slider, or when a view looks tiny, cluttered, unreadable, jumpy, off-screen, resets unexpectedly, or isn't keyboard accessible.
 ---
 
 # Chart views
 
 Each tab is a module in `assets/js/viz/` registered in `vizModules` in
 `assets/js/main.js`. All of them draw into `#viz-panel` using the global `d3`.
+The design goals are in `CLAUDE.md` ("What the site should feel like"); this
+skill turns them into rules for views.
+
+## Start from the question, not the data
+
+Before drawing anything, write down the question the view answers for a
+visitor with basic internet knowledge (e.g. "which gateways carry most of
+Bangladesh's routes?"). Then:
+
+- **Aggregate first.** Show the handful of things that answer the question and
+  group the long tail ("1,300 smaller networks"). Drawing every one of ~1,600
+  networks at once is what made Traffic Flow an unreadable blob (issue #2).
+- **Then focus.** Selecting a network (click, search, sidebar) should show its
+  own story (its gateways, its international transit) with everything else
+  faded or grouped.
+- **Readable without zooming.** At the default view on a phone and a desktop,
+  the main point must be legible. Zoom is for detail, not for understanding.
+- **Label with the takeaway.** Titles and spoken labels state what the chart
+  shows with real numbers, in plain words.
+
+## When a view may pan and zoom
+
+Only when the content is genuinely larger than the screen and spatial
+(Network Graph, Layered View, Traffic Flow). Bar charts, rankings, tables and
+summaries fit the panel and use normal vertical scrolling; making them pan or
+zoom adds movement without adding understanding (issue #8).
+
+## Words on screen
+
+- Networks and connections, never nodes and edges (internal code names are
+  fine; anything a visitor sees isn't).
+- The numbers are route observations: say "routes" or "routes seen", not
+  "traffic".
+- Every technical term gets an explanation reachable by hover, keyboard focus
+  and tap (issue #4 adds a shared glossary; use it instead of ad-hoc text).
+- Category names match everywhere: tabs, legend, sidebar, table, tooltips.
+
+## Stay still when the data changes
+
+A history slider step or a filter change must not make the view jump (issue #5):
+
+- Fixed sizes for rows, columns, labels and readouts; ellipsis for long text,
+  full text on hover/focus.
+- `font-variant-numeric: tabular-nums` for numbers that change.
+- Stable ordering between snapshots where position carries no meaning.
+- Keep what the user set: zoom/pan, scroll position, sort, page, selection,
+  expanded rows. Implement `updateData` for this; without it the slider does a
+  full rebuild.
 
 ## Module contract
 
@@ -17,7 +65,7 @@ rest are feature-detected (`mod.updateData?.(...)`).
 |---|---|---|
 | `init(containerId)` | tab opens, panel resized | create the `<svg>` (and any `.viz-controls`) inside the container |
 | `loadData(data, options)` | first draw, tab switch, live fetch, "Static Data" | full draw; `options` has `minTraffic`, `maxTraffic`, `nodeSize`. Reset zoom/highlight here |
-| `updateData(data, options)` | history slider step | keep the user's pan/zoom and highlight; without it the slider falls back to a full rebuild, which resets their view |
+| `updateData(data, options)` | history slider step | keep the user's pan/zoom, scroll, sort, selection and highlight; without it the slider falls back to a full rebuild, which resets their view (the Data Table still lacks one) |
 | `destroy()` | leaving the tab | clear the panel, stop timers/simulations |
 | `updateFilter(min, max)` | Min/Max Routes sliders | redraw with the new range, keep the view |
 | `filterByTypes(activeTypes)` | type checkboxes | hide rather than redraw where possible |
@@ -45,33 +93,40 @@ simulations replace `source`/`target` with node objects, so read them as
 
 ## Drawing conventions
 
-- **Fit to the panel.** Lay the chart out in its own coordinates, then compute
-  a zoom transform that fits the content to `#viz-panel` (see `fitTransform` in
-  `force-graph.js`, and `chooseColumns` in `hierarchical.js`, which picks a grid
-  shape for the panel's aspect ratio). Starting at a fixed scale or offset is
-  what left views tiny or half off-screen. Keep the fitted transform for
-  `resetView`.
+- **Fit to the panel.** Lay the chart out in its own coordinates, then fit the
+  content to `#viz-panel` (see `fitTransform` in `force-graph.js`, and
+  `chooseColumns` in `hierarchical.js`, which picks a grid shape for the panel's
+  aspect ratio). Starting at a fixed scale or offset is what left views tiny or
+  half off-screen. For zoomable views keep the fitted transform for
+  `resetView`; static views just size themselves to the panel.
 - **Portrait screens.** Phones are portrait; a left-to-right chart should flow
   top to bottom there (the Network Graph transposes through `sx`/`sy`; Traffic
   Flow has an orientation toggle).
 - **Keep the view across snapshots.** In `updateData`, keep the current zoom
   transform (`hierarchical.js` stores `savedTransform`) and re-apply any
   highlight if that ASN still exists.
-- **Accessibility.** After setting up zoom, call
+- **Accessibility for zoomable views.** After setting up zoom, call
   `makeChartAccessible(svg, { zoom, label, reset, onEscape })` from
   `assets/js/ui/chart-a11y.js`. It makes the SVG focusable with a spoken
   `label`, adds arrow/plus/minus/0 keys and on-screen pan/zoom buttons (needed
-  for WCAG 2.5.7, so nobody has to drag), and Escape runs `onEscape`. Write the
-  label as the chart's takeaway with real numbers (counts, top five), not "a
-  chart". Pass `toolbar` to add the buttons to an existing `.viz-controls`. The
-  Data Table is the full text alternative, so new data should appear there
-  too.
+  for WCAG 2.5.7, so nobody has to drag), and Escape runs `onEscape`. Pass
+  `toolbar` to add the buttons to an existing `.viz-controls`. Issue #6 makes
+  the buttons repeat when held and the keys work while the pointer is over the
+  chart.
+- **Accessibility for static views.** No pan/zoom helper. Give the chart a
+  spoken summary (`role="img"` plus `aria-label`, or better, build it from real
+  HTML lists or tables with CSS bars so screen readers can read each row).
+- **Spoken labels** state the takeaway with real numbers (counts, top five),
+  not "a chart". The Data Table is the full text alternative, so new data
+  should appear there too.
 - **Controls inside the panel** are real `<button type="button">`s with an
   accessible name; toggles carry `aria-pressed`. If a re-render replaces the
   focused control, put focus back on its replacement.
 - **Colours**: text must reach 4.5:1 on the dark panels (`--text-dim` is the
   lightest gray that passes). Pair colour with a label or shape; never use
-  colour alone.
+  colour alone. The current green (IIG) and red (international) are hard to
+  tell apart with red-green colour blindness (issue #17), so don't rely on
+  that pair for new distinctions.
 - **Motion**: honour `prefers-reduced-motion` for d3 transitions (see
   `resetView` in `force-graph.js`); CSS animations are already handled
   globally.
@@ -93,4 +148,6 @@ These came from measured slowdowns on this site:
 
 Use the `verify-site-change` skill: `npm run test:e2e`, `npm run audit:a11y`,
 `npm run screenshots` (look at desktop and phone), and `npm run profile --
---check` for anything that touches drawing or the slider.
+--check` for anything that touches drawing or the slider. Then do its
+visitor-perspective review: the automated checks can all pass on a view that
+still fails the goals above.

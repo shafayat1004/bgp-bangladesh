@@ -51,7 +51,8 @@ npm run test:e2e
 # Accessibility audit (axe, WCAG 2.2 AA) of every view on desktop and phone
 npm run audit:a11y
 
-# Screenshots of every view at desktop and phone sizes -> .dev-output/screenshots/
+# Screenshots of every view (desktop, phone, landscape phone) -> .dev-output/screenshots/
+# add `-- --slider-step` to also report elements that move when the date changes
 npm run screenshots
 
 # Performance of the network graph and history slider, with budgets
