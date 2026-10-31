@@ -5,6 +5,7 @@
  * international networks and routes seen with local networks.
  */
 
+import { CATEGORY_LABELS } from '../ui/glossary.js';
 import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
 import { renderBarList, highlightBarRow } from './bar-list.js';
 import { friendlyName } from '../ui/names.js';
@@ -16,21 +17,14 @@ const TYPE_COLORS = {
   'offshore-gateway': '#e64980',
 };
 
-const TYPE_LABELS = {
-  'iig': 'IIG (Licensed)',
-  'detected-iig': 'Detected Gateway',
-  'offshore-enterprise': 'Offshore Enterprise',
-  'offshore-gateway': 'Offshore Gateway',
-  'local-company': 'Local Company',
-  'outside': 'Outside BD',
-};
+const TYPE_LABELS = CATEGORY_LABELS;
 
 // Short text tag beside each name, so the category doesn't rely on colour.
 const TYPE_TAGS = {
   'iig': 'Licensed IIG',
   'detected-iig': 'Detected',
   'offshore-enterprise': 'Offshore',
-  'offshore-gateway': 'Offshore GW',
+  'offshore-gateway': 'Offshore gateway',
 };
 
 const INTL_COLOR = '#ff6b6b';    // matches "Outside BD (International)"

@@ -4,18 +4,12 @@
  */
 
 import { countryToFlag } from '../api/ripestat.js';
-
-const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-enterprise': 'Offshore Enterprise', 'offshore-gateway': 'Offshore Gateway', 'local-company': 'Local Company', 'inside': 'Inside BD', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP' };
+import { GLOSSARY, CATEGORY_LABELS as TYPE_LABELS, CATEGORY_PLURALS, termHelp } from '../ui/glossary.js';
 const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-enterprise': 'type-offshore-enterprise', 'offshore-gateway': 'type-offshore-gateway', 'local-company': 'type-local-company', 'inside': 'type-iig', 'offshore-peer': 'type-offshore-peer', 'local-isp': 'type-local-company' };
 
-const TYPE_EXPLANATIONS = {
-  'outside': 'International transit provider that feeds routes into Bangladesh from abroad.',
-  'iig': 'BTRC-licensed International Internet Gateway — authorized to carry international traffic for Bangladesh. Source: https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf',
-  'detected-iig': 'Not in the official BTRC license list (https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf), but detected acting as a gateway with downstream BD customers. Potential unlicensed IIG.',
-  'offshore-enterprise': 'Registered in Bangladesh but IP addresses are geolocated abroad. No downstream BD customers detected — likely an offshore hosting or enterprise presence (harmless).',
-  'offshore-gateway': 'Registered in Bangladesh but IP addresses are geolocated abroad. Has downstream BD customers — potential unlicensed international gateway operating from outside the country.',
-  'local-company': 'Domestic network operating within Bangladesh. Receives routes via IIGs or detected gateways.',
-};
+// Connections in the detail panel, grouped by the other network's category.
+const CONNECTION_GROUPS = ['outside', 'iig', 'detected-iig', 'offshore-gateway', 'offshore-enterprise', 'local-company'];
+const CONNECTION_KINDS = { 'domestic': 'Local', 'international': 'International' };
 
 let currentData = null;
 let currentOptions = {};
@@ -66,10 +60,10 @@ function render() {
 
   container.innerHTML = `
     <div class="table-toolbar">
-      <input type="search" id="table-search" placeholder="Search ASN, name, or country..." class="table-search" value="${searchQuery}" aria-label="Search the table">
+      <input type="search" id="table-search" placeholder="Search name, ASN or country..." class="table-search" value="${searchQuery}" aria-label="Search the table">
       <div class="table-toolbar-right">
-        <button type="button" class="btn btn-small ${!showEdges ? 'btn-active' : ''}" id="table-show-nodes" aria-pressed="${!showEdges}">Nodes</button>
-        <button type="button" class="btn btn-small ${showEdges ? 'btn-active' : ''}" id="table-show-edges" aria-pressed="${showEdges}">Edges</button>
+        <button type="button" class="btn btn-small ${!showEdges ? 'btn-active' : ''}" id="table-show-nodes" aria-pressed="${!showEdges}">Networks</button>
+        <button type="button" class="btn btn-small ${showEdges ? 'btn-active' : ''}" id="table-show-edges" aria-pressed="${showEdges}">Connections</button>
         <select id="table-page-size" class="table-select" aria-label="Rows per page">
           <option value="25" ${pageSize === 25 ? 'selected' : ''}>25 rows</option>
           <option value="50" ${pageSize === 50 ? 'selected' : ''}>50 rows</option>
@@ -95,47 +89,32 @@ function renderTable() {
 }
 
 /**
- * Find all connections for a given ASN from the edge data.
+ * All connections of an ASN, grouped by the category of the network at the
+ * other end (international networks, gateways, local companies), busiest first.
  */
 function getConnections(asn) {
-  if (!currentData?.edges) return { upstream: [], downstream: [] };
+  const groups = {};
+  if (!currentData?.edges) return groups;
 
   const nodeMap = {};
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
 
-  const upstream = []; // edges where this ASN is the target (receiving routes from)
-  const downstream = []; // edges where this ASN is the source (sending routes to)
-
   for (const e of currentData.edges) {
     const src = e.source?.asn || e.source;
     const tgt = e.target?.asn || e.target;
-
-    if (tgt === asn) {
-      upstream.push({
-        asn: src,
-        name: nodeMap[src]?.name || `AS${src}`,
-        country: nodeMap[src]?.country || '',
-        type: nodeMap[src]?.type || '',
-        count: e.count,
-        edgeType: e.type || 'international',
-      });
-    }
-    if (src === asn) {
-      downstream.push({
-        asn: tgt,
-        name: nodeMap[tgt]?.name || `AS${tgt}`,
-        country: nodeMap[tgt]?.country || '',
-        type: nodeMap[tgt]?.type || '',
-        count: e.count,
-        edgeType: e.type || 'international',
-      });
-    }
+    const other = src === asn ? tgt : tgt === asn ? src : null;
+    if (!other) continue;
+    const type = nodeMap[other]?.type || '';
+    (groups[type] ||= []).push({
+      asn: other,
+      name: nodeMap[other]?.name || `AS${other}`,
+      country: nodeMap[other]?.country || '',
+      type,
+      count: e.count,
+    });
   }
-
-  upstream.sort((a, b) => b.count - a.count);
-  downstream.sort((a, b) => b.count - a.count);
-
-  return { upstream, downstream };
+  for (const list of Object.values(groups)) list.sort((a, b) => b.count - a.count);
+  return groups;
 }
 
 /**
@@ -147,18 +126,17 @@ function buildDetailPanel(n) {
   const geoKnown = n.geo_country && n.geo_country !== '';
   const geoDiffers = geoKnown && n.geo_country !== n.country;
 
-  const { upstream, downstream } = getConnections(n.asn);
+  const groups = getConnections(n.asn);
 
-  const typeExplanation = TYPE_EXPLANATIONS[n.type] || '';
+  const typeExplanation = GLOSSARY[n.type]?.short || '';
   const typeLabel = TYPE_LABELS[n.type] || n.type;
   const typeCls = TYPE_CLASSES[n.type] || '';
 
   // Build connections HTML
-  function connectionRows(list, label) {
-    if (list.length === 0) return `<div class="detail-empty">No ${label.toLowerCase()} connections found in dataset.</div>`;
+  function connectionRows(list) {
     const maxShow = 10;
     const shown = list.slice(0, maxShow);
-    let html = '<table class="detail-connections-table"><thead><tr><th>ASN</th><th>Name</th><th>Country</th><th>Type</th><th>Routes</th></tr></thead><tbody>';
+    let html = '<table class="detail-connections-table"><thead><tr><th>ASN</th><th>Name</th><th>Registered</th><th>Category</th><th>Routes</th></tr></thead><tbody>';
     for (const c of shown) {
       const cf = c.country ? countryToFlag(c.country) + ' ' : '';
       html += `<tr>
@@ -181,7 +159,7 @@ function buildDetailPanel(n) {
   if (n.geo_breakdown && n.geo_breakdown.length > 0) {
     geoBreakdownHtml = `
         <div class="detail-section">
-          <div class="detail-section-title">IP Address Distribution</div>`;
+          <div class="detail-section-title">IP locations, per address block${termHelp('ip-location')}</div>`;
     for (const loc of n.geo_breakdown) {
       const flag = countryToFlag(loc.country);
       const cityInfo = loc.city ? ` (${loc.city})` : '';
@@ -200,9 +178,9 @@ function buildDetailPanel(n) {
     const peeringFlag = countryToFlag(n.peering_country);
     peeringHtml = `
         <div class="detail-section">
-          <div class="detail-section-title">BGP Peering Location</div>
+          <div class="detail-section-title">Peering location${termHelp('peering')}</div>
           <div class="detail-row">
-            <span class="detail-label">Physical Peering:</span>
+            <span class="detail-label">Country:</span>
             <span class="detail-value">${peeringFlag} ${n.peering_country}</span>
           </div>`;
     if (n.peering_details && n.peering_details.length > 0) {
@@ -211,8 +189,8 @@ function buildDetailPanel(n) {
     }
     if (n.peering_source) {
       const sourceLabel = n.peering_source === 'peeringdb' ? 'PeeringDB'
-        : n.peering_source === 'peeringdb-upstream' ? 'PeeringDB (via upstream)'
-        : 'Inferred from geolocation';
+        : n.peering_source === 'peeringdb-upstream' ? 'PeeringDB (where the networks it connects to peer)'
+        : 'Guessed from its IP location';
       peeringHtml += `
           <div class="detail-row">
             <span class="detail-label">Data Source:</span>
@@ -232,12 +210,12 @@ function buildDetailPanel(n) {
       <div class="detail-grid">
         <div class="detail-section">
           <div class="detail-section-title">Identity</div>
-          <div class="detail-row"><span class="detail-label">ASN:</span><span class="detail-value">AS${n.asn}</span></div>
+          <div class="detail-row"><span class="detail-label">ASN${termHelp('asn')}:</span><span class="detail-value">AS${n.asn}</span></div>
           <div class="detail-row"><span class="detail-label">Name:</span><span class="detail-value">${n.name || '-'}</span></div>
-          ${n.description && n.description !== n.name ? `<div class="detail-row"><span class="detail-label">Organization:</span><span class="detail-value">${n.description}</span></div>` : ''}
-          ${n.country ? `<div class="detail-row"><span class="detail-label">Registered In:</span><span class="detail-value">${regFlag} ${n.country}</span></div>` : ''}
-          ${geoKnown && !(n.geo_breakdown && n.geo_breakdown.length > 0) ? `<div class="detail-row"><span class="detail-label">IP Geolocation:</span><span class="detail-value${geoDiffers ? ' detail-warning' : ''}">${geoFlag} ${n.geo_country}${geoDiffers ? ' (differs from registration!)' : ''}</span></div>` : ''}
-          <div class="detail-row"><span class="detail-label">Announced:</span><span class="detail-value">${n.announced ? 'Yes' : 'No'}</span></div>
+          ${n.description && n.description !== n.name ? `<div class="detail-row"><span class="detail-label">Organisation:</span><span class="detail-value">${n.description}</span></div>` : ''}
+          ${n.country ? `<div class="detail-row"><span class="detail-label">Registered in${termHelp('registered')}:</span><span class="detail-value">${regFlag} ${n.country}</span></div>` : ''}
+          ${geoKnown && !(n.geo_breakdown && n.geo_breakdown.length > 0) ? `<div class="detail-row"><span class="detail-label">IP location${termHelp('ip-location')}:</span><span class="detail-value${geoDiffers ? ' detail-warning' : ''}">${geoFlag} ${n.geo_country}${geoDiffers ? ' (not where it is registered)' : ''}</span></div>` : ''}
+          <div class="detail-row"><span class="detail-label">Announces its own addresses:</span><span class="detail-value">${n.announced ? 'Yes' : 'No'}</span></div>
           <div class="detail-row"><span class="detail-label">RIPEstat:</span><span class="detail-value"><a href="https://stat.ripe.net/AS${n.asn}" target="_blank" rel="noopener">View on RIPEstat</a></span></div>
         </div>
 
@@ -246,31 +224,25 @@ function buildDetailPanel(n) {
 
         <div class="detail-section">
           <div class="detail-section-title">Classification</div>
-          <div class="detail-row"><span class="detail-label">Type:</span><span class="detail-value"><span class="type-badge ${typeCls}">${typeLabel}</span></span></div>
-          ${n.licensed ? '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value detail-licensed">BTRC Licensed IIG (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#51cf66;text-decoration:underline">source</a>)</span></div>' : '<div class="detail-row"><span class="detail-label">License:</span><span class="detail-value">Not in <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#868e96;text-decoration:underline">BTRC license list</a></span></div>'}
+          <div class="detail-row"><span class="detail-label">Category${termHelp(GLOSSARY[n.type] ? n.type : 'local-company')}:</span><span class="detail-value"><span class="type-badge ${typeCls}">${typeLabel}</span></span></div>
+          ${n.licensed ? '<div class="detail-row"><span class="detail-label">Licence:</span><span class="detail-value detail-licensed">Licensed IIG, on the BTRC list (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#51cf66;text-decoration:underline">source</a>)</span></div>' : '<div class="detail-row"><span class="detail-label">Licence:</span><span class="detail-value">Not on <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#868e96;text-decoration:underline">the BTRC licence list</a></span></div>'}
           ${typeExplanation ? `<div class="detail-explanation">${typeExplanation}</div>` : ''}
         </div>
 
         <div class="detail-section">
-          <div class="detail-section-title">Traffic Statistics</div>
-          <div class="detail-row"><span class="detail-label">Total Routes:</span><span class="detail-value">${(n.traffic || 0).toLocaleString()}</span></div>
-          ${n.rank ? `<div class="detail-row"><span class="detail-label">Rank:</span><span class="detail-value">#${n.rank} in category</span></div>` : ''}
-          <div class="detail-row"><span class="detail-label">Route Share:</span><span class="detail-value">${(n.percentage || 0).toFixed(2)}%</span></div>
+          <div class="detail-section-title">Routes seen${termHelp('routes-seen')}</div>
+          <div class="detail-row"><span class="detail-label">Routes:</span><span class="detail-value">${(n.traffic || 0).toLocaleString()}</span></div>
+          ${n.rank ? `<div class="detail-row"><span class="detail-label">Rank:</span><span class="detail-value">#${n.rank} among ${(CATEGORY_PLURALS[n.type] || 'its category').toLowerCase()}</span></div>` : ''}
+          <div class="detail-row"><span class="detail-label">Share${termHelp('share')}:</span><span class="detail-value">${(n.percentage || 0).toFixed(2)}%</span></div>
         </div>
       </div>
 
       <div class="detail-connections">
+        ${CONNECTION_GROUPS.filter(t => groups[t]).map(t => `
         <div class="detail-section">
-          <div class="detail-section-title">Upstream Peers (${upstream.length})</div>
-          <div class="detail-section-subtitle">ASNs that send routes to this network</div>
-          ${connectionRows(upstream, 'Upstream')}
-        </div>
-
-        <div class="detail-section">
-          <div class="detail-section-title">Downstream Customers (${downstream.length})</div>
-          <div class="detail-section-subtitle">ASNs that receive routes from this network</div>
-          ${connectionRows(downstream, 'Downstream')}
-        </div>
+          <div class="detail-section-title">Connected ${(CATEGORY_PLURALS[t] || t).toLowerCase()} (${groups[t].length})${termHelp(t)}</div>
+          ${connectionRows(groups[t])}
+        </div>`).join('') || '<div class="detail-empty">No connections to this network in this snapshot.</div>'}
       </div>
     </div>
   `;
@@ -286,7 +258,7 @@ function renderSortableHeader(thead, columns) {
     const sorted = currentSort.column === c.key;
     const ariaSort = sorted ? (currentSort.asc ? 'ascending' : 'descending') : 'none';
     const arrow = sorted ? (currentSort.asc ? ' &#9650;' : ' &#9660;') : '';
-    return `<th scope="col" data-col="${c.key}" class="sortable" aria-sort="${ariaSort}"><button type="button" class="th-sort">${c.label}<span aria-hidden="true">${arrow}</span></button></th>`;
+    return `<th scope="col" data-col="${c.key}" class="sortable" aria-sort="${ariaSort}"><button type="button" class="th-sort">${c.label}<span aria-hidden="true">${arrow}</span></button>${c.term ? termHelp(c.term) : ''}</th>`;
   }).join('') + '</tr>';
 
   thead.querySelectorAll('th.sortable').forEach(th => {
@@ -320,15 +292,15 @@ function renderNodesTable() {
   const footer = document.getElementById('table-footer');
 
   const columns = [
-    { key: 'rank', label: 'Rank', numeric: true, width: '64px' },
-    { key: 'asn', label: 'ASN', numeric: false, width: '96px' },
-    { key: 'name', label: 'Company', numeric: false },
-    { key: 'country', label: 'Registered', numeric: false, width: '112px' },
-    { key: 'geo_country', label: 'IP Location', numeric: false, width: '116px' },
-    { key: 'peering_country', label: 'Peering At', numeric: false, width: '112px' },
-    { key: 'type', label: 'Type', numeric: false, width: '156px' },
-    { key: 'traffic', label: 'Routes', numeric: true, width: '100px' },
-    { key: 'percentage', label: 'Share %', numeric: true, width: '96px' },
+    { key: 'rank', label: 'Rank', numeric: true, width: '56px' },
+    { key: 'asn', label: 'ASN', numeric: false, width: '100px', term: 'asn' },
+    { key: 'name', label: 'Network', numeric: false },
+    { key: 'country', label: 'Registered', numeric: false, width: '124px', term: 'registered' },
+    { key: 'geo_country', label: 'IP Location', numeric: false, width: '124px', term: 'ip-location' },
+    { key: 'peering_country', label: 'Peering At', numeric: false, width: '124px', term: 'peering' },
+    { key: 'type', label: 'Category', numeric: false, width: '150px' },
+    { key: 'traffic', label: 'Routes', numeric: true, width: '112px', term: 'routes-seen' },
+    { key: 'percentage', label: 'Share', numeric: true, width: '88px', term: 'share' },
   ];
 
   renderSortableHeader(thead, columns);
@@ -457,12 +429,13 @@ function renderEdgesTable() {
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
 
   const columns = [
-    { key: 'source', label: 'Source ASN', numeric: false, width: '120px' },
-    { key: 'source_name', label: 'Source Name', numeric: false },
-    { key: 'target', label: 'Target ASN', numeric: false, width: '120px' },
-    { key: 'target_name', label: 'Target Name', numeric: false },
-    { key: 'edge_type', label: 'Type', numeric: false, width: '120px' },
-    { key: 'count', label: 'Route Count', numeric: true, width: '120px' },
+    // Every connection runs from a network to the gateway it connects through.
+    { key: 'source', label: 'ASN', numeric: false, width: '110px', term: 'asn' },
+    { key: 'source_name', label: 'Network', numeric: false },
+    { key: 'target', label: 'Gateway ASN', numeric: false, width: '136px' },
+    { key: 'target_name', label: 'Gateway', numeric: false },
+    { key: 'edge_type', label: 'Kind', numeric: false, width: '140px', term: 'connection-type' },
+    { key: 'count', label: 'Routes', numeric: true, width: '108px', term: 'routes-seen' },
   ];
 
   renderSortableHeader(thead, columns);
@@ -478,7 +451,7 @@ function renderEdgesTable() {
         source: src, target: tgt, count: e.count,
         source_name: nodeMap[src]?.name || '',
         target_name: nodeMap[tgt]?.name || '',
-        edge_type: e.type || 'international',
+        edge_type: CONNECTION_KINDS[e.type] || 'International',
         source_country: nodeMap[src]?.country || '',
         target_country: nodeMap[tgt]?.country || '',
       };
@@ -513,7 +486,7 @@ function renderEdgesTable() {
   tbody.innerHTML = pageRows.map(r => {
     const sf = r.source_country ? countryToFlag(r.source_country) + ' ' : '';
     const tf = r.target_country ? countryToFlag(r.target_country) + ' ' : '';
-    const typeCls = r.edge_type === 'domestic' ? 'type-local-company' : 'type-outside';
+    const typeCls = r.edge_type === 'Local' ? 'type-local-company' : 'type-outside';
     return `<tr>
       <td>${sf}AS${r.source}</td>
       <td title="${attr(r.source_name)}">${sf}${r.source_name || '-'}</td>

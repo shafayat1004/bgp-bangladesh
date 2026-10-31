@@ -186,3 +186,98 @@ test('intro dialog opens on first visit and closes with Escape', async () => {
   assert.equal(await page.evaluate(() => document.getElementById('edu-modal').open), false);
   await site.close();
 });
+
+// Visible words: networks and connections, routes not traffic (CLAUDE.md, issue #4).
+const JARGON = /\b(nodes?|edges?|traffic)\b/i;
+const visibleWords = (page) => page.evaluate(() => [
+  document.body.innerText,
+  ...[...document.querySelectorAll('svg text')].map(t => t.textContent),
+  ...[...document.querySelectorAll('[aria-label], [title], [placeholder]')].map(el =>
+    [el.getAttribute('aria-label'), el.getAttribute('title'), el.getAttribute('placeholder')].filter(Boolean).join(' ')),
+].join('\n'));
+
+test('no graph jargon or "traffic" on screen, in any view or the intro', async () => {
+  for (const viewport of ['desktop', 'phone']) {
+    const site = await openSite(browser, server.url, { viewport, tab: 'hierarchical', showIntro: true });
+    const { page } = site;
+    const intro = await visibleWords(page);
+    assert.doesNotMatch(intro, JARGON, `${viewport} intro: ${intro.match(JARGON)?.[0]}`);
+    await page.keyboard.press('Escape');
+    for (const tab of TABS) {
+      await switchTab(page, tab);
+      if (tab === 'table') await page.click('#table-body .row-toggle');
+      const words = await visibleWords(page);
+      const hit = words.split('\n').find(line => JARGON.test(line));
+      assert.equal(hit, undefined, `${viewport} ${tab}: "${hit}"`);
+    }
+    await page.click('#table-show-edges');
+    const hit = (await visibleWords(page)).split('\n').find(line => JARGON.test(line));
+    assert.equal(hit, undefined, `${viewport} connections table: "${hit}"`);
+    await site.close();
+  }
+});
+
+const popover = (page) => page.evaluate(() => {
+  const pop = document.querySelector('.term-popover');
+  return pop && { title: pop.querySelector('.term-popover-title').textContent, expanded: document.querySelector('.term-help[aria-expanded="true"]')?.dataset.term };
+});
+
+test('glossary "?": opens on focus, example on request, Escape closes and returns focus', async () => {
+  const site = await openSite(browser, server.url, { tab: 'table' });
+  const { page } = site;
+  await page.focus('#table-head th[data-col="percentage"] .term-help');
+  assert.deepEqual(await popover(page), { title: 'Share', expanded: 'share' });
+
+  await page.keyboard.press('Tab');
+  assert.equal(await page.evaluate(() => document.activeElement.className), 'term-example-btn', 'Tab moves into the popover');
+  assert.equal(await page.evaluate(() => document.querySelector('.term-example').hidden), true);
+  await page.keyboard.press('Enter');
+  const example = await page.evaluate(() => ({ hidden: document.querySelector('.term-example').hidden, text: document.querySelector('.term-example').textContent }));
+  assert.equal(example.hidden, false);
+  assert.match(example.text, /share is \d+%/);
+
+  await page.keyboard.press('Escape');
+  assert.equal(await popover(page), null);
+  assert.equal(await page.evaluate(() => document.activeElement.dataset.term), 'share', 'focus goes back to the "?"');
+  // The sort button next to it still works and the "?" didn't sort.
+  assert.equal(await page.evaluate(() => document.querySelector('#table-head th[data-col="percentage"]').getAttribute('aria-sort')), 'none');
+  await site.close();
+});
+
+test('glossary "?": hover opens, stays while the pointer is on the popover, closes on leaving', async () => {
+  const site = await openSite(browser, server.url, { tab: 'bar-gateway' });
+  const { page } = site;
+  await page.hover('.legend-items .term-help[data-term="iig"]');
+  await page.waitForTimeout(300);
+  assert.equal((await popover(page))?.title, 'IIG (licensed gateway)');
+  await page.hover('.term-popover .term-popover-title');
+  await page.waitForTimeout(500);
+  assert.notEqual(await popover(page), null, 'stays open over the popover');
+  await page.mouse.move(900, 450);
+  await page.waitForTimeout(500);
+  assert.equal(await popover(page), null);
+  await site.close();
+});
+
+test('glossary "?": tap opens and a tap elsewhere closes (phone sidebar)', async () => {
+  const site = await openSite(browser, server.url, { viewport: 'phone', tab: 'bar-gateway' });
+  const { page } = site;
+  await page.tap('#mobile-menu-btn');
+  await page.waitForTimeout(300);
+  await page.tap('#stats-container .term-help[data-term="observations"]');
+  await page.waitForTimeout(200);
+  assert.equal((await popover(page))?.title, 'Route observations');
+  const inside = await page.evaluate(() => {
+    const r = document.querySelector('.term-popover').getBoundingClientRect();
+    const s = document.getElementById('sidebar').getBoundingClientRect();
+    return r.left >= s.left - 1 && r.right <= s.right + 1 && r.top >= 0;
+  });
+  assert.equal(inside, true, 'popover fits inside the sidebar');
+  await page.tap('.site-name');
+  await page.waitForTimeout(200);
+  assert.equal(await popover(page), null);
+  await page.tap('#stats-container .term-help[data-term="observations"]');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.evaluate(() => document.getElementById('sidebar').classList.contains('active')), true, 'first Escape only closes the popover');
+  await site.close();
+});

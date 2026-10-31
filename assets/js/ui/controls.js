@@ -4,6 +4,7 @@
  */
 
 import { countryToFlag } from '../api/ripestat.js';
+import { termHelp } from './glossary.js';
 
 const PREFS_KEY = 'bgp_bd_prefs';
 const TAB_KEY = 'bgp_bd_active_tab';
@@ -71,31 +72,28 @@ export function populateSidebar(data, onNodeClick) {
     const offshoreGwCount = s.total_offshore_gateway || 0;
     statsEl.innerHTML = `
       <div class="stat">
-        <div class="stat-label">Observations</div>
+        <div class="stat-label">Route observations${termHelp('observations')}</div>
         <div class="stat-value">${(s.valid_observations || s.total_traffic || 0).toLocaleString()}</div>
       </div>
       <div class="stat-row">
         <div class="stat stat-mini">
-          <div class="stat-label">Local Companies</div>
+          <div class="stat-label">Local companies${termHelp('local-company')}</div>
           <div class="stat-value">${s.total_local_company || s.total_local_isp || 0}</div>
         </div>
         <div class="stat stat-mini">
-          <div class="stat-label">IIGs</div>
+          <div class="stat-label">IIGs${termHelp('iig')}</div>
           <div class="stat-value">${s.total_iig || s.total_inside || 0}</div>
         </div>
         <div class="stat stat-mini">
-          <div class="stat-label">Outside ASNs</div>
+          <div class="stat-label">International networks${termHelp('outside')}</div>
           <div class="stat-value">${s.total_outside || 0}</div>
         </div>
+        ${detectedCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Detected gateways${termHelp('detected-iig')}</div><div class="stat-value">${detectedCount}</div></div>` : ''}
+        ${offshoreEntCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Offshore enterprises${termHelp('offshore-enterprise')}</div><div class="stat-value">${offshoreEntCount}</div></div>` : ''}
+        ${offshoreGwCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Offshore gateways${termHelp('offshore-gateway')}</div><div class="stat-value">${offshoreGwCount}</div></div>` : ''}
       </div>
-      ${(detectedCount > 0 || offshoreEntCount > 0 || offshoreGwCount > 0) ? `
-      <div class="stat-row">
-        ${detectedCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Detected Gateways</div><div class="stat-value">${detectedCount}</div></div>` : ''}
-        ${offshoreEntCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Offshore Ent.</div><div class="stat-value">${offshoreEntCount}</div></div>` : ''}
-        ${offshoreGwCount > 0 ? `<div class="stat stat-mini"><div class="stat-label">Offshore GW</div><div class="stat-value">${offshoreGwCount}</div></div>` : ''}
-      </div>` : ''}
       <div class="stat">
-        <div class="stat-label">Connections</div>
+        <div class="stat-label">Connections${termHelp('connection')}</div>
         <div class="stat-value">${s.total_edges || 0}</div>
       </div>
     `;

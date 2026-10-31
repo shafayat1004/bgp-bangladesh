@@ -12,6 +12,7 @@ import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel
 import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './ui/export.js';
 import { wasmSupported, createAnalysisWorker } from './wasm-bridge.js';
 import { describePath, renderMyPath } from './ui/my-path.js';
+import { initGlossary, setGlossaryData, addTermHelp, renderGlossaryList, CATEGORY_LABELS } from './ui/glossary.js';
 
 import * as ForceGraph from './viz/force-graph.js';
 import * as Sankey from './viz/sankey.js';
@@ -31,16 +32,6 @@ let btrcLicensedASNs = new Set();
 let wasmWorker = null;  // WASM analysis worker (created lazily)
 let forceGraphWarningShown = false;  // Track if CPU warning was shown for network graph
 
-// Type labels for toast/tooltip
-const TYPE_LABEL_MAP = {
-  'iig': 'IIG (Licensed Gateway)',
-  'detected-iig': 'Detected Gateway',
-  'offshore-enterprise': 'Offshore Enterprise',
-  'offshore-gateway': 'Offshore Gateway',
-  'local-company': 'Local Company',
-  'outside': 'International Transit',
-};
-
 const vizModules = {
   'force-graph': ForceGraph,
   'sankey': Sankey,
@@ -55,6 +46,11 @@ const vizModules = {
 // ────────────────────────────────────────
 
 async function init() {
+  initGlossary();
+  renderGlossaryList(document.getElementById('intro-terms'),
+    ['asn', 'bgp', 'route', 'local-company', 'iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway', 'outside'],
+    { 'local-company': 'blue', 'iig': 'green', 'detected-iig': 'amber', 'offshore-enterprise': 'cyan', 'offshore-gateway': 'pink', 'outside': 'red' });
+  addTermHelp(document);
   showModal();
   activeTab = getActiveTab();
   setupTabs();
@@ -156,6 +152,7 @@ function setupTimeline() {
 // history slider so the network graph keeps its layout between snapshots).
 function onDataLoaded({ inPlace = false } = {}) {
   if (!currentData) return;
+  setGlossaryData(currentData);
   populateSidebar(currentData, (asn) => {
     const mod = vizModules[activeTab];
     if (mod?.highlightASN) mod.highlightASN(asn);
@@ -206,10 +203,10 @@ function switchTab(tabId, options = {}) {
   // Show CPU warning for network graph view (only once per session)
   if (tabId === 'force-graph' && !forceGraphWarningShown) {
     const confirmed = confirm(
-      'Warning: The Network Graph view is CPU-intensive due to the large number of nodes and edges. ' +
-      'It requires a decent machine to render smoothly.\n\n' +
-      'Note: The "Min Routes" filter is currently set to 100 by default. ' +
-      'To see more nodes and the absolutely complete picture, you can lower the slider to 0 in the sidebar.\n\n' +
+      'Warning: The Network Graph draws over a thousand networks and their connections, ' +
+      'so it needs a reasonably fast device to run smoothly.\n\n' +
+      'Note: The "Min Routes" filter is set to 100 by default. ' +
+      'To see every network, lower it to 0 in the sidebar.\n\n' +
       'Do you want to proceed?'
     );
     if (!confirmed) {
@@ -282,10 +279,10 @@ function setupButtons() {
   });
 
   document.getElementById('btn-export-nodes')?.addEventListener('click', () => {
-    if (currentData) { exportNodesCSV(currentData); showToast('success', 'Nodes CSV downloaded.'); }
+    if (currentData) { exportNodesCSV(currentData); showToast('success', 'Networks CSV downloaded.'); }
   });
   document.getElementById('btn-export-edges')?.addEventListener('click', () => {
-    if (currentData) { exportEdgesCSV(currentData); showToast('success', 'Edges CSV downloaded.'); }
+    if (currentData) { exportEdgesCSV(currentData); showToast('success', 'Connections CSV downloaded.'); }
   });
   document.getElementById('btn-export-json')?.addEventListener('click', () => {
     if (currentData) { exportJSON(currentData); showToast('success', 'JSON data downloaded.'); }
@@ -554,7 +551,7 @@ function setupFilters() {
             showToast('info', `Found: ${matches[0].name || `AS${matches[0].asn}`}${matches.length > 1 ? ` (+${matches.length - 1} more)` : ''}`, 3000);
           }
         } else if (query.length > 2) {
-          showToast('warning', 'No matching ASN found in visible data', 2000);
+          showToast('warning', 'No matching network found', 2000);
         }
       }, 500);
     });
@@ -602,7 +599,7 @@ window._bgpHighlightASN = function(asn) {
     mod.highlightASN(asn);
     const node = currentData.nodes.find(n => n.asn === asn);
     if (node) {
-      const typeLabel = TYPE_LABEL_MAP[node.type] || node.type;
+      const typeLabel = CATEGORY_LABELS[node.type] || node.type;
       showToast('info', `Focused: ${node.name || `AS${asn}`} (${typeLabel})`, 3000);
     }
   }

@@ -7,21 +7,7 @@
 
 import { countryToFlag } from '../api/ripestat.js';
 import { renderBarList } from './bar-list.js';
-
-const regionNames = (() => {
-  try { return new Intl.DisplayNames(['en'], { type: 'region' }); } catch { return null; }
-})();
-// Codes that aren't one country: no registry data, or an RIR record that
-// names a region instead of a country.
-const NOT_COUNTRIES = {
-  'Unknown': 'Unknown country',
-  'EU': 'Europe (no single country)',
-  'AP': 'Asia-Pacific (no single country)',
-};
-const countryName = (cc) => {
-  if (NOT_COUNTRIES[cc]) return NOT_COUNTRIES[cc];
-  try { return regionNames?.of(cc) || cc; } catch { return cc; }
-};
+import { countryName, NOT_COUNTRIES } from '../ui/names.js';
 
 const BAR_COLOR = '#ff6b6b';   // matches "Outside BD (International)"
 const TOP_N = 30;

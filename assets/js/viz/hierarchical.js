@@ -3,6 +3,7 @@
  * Top: Local ISPs | Middle: Gateways | Bottom: Outside ASNs
  */
 
+import { CATEGORY_LABELS, CATEGORY_PLURALS } from '../ui/glossary.js';
 import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 
@@ -26,7 +27,7 @@ function moveTooltipSmart(event) {
 }
 
 const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-enterprise': '#17a2b8', 'offshore-gateway': '#e64980', 'local-company': '#4dabf7', 'inside': '#51cf66', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7' };
-const TYPE_LABELS = { 'local-company': 'Local Companies (Origin Networks)', 'iig': 'IIGs (Licensed Gateways)', 'detected-iig': 'Detected Gateways', 'offshore-enterprise': 'Offshore Enterprises', 'offshore-gateway': 'Offshore Gateways', 'outside': 'Outside BD (International Feeders)', 'inside': 'Inside BD (Gateways)', 'local-isp': 'Local ISPs', 'offshore-peer': 'BD Offshore Peers' };
+const TYPE_LABELS = CATEGORY_PLURALS;
 
 let currentData = null;
 let currentOptions = {};
@@ -316,7 +317,7 @@ function render() {
       .text(`${(n.percentage || 0).toFixed(1)}%`);
 
     group.on('mouseover', function (event) {
-      d3.select('#tooltip').html(buildNodeTooltipHtml(n, TYPE_LABELS)).style('display', 'block');
+      d3.select('#tooltip').html(buildNodeTooltipHtml(n, CATEGORY_LABELS)).style('display', 'block');
     })
     .on('mousemove', moveTooltipSmart)
     .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); })
