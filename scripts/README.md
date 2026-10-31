@@ -14,7 +14,7 @@ This single command:
 - ✓ Fetches country resources (ASNs and prefixes)
 - ✓ Downloads BGP routes in parallel (8 concurrent batches)
 - ✓ Deduplicates and saves raw routes to `bgp_routes_raw.jsonl` (JSONL format)
-- ✓ Classifies ASNs using license-aware 5-category model (cross-references BTRC IIG list)
+- ✓ Classifies ASNs using license-aware 6-category model (cross-references BTRC IIG list; see `docs/classification-pipeline.md`)
 - ✓ Fetches ASN names and countries in parallel (20 concurrent)
 - ✓ Generates all output files (viz_data.json, asn_names.json, metadata.json)
 

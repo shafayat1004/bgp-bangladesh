@@ -7,6 +7,7 @@ This directory contains static BGP routing data snapshots organized by country c
 ```
 data/
 ├── btrc_iig_licenses.json        # Known BTRC-licensed IIG ASNs (contributor-editable)
+├── btrc_igw_licenses.json        # Known BTRC-licensed IGW (voice gateway) ASNs (contributor-editable)
 └── BD/                           # Bangladesh
     ├── viz_data.json             # Processed visualization data with 6 types
     ├── asn_names.json            # ASN name/organization/country lookup
@@ -31,15 +32,21 @@ All data is sourced from [RIPEstat](https://stat.ripe.net/), specifically:
 
 ### btrc_iig_licenses.json
 
-List of known BTRC-licensed IIG operators (source: [BTRC IIG Service Providers License List](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf)). Used to distinguish confirmed IIGs from detected gateways:
+List of known BTRC-licensed IIG operators (source: [BTRC licence list](https://btrc.gov.bd/pages/static-pages/6922ddd6933eb65569e1691d), IIG row; a copy is in `docs/List of IIG Service Providers License.pdf`). Used to distinguish confirmed IIGs from detected gateways. A listed ASN is always shown as an IIG, even when it only reaches the world through a sister network (BTCL's AS45588 through AS17494). Each entry records where it came from:
 
 ```json
 {
-  "_description": "Known BTRC IIG-licensed ASNs",
-  "58717": { "name": "Summit Communications", "license": "IIG" },
-  "10075": { "name": "Fiber@Home Global", "license": "IIG" }
+  "_last_verified": "2026-11-01",
+  "58717": { "name": "Summit Communications Limited", "short": "Summit", "issued": "2012-04-12", "status": "active", "verified_on": "2026-11-01" },
+  "58601": { "name": "Aamra Technologies Limited", "short": "Aamra", "issued": "2012-04-12", "status": "suspended", "notes": "Why, with a source link", "verified_on": "2026-11-01" }
 }
 ```
+
+`status` is `active` unless a source says otherwise; `notes` holds the evidence for anything unusual. Only the keys are used for classification.
+
+### btrc_igw_licenses.json
+
+BTRC-licensed international voice gateways (IGW), same format, from the IGW row of the same BTRC page (copy in `docs/List of IGW Service Providers License.pdf`). IGW operators have their own links to foreign carriers for phone calls; the site labels their networks but doesn't treat them as internet gateways.
 
 ### viz_data.json
 
@@ -58,7 +65,9 @@ The primary data file used by the visualization. Contains 6 node types:
       "geo_country": "BD",
       "traffic": 281095,
       "rank": 1,
-      "percentage": 61.59
+      "percentage": 38.7,
+      "igw": false,
+      "abroad_link": ""
     }
   ],
   "edges": [
@@ -91,7 +100,11 @@ The primary data file used by the visualization. Contains 6 node types:
 - `detected-iig` - Acting as gateway, not in [BTRC license list](https://github.com/shafayat1004/bgp-bangladesh/blob/6273eb61ecd5149b30fe5012e854ff955d7fb8bd/docs/List%20of%20IIG%20Service%20Providers%20License.pdf) (amber)
 - `offshore-enterprise` - BD-registered, abroad, no downstream BD customers (cyan)
 - `offshore-gateway` - BD-registered, abroad, providing transit to BD networks (pink)
-- `local-company` - Domestic origin networks (blue)
+- `local-company` - Domestic origin networks (blue). `abroad_link` is `also-abroad` or `only-abroad` for one with its own link abroad (seen right behind a network abroad) that no other BD network goes through; see `docs/classification-pipeline.md`.
+
+`igw: true` marks a licensed international voice gateway (from `btrc_igw_licenses.json`); it's a label, not a category.
+
+**`percentage` (shown as "Share"):** of all routes crossing the border (international connections), the share that crosses through or starts from this network: an international network's and a gateway's international routes, a local company's routes through gateways. Shares within one category add up to at most 100%. The site recomputes it from the connections on load, so history snapshots written before this rule (which added a gateway's domestic routes) read the same way.
 
 ### asn_names.json
 

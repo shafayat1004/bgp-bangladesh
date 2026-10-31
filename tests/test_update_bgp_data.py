@@ -15,11 +15,16 @@ import scripts.update_bgp_data as ubd  # noqa: E402
 from scripts.update_bgp_data import (  # noqa: E402
     _process_single_route,
     analyze_routes,
+    apply_geo_results,
     build_viz_data,
     classify_tentative_iig_type,
     discover_latest_rib_dumps,
     get_country_resources_from_rir_stats,
+    fetch_geo_country,
     fetch_registered_country,
+    is_reserved_asn,
+    load_licensed_asns,
+    needs_name_lookup,
     parse_rir_country,
     refresh_registered_countries,
     get_with_retries,
@@ -30,6 +35,7 @@ from scripts.update_bgp_data import (  # noqa: E402
     _parse_snapshot_ts,
     archive_snapshot,
     prune_history,
+    tentative_gateway_asns,
     write_history_index,
 )
 
@@ -62,7 +68,6 @@ class TestClassifyTentativeIIGType(unittest.TestCase):
             geo_country="BD",
             btrc_licensed_asns={"100"},
             iigs_with_domestic=set(),
-            direct_peers_map={},
         )
         self.assertEqual(result, "iig")
 
@@ -73,7 +78,6 @@ class TestClassifyTentativeIIGType(unittest.TestCase):
             geo_country="SG",
             btrc_licensed_asns=set(),
             iigs_with_domestic=set(),
-            direct_peers_map={"200": ["174"]},
         )
         self.assertEqual(result, "offshore-enterprise")
 
@@ -84,7 +88,6 @@ class TestClassifyTentativeIIGType(unittest.TestCase):
             geo_country="SG",
             btrc_licensed_asns=set(),
             iigs_with_domestic={"201"},
-            direct_peers_map={},
         )
         self.assertEqual(result, "offshore-gateway")
 
@@ -95,20 +98,20 @@ class TestClassifyTentativeIIGType(unittest.TestCase):
             geo_country="BD",
             btrc_licensed_asns=set(),
             iigs_with_domestic={"300"},
-            direct_peers_map={},
         )
         self.assertEqual(result, "detected-iig")
 
-    def test_direct_international_peer_is_detected_iig(self):
+    def test_direct_international_peer_without_customers_is_local_company(self):
+        # Connecting abroad directly (e.g. through a DDoS-protection service)
+        # doesn't make a network a gateway: no other BD network goes through it.
         result = classify_tentative_iig_type(
             asn="45273",
             is_bd_registered=True,
             geo_country="BD",
             btrc_licensed_asns=set(),
             iigs_with_domestic=set(),
-            direct_peers_map={"45273": ["174", "3491"]},
         )
-        self.assertEqual(result, "detected-iig")
+        self.assertEqual(result, "local-company")
 
     def test_non_gateway_becomes_local_company(self):
         result = classify_tentative_iig_type(
@@ -117,13 +120,12 @@ class TestClassifyTentativeIIGType(unittest.TestCase):
             geo_country="BD",
             btrc_licensed_asns=set(),
             iigs_with_domestic=set(),
-            direct_peers_map={},
         )
         self.assertEqual(result, "local-company")
 
 
 class TestBuildVizDataClassification(unittest.TestCase):
-    def test_build_viz_data_promotes_direct_peers_to_detected_iig(self):
+    def test_build_viz_data_flags_direct_peers_without_customers(self):
         analysis = {
             "outside_counts": collections.Counter({"174": 18}),
             "iig_counts": collections.Counter({"45273": 10, "200": 8}),
@@ -163,12 +165,14 @@ class TestBuildVizDataClassification(unittest.TestCase):
         )
 
         nodes = {n["asn"]: n for n in data["nodes"]}
-        self.assertEqual(nodes["45273"]["type"], "detected-iig")
+        self.assertEqual(nodes["45273"]["type"], "local-company")
+        self.assertEqual(nodes["45273"]["abroad_link"], "only-abroad")
         self.assertEqual(nodes["200"]["type"], "offshore-gateway")
         self.assertEqual(nodes["65001"]["type"], "local-company")
+        self.assertEqual(nodes["65001"]["abroad_link"], "")
         self.assertEqual(nodes["174"]["type"], "outside")
 
-        self.assertEqual(data["stats"]["total_detected_iig"], 1)
+        self.assertEqual(data["stats"]["total_detected_iig"], 0)
         self.assertEqual(data["stats"]["total_offshore_gateway"], 1)
         self.assertEqual(data["stats"]["valid_observations"], 123)
 
@@ -795,6 +799,190 @@ class TestRunCompleteness(unittest.TestCase):
     def test_unknown_without_route_report(self):
         # MRT fallback runs don't fetch bgp-state batches.
         self.assertIsNone(ubd.build_completeness(None, self.ANNOUNCED_OK)["complete"])
+
+
+def _analysis(edge_intl, edge_domestic, direct_peers_map=None, valid_obs=0):
+    """A minimal analysis dict, with the counters derived from the edges."""
+    outside, iig, local = collections.Counter(), collections.Counter(), collections.Counter()
+    for (src, dst), c in edge_intl.items():
+        outside[src] += c
+        iig[dst] += c
+    for (src, _), c in edge_domestic.items():
+        local[src] += c
+    return {
+        "outside_counts": outside, "iig_counts": iig, "local_isp_counts": local,
+        "edge_intl": collections.Counter(edge_intl),
+        "edge_domestic": collections.Counter(edge_domestic),
+        "direct_peers_map": direct_peers_map or {},
+        "valid_obs": valid_obs,
+    }
+
+
+class TestLicensedGatewaysStayLicensed(unittest.TestCase):
+    def test_licensed_asn_seen_only_behind_another_gateway_is_iig(self):
+        # BTCL's AS45588 reaches the world through BTCL's AS17494, so it only
+        # ever appears as the source of a domestic connection.
+        analysis = _analysis(
+            edge_intl={("6939", "17494"): 50},
+            edge_domestic={("45588", "17494"): 30},
+        )
+        data = build_viz_data(analysis, {}, {"17494", "45588"},
+                              btrc_licensed_asns={"17494", "45588"})
+        nodes = {n["asn"]: n for n in data["nodes"]}
+        self.assertEqual(nodes["45588"]["type"], "iig")
+        self.assertTrue(nodes["45588"]["licensed"])
+        self.assertEqual(data["stats"]["total_iig"], 2)
+        self.assertEqual(data["stats"]["total_local_company"], 0)
+
+
+class TestShare(unittest.TestCase):
+    def test_gateway_share_counts_only_routes_crossing_the_border(self):
+        analysis = _analysis(
+            edge_intl={("174", "100"): 60, ("6939", "200"): 40},
+            edge_domestic={("300", "100"): 50, ("400", "200"): 10},
+        )
+        data = build_viz_data(analysis, {}, {"100", "200", "300", "400"},
+                              btrc_licensed_asns={"100", "200"})
+        nodes = {n["asn"]: n for n in data["nodes"]}
+        self.assertAlmostEqual(nodes["100"]["percentage"], 60.0)
+        self.assertAlmostEqual(nodes["200"]["percentage"], 40.0)
+        self.assertAlmostEqual(nodes["174"]["percentage"], 60.0)
+        self.assertAlmostEqual(nodes["300"]["percentage"], 50.0)
+        # Size and ranking still use every route the network carries.
+        self.assertEqual(nodes["100"]["traffic"], 110)
+        gateway_total = sum(n["percentage"] for n in data["nodes"] if n["type"] == "iig")
+        self.assertAlmostEqual(gateway_total, 100.0)
+
+
+class TestCustomersBeyondDrawnConnections(unittest.TestCase):
+    def test_customer_evidence_uses_every_domestic_connection(self):
+        # Only the busiest domestic connection is drawn, but AS200 still has
+        # a BD network behind it and stays a detected gateway.
+        analysis = _analysis(
+            edge_intl={("174", "100"): 90, ("174", "200"): 10},
+            edge_domestic={("300", "100"): 80, ("400", "200"): 5},
+            direct_peers_map={"100": ["174"], "200": ["174"]},
+        )
+        data = build_viz_data(analysis, {}, {"100", "200", "300", "400"},
+                              btrc_licensed_asns={"100"}, top_domestic=1)
+        nodes = {n["asn"]: n for n in data["nodes"]}
+        self.assertEqual(nodes["200"]["type"], "detected-iig")
+        self.assertEqual(nodes["200"]["abroad_link"], "")
+        self.assertEqual(data["stats"]["total_domestic_edges"], 1)
+
+
+class TestGeolocation(unittest.TestCase):
+    def test_tentative_gateways_cover_every_drawn_connection(self):
+        edge_intl = collections.Counter({("174", str(1000 + i)): 2000 - i for i in range(1200)})
+        country_asns = {str(1000 + i) for i in range(1200)}
+        asns = tentative_gateway_asns(edge_intl, country_asns, {"1000"})
+        self.assertIn("2199", asns)          # 1,200th busiest, still drawn
+        self.assertNotIn("1000", asns)       # licensed: no lookup needed
+        self.assertEqual(len(asns), 1199)
+
+    def test_failed_lookup_returns_none(self):
+        import requests
+        with mock.patch.object(ubd.requests, "get", side_effect=requests.Timeout("slow")):
+            self.assertIsNone(fetch_geo_country("100", ubd.RateLimiter(requests_per_second=1000)))
+
+    def test_lookup_without_located_space_is_an_answer(self):
+        payload = {"status": "ok", "data": {"located_resources": []}}
+        with mock.patch.object(ubd.requests, "get", return_value=_FakeResponse(json_data=payload)):
+            geo = fetch_geo_country("100", ubd.RateLimiter(requests_per_second=1000))
+        self.assertEqual(geo["dominant_country"], "BD")
+
+    def test_failed_lookup_keeps_previous_answer(self):
+        asn_info = {"100": {"name": "X", "geo_country": "SG",
+                            "geo_country_data": {"dominant_country": "SG", "breakdown": []}}}
+        offshore = apply_geo_results(asn_info, {"100": None, "200": {
+            "dominant_country": "US", "breakdown": [], "bd_percentage": 0}})
+        self.assertEqual(asn_info["100"]["geo_country"], "SG")
+        self.assertEqual(offshore, {"100": "SG", "200": "US"})
+        self.assertEqual(asn_info["200"]["geo_country"], "US")
+
+
+class TestNameLookups(unittest.TestCase):
+    def test_reserved_ranges(self):
+        for asn in ["0", "23456", "64512", "65000", "65534", "65535", "64496",
+                    "65551", "100000", "4200000000", "4294967295"]:
+            self.assertTrue(is_reserved_asn(asn), asn)
+        for asn in ["174", "58717", "131072", "154725", "399999"]:
+            self.assertFalse(is_reserved_asn(asn), asn)
+
+    def test_placeholder_names_are_looked_up_again(self):
+        self.assertTrue(needs_name_lookup("154725", None))
+        self.assertTrue(needs_name_lookup("154725", {"name": "AS154725", "holder": ""}))
+        self.assertFalse(needs_name_lookup("58717", {"name": "SUMMIT", "holder": "SUMMIT"}))
+        # Private-use numbers have no registry record; don't keep asking.
+        self.assertFalse(needs_name_lookup("65000", {"name": "AS65000", "holder": ""}))
+
+    def test_relookup_replaces_placeholder_and_keeps_cached_facts(self):
+        cache = {"154725": {"asn": "154725", "name": "AS154725", "holder": "", "announced": False,
+                            "country": "BD", "geo_country": "SG",
+                            "geo_country_data": {"dominant_country": "SG", "breakdown": []}}}
+        payload = {"status": "ok", "data": {"holder": "KINLL-AS - Kinll Technology", "announced": True}}
+        with mock.patch.object(ubd.requests, "get", return_value=_FakeResponse(json_data=payload)), \
+                mock.patch.object(ubd, "refresh_registered_countries"):
+            info = ubd.fetch_asn_info(["154725"], {"154725"}, ubd.RateLimiter(requests_per_second=1000), cache)
+        self.assertEqual(info["154725"]["name"], "KINLL-AS - Kinll Technology")
+        self.assertEqual(info["154725"]["geo_country"], "SG")
+        self.assertEqual(info["154725"]["country"], "BD")
+
+
+class TestOwnLinkAbroad(unittest.TestCase):
+    def _nodes(self, edge_intl, edge_domestic, igw=frozenset()):
+        analysis = _analysis(edge_intl=edge_intl, edge_domestic=edge_domestic)
+        data = build_viz_data(analysis, {}, {"100", "300", "400", "500"},
+                              btrc_licensed_asns={"100"}, igw_licensed_asns=set(igw))
+        return {n["asn"]: n for n in data["nodes"]}
+
+    def test_seen_both_abroad_and_through_a_gateway(self):
+        nodes = self._nodes({("174", "100"): 50, ("13335", "300"): 5}, {("300", "100"): 20})
+        self.assertEqual(nodes["300"]["type"], "local-company")
+        self.assertEqual(nodes["300"]["abroad_link"], "also-abroad")
+
+    def test_seen_only_through_networks_abroad(self):
+        nodes = self._nodes({("174", "100"): 50, ("6939", "400"): 5}, {})
+        self.assertEqual(nodes["400"]["abroad_link"], "only-abroad")
+
+    def test_ordinary_local_company_has_no_link_abroad(self):
+        nodes = self._nodes({("174", "100"): 50}, {("300", "100"): 20})
+        self.assertEqual(nodes["300"]["abroad_link"], "")
+
+    def test_voice_gateway_licence_is_marked(self):
+        nodes = self._nodes({("174", "100"): 50, ("6453", "500"): 5}, {("300", "100"): 20}, igw={"500"})
+        self.assertTrue(nodes["500"]["igw"])
+        self.assertEqual(nodes["500"]["abroad_link"], "only-abroad")
+        self.assertFalse(nodes["300"]["igw"])
+        self.assertFalse(nodes["100"]["igw"])
+
+
+class TestReservedAsnsInPaths(unittest.TestCase):
+    def test_private_asn_between_bd_networks_is_skipped(self):
+        # A private number leaked between a gateway and its customer must not
+        # turn into an "international network" with the customer as gateway.
+        counters = [set()] + [collections.Counter() for _ in range(6)]
+        seen, outside, iig, local, e_intl, e_dom, peers = counters
+        ok = _process_single_route(
+            {"target_prefix": "1.0.0.0/24", "source_id": "rrc00",
+             "path": [9498, 139009, 65260, 134732]},
+            {"139009", "134732"}, seen, outside, iig, local, e_intl, e_dom, peers)
+        self.assertTrue(ok)
+        self.assertEqual(dict(e_intl), {("9498", "139009"): 1})
+        self.assertEqual(dict(e_dom), {("134732", "139009"): 1})
+        self.assertNotIn("65260", outside)
+
+
+class TestLicenceFiles(unittest.TestCase):
+    def test_loads_asn_keys_and_skips_metadata(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump({"_description": "x", "45273": {"name": "A"}, "58665": {"name": "B"}}, f)
+        try:
+            self.assertEqual(load_licensed_asns(f.name), {"45273", "58665"})
+        finally:
+            os.unlink(f.name)
+        self.assertEqual(load_licensed_asns("/no/such/file.json"), set())
 
 
 @unittest.skipUnless(os.environ.get("RUN_NETWORK_TESTS") == "1",

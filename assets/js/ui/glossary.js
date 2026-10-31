@@ -171,7 +171,7 @@ export const GLOSSARY = {
   'local-company': {
     title: 'Local company',
     ask: 'What is a local company?',
-    short: 'A network in Bangladesh that reaches the rest of the internet through a gateway: internet providers, mobile operators, universities, banks and other companies.',
+    short: 'A network in Bangladesh that reaches the rest of the internet through a gateway: internet providers, mobile operators, universities, banks and other companies. A few also have their own link abroad.',
     example(data) {
       const l = biggest(data, 'local-company');
       const gws = l ? neighbours(data, l.asn, GATEWAYS).slice(0, 2) : [];
@@ -187,6 +187,16 @@ export const GLOSSARY = {
       const i = g && neighbours(data, g.asn, INTL)[0];
       return g && `${name(g)} (AS${g.asn}) is the biggest: about ${aboutNumber(g.traffic || 0)} routes seen pass through it. Local companies connect to it${i ? `, and it connects abroad to networks like ${name(i)}` : ''}.`;
     },
+  },
+  'igw': {
+    title: 'IGW (voice gateway)',
+    ask: 'What is an IGW?',
+    short: 'International Gateway: a BTRC licence to carry international phone calls. IGW operators have their own links to carriers abroad, but the licence is for calls, not for carrying internet connections like an IIG.',
+  },
+  'abroad-link': {
+    title: 'Own link abroad',
+    ask: 'What is an own link abroad?',
+    short: 'This network is seen right behind a network abroad, not only behind a Bangladeshi gateway: for example a hosting or attack-protection service announcing its addresses, or a voice gateway\'s own link. Routes over local exchanges such as BDIX don\'t show in this data.',
   },
   'detected-iig': {
     title: 'Detected gateway',
@@ -254,7 +264,7 @@ export const GLOSSARY = {
   'share': {
     title: 'Share',
     ask: 'What does "Share" mean?',
-    short: 'A network\'s routes seen, as a percentage of all routes seen crossing Bangladesh\'s border. A gateway\'s share also counts routes from local companies, so shares don\'t add up to 100%.',
+    short: 'Of all the routes seen crossing Bangladesh\'s border, the percentage that cross through or start from this network. The shares of all gateways add up to 100%, and so do the shares of all international networks.',
     example(data) {
       const g = biggest(data, 'iig');
       const i = biggest(data, 'outside');

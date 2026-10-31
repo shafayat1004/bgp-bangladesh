@@ -108,6 +108,10 @@ ROUTE_RETRY_SPLIT = 4
 # real change; anything above fails the run and keeps the committed data.
 MAX_MISSING_PREFIX_SHARE = 0.005
 
+# How many of the busiest connections viz_data.json draws (keeps the file small)
+TOP_INTL_EDGES = 1500
+TOP_DOMESTIC_EDGES = 2000
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # Rate Limiter (matches website implementation)
@@ -1071,11 +1075,15 @@ def _process_single_route(rt, country_asns, seen, outside_counts, iig_counts,
     source_id = rt.get("source_id")
     path_raw = rt.get("path") or []
     
-    # Clean path: deduplicate consecutive ASNs (AS prepending), convert to string
+    # Clean path: deduplicate consecutive ASNs (AS prepending), convert to string.
+    # Skip private-use and reserved ASNs: they leak from someone's internal
+    # routing (e.g. between a gateway and its customer) and belong to nobody.
     path = []
     for x in path_raw:
         s = str(x).strip()
-        if s.isdigit() and (not path or path[-1] != s):
+        if not s.isdigit() or (is_reserved_asn(s) and s not in country_asns):
+            continue
+        if not path or path[-1] != s:
             path.append(s)
     
     if not target or not source_id or len(path) < 2:
@@ -1315,13 +1323,44 @@ def refresh_registered_countries(results, country_asns, rate_limiter, fetch=fetc
     return results
 
 
+def load_licensed_asns(path):
+    """ASN keys of a licence file (btrc_iig_licenses.json, btrc_igw_licenses.json)."""
+    if not os.path.exists(path):
+        return set()
+    with open(path) as f:
+        return {k for k in json.load(f) if not k.startswith("_")}
+
+
+def is_reserved_asn(asn):
+    """Private-use, documentation and reserved ASNs: no registry record, owned by nobody."""
+    n = int(asn)
+    return (
+        n in (0, 23456)
+        or 64496 <= n <= 131071   # documentation, private use, 65535, reserved
+        or n >= 4200000000        # 32-bit private use and 4294967295
+    )
+
+
+def needs_name_lookup(asn, cached):
+    """True when the cache has no real name for this ASN yet.
+
+    A failed lookup leaves the placeholder name "AS<n>"; it must be asked again
+    on the next run, or the network shows as a bare number forever.
+    """
+    if is_reserved_asn(asn):
+        return cached is None
+    if not cached:
+        return True
+    return not cached.get("holder") or cached.get("name") == f"AS{asn}"
+
+
 def fetch_asn_info(asn_list, country_asns, rate_limiter, existing_asn_names=None):
     """Fetch ASN names in parallel with rate limiting, then registered countries."""
     if existing_asn_names is None:
         existing_asn_names = {}
 
     results = dict(existing_asn_names)  # Start with existing data
-    need_fetch = [a for a in asn_list if a not in existing_asn_names]
+    need_fetch = [a for a in asn_list if needs_name_lookup(a, existing_asn_names.get(a))]
 
     if not need_fetch:
         print(f"      All ASN names already cached.")
@@ -1376,7 +1415,14 @@ def fetch_asn_info(asn_list, country_asns, rate_limiter, existing_asn_names=None
                 for future in as_completed(futures):
                     try:
                         asn, result = future.result()
-                        results[asn] = result
+                        cached = results.get(asn)
+                        if cached is None:
+                            results[asn] = result
+                        elif result.get("holder"):
+                            # A re-lookup only replaces the name; keep the
+                            # country, its source mark and geolocation.
+                            cached.update(name=result["name"], holder=result["holder"],
+                                          announced=result["announced"])
                         completed += 1
                     except Exception:
                         failed += 1
@@ -1413,8 +1459,9 @@ def fetch_geo_country(asn, rate_limiter):
         'breakdown': [{'country': 'IN', 'city': 'Chennai', 'percentage': 50.0, 'prefixes': [...]}],
         'bd_percentage': 50.0
       }
+    Returns None when the lookup fails, so the caller can keep its last answer.
     """
-    fallback = {"dominant_country": "BD", "breakdown": [], "bd_percentage": 100.0}
+    no_location = {"dominant_country": "BD", "breakdown": [], "bd_percentage": 100.0}
     try:
         rate_limiter.acquire()
         r = requests.get(
@@ -1426,7 +1473,7 @@ def fetch_geo_country(asn, rate_limiter):
         data = r.json()
 
         if data.get("status") != "ok":
-            return fallback
+            return None
 
         total_pct = 0
         bd_pct = 0
@@ -1454,7 +1501,7 @@ def fetch_geo_country(asn, rate_limiter):
                 })
 
         if total_pct <= 0:
-            return fallback
+            return no_location
 
         # Determine dominant country
         bd_ratio = bd_pct / total_pct
@@ -1476,7 +1523,7 @@ def fetch_geo_country(asn, rate_limiter):
 
     except Exception as e:
         print(f"      Warning: Geo fetch failed for AS{asn}: {e}")
-        return fallback
+        return None
 
 
 def fetch_geo_countries(asn_list, rate_limiter, concurrency=CONCURRENCY):
@@ -1497,11 +1544,12 @@ def fetch_geo_countries(asn_list, rate_limiter, concurrency=CONCURRENCY):
                     results[asn] = future.result()
                     completed += 1
                 except Exception:
-                    results[asn] = {"dominant_country": "BD", "breakdown": [], "bd_percentage": 100.0}
+                    results[asn] = None
                     completed += 1
 
-    non_bd = {asn: geo for asn, geo in results.items() if geo["dominant_country"] != "BD"}
-    print(f"      Geolocation complete: {len(results)} ASNs checked, {len(non_bd)} with non-BD infrastructure")
+    failed = sum(1 for geo in results.values() if geo is None)
+    non_bd = {asn: geo for asn, geo in results.items() if geo and geo["dominant_country"] != "BD"}
+    print(f"      Geolocation complete: {len(results)} ASNs checked, {len(non_bd)} with non-BD infrastructure, {failed} failed (kept last answer)")
     for asn, geo in non_bd.items():
         locs = ", ".join(f"{b['country']}({b['percentage']:.0f}%)" for b in geo["breakdown"])
         print(f"        AS{asn}: {locs}")
@@ -1782,8 +1830,14 @@ def fetch_peering_locations(offshore_asns, direct_peers_map, rate_limiter):
 # ═══════════════════════════════════════════════════════════════════════════
 
 def classify_tentative_iig_type(asn, is_bd_registered, geo_country, btrc_licensed_asns,
-                                iigs_with_domestic, direct_peers_map):
-    """Classify a tentative gateway ASN into final node type."""
+                                iigs_with_domestic):
+    """Classify a tentative gateway ASN into final node type.
+
+    A gateway is a network other BD networks reach the world through. A BD
+    network that connects abroad directly but carries no other BD network
+    (e.g. one behind a DDoS-protection service) stays a local company;
+    build_viz_data records that in abroad_link instead.
+    """
     if asn in btrc_licensed_asns:
         return "iig"
     if is_bd_registered and geo_country and geo_country != "BD":
@@ -1792,13 +1846,71 @@ def classify_tentative_iig_type(asn, is_bd_registered, geo_country, btrc_license
         return "offshore-enterprise"
     if asn in iigs_with_domestic:
         return "detected-iig"
-    if is_bd_registered and direct_peers_map.get(asn):
-        return "detected-iig"
     return "local-company"
 
 
-def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, peering_locations=None):
+def tentative_gateway_asns(edge_intl, country_asns, btrc_licensed_asns, top_n=None):
+    """Unlicensed BD networks at the border in the drawn international connections.
+
+    These are the ones whose IP location decides between gateway and offshore,
+    so the set must cover every connection build_viz_data draws.
+    """
+    top_n = TOP_INTL_EDGES if top_n is None else top_n
+    return {
+        gw for (_, gw), _ in edge_intl.most_common(top_n)
+        if gw in country_asns and gw not in btrc_licensed_asns
+    }
+
+
+def apply_geo_results(asn_info, geo_results):
+    """Store geolocation answers on asn_info; return {asn: country} for those abroad.
+
+    A failed lookup (None) keeps whatever the cache already had, so one
+    timeout can't move an offshore network back to Bangladesh.
+    """
+    offshore = {}
+    for asn, geo_data in geo_results.items():
+        if geo_data is not None:
+            entry = asn_info.setdefault(asn, {
+                "asn": asn, "name": f"AS{asn}", "holder": "",
+                "announced": False, "country": "BD",
+            })
+            entry["geo_country"] = geo_data["dominant_country"]
+            entry["geo_country_data"] = geo_data
+        cached = asn_info.get(asn, {}).get("geo_country_data")
+        country = cached.get("dominant_country") if isinstance(cached, dict) else None
+        if country and country != "BD":
+            offshore[asn] = country
+    return offshore
+
+
+def compute_shares(nodes, edges):
+    """Set each node's percentage: its routes crossing the border, as a share of all.
+
+    A route crossing the border is counted once per role: on the international
+    network and gateway at the crossing (international connections), and on the
+    local network it starts from (domestic connections it is the source of).
+    So within one category the shares add up to at most 100%.
+    """
+    total = sum(e["count"] for e in edges if e["type"] == "international") or 1
+    routes = collections.Counter()
+    for e in edges:
+        if e["type"] == "international":
+            routes[e["source"]] += e["count"]
+            routes[e["target"]] += e["count"]
+        else:
+            routes[e["source"]] += e["count"]
+    for n in nodes:
+        n["percentage"] = routes[n["asn"]] / total * 100
+    return total
+
+
+def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, peering_locations=None,
+                   top_intl=None, top_domestic=None, igw_licensed_asns=None):
     """Build visualization data with license-aware 6-category classification."""
+    igw_licensed_asns = igw_licensed_asns or set()
+    top_intl = TOP_INTL_EDGES if top_intl is None else top_intl
+    top_domestic = TOP_DOMESTIC_EDGES if top_domestic is None else top_domestic
     if btrc_licensed_asns is None:
         btrc_licensed_asns = set()
     if peering_locations is None:
@@ -1807,17 +1919,14 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, pe
     print(f"\nBuilding visualization data (license-aware, 6-category)...")
     print(f"      Known IIG ASNs from BTRC list: {len(btrc_licensed_asns)}")
     
-    # Top edges (international: 1500, domestic: 2000)
-    top_intl_edges = analysis["edge_intl"].most_common(1500)
-    top_domestic_edges = analysis["edge_domestic"].most_common(2000)
+    # Only the busiest connections are drawn, to keep the data small
+    top_intl_edges = analysis["edge_intl"].most_common(top_intl)
+    top_domestic_edges = analysis["edge_domestic"].most_common(top_domestic)
     
-    # Pre-compute which tentative IIGs have domestic customers
-    iigs_with_domestic = set()
-    for (local_company, iig), count in top_domestic_edges:
-        iigs_with_domestic.add(iig)
-
-    # BD ASNs with direct international peers should remain visible as detected gateways.
-    direct_peers_map = analysis.get("direct_peers_map", {})
+    # Which tentative gateways carry other BD networks. Use every domestic
+    # connection, not just the drawn ones: a gateway's customers can all be
+    # below the drawing cut-off.
+    iigs_with_domestic = {iig for (_, iig) in analysis["edge_domestic"]}
     
     node_map = {}
     
@@ -1829,11 +1938,15 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, pe
             geo_breakdown = geo_data.get("breakdown", []) if isinstance(geo_data, dict) else []
             is_bd_registered = asn in country_asns
             
+            # A licensed gateway stays one even when it is only seen reaching
+            # the world through a sister network (BTCL AS45588 via AS17494).
+            if asn in btrc_licensed_asns:
+                node_type = "iig"
             # Reclassify tentative IIGs based on license list + geolocation.
-            if node_type == "iig":
+            elif node_type == "iig":
                 node_type = classify_tentative_iig_type(
                     asn, is_bd_registered, geo_country, btrc_licensed_asns,
-                    iigs_with_domestic, direct_peers_map
+                    iigs_with_domestic
                 )
             
             # Get peering location data if available
@@ -1852,6 +1965,8 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, pe
                 "peering_details": peering.get("details", []),
                 "peering_source": peering.get("source", ""),
                 "announced": info.get("announced", False),
+                "igw": asn in igw_licensed_asns,
+                "abroad_link": "",
                 "traffic": 0,
             }
     
@@ -1875,20 +1990,28 @@ def build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns=None, pe
             node_map[edge["source"]]["traffic"] += edge["count"]
         if edge["target"] in node_map:
             node_map[edge["target"]]["traffic"] += edge["count"]
+
+    # A local company with its own link abroad: seen right behind a network
+    # abroad, either as well as through gateways or only that way. (Routes over
+    # local exchanges such as BDIX aren't visible to the route collectors.)
+    abroad = {e["target"] for e in edges if e["type"] == "international"}
+    via_gateway = {src for (src, _) in analysis["edge_domestic"]}
+    for asn in abroad:
+        n = node_map[asn]
+        if n["type"] == "local-company":
+            n["abroad_link"] = "also-abroad" if asn in via_gateway else "only-abroad"
     
+    nodes = list(node_map.values())
+    total_intl_traffic = compute_shares(nodes, edges)
+
     # Calculate rankings per type
-    total_intl_traffic = sum(c for (_, _), c in top_intl_edges) or 1
-    
     for ntype in ["outside", "iig", "detected-iig", "offshore-enterprise", "offshore-gateway", "local-company"]:
         typed_nodes = sorted(
-            [n for n in node_map.values() if n["type"] == ntype],
+            [n for n in nodes if n["type"] == ntype],
             key=lambda n: n["traffic"], reverse=True
         )
         for rank, n in enumerate(typed_nodes, 1):
             n["rank"] = rank
-            n["percentage"] = (n["traffic"] / total_intl_traffic) * 100
-    
-    nodes = list(node_map.values())
     
     return {
         "nodes": nodes,
@@ -1946,18 +2069,16 @@ def main():
     print(f"  JSON engine: {JSON_ENGINE} | Concurrency: {CONCURRENCY}")
     print("═" * 70)
     
-    # Load BTRC IIG license list
+    # Load BTRC licence lists: internet gateways (IIG) and voice gateways (IGW)
     license_file = os.path.join(project_dir, "data", "btrc_iig_licenses.json")
-    btrc_licensed_asns = set()
-    if os.path.exists(license_file):
-        print(f"Loading BTRC IIG license list from {license_file}...")
-        with open(license_file) as f:
-            raw_licenses = json.load(f)
-            btrc_licensed_asns = set(k for k in raw_licenses.keys() if not k.startswith("_"))
-        print(f"      Loaded {len(btrc_licensed_asns)} licensed IIG ASNs")
+    btrc_licensed_asns = load_licensed_asns(license_file)
+    if btrc_licensed_asns:
+        print(f"Loaded {len(btrc_licensed_asns)} licensed IIG ASNs from {license_file}")
     else:
         print(f"WARNING: BTRC license file not found at {license_file}")
         print(f"         All gateway ASNs will be classified as 'detected-iig'")
+    igw_licensed_asns = load_licensed_asns(os.path.join(project_dir, "data", "btrc_igw_licenses.json"))
+    print(f"Loaded {len(igw_licensed_asns)} licensed IGW (voice gateway) ASNs")
     
     # Load existing ASN names if available (for caching)
     existing_asn_names = {}
@@ -2121,27 +2242,12 @@ def main():
     
     # Step 4b: Fetch geolocation for BD-registered tentative IIGs (offshore peer detection)
     # Only query geolocation for BD ASNs that appear as tentative gateways and are Not in my datasets BTRC list
-    tentative_iig_asns = set()
-    for (outside, iig), count in analysis["edge_intl"].most_common(1000):
-        if iig in country_asns and iig not in btrc_licensed_asns:
-            tentative_iig_asns.add(iig)
+    tentative_iig_asns = tentative_gateway_asns(analysis["edge_intl"], country_asns, btrc_licensed_asns)
     
     offshore_asns_geo = {}  # ASN → geo dominant country (for offshore ASNs only)
     if tentative_iig_asns:
         geo_results = fetch_geo_countries(list(tentative_iig_asns), rate_limiter)
-        for asn, geo_data in geo_results.items():
-            if asn in asn_info:
-                asn_info[asn]["geo_country"] = geo_data["dominant_country"]
-                asn_info[asn]["geo_country_data"] = geo_data
-            else:
-                asn_info[asn] = {
-                    "asn": asn, "name": f"AS{asn}", "holder": "",
-                    "announced": False, "country": "BD",
-                    "geo_country": geo_data["dominant_country"],
-                    "geo_country_data": geo_data,
-                }
-            if geo_data["dominant_country"] != "BD":
-                offshore_asns_geo[asn] = geo_data["dominant_country"]
+        offshore_asns_geo = apply_geo_results(asn_info, geo_results)
     
     # Step 4c: Fetch PeeringDB peering locations for offshore ASNs
     direct_peers_map = analysis.get("direct_peers_map", {})
@@ -2152,7 +2258,8 @@ def main():
         )
     
     # Build visualization data (license-aware, 6-category)
-    viz_data = build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns, peering_locations)
+    viz_data = build_viz_data(analysis, asn_info, country_asns, btrc_licensed_asns, peering_locations,
+                              igw_licensed_asns=igw_licensed_asns)
     
     # Save all outputs (use indent=2 for human-readable viz/meta/asn files)
     print(f"\nSaving visualization data to: {out_viz}")

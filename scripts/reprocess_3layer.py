@@ -24,7 +24,7 @@ import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from update_bgp_data import refresh_registered_countries  # noqa: E402
+from update_bgp_data import compute_shares, is_reserved_asn, load_licensed_asns, refresh_registered_countries  # noqa: E402
 
 BASE = "https://stat.ripe.net/data"
 UA = {"User-Agent": "bgp-bangladesh-viz/1.0"}
@@ -124,11 +124,14 @@ for idx, rt in enumerate(routes):
     source_id = rt.get("source_id")
     path_raw = rt.get("path") or []
 
-    # Clean path: deduplicate consecutive ASNs (AS prepending), convert to string
+    # Clean path: deduplicate consecutive ASNs (AS prepending), convert to
+    # string, and skip leaked private-use and reserved ASNs
     path = []
     for x in path_raw:
         s = str(x).strip()
-        if s.isdigit() and (not path or path[-1] != s):
+        if not s.isdigit() or (is_reserved_asn(s) and s not in country_asns):
+            continue
+        if not path or path[-1] != s:
             path.append(s)
 
     if not target or not source_id or len(path) < 2:
@@ -256,6 +259,7 @@ print(f"  ASNs with country: {with_country}/{len(asn_names)}")
 
 # Load BTRC IIG license list
 LICENSE_FILE = os.path.join(os.path.dirname(DATA_DIR), "btrc_iig_licenses.json")
+igw_licensed_asns = load_licensed_asns(os.path.join(os.path.dirname(DATA_DIR), "btrc_igw_licenses.json"))
 btrc_licensed_asns = set()
 if os.path.exists(LICENSE_FILE):
     print(f"\nLoading BTRC IIG license list from {LICENSE_FILE}...")
@@ -273,24 +277,9 @@ top_intl_edges = edge_intl.most_common(1500)
 # Top edges for domestic (local_isp → iig) - increased to 2000
 top_domestic_edges = edge_domestic.most_common(2000)
 
-# Pre-compute which tentative IIGs have domestic customers
-iigs_with_domestic = set()
-for (local_isp, iig), count in top_domestic_edges:
-    iigs_with_domestic.add(iig)
-
-# Build direct peers map: BD ASN -> non-BD adjacent peers
-direct_peers_map = {}
-for (a, b), count in direct_peers.items():
-    if b in country_asns and a not in country_asns:
-        if b not in direct_peers_map:
-            direct_peers_map[b] = []
-        direct_peers_map[b].append(a)
-    if a in country_asns and b not in country_asns:
-        if a not in direct_peers_map:
-            direct_peers_map[a] = []
-        direct_peers_map[a].append(b)
-for asn in direct_peers_map:
-    direct_peers_map[asn] = list(set(direct_peers_map[asn]))
+# Which tentative IIGs carry other BD networks: every domestic connection,
+# not just the drawn ones
+iigs_with_domestic = {iig for (_, iig) in edge_domestic}
 
 # Collect all nodes from top edges
 node_map = {}
@@ -301,15 +290,14 @@ def ensure_node(asn, node_type):
         detected_country = info.get("country", "")
         is_bd_registered = asn in country_asns
         
-        # Reclassify tentative IIGs based on license list
-        if node_type == "iig":
-            if asn in btrc_licensed_asns:
-                node_type = "iig"  # Confirmed licensed
-            elif is_bd_registered and detected_country and detected_country != "BD":
+        # Reclassify tentative IIGs based on license list. A licensed gateway
+        # stays one even when only seen behind a sister network.
+        if asn in btrc_licensed_asns:
+            node_type = "iig"  # Confirmed licensed
+        elif node_type == "iig":
+            if is_bd_registered and detected_country and detected_country != "BD":
                 node_type = "offshore-enterprise"
             elif asn in iigs_with_domestic:
-                node_type = "detected-iig"
-            elif is_bd_registered and direct_peers_map.get(asn):
                 node_type = "detected-iig"
             else:
                 node_type = "local-company"  # Demote: no domestic customers
@@ -322,6 +310,8 @@ def ensure_node(asn, node_type):
             "description": info.get("holder", info.get("name", "")),
             "country": info.get("country", "BD" if asn in country_asns else ""),
             "announced": info.get("announced", False),
+            "igw": asn in igw_licensed_asns,
+            "abroad_link": "",
             "traffic": 0,
         }
     # If an ASN already exists with a different type, keep the more specific one
@@ -354,21 +344,24 @@ for edge in edges:
     if tgt in node_map:
         node_map[tgt]["traffic"] += edge["count"]
 
-# Calculate rankings per type
-total_intl_traffic = sum(c for (_, _), c in top_intl_edges) or 1
-total_domestic_traffic = sum(c for (_, _), c in top_domestic_edges) or 1
-
-for ntype in ["outside", "iig", "detected-iig", "offshore-enterprise", "local-company"]:
-    typed_nodes = sorted(
-        [n for n in node_map.values() if n["type"] == ntype],
-        key=lambda n: n["traffic"], reverse=True
-    )
-    ref_total = total_intl_traffic if ntype == "outside" else total_intl_traffic
-    for rank, n in enumerate(typed_nodes, 1):
-        n["rank"] = rank
-        n["percentage"] = (n["traffic"] / ref_total) * 100 if ref_total else 0
+# A local company with its own link abroad, as well as through gateways or only that way
+via_gateway = {src for (src, _) in edge_domestic}
+for edge in edges:
+    n = node_map[edge["target"]]
+    if edge["type"] == "international" and n["type"] == "local-company":
+        n["abroad_link"] = "also-abroad" if n["asn"] in via_gateway else "only-abroad"
 
 nodes = list(node_map.values())
+total_intl_traffic = compute_shares(nodes, edges)
+
+# Calculate rankings per type
+for ntype in ["outside", "iig", "detected-iig", "offshore-enterprise", "local-company"]:
+    typed_nodes = sorted(
+        [n for n in nodes if n["type"] == ntype],
+        key=lambda n: n["traffic"], reverse=True
+    )
+    for rank, n in enumerate(typed_nodes, 1):
+        n["rank"] = rank
 
 viz_data = {
     "nodes": nodes,
