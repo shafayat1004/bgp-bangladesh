@@ -1243,8 +1243,10 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 8px 12px;
   }
 
+  /* Zero basis: range inputs are width:100% globally, which would push the
+     buttons onto their own rows. */
   #timeline-bar #timeline-slider {
-    flex: 1 1 auto;
+    flex: 1 1 0;
     order: 1;
   }
 
@@ -1254,6 +1256,7 @@ input[type="range"]::-webkit-slider-thumb {
   #timeline-readout {
     order: 3;
     flex: 1 0 100%;
+    min-width: 0;
     justify-content: center;
   }
   
@@ -1289,15 +1292,39 @@ input[type="range"]::-webkit-slider-thumb {
   #sidebar-header h1 {
     font-size: 16px;
   }
-  
-  #top-bar {
-    padding: 6px 8px 6px 56px;
-    font-size: 12px;
+
+  /* Keep the title clear of the menu (close) button. */
+  #sidebar-header {
+    padding-left: 56px;
   }
   
+  /* Phones: the sidebar header already names the site, so drop the title bar
+     and put the tabs beside the menu button to give the chart the height. */
+  #top-bar {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    top: 2px;
+  }
+
+  #tab-nav {
+    padding-left: 52px;
+    min-height: 44px;
+  }
+
   .tab-btn {
-    font-size: 10px;
-    padding: 8px 12px;
+    font-size: 11px;
+    padding: 13px 12px;
+  }
+
+  #timeline-bar {
+    gap: 4px 8px;
+    padding: 6px 12px 4px;
+  }
+
+  #timeline-readout {
+    font-size: 11px;
   }
   
   .btn {
@@ -1346,9 +1373,24 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 16px;
   }
   
+  /* One line: the long source note truncates instead of wrapping. */
   #app-footer {
     font-size: 9px;
-    padding: 6px 8px;
+    padding: 4px 8px;
+    flex-direction: row;
+    gap: 8px;
+    text-align: left;
+  }
+
+  #app-footer > span:first-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #app-footer > span:last-child {
+    flex: 0 0 auto;
   }
   
   /* Better touch targets for range sliders */
@@ -1480,7 +1522,7 @@ input[type="range"]::-webkit-slider-thumb {
   }
   
   #sidebar-header {
-    padding: 12px;
+    padding: 12px 12px 12px 56px;
   }
   
   #sidebar-content {

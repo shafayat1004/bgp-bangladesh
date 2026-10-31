@@ -42,9 +42,36 @@ let renderedEdges = [];
 let stopTimer = null;
 let zoom = null;
 let initialTransform = null;
+let portrait = false;
+let dragLinks = null;
 
 // Space the edge legend takes at the bottom of the panel, kept clear when fitting.
 const LEGEND_HEIGHT = 90;
+const COMPACT_LEGEND_HEIGHT = 44;
+
+const TYPE_LEGEND = [
+  { color: '#4dabf7', label: 'Local Co.' },
+  { color: '#51cf66', label: 'IIG' },
+  { color: '#fcc419', label: 'Detected' },
+  { color: '#17a2b8', label: 'Offshore Ent.' },
+  { color: '#e64980', label: 'Offshore GW' },
+  { color: '#ff6b6b', label: 'Outside' },
+];
+
+// The layout flows left to right. On a portrait panel it is drawn transposed
+// (flowing top to bottom) to use the screen's long side. sx/sy map a node's
+// layout position to where it is drawn.
+const sx = d => (portrait ? d.y : d.x);
+const sy = d => (portrait ? d.x : d.y);
+
+function linkPath(d) {
+  const s = d.source;
+  const t = d.target;
+  if (!s || !t || isNaN(s.x) || isNaN(t.x)) return '';
+  const dx = sx(t) - sx(s), dy = sy(t) - sy(s);
+  const dr = Math.sqrt(dx * dx + dy * dy) * 1.5;
+  return `M${sx(s)},${sy(s)}A${dr},${dr} 0 0,1 ${sx(t)},${sy(t)}`;
+}
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -64,6 +91,7 @@ export function loadData(data, options = {}) {
   if (!container) return;
   const width = container.clientWidth;
   const height = container.clientHeight;
+  portrait = height > width;
 
   svg = d3.select('#force-svg').attr('width', width).attr('height', height);
   svg.selectAll('*').remove();
@@ -76,7 +104,7 @@ export function loadData(data, options = {}) {
 
   svg.on('click', () => clearHighlight());
 
-  createLegend(height);
+  const legendHeight = createLegend(width, height);
 
   simulation = createSimulation(d3);
 
@@ -87,7 +115,7 @@ export function loadData(data, options = {}) {
   render({ alpha: baked ? 0 : (data.layout ? 0.3 : 1) });
 
   initialTransform = baked
-    ? fitTransform(simulation.nodes(), width, height - LEGEND_HEIGHT)
+    ? fitTransform(simulation.nodes(), width, height - legendHeight)
     : d3.zoomIdentity.scale(0.6).translate(width * 0.33, height * 0.33);
   svg.call(zoom.transform, initialTransform);
 }
@@ -98,8 +126,8 @@ function fitTransform(nodeList, width, height) {
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   for (const d of nodeList) {
     const r = Math.max(5, Math.sqrt(d.traffic / 100) * (currentNodeSize / 10));
-    x0 = Math.min(x0, d.x - r); y0 = Math.min(y0, d.y - r);
-    x1 = Math.max(x1, d.x + r); y1 = Math.max(y1, d.y + r);
+    x0 = Math.min(x0, sx(d) - r); y0 = Math.min(y0, sy(d) - r);
+    x1 = Math.max(x1, sx(d) + r); y1 = Math.max(y1, sy(d) + r);
   }
   const k = Math.min(5, Math.max(0.1, 0.95 * Math.min(width / (x1 - x0), height / (y1 - y0))));
   return d3.zoomIdentity
@@ -107,7 +135,40 @@ function fitTransform(nodeList, width, height) {
     .scale(k);
 }
 
-function createLegend(height) {
+// Two-row legend for narrow panels (phones). Returns the height it takes.
+function createCompactLegend(width, height) {
+  const legend = svg.append('g')
+    .attr('class', 'edge-legend')
+    .attr('transform', `translate(8, ${height - COMPACT_LEGEND_HEIGHT})`);
+
+  legend.append('rect')
+    .attr('width', width - 16).attr('height', COMPACT_LEGEND_HEIGHT - 6)
+    .attr('fill', 'rgba(26, 31, 58, 0.9)')
+    .attr('stroke', '#2a3f5f')
+    .attr('rx', 4);
+
+  const edgeTypes = [
+    { label: 'International', stroke: '#4fc3f7', dash: 'none' },
+    { label: 'Domestic', stroke: '#42a5f5', dash: '4,2' },
+  ];
+  edgeTypes.forEach(({ label, stroke, dash }, i) => {
+    const x = 8 + i * 120;
+    legend.append('line').attr('x1', x).attr('y1', 12).attr('x2', x + 24).attr('y2', 12)
+      .attr('stroke', stroke).attr('stroke-width', 2).attr('stroke-dasharray', dash);
+    legend.append('text').attr('x', x + 29).attr('y', 15).attr('fill', '#ccc').attr('font-size', '9px').text(label);
+  });
+
+  let x = 8;
+  TYPE_LEGEND.forEach(({ color, label }) => {
+    legend.append('circle').attr('cx', x + 4).attr('cy', 27).attr('r', 3.5).attr('fill', color);
+    legend.append('text').attr('x', x + 10).attr('y', 30).attr('fill', '#ccc').attr('font-size', '8px').text(label);
+    x += label.length * 4.4 + 16;
+  });
+  return COMPACT_LEGEND_HEIGHT;
+}
+
+function createLegend(width, height) {
+  if (width < 600) return createCompactLegend(width, height);
   const legend = svg.append('g')
     .attr('class', 'edge-legend')
     .attr('transform', `translate(20, ${height - 80})`);
@@ -149,20 +210,13 @@ function createLegend(height) {
     .attr('font-size', '10px')
     .text('Domestic (Local Company - Gateway)');
 
-  const typeLegend = [
-    { color: '#4dabf7', label: 'Local Co.' },
-    { color: '#51cf66', label: 'IIG' },
-    { color: '#fcc419', label: 'Detected' },
-    { color: '#17a2b8', label: 'Offshore Ent.' },
-    { color: '#e64980', label: 'Offshore GW' },
-    { color: '#ff6b6b', label: 'Outside' },
-  ];
   let legendX = 0;
-  typeLegend.forEach(({ color, label }) => {
+  TYPE_LEGEND.forEach(({ color, label }) => {
     legend.append('circle').attr('cx', legendX + 5).attr('cy', 52).attr('r', 4).attr('fill', color);
     legend.append('text').attr('x', legendX + 12).attr('y', 56).attr('fill', '#ccc').attr('font-size', '8px').text(label);
     legendX += label.length * 5 + 20;
   });
+  return LEGEND_HEIGHT;
 }
 
 /**
@@ -219,9 +273,12 @@ function render({ alpha = 1 } = {}) {
 
   const container = document.getElementById('viz-panel');
   if (!container) return;
-  // Baked data has its own coordinate space (fitted by the zoom); otherwise use the panel.
-  const width = currentData.layout ? currentData.layout.width : container.clientWidth;
-  const height = currentData.layout ? currentData.layout.height : container.clientHeight;
+  // Baked data has its own coordinate space (fitted by the zoom); otherwise use
+  // the panel, with its sides swapped when the layout is drawn transposed.
+  const width = currentData.layout ? currentData.layout.width
+    : (portrait ? container.clientHeight : container.clientWidth);
+  const height = currentData.layout ? currentData.layout.height
+    : (portrait ? container.clientWidth : container.clientHeight);
 
   const selected = selectGraph(currentData, minTraffic, maxTraffic);
   renderedEdges = selected.edges;
@@ -249,6 +306,7 @@ function render({ alpha = 1 } = {}) {
     .enter().append('g')
     .attr('class', 'node')
     .call(d3.drag()
+      .subject((event, d) => ({ x: sx(d), y: sy(d) }))
       .on('start', dragStart)
       .on('drag', dragging)
       .on('end', dragEnd));
@@ -314,16 +372,8 @@ function render({ alpha = 1 } = {}) {
 }
 
 function ticked() {
-  nodes.attr('transform', d => `translate(${d.x},${d.y})`);
-  
-  links.attr('d', d => {
-    const s = d.source;
-    const t = d.target;
-    if (!s || !t || isNaN(s.x) || isNaN(t.x)) return '';
-    const dx = t.x - s.x, dy = t.y - s.y;
-    const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; 
-    return `M${s.x},${s.y}A${dr},${dr} 0 0,1 ${t.x},${t.y}`;
-  });
+  nodes.attr('transform', d => `translate(${sx(d)},${sy(d)})`);
+  links.attr('d', linkPath);
 }
 
 function buildTooltipHtml(d) {
@@ -432,21 +482,25 @@ export function filterByTypes(activeTypes) {
   });
 }
 
+// Dragging moves only the dragged node and its own links. It never reheats the
+// simulation: a click also starts a drag, and the rest of the layout should stay put.
 function dragStart(event, d) {
-  if (!event.active) simulation.alphaTarget(0.3).restart();
-  d.fx = d.x;
-  d.fy = d.y;
+  dragLinks = links.filter(l => l.source === d || l.target === d);
 }
 
 function dragging(event, d) {
-  d.fx = event.x;
-  d.fy = event.y;
+  d.x = portrait ? event.y : event.x;
+  d.y = portrait ? event.x : event.y;
+  d.fx = d.x;   // hold it in place if a simulation is still settling
+  d.fy = d.y;
+  d3.select(this).attr('transform', `translate(${sx(d)},${sy(d)})`);
+  dragLinks.attr('d', linkPath);
 }
 
 function dragEnd(event, d) {
-  if (!event.active) simulation.alphaTarget(0);
   d.fx = null;
   d.fy = null;
+  dragLinks = null;
 }
 
 export function destroy() {

@@ -31,6 +31,31 @@ let currentData = null;
 let currentOptions = {};
 let highlightedASN = null; // Track which ASN is currently highlighted
 let savedTransform = null; // Preserve zoom/pan across re-renders
+let zoom = null;
+let fittedTransform = null; // The "whole picture" view, used by Reset View
+
+const BOX_W = 70;
+const BOX_H = 28;
+const CELL_W = BOX_W;      // boxes touch horizontally
+const CELL_H = BOX_H + 2;  // minimal vertical spacing
+const LAYER_PAD = 12;      // space between a layer's title and the next layer
+const FIT_MARGIN = 12;     // screen pixels kept free around the fitted picture
+
+/**
+ * Pick how many boxes go in each row so the whole picture, zoomed to fit, is as
+ * large as possible on a width x height panel. Exported for unit testing.
+ */
+export function chooseColumns(layerSizes, width, height, titleHeight) {
+  const maxN = Math.max(1, ...layerSizes);
+  let best = { cols: 1, scale: 0 };
+  for (let cols = 1; cols <= maxN; cols++) {
+    const contentW = cols * CELL_W + CELL_W / 2;  // zigzag rows are offset by half a cell
+    const contentH = layerSizes.reduce((sum, n) => sum + titleHeight + Math.ceil(n / cols) * CELL_H + LAYER_PAD, 0);
+    const scale = Math.min(width / contentW, height / contentH);
+    if (scale > best.scale) best = { cols, scale };
+  }
+  return best;
+}
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -42,7 +67,20 @@ export function loadData(data, options = {}) {
   currentData = data;
   currentOptions = options;
   savedTransform = null; // Reset zoom for new data
+  highlightedASN = null;
   render();
+}
+
+/** Swap in a new snapshot, keeping the current pan/zoom and highlight. */
+export function updateData(data, options = {}) {
+  currentData = data;
+  currentOptions = { ...currentOptions, ...options };
+  render();
+}
+
+export function resetView() {
+  if (!zoom || !fittedTransform) return;
+  d3.select('#hier-svg').transition().duration(750).call(zoom.transform, fittedTransform);
 }
 
 function render() {
@@ -50,7 +88,7 @@ function render() {
   const options = currentOptions;
   const minTraffic = options.minTraffic !== undefined ? options.minTraffic : 100;
   const maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
-  
+
   const container = document.getElementById('viz-panel');
   if (!container) return;
   const width = container.clientWidth;
@@ -60,20 +98,11 @@ function render() {
   svg.selectAll('*').remove();
 
   const g = svg.append('g');
-  const zoom = d3.zoom().scaleExtent([0.1, 4]).on('zoom', (event) => {
+  zoom = d3.zoom().scaleExtent([0.1, 4]).on('zoom', (event) => {
     g.attr('transform', event.transform);
     savedTransform = event.transform; // Persist zoom state across re-renders
   });
   svg.call(zoom);
-  
-  // Restore previous zoom/pan or apply initial zoom-out for new data
-  if (savedTransform) {
-    svg.call(zoom.transform, savedTransform);
-  } else {
-    const initialScale = 0.3;
-    const t = d3.zoomIdentity.scale(initialScale).translate(width / 2 / initialScale, height / 2 / initialScale);
-    svg.call(zoom.transform, t);
-  }
 
   const nodeMap = {};
   currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
@@ -119,33 +148,41 @@ function render() {
   const outside = filterNodes('outside');
   if (outside.length > 0) layers.push({ type: 'outside', nodes: outside });
 
-  const margin = { top: 60, bottom: 60, left: 40, right: 40 };
-  const w = width - margin.left - margin.right;
-  const h = height - margin.top - margin.bottom;
-  const boxW = 70;  // Slightly narrower boxes
-  const boxH = 28;  // Slightly shorter boxes
-
-  // Pack nodes VERY densely - zero spacing, maximize nodes per row
-  const minSpacing = boxW;
-  const maxNodesPerRow = Math.max(50, Math.floor(w / minSpacing));  // At least 50 per row
+  // Size the rows to the panel's shape, then zoom so the whole picture fills it.
+  // Layer titles are sized for the fitted zoom so they stay readable; that
+  // changes the layout height, so fit twice.
+  const layerSizes = layers.map(l => l.nodes.length);
+  const availW = width - 2 * FIT_MARGIN;
+  const availH = height - 2 * FIT_MARGIN;
+  let titleSize = 14;
+  let fit = chooseColumns(layerSizes, availW, availH, titleSize + 8);
+  titleSize = Math.min(48, Math.max(14, 13 / fit.scale));
+  fit = chooseColumns(layerSizes, availW, availH, titleSize + 8);
+  const maxNodesPerRow = fit.cols;
+  const minSpacing = CELL_W;
+  const boxW = BOX_W;
+  const boxH = BOX_H;
+  const w = maxNodesPerRow * CELL_W + CELL_W / 2;
 
   // Position each layer with multi-row zigzag layout
   const positions = {};
-  let currentLayerY = margin.top;
-  
+  let currentLayerY = 0;
+
   layers.forEach((layer, li) => {
     const nodeCount = layer.nodes.length;
     const nodesPerRow = Math.min(maxNodesPerRow, nodeCount);
     const numRows = Math.ceil(nodeCount / nodesPerRow);
-    const rowSpacing = boxH + 2;  // Extremely minimal vertical spacing
+    const rowSpacing = CELL_H;
     const layerHeight = numRows * rowSpacing;
-    
-    // Draw layer label at the top of this layer's vertical space
+
+    // Layer title above its rows
+    currentLayerY += titleSize + 8;
     g.append('text')
-      .attr('x', margin.left)
-      .attr('y', currentLayerY - 8)
+      .attr('class', 'hier-layer-title')
+      .attr('x', 0)
+      .attr('y', currentLayerY - 6)
       .attr('fill', TYPE_COLORS[layer.type])
-      .attr('font-size', '12px')
+      .attr('font-size', `${titleSize}px`)
       .attr('font-weight', 'bold')
       .text(TYPE_LABELS[layer.type] || layer.type);
 
@@ -154,10 +191,10 @@ function render() {
       const row = Math.floor(i / nodesPerRow);
       const colInRow = i % nodesPerRow;
       const actualNodesInThisRow = Math.min(nodesPerRow, nodeCount - row * nodesPerRow);
-      
+
       // Calculate horizontal spacing for this row
       const rowWidth = actualNodesInThisRow * minSpacing;
-      const startX = margin.left + (w - rowWidth) / 2;
+      const startX = (w - CELL_W / 2 - rowWidth) / 2;
       
       // Zigzag: even rows left-to-right, odd rows offset by half-spacing for zigzag effect
       let x;
@@ -175,8 +212,15 @@ function render() {
     });
     
     // Move to next layer's vertical position (minimal spacing between layers)
-    currentLayerY += layerHeight + 20;
+    currentLayerY += layerHeight + LAYER_PAD;
   });
+
+  // Fit the whole picture to the panel; keep the user's pan/zoom if they have one.
+  const k = fit.scale;
+  fittedTransform = d3.zoomIdentity
+    .translate((width - k * w) / 2, (height - k * currentLayerY) / 2)
+    .scale(k);
+  svg.call(zoom.transform, savedTransform || fittedTransform);
 
   // Draw edges (use filtered edges with adaptive curves for multi-row layout)
   const allEdges = [...filteredIntl, ...filteredDom];
@@ -269,6 +313,12 @@ function render() {
       event.stopPropagation();
       highlightASN(asn);
     });
+  }
+
+  // Keep a highlight across re-renders (filter changes, history snapshots).
+  if (highlightedASN) {
+    if (positions[highlightedASN]) highlightASN(highlightedASN);
+    else highlightedASN = null;
   }
 }
 
