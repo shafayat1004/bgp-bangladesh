@@ -133,7 +133,9 @@ data is written once and never recomputed (only a missing layout is added).
 Normally don't commit `data/`: the bot commits there every 4 hours and the
 next run fixes the current files anyway. Make a one-off data correction only
 when waiting is worse, e.g. wrong values would otherwise sit in 7 days of
-history (snapshots are never rewritten). Then:
+history (snapshots are never rewritten). Missing Network Graph positions are
+not a data correction: bake them as the `network-layout` skill describes
+("Baking now"), without running the update workflow. For a value correction:
 
 - **Start from the committed files**, not your working copy, which may hold a
   locally baked `layout` block (`git checkout -- data/BD`, keep a copy of

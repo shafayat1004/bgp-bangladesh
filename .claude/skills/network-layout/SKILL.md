@@ -59,10 +59,40 @@ The layout reads left to right along the path traffic takes: local companies
 7. `npm run test:js` (`tests-js/precompute-layout.test.js` covers determinism,
    seeding and the text-append format).
 
+## Baking now, without waiting for CI
+
+Signs the committed data has no current layout: the graph moves and settles
+on open, `npm run profile` prints "baked layout in data: no", and the e2e
+"baked positions" test skips instead of failing (issue #32). If the user wants
+it fixed now, bake locally; don't dispatch `update-bgp-data.yml`. The workflow
+refetches BGP data and adds an off-schedule history snapshot just to run a
+script that takes ~1 s per file.
+
+```bash
+git fetch origin
+git worktree add -b bake-layout <scratch>/bake origin/main   # clean copy, not your working tree
+ln -s "$PWD/node_modules" <scratch>/bake/node_modules
+(cd <scratch>/bake && node scripts/precompute_layout.mjs --country BD)
+```
+
+Before pushing:
+- `git diff --numstat` shows additions only (the script appends a `layout`
+  block; a deleted line means something else changed).
+- Every file has positions: `JSON.parse(...).layout.positions` is non-empty
+  for `viz_data.json` and each history snapshot.
+- `origin/main` hasn't moved since the worktree was cut, and
+  `gh run list --workflow update-bgp-data.yml --status in_progress` is empty. A
+  run that checked out the older `main` can't push over yours.
+
+Commit only `data/BD`, push to `main`, then check `npm run profile` shows 0
+simulation ticks on open and the e2e "baked positions" test runs. Remove the
+worktree and branch afterwards.
+
 ## Things that bite
 
 - **Don't commit `data/`.** The bot commits data every 4 hours; local data
-  commits conflict. CI recomputes the layout because of the version bump.
+  commits conflict. CI recomputes the layout because of the version bump. The
+  one exception is a layout-only bake CI hasn't done yet (see above).
 - **Layout space matters**: the zoom fits the whole drawing, so a tall, narrow
   layout makes everything tiny. Widening `LAYOUT_WIDTH` spreads the columns;
   pulling toward the vertical middle (`forceY` strength) keeps it from getting
