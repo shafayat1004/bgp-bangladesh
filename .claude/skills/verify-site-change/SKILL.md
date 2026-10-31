@@ -63,6 +63,11 @@ Run what matches the change; when unsure, run all of it.
    - Is every technical term explained where it appears (hover, focus and tap)?
      Are there any graph/math words (node, edge) or misleading ones (calling
      route counts "traffic")?
+   - Does every claim about a network state what the routes showed, through
+     whom, when and from which source, with nothing that judges it, guesses
+     why, or stretches "routes visible" into "had internet"? Read it as
+     someone who works at that network: could they call any sentence unfair?
+     (`writing-site-text` skill.)
    - When I change the date or a filter, does anything jump, reorder for no
      reason, or lose my zoom, scroll, sort or selection?
    - Does anything move or zoom that doesn't need to (a bar chart that pans)?

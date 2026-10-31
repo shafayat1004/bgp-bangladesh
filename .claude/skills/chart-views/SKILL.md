@@ -38,6 +38,10 @@ heights, fitted to the panel width, scrolling like a page.
 
 ## Words on screen
 
+How to frame claims (facts with sources and dates, never accusatory) is in
+the `writing-site-text` skill; read it before writing headings, takeaways or
+details text. The rules below are about vocabulary and the code that shows it.
+
 - Networks and connections, never nodes and edges (internal code names are
   fine; anything a visitor sees isn't).
 - The numbers are route observations: say "routes" or "routes seen", not
