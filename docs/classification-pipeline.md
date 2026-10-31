@@ -65,7 +65,7 @@ flowchart TB
     subgraph Phase4["Phase 4 — Enrichment Queries"]
         direction TB
         API4["④ RIPEstat<br/>as-overview<br/>(per unique ASN)"]:::apiNode
-        API4 --> |"holder name + announced bool"| D4["ASN names & countries<br/>(parsed from holder string)"]:::dataNode
+        API4 --> |"holder name + announced bool"| D4["ASN names & countries<br/>(country from rir-stats-country)"]:::dataNode
         API5["⑤ RIPEstat<br/>maxmind-geo-lite-<br/>announced-by-as<br/>(per gateway ASN)"]:::apiNode
         API5 --> |"IP geolocation breakdown"| D5["geo_country &<br/>dominant_country<br/>per ASN"]:::dataNode
         API6["⑥ PeeringDB<br/>net + ix APIs<br/>(batch by ASN list)"]:::apiNode
@@ -138,6 +138,7 @@ flowchart TB
 | ② | `announced-prefixes/data.json?resource=AS{n}` | RIPEstat | Get actually-announced prefixes per ASN (catches sub-allocations) |
 | ③ | `bgp-state/data.json?resource={prefixes}` | RIPEstat | Bulk BGP route state — full AS paths for all BD prefixes |
 | ④ | `as-overview/data.json?resource=AS{n}` | RIPEstat | ASN holder name and announcement status |
+| ④b | `rir-stats-country/data.json?resource=AS{n}` | RIPEstat | Country each non-BD ASN is registered to, from the RIRs' delegation stats (cached in `asn_names.json` with `country_source: "rir"`) |
 | ⑤ | `maxmind-geo-lite-announced-by-as/data.json?resource=AS{n}` | RIPEstat | IP geolocation — physical location of ASN's address space |
 | ⑥ | `peeringdb.com/api/net` + `peeringdb.com/api/ix` | PeeringDB | Facility and IXP membership data for peering location |
 | ⑦ | `btrc_iig_licenses.json` (local) | BTRC | Static list of licensed International Internet Gateway operators |

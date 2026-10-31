@@ -172,26 +172,27 @@ function chunkPrefixes(prefixes, maxLen = 1800) {
 }
 
 /**
- * Try to extract country code from ASN holder name.
- * Common pattern: "COMPANYNAME-CC Description" where CC is a 2-letter country code.
+ * Registered country from a RIPEstat rir-stats-country response (the RIRs'
+ * delegation stats). Some records use a region (EU, AP) rather than a country;
+ * those are kept. Returns '' when the registry has no location.
  */
-function parseCountryFromHolder(holder) {
-  // Invalid region codes that should not be treated as countries
-  const INVALID_REGIONS = new Set(['AP', 'EU', 'AS', 'AF', 'LA', 'NA', 'OC', 'AN']);
-  
-  if (!holder) return '';
-  const parts = holder.split(/[\s,]+/);
-  if (parts.length > 0) {
-    const first = parts[0];
-    if (first.includes('-')) {
-      const suffix = first.split('-').pop().toUpperCase();
-      if (suffix.length === 2 && /^[A-Z]{2}$/.test(suffix) && !INVALID_REGIONS.has(suffix)) {
-        return suffix;
-      }
-    }
+export function parseRirCountry(payload) {
+  for (const r of payload?.data?.located_resources || []) {
+    const loc = String(r.location || '').trim().toUpperCase();
+    if (/^[A-Z]{2}$/.test(loc) && loc !== 'ZZ') return loc;
   }
   return '';
 }
+
+// Fallback countries for big transit networks, used only when the registry
+// lookup fails or has no country for them.
+const WELL_KNOWN_COUNTRIES = {
+  '174': 'US', '6939': 'US', '6461': 'US', '3356': 'US', '1299': 'SE',
+  '2914': 'US', '3257': 'DE', '3491': 'US', '5511': 'FR', '6762': 'IT',
+  '9002': 'EU', '9498': 'IN', '4637': 'HK', '2516': 'JP', '4826': 'AU',
+  '7922': 'US', '20473': 'US', '13335': 'US', '16509': 'US', '15169': 'US',
+  '8075': 'US', '32934': 'US', '36351': 'US', '46489': 'US', '397143': 'US',
+};
 
 /**
  * Fetch geolocation for a single ASN using MaxMind GeoLite data via RIPEstat.
@@ -321,27 +322,15 @@ export class RIPEStatClient {
     });
     const holder = asnData?.data?.holder || `AS${asn}`;
     
-    // Step 4: Determine country - check if it's a BD ASN first
+    // Step 4: The country the ASN is registered to (RIR delegation stats)
     let country = '';
-    
-    // First check if this ASN is in Bangladesh by querying country resources
     try {
-      const bdCheck = await fetchWithRetry(`${RIPESTAT_BASE}/country-resource-list/data.json?resource=bd&v4_format=prefix`, {
+      const rir = await fetchWithRetry(`${RIPESTAT_BASE}/rir-stats-country/data.json?resource=AS${asn}`, {
         timeout: 10000,
         rateLimiter: this.rateLimiter,
       });
-      const bdASNs = (bdCheck?.data?.resources?.asn || []).map(a => String(a));
-      if (bdASNs.includes(asn)) {
-        country = 'BD';
-      }
-    } catch {
-      // Fallback to parsing holder name
-      country = parseCountryFromHolder(holder);
-    }
-    
-    if (!country) {
-      country = parseCountryFromHolder(holder);
-    }
+      country = parseRirCountry(rir);
+    } catch { /* country stays unknown */ }
 
     return { ip, asn, holder, prefix, country };
   }
@@ -681,19 +670,18 @@ export class RIPEStatClient {
             if (countryASNs && countryASNs.has(asn)) {
               country = 'BD';
             } else {
-              country = parseCountryFromHolder(holder);
-            }
-            
-            // Apply well-known ASN country overrides if country is still empty or invalid
-            const WELL_KNOWN_COUNTRIES = {
-              '174': 'US', '6939': 'US', '6461': 'US', '3356': 'US', '1299': 'SE',
-              '2914': 'US', '3257': 'DE', '3491': 'US', '5511': 'FR', '6762': 'IT',
-              '9002': 'EU', '9498': 'IN', '4637': 'HK', '2516': 'JP', '4826': 'AU',
-              '7922': 'US', '20473': 'US', '13335': 'US', '16509': 'US', '15169': 'US',
-              '8075': 'US', '32934': 'US', '36351': 'US', '46489': 'US', '397143': 'US',
-            };
-            if (!country && WELL_KNOWN_COUNTRIES[asn]) {
-              country = WELL_KNOWN_COUNTRIES[asn];
+              // The country the ASN is registered to, from the RIRs; the
+              // holder handle's suffix ("OMANTEL-AS") is not a country.
+              try {
+                const rir = await fetchWithRetry(`${RIPESTAT_BASE}/rir-stats-country/data.json?resource=AS${asn}`, {
+                  rateLimiter: this.rateLimiter,
+                  signal: this.abortController?.signal,
+                  maxRetries: 2,
+                  timeout: 15000,
+                });
+                if (rir.status === 'ok') country = parseRirCountry(rir);
+              } catch { /* fall back below */ }
+              if (!country) country = WELL_KNOWN_COUNTRIES[asn] || '';
             }
 
             results[asn] = {

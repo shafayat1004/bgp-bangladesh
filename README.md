@@ -200,7 +200,7 @@ python3 scripts/update_bgp_data.py --country IN  # For other countries
 - ✓ Deduplicates and saves raw routes to `bgp_routes_raw.jsonl` (JSONL format, ~150MB)
 - ✓ Classifies ASNs using license-aware model (cross-references BTRC IIG list)
 - ✓ Fetches ASN info in parallel (20 concurrent, matching website)
-- ✓ Applies country detection and well-known ASN overrides
+- ✓ Looks up each network's registered country from the RIRs (RIPEstat `rir-stats-country`)
 - ✓ Generates visualization data (`viz_data.json`)
 - ✓ Updates ASN names database (`asn_names.json`)
 - ✓ Creates metadata with timestamp and stats (`metadata.json`)
@@ -289,7 +289,7 @@ bgp-bangladesh/
 
 5. **Browser-Based Processing**: All route analysis happens client-side. No server required.
 
-6. **Country-Aware**: Detects and displays country flags for every ASN using holder name parsing and well-known ASN databases.
+6. **Country-Aware**: Shows the country each network is registered to, from the regional internet registries (RIRs).
 
 ## Use Cases
 
