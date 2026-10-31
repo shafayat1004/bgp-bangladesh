@@ -28,3 +28,7 @@ venv/
 wasm/bgp-wasm/target/
 wasm/bgp-wasm/pkg/.gitignore
 data/BD/bgp_routes_raw.jsonl
+
+# Local dev tooling output (screenshots, profiles) and Playwright MCP logs
+.dev-output/
+.playwright-mcp/

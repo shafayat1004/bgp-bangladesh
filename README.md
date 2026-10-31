@@ -28,24 +28,47 @@ git push
 ### Run Locally
 
 ```bash
-# Serve the site locally (Python 3)
-python3 -m http.server 8000
+npm install
 
-# Or with Node.js
-npx serve .
+# Serve the site with caching off (edits show up on reload)
+npm run serve
 
 # Then open http://localhost:8000
 ```
 
-### Run Unit Tests
+### Run Tests and Checks
 
 ```bash
 # Python tests (classification + route analysis helpers)
 python3 -m unittest discover -s tests -p "test_*.py" -v
 
-# JavaScript tests (live data processor classification logic)
+# JavaScript unit tests
 npm run test:js
+
+# Browser tests: graph stability, history slider, keyboard access, phone sidebar
+npm run test:e2e
+
+# Accessibility audit (axe, WCAG 2.2 AA) of every view on desktop and phone
+npm run audit:a11y
+
+# Screenshots of every view (desktop, phone, landscape phone) -> .dev-output/screenshots/
+# add `-- --slider-step` to also report elements that move when the date changes
+npm run screenshots
+
+# Performance of the network graph and history slider, with budgets
+npm run profile -- --check
 ```
+
+The browser tools use your installed Chrome, or Playwright's Chromium
+(`npx playwright install chromium`).
+
+### Network Graph Layout
+
+The network graph's node positions are computed when the data is updated
+(`scripts/precompute_layout.mjs`, run by the update workflow) and stored in the
+data files, so the page draws the graph without simulating. To try it locally,
+run `npm run layout`; don't commit the resulting `data/` changes, the workflow
+bakes them on its next run.
 
 ---
 
@@ -177,7 +200,7 @@ python3 scripts/update_bgp_data.py --country IN  # For other countries
 - ✓ Deduplicates and saves raw routes to `bgp_routes_raw.jsonl` (JSONL format, ~150MB)
 - ✓ Classifies ASNs using license-aware model (cross-references BTRC IIG list)
 - ✓ Fetches ASN info in parallel (20 concurrent, matching website)
-- ✓ Applies country detection and well-known ASN overrides
+- ✓ Looks up each network's registered country from the RIRs (RIPEstat `rir-stats-country`)
 - ✓ Generates visualization data (`viz_data.json`)
 - ✓ Updates ASN names database (`asn_names.json`)
 - ✓ Creates metadata with timestamp and stats (`metadata.json`)
@@ -266,7 +289,7 @@ bgp-bangladesh/
 
 5. **Browser-Based Processing**: All route analysis happens client-side. No server required.
 
-6. **Country-Aware**: Detects and displays country flags for every ASN using holder name parsing and well-known ASN databases.
+6. **Country-Aware**: Shows the country each network is registered to, from the regional internet registries (RIRs).
 
 ## Use Cases
 

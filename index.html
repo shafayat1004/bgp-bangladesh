@@ -3,168 +3,223 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BGP Bangladesh - Internet Path Visualization</title>
-  <meta name="description" content="Interactive visualization of Bangladesh's internet connectivity: Local Companies, Licensed IIGs, Detected Gateways, Offshore Detection, and International Transit via BGP routing.">
-  <meta property="og:title" content="BGP Bangladesh - Internet Path Visualization">
-  <meta property="og:description" content="Explore Bangladesh's BGP routing paths and internet bottlenecks interactively.">
+  <title>BGP Bangladesh - How Bangladesh Connects to the Internet</title>
+  <meta name="description" content="Interactive map of how Bangladesh's local ISPs reach the global internet: BGP routes through licensed International Internet Gateways (IIGs), detected gateways and offshore networks, updated every few hours from RIPEstat data.">
+  <link rel="canonical" href="https://www.shafayat.bd/bgp-bangladesh/">
+  <meta name="theme-color" content="#0d0d0d">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BGP Bangladesh">
+  <meta property="og:title" content="BGP Bangladesh - How Bangladesh Connects to the Internet">
+  <meta property="og:description" content="Explore the BGP paths from Bangladesh's local ISPs through its international gateways (IIGs) to the global internet.">
+  <meta property="og:url" content="https://www.shafayat.bd/bgp-bangladesh/">
+  <meta property="og:image" content="https://www.shafayat.bd/bgp-bangladesh/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Network graph: local ISPs on the left connect through gateway networks in the middle to international networks on the right.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BGP Bangladesh - How Bangladesh Connects to the Internet">
+  <meta name="twitter:description" content="Explore the BGP paths from Bangladesh's local ISPs through its international gateways (IIGs) to the global internet.">
+  <meta name="twitter:image" content="https://www.shafayat.bd/bgp-bangladesh/assets/img/og-image.png">
+  <meta name="twitter:image:alt" content="Network graph: local ISPs on the left connect through gateway networks in the middle to international networks on the right.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "BGP Bangladesh",
+        "url": "https://www.shafayat.bd/bgp-bangladesh/",
+        "description": "Interactive visualization of the BGP routing paths that connect Bangladesh's local ISPs to the global internet through International Internet Gateways.",
+        "applicationCategory": "ReferenceApplication",
+        "operatingSystem": "Any",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      },
+      {
+        "@type": "Dataset",
+        "name": "Bangladesh BGP gateway paths",
+        "description": "Autonomous systems seen on BGP paths into Bangladesh, classified as local companies, licensed International Internet Gateways, detected gateways, offshore networks and international transit, with route counts between them. Derived from public RIPEstat BGP data and refreshed every few hours.",
+        "url": "https://www.shafayat.bd/bgp-bangladesh/",
+        "keywords": ["BGP", "Bangladesh", "internet gateway", "IIG", "ASN", "routing", "RIPEstat"],
+        "spatialCoverage": { "@type": "Place", "name": "Bangladesh" },
+        "isAccessibleForFree": true,
+        "isBasedOn": "https://stat.ripe.net/",
+        "creator": { "@type": "Person", "name": "Mir Shafayat Ahmed" },
+        "distribution": [
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "application/json",
+            "contentUrl": "https://www.shafayat.bd/bgp-bangladesh/data/BD/viz_data.json"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <link rel="stylesheet" href="assets/css/styles.css">
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#viz-panel">Skip to the visualization</a>
+
   <div id="app">
     <!-- Mobile Menu Button -->
-    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
+    <button id="mobile-menu-btn" class="mobile-menu-btn" type="button" aria-label="Open controls" aria-expanded="false" aria-controls="sidebar">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
     </button>
-    
+
     <!-- Sidebar Overlay for mobile -->
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
-    
+    <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+
     <!-- Sidebar -->
-    <aside id="sidebar">
+    <aside id="sidebar" aria-label="Controls and network lists">
       <div id="sidebar-header">
-        <h1>BGP Bangladesh</h1>
-        <div id="data-source-label">Loading...</div>
+        <p class="site-name">BGP Bangladesh</p>
+        <div id="data-source-label" role="status" aria-live="polite">Loading...</div>
       </div>
       <div id="sidebar-content">
-        <!-- What's My ASN? -->
+        <!-- How does my internet reach the world? (looks up the visitor's network) -->
         <div class="controls-section my-asn-section">
-          <button class="btn btn-my-asn" id="btn-my-asn">What's My ASN?</button>
-          <div id="my-asn-result"></div>
-          <div class="my-asn-note">Note: Default filter shows routes with 100+ observations. Lower the "Min Routes" slider to 0 to see smaller ISPs.</div>
+          <button class="btn btn-my-asn" id="btn-my-asn" type="button" aria-describedby="my-asn-note">How does my internet reach the world?</button>
+          <p class="my-asn-note" id="my-asn-note">Finds your network from your IP address, which is sent to ipify.org and RIPEstat to look it up.</p>
+          <div id="my-asn-result" aria-live="polite"></div>
         </div>
 
         <!-- Stats -->
+        <h2 class="visually-hidden">Summary</h2>
         <div id="stats-container"></div>
 
         <!-- Controls -->
         <div class="controls-section">
           <div class="btn-group">
-            <button class="btn" id="btn-fetch-live">Fetch Latest Routes</button>
-            <button class="btn btn-outline" id="btn-revert-static">Static Data</button>
+            <button class="btn" id="btn-fetch-live" type="button">Fetch Latest Routes</button>
+            <button class="btn btn-outline" id="btn-revert-static" type="button">Static Data</button>
           </div>
           <div class="btn-group" style="margin-top: 8px;">
-            <button class="btn btn-outline btn-small" id="btn-reset-view">Reset View</button>
-            <button class="btn btn-outline btn-small" id="btn-toggle-labels">Labels</button>
+            <button class="btn btn-outline btn-small" id="btn-reset-view" type="button">Reset View</button>
+            <button class="btn btn-outline btn-small" id="btn-toggle-labels" type="button" aria-pressed="true">Labels</button>
           </div>
         </div>
 
         <!-- Search ASN -->
         <div class="controls-section">
           <div class="control-group">
-            <label>Search ASN</label>
-            <input type="text" id="search-asn" placeholder="Search by ASN or name..." class="search-input">
+            <label for="search-asn">Search ASN</label>
+            <input type="search" id="search-asn" placeholder="Search by ASN or name..." class="search-input" autocomplete="off">
           </div>
         </div>
 
         <!-- Filters -->
         <div class="controls-section">
           <div class="control-group">
-            <label>Min Routes: <span class="filter-value" id="filter-min-traffic-label">100</span></label>
+            <label for="filter-min-traffic">Min Routes: <span class="filter-value" id="filter-min-traffic-label">100</span></label>
             <input type="range" id="filter-min-traffic" min="0" max="40000" value="100" step="100">
           </div>
           <div class="control-group">
-            <label>Max Routes: <span class="filter-value" id="filter-max-traffic-label">∞</span></label>
+            <label for="filter-max-traffic">Max Routes: <span class="filter-value" id="filter-max-traffic-label">∞</span></label>
             <input type="range" id="filter-max-traffic" min="0" max="40000" value="40000" step="500">
           </div>
           <div class="control-group">
-            <label>Node Size</label>
+            <label for="filter-node-size">Node Size</label>
             <input type="range" id="filter-node-size" min="5" max="30" value="15" step="1">
           </div>
         </div>
 
         <!-- Type Filters -->
-        <div class="controls-section">
-          <div class="sidebar-section-title" style="color: var(--text-muted);">Show Types</div>
+        <fieldset class="controls-section type-filter-fieldset">
+          <legend class="sidebar-section-title">Show Types</legend>
           <div class="type-filter-group" id="type-filter-checks">
             <label><input type="checkbox" data-type="local-company" checked> <span style="color:#4dabf7">Local Companies</span></label>
             <label><input type="checkbox" data-type="iig" checked> <span style="color:#51cf66">IIGs</span></label>
             <label><input type="checkbox" data-type="detected-iig" checked> <span style="color:#fcc419">Detected</span></label>
             <label><input type="checkbox" data-type="offshore-enterprise" checked> <span style="color:#17a2b8">Offshore Ent.</span></label>
-            <label><input type="checkbox" data-type="offshore-gateway" checked> <span style="color:#e64980">Offshore GW</span></label>
+            <label><input type="checkbox" data-type="offshore-gateway" checked> <span style="color:#f06595">Offshore GW</span></label>
             <label><input type="checkbox" data-type="outside" checked> <span style="color:#ff6b6b">Outside</span></label>
           </div>
-        </div>
+        </fieldset>
 
         <!-- Export -->
         <div class="controls-section">
-          <div class="sidebar-section-title" style="color: var(--text-muted);">Export Data</div>
+          <h2 class="sidebar-section-title">Export Data</h2>
           <div class="btn-group">
-            <button class="btn btn-outline btn-small" id="btn-export-nodes">Nodes CSV</button>
-            <button class="btn btn-outline btn-small" id="btn-export-edges">Edges CSV</button>
-            <button class="btn btn-outline btn-small" id="btn-export-json">JSON</button>
-            <button class="btn btn-outline btn-small" id="btn-export-raw" title="Export raw BGP routes (available after live fetch, ~20MB)">Raw Routes</button>
+            <button class="btn btn-outline btn-small" id="btn-export-nodes" type="button">Nodes CSV</button>
+            <button class="btn btn-outline btn-small" id="btn-export-edges" type="button">Edges CSV</button>
+            <button class="btn btn-outline btn-small" id="btn-export-json" type="button">JSON</button>
+            <button class="btn btn-outline btn-small" id="btn-export-raw" type="button" title="Export raw BGP routes (available after live fetch, ~20MB)">Raw Routes</button>
           </div>
         </div>
 
         <!-- Legend -->
         <div class="controls-section legend-section">
-          <div class="sidebar-section-title" style="color: var(--text-muted);">Legend</div>
-          <div class="legend-items">
-            <div class="legend-item"><span class="legend-dot" style="background:#4dabf7;"></span> Local Companies</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#51cf66;"></span> IIGs (Licensed Gateways)</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#fcc419;"></span> Detected Gateways</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#17a2b8;"></span> Offshore Enterprises</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#e64980;"></span> Offshore Gateways</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#ff6b6b;"></span> Outside BD (International)</div>
-          </div>
+          <h2 class="sidebar-section-title">Legend</h2>
+          <ul class="legend-items">
+            <li class="legend-item"><span class="legend-dot" style="background:#4dabf7;" aria-hidden="true"></span> Local Companies</li>
+            <li class="legend-item"><span class="legend-dot" style="background:#51cf66;" aria-hidden="true"></span> IIGs (Licensed Gateways)</li>
+            <li class="legend-item"><span class="legend-dot" style="background:#fcc419;" aria-hidden="true"></span> Detected Gateways</li>
+            <li class="legend-item"><span class="legend-dot" style="background:#17a2b8;" aria-hidden="true"></span> Offshore Enterprises</li>
+            <li class="legend-item"><span class="legend-dot" style="background:#e64980;" aria-hidden="true"></span> Offshore Gateways</li>
+            <li class="legend-item"><span class="legend-dot" style="background:#ff6b6b;" aria-hidden="true"></span> Outside BD (International)</li>
+          </ul>
         </div>
 
         <!-- IIG list (licensed border gateways) -->
-        <div class="sidebar-section-title iig">IIGs (Licensed Gateways)</div>
-        <div id="iig-list"></div>
+        <h2 class="sidebar-section-title iig" id="iig-list-title">IIGs (Licensed Gateways)</h2>
+        <div id="iig-list" class="asn-list" role="list" aria-labelledby="iig-list-title"></div>
 
         <!-- Detected Gateways list -->
-        <div class="sidebar-section-title detected-iig">Detected Gateways</div>
-        <div id="detected-iig-list"></div>
+        <h2 class="sidebar-section-title detected-iig" id="detected-iig-list-title">Detected Gateways</h2>
+        <div id="detected-iig-list" class="asn-list" role="list" aria-labelledby="detected-iig-list-title"></div>
 
         <!-- Offshore Enterprise list -->
-        <div class="sidebar-section-title offshore-enterprise">Offshore Enterprises</div>
-        <div id="offshore-enterprise-list"></div>
+        <h2 class="sidebar-section-title offshore-enterprise" id="offshore-enterprise-list-title">Offshore Enterprises</h2>
+        <div id="offshore-enterprise-list" class="asn-list" role="list" aria-labelledby="offshore-enterprise-list-title"></div>
 
         <!-- Offshore Gateway list -->
-        <div class="sidebar-section-title offshore-gateway">Offshore Gateways</div>
-        <div id="offshore-gateway-list"></div>
+        <h2 class="sidebar-section-title offshore-gateway" id="offshore-gateway-list-title">Offshore Gateways</h2>
+        <div id="offshore-gateway-list" class="asn-list" role="list" aria-labelledby="offshore-gateway-list-title"></div>
 
         <!-- Local Company list -->
-        <div class="sidebar-section-title local-company">Local Companies</div>
-        <div id="local-company-list"></div>
+        <h2 class="sidebar-section-title local-company" id="local-company-list-title">Local Companies</h2>
+        <div id="local-company-list" class="asn-list" role="list" aria-labelledby="local-company-list-title"></div>
 
         <!-- Outside ASN list -->
-        <div class="sidebar-section-title outside">Outside BD (International)</div>
-        <div id="outside-list"></div>
+        <h2 class="sidebar-section-title outside" id="outside-list-title">Outside BD (International)</h2>
+        <div id="outside-list" class="asn-list" role="list" aria-labelledby="outside-list-title"></div>
       </div>
     </aside>
 
     <!-- Main content -->
-    <div id="main">
+    <main id="main">
       <!-- Top bar -->
       <div id="top-bar">
-        <div style="font-size:14px; font-weight:600; color: var(--accent);">Bangladesh Internet Path Visualization</div>
+        <h1 class="top-bar-title">Bangladesh Internet Path Visualization</h1>
       </div>
 
       <!-- Tab navigation -->
-      <nav id="tab-nav">
-        <button class="tab-btn" data-tab="force-graph">Network Graph</button>
-        <button class="tab-btn" data-tab="sankey">Traffic Flow</button>
-        <button class="tab-btn active" data-tab="hierarchical">Layered View</button>
-        <button class="tab-btn" data-tab="bar-gateway">Gateway Ranking</button>
-        <button class="tab-btn" data-tab="bar-country">Country Origins</button>
-        <button class="tab-btn" data-tab="table">Data Table</button>
-      </nav>
+      <div id="tab-nav" role="tablist" aria-label="Visualizations">
+        <button class="tab-btn" type="button" role="tab" id="tab-force-graph" data-tab="force-graph" aria-controls="viz-panel" aria-selected="false" tabindex="-1">Network Graph</button>
+        <button class="tab-btn" type="button" role="tab" id="tab-sankey" data-tab="sankey" aria-controls="viz-panel" aria-selected="false" tabindex="-1">Traffic Flow</button>
+        <button class="tab-btn active" type="button" role="tab" id="tab-hierarchical" data-tab="hierarchical" aria-controls="viz-panel" aria-selected="true" tabindex="0">Layered View</button>
+        <button class="tab-btn" type="button" role="tab" id="tab-bar-gateway" data-tab="bar-gateway" aria-controls="viz-panel" aria-selected="false" tabindex="-1">Gateway Ranking</button>
+        <button class="tab-btn" type="button" role="tab" id="tab-bar-country" data-tab="bar-country" aria-controls="viz-panel" aria-selected="false" tabindex="-1">Country Origins</button>
+        <button class="tab-btn" type="button" role="tab" id="tab-table" data-tab="table" aria-controls="viz-panel" aria-selected="false" tabindex="-1">Data Table</button>
+      </div>
 
       <!-- Visualization panel -->
-      <div id="viz-panel"></div>
+      <div id="viz-panel" role="tabpanel" aria-labelledby="tab-hierarchical" tabindex="-1"></div>
 
       <!-- History time-slider (hidden until the manifest loads) -->
-      <div id="timeline-bar" class="hidden" aria-hidden="true">
+      <div id="timeline-bar" class="hidden" role="group" aria-label="Data history" aria-hidden="true">
         <button id="timeline-prev" class="timeline-btn" type="button" aria-label="Previous snapshot" title="Previous snapshot">&#8249;</button>
         <input id="timeline-slider" type="range" min="0" max="0" value="0" step="1"
-               role="slider" aria-label="Browse historical snapshots">
+               aria-label="Snapshot date">
         <button id="timeline-next" class="timeline-btn" type="button" aria-label="Next snapshot" title="Next snapshot">&#8250;</button>
         <div id="timeline-readout">
           <span id="timeline-spinner" class="timeline-spinner hidden" aria-hidden="true"></span>
@@ -175,14 +230,121 @@
 
       <!-- Footer -->
       <div id="app-footer">
-        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat</a> | Local Company &rarr; Gateway &rarr; International</span>
-        <span><a href="#" id="btn-show-intro">About this project</a></span>
+        <span>Data source: <a href="https://stat.ripe.net" target="_blank" rel="noopener">RIPEstat<span class="visually-hidden"> (opens in a new tab)</span></a> | Local Company &rarr; Gateway &rarr; International</span>
+        <span><button type="button" class="link-button" id="btn-show-intro">About this project</button></span>
       </div>
-    </div>
+    </main>
   </div>
 
+  <noscript>
+    <p class="noscript-message">BGP Bangladesh is an interactive visualization and needs JavaScript. It shows how Bangladesh's local ISPs reach the global internet through International Internet Gateways (IIGs). The underlying data is available as <a href="data/BD/viz_data.json">JSON</a>.</p>
+  </noscript>
+
+  <!-- Introduction (opened on first visit and from "About this project") -->
+  <dialog id="edu-modal" class="modal-dialog" aria-labelledby="edu-modal-title">
+    <div class="modal-card">
+      <button class="modal-close" type="button" aria-label="Close introduction">&times;</button>
+      <div class="modal-disclaimer">
+        <strong>Disclaimer:</strong> This is a <strong>hobby project</strong> that analyses <strong>publicly available BGP peering information</strong>. It is intended <strong>purely for educational purposes</strong> and does not represent any official or authoritative assessment.
+      </div>
+      <h2 class="modal-title" id="edu-modal-title">How Does Bangladesh's Internet Connect to the World?</h2>
+      <div class="modal-body">
+        <section class="modal-section">
+          <h3>What You're Looking At</h3>
+          <p>This visualization shows the <strong>BGP (Border Gateway Protocol)</strong> routing paths
+          that connect Bangladesh to the global internet. Every time you visit a website or send a message,
+          your data travels through these paths.</p>
+          <p><em>Note: The dataset includes the top 1,500 international connections and top 2,000 domestic connections,
+          capturing all significant BGP traffic while keeping the visualization focused and performant.</em></p>
+        </section>
+
+        <ol class="modal-diagram" aria-label="How traffic leaves Bangladesh">
+          <li class="modal-layer modal-layer-local">
+            <div class="modal-layer-label">Layer 1: Your Local Company / ISP</div>
+            <div class="modal-layer-desc">ADN Telecom, Triangle Services, KS Network, Dot Internet, Mazeda Networks...</div>
+          </li>
+          <li class="modal-arrow" aria-hidden="true">&#8595; Domestic BGP Peering &#8595;</li>
+          <li class="modal-layer modal-layer-inside">
+            <div class="modal-layer-label">Layer 2: Border Gateways</div>
+            <div class="modal-layer-desc">Summit Communications, Fiber@Home, Level3, Earth Telecom, Windstream...</div>
+          </li>
+          <li class="modal-arrow" aria-hidden="true">&#8595; International BGP Peering &#8595;</li>
+          <li class="modal-layer modal-layer-outside">
+            <div class="modal-layer-label">Layer 3: International Transit</div>
+            <div class="modal-layer-desc">Bharti Airtel, Hurricane Electric, NTT, TATA, Cogent...</div>
+          </li>
+          <li class="modal-arrow" aria-hidden="true">&#8595;</li>
+          <li class="modal-layer modal-layer-world">
+            <div class="modal-layer-label">The Global Internet</div>
+          </li>
+        </ol>
+
+        <section class="modal-section">
+          <h3>Key Concepts</h3>
+          <dl class="modal-terms">
+            <dt>ASN (Autonomous System Number)</dt>
+            <dd>A unique identifier for a network (e.g., AS58717 = Summit). Think of it as a "network ID".</dd>
+            <dt>BGP Route</dt>
+            <dd>A path that internet traffic follows between networks. Like a road between cities.</dd>
+            <dt>Local Company (Blue nodes)</dt>
+            <dd>Your local Bangladeshi company or ISP that originates the route to your network.</dd>
+            <dt>IIG - International Internet Gateway (Green nodes)</dt>
+            <dd>Border gateway operators in Bangladesh that peer with international networks and provide transit for domestic ISPs. Cross-referenced against the <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" rel="noopener">BTRC IIG license list<span class="visually-hidden"> (opens in a new tab)</span></a>.</dd>
+            <dt>Detected Gateway (Amber nodes)</dt>
+            <dd>An ASN observed acting as a border gateway for other BD networks, but not found in the <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" rel="noopener">known IIG license list<span class="visually-hidden"> (opens in a new tab)</span></a>. This may indicate a new operator, a subsidiary, or a data mapping gap.</dd>
+            <dt>Offshore Enterprise (Cyan nodes)</dt>
+            <dd>A BD-registered ASN with infrastructure located outside Bangladesh, but no downstream BD customers. Typically tech companies or cloud users. Detected via IP geolocation and PeeringDB analysis.</dd>
+            <dt>Offshore Gateway (Pink nodes)</dt>
+            <dd>A BD-registered ASN with infrastructure abroad that is also providing transit to other BD networks. This is a potential regulatory concern. Detected via IP geolocation + transit analysis.</dd>
+            <dt>Outside BD (Red nodes)</dt>
+            <dd>International transit networks that connect Bangladesh to the world. These are your international feeders.</dd>
+          </dl>
+        </section>
+
+        <section class="modal-section">
+          <h3>How to Use</h3>
+          <ul class="modal-tips">
+            <li><strong>Switch tabs</strong> to see different visualizations of the same data (arrow keys move between tabs)</li>
+            <li><strong>Hover</strong> over nodes for details about each network</li>
+            <li><strong>Click</strong> a node, or a network in the sidebar, to highlight its connections</li>
+            <li><strong>Pan and zoom</strong> with the chart buttons, or focus a chart and use the arrow keys, + and -</li>
+            <li><strong>Use filters</strong> in the sidebar to adjust what's shown</li>
+            <li><strong>Data Table</strong> lists every network and connection as text</li>
+            <li><strong>Fetch Live Data</strong> to see the current BGP state in real-time</li>
+            <li><strong>Export</strong> the data as CSV to analyze in a spreadsheet</li>
+          </ul>
+        </section>
+
+        <section class="modal-section modal-section-why">
+          <h3>Why This Matters</h3>
+          <p>Understanding these paths reveals <strong>bottlenecks</strong> and <strong>single points of failure</strong>.
+          If a major gateway goes down, whether intentionally or due to a submarine cable cut,
+          it affects millions of users. This tool helps visualize that dependency.</p>
+        </section>
+
+        <section class="modal-section modal-section-algorithm">
+          <h3>How Classification Works</h3>
+          <p>Every ASN is classified through a multi-step pipeline: external BGP data is fetched from
+          <strong>RIPEstat</strong> and <strong>PeeringDB</strong>, AS paths are analysed to identify border crossings,
+          and gateways are categorised using BTRC license data, IP geolocation, and transit analysis.
+          For the full algorithm, see the
+          <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/classification-pipeline.md" target="_blank" rel="noopener">Classification Pipeline Documentation<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
+        </section>
+
+        <section class="modal-section modal-section-contact">
+          <p>Spotted a mistake or misclassification? Please reach out at
+          <a href="mailto:shafayat1004@gmail.com">shafayat1004@gmail.com</a>.</p>
+        </section>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary modal-dismiss" type="button">Got it, show me the data</button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- Shared tooltip -->
-  <div class="tooltip" id="tooltip" style="display: none;"></div>
+  <div class="tooltip" id="tooltip" role="tooltip" style="display: none;"></div>
 
   <!-- Main script -->
   <script type="module" src="assets/js/main.js"></script>

@@ -23,6 +23,9 @@ import time
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from update_bgp_data import refresh_registered_countries  # noqa: E402
+
 BASE = "https://stat.ripe.net/data"
 UA = {"User-Agent": "bgp-bangladesh-viz/1.0"}
 
@@ -194,10 +197,7 @@ print(f"\nFetching country info for {len(need_country)} ASNs...")
 rate_limiter = RateLimiter(requests_per_second=4)
 
 def fetch_asn_country(asn):
-    """Fetch ASN overview and extract country from holder name or RIR data."""
-    # Invalid region codes that should not be treated as countries
-    INVALID_REGIONS = {"AP", "EU", "AS", "AF", "LA", "NA", "OC", "AN"}
-    
+    """Fetch ASN overview (holder name); countries are looked up afterwards."""
     try:
         rate_limiter.acquire()  # Rate limit API calls
         r = requests.get(f"{BASE}/as-overview/data.json",
@@ -211,22 +211,7 @@ def fetch_asn_country(asn):
             holder = info.get("holder", "")
             announced = info.get("announced", False)
 
-            # Try to parse country from holder name
-            # Common patterns: "COMPANYNAME-CC Company Name" or "NAME - Company CC"
-            country = ""
-            # Check if the ASN is in our BD set
-            if asn in country_asns:
-                country = "BD"
-            else:
-                # Try to extract from holder - pattern like "NAME-CC"
-                parts = holder.split()
-                if parts:
-                    first = parts[0]
-                    if "-" in first:
-                        suffix = first.split("-")[-1].upper()
-                        # Check if it looks like a 2-letter country code and not a region
-                        if len(suffix) == 2 and suffix.isalpha() and suffix not in INVALID_REGIONS:
-                            country = suffix
+            country = "BD" if asn in country_asns else ""
 
             return asn, {
                 "asn": asn,
@@ -256,22 +241,8 @@ for asn in country_asns:
     if asn in asn_names:
         asn_names[asn]["country"] = "BD"
 
-# For any ASN still missing country, try common well-known ones
-WELL_KNOWN_COUNTRIES = {
-    "174": "US", "6939": "US", "6461": "US", "3356": "US", "1299": "SE",
-    "2914": "US", "3257": "DE", "3491": "US", "5511": "FR", "6762": "IT",
-    "9002": "EU", "9498": "IN", "4637": "HK", "2516": "JP", "4826": "AU",
-    "7922": "US", "20473": "US", "13335": "US", "16509": "US", "15169": "US",
-    "8075": "US", "32934": "US", "36351": "US", "46489": "US", "397143": "US",
-}
-
-INVALID_REGIONS = {"AP", "EU", "AS", "AF", "LA", "NA", "OC", "AN"}
-for asn, cc in WELL_KNOWN_COUNTRIES.items():
-    if asn in asn_names:
-        current = asn_names[asn].get("country", "")
-        # Override if empty or invalid region code
-        if not current or current in INVALID_REGIONS:
-            asn_names[asn]["country"] = cc
+# Registered country of every non-BD ASN, from the RIRs (not the holder handle)
+refresh_registered_countries(asn_names, country_asns, rate_limiter)
 
 print(f"  ASN info complete: {len(asn_names)} entries")
 

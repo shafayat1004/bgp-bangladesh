@@ -4,6 +4,7 @@
  */
 
 import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
+import { makeChartAccessible } from '../ui/chart-a11y.js';
 
 const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-enterprise': '#17a2b8', 'offshore-gateway': '#e64980', 'local-company': '#4dabf7', 'inside': '#51cf66', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7' };
 const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-enterprise': 'Offshore Enterprise', 'offshore-gateway': 'Offshore Gateway', 'local-company': 'Local Company', 'inside': 'Inside BD', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP' };
@@ -65,7 +66,9 @@ export function loadData(data, options = {}) {
 
 function fitToView() {
   if (!svgZoom || !fitTransform) return;
-  d3.select('#sankey-svg').transition().duration(300).call(svgZoom.transform, fitTransform);
+  const svg = d3.select('#sankey-svg');
+  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (reduced ? svg : svg.transition().duration(300)).call(svgZoom.transform, fitTransform);
 }
 
 function render() {
@@ -82,7 +85,10 @@ function render() {
 
   // Reflect the active orientation in the toolbar
   const ctrls = document.getElementById('sankey-controls');
-  if (ctrls) ctrls.querySelectorAll('[data-orient]').forEach(b => b.classList.toggle('active', b.dataset.orient === orientation));
+  if (ctrls) ctrls.querySelectorAll('[data-orient]').forEach(b => {
+    b.classList.toggle('active', b.dataset.orient === orientation);
+    b.setAttribute('aria-pressed', String(b.dataset.orient === orientation));
+  });
 
   const svg = d3.select('#sankey-svg').attr('width', width).attr('height', height);
   svg.selectAll('*').remove();
@@ -286,7 +292,7 @@ function render() {
   const hintCross = crossTotal + 22;
   g.append('text')
     .attr('x', toX(hintFlow, hintCross)).attr('y', toY(hintFlow, hintCross))
-    .attr('text-anchor', 'middle').attr('fill', '#666').attr('font-size', '11px')
+    .attr('text-anchor', 'middle').attr('fill', '#8f8f8f').attr('font-size', '11px')
     .text('Scroll to zoom • Drag to pan • Fit to reset');
 
   // Compute a fit-to-screen transform and a generous zoom-out range so the
@@ -305,6 +311,14 @@ function render() {
     .on('zoom', (event) => g.attr('transform', event.transform));
   svg.call(svgZoom);
   svg.call(svgZoom.transform, fitTransform);  // apply initial fit
+
+  makeChartAccessible(svg, {
+    zoom: svgZoom,
+    label: 'Traffic flow diagram: routes flow from local companies through gateways to international networks. The width of each band shows how many routes it carries.',
+    reset: fitToView,
+    toolbar: document.getElementById('sankey-controls'),
+    includeReset: false,
+  });
 }
 
 export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }

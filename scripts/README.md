@@ -189,7 +189,7 @@ python3 --version
 - **Solution:** This is normal for some ASNs. The script will use "AS12345" as fallback.
 
 **Problem:** Country codes showing as empty
-- **Solution:** Not all ASNs have clear country indicators. The script applies well-known ASN overrides for major networks.
+- **Solution:** Countries come from the RIRs via RIPEstat `rir-stats-country`. A failed lookup leaves the country empty (or a well-known fallback for big transit networks) and is retried on the next run.
 
 ## Automation
 
@@ -212,6 +212,7 @@ All data comes from [RIPEstat](https://stat.ripe.net/):
 - **Country Resources:** `https://stat.ripe.net/data/country-resource-list/data.json`
 - **BGP State:** `https://stat.ripe.net/data/bgp-state/data.json`
 - **AS Overview:** `https://stat.ripe.net/data/as-overview/data.json`
+- **RIR Stats Country:** `https://stat.ripe.net/data/rir-stats-country/data.json` (registered country of each ASN)
 
 RIPEstat is free, public, and requires no API key.
 

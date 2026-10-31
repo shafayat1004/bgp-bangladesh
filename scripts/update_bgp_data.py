@@ -1004,124 +1004,169 @@ def analyze_routes_streaming(jsonl_path, country_asns):
 # Step 4: Fetch ASN Info (Parallel)
 # ═══════════════════════════════════════════════════════════════════════════
 
+# Fallback countries for big transit networks, used only when the registry
+# lookup fails or has no country for them.
+WELL_KNOWN_COUNTRIES = {
+    "174": "US", "6939": "US", "6461": "US", "3356": "US", "1299": "SE",
+    "2914": "US", "3257": "DE", "3491": "US", "5511": "FR", "6762": "IT",
+    "9002": "EU", "9498": "IN", "4637": "HK", "2516": "JP", "4826": "AU",
+    "7922": "US", "20473": "US", "13335": "US", "16509": "US", "15169": "US",
+    "8075": "US", "32934": "US", "36351": "US", "46489": "US", "397143": "US",
+}
+
+
+def parse_rir_country(payload):
+    """Registered country from a RIPEstat rir-stats-country response.
+
+    RIPEstat takes it from the RIRs' delegation stats, so it is the country the
+    ASN is registered to. Some RIR records use a region (EU, AP) instead of a
+    country; those are kept. Returns '' when the registry has no location.
+    """
+    data = (payload or {}).get("data") or {}
+    for resource in data.get("located_resources") or []:
+        location = (resource.get("location") or "").strip().upper()
+        if len(location) == 2 and location.isalpha() and location != "ZZ":
+            return location
+    return ""
+
+
+def fetch_registered_country(asn, rate_limiter=None):
+    """Country an ASN is registered to; '' if the registry has none, None if
+    the lookup failed (so it is retried on the next run)."""
+    try:
+        response = get_with_retries(
+            f"{BASE}/rir-stats-country/data.json",
+            params={"resource": f"AS{asn}"},
+            headers=UA, timeout=15, attempts=3, rate_limiter=rate_limiter,
+        )
+        payload = response.json()
+    except (requests.RequestException, ValueError):
+        return None
+    if payload.get("status") != "ok":
+        return None
+    return parse_rir_country(payload)
+
+
+def refresh_registered_countries(results, country_asns, rate_limiter, fetch=fetch_registered_country):
+    """Look up the registered country of every non-BD ASN that doesn't have one
+    from the registry yet (country_source "rir").
+
+    Earlier versions guessed the country from the end of the holder handle
+    ("OMANTEL-AS" -> "AS", "SINGTEL-AS-AP" -> "AP"), and those guesses sit in
+    the asn_names.json cache; this replaces them. A failed lookup leaves no
+    guess behind: the country is the well-known fallback or empty, and the ASN
+    is looked up again next run.
+    """
+    todo = [asn for asn, info in results.items()
+            if asn not in country_asns and info.get("country_source") != "rir"]
+    if not todo:
+        return results
+
+    print(f"      Looking up registered country for {len(todo):,} ASNs ({CONCURRENCY} parallel)...")
+    found = failed = 0
+    with ThreadPoolExecutor(max_workers=CONCURRENCY) as executor:
+        futures = {executor.submit(fetch, asn, rate_limiter): asn for asn in todo}
+        for future in as_completed(futures):
+            asn = futures[future]
+            try:
+                country = future.result()
+            except Exception:
+                country = None
+            info = results[asn]
+            if country is None:
+                failed += 1
+                info["country"] = WELL_KNOWN_COUNTRIES.get(asn, "")
+                info.pop("country_source", None)
+            else:
+                found += 1
+                info["country"] = country or WELL_KNOWN_COUNTRIES.get(asn, "")
+                info["country_source"] = "rir"
+    print(f"      Registered countries: {found:,} looked up, {failed:,} failed (retried next run)")
+    return results
+
+
 def fetch_asn_info(asn_list, country_asns, rate_limiter, existing_asn_names=None):
-    """Fetch ASN info in parallel with rate limiting. Includes country extraction."""
+    """Fetch ASN names in parallel with rate limiting, then registered countries."""
     if existing_asn_names is None:
         existing_asn_names = {}
-    
-    # Determine which ASNs need country info
-    need_fetch = [a for a in asn_list if a not in existing_asn_names or "country" not in existing_asn_names.get(a, {})]
-    
-    if not need_fetch:
-        print(f"      All ASN info already cached.")
-        return existing_asn_names
-    
-    concurrency = CONCURRENCY
-    print(f"\n[4/4] Fetching ASN info for {len(need_fetch):,} ASNs ({concurrency} parallel)...")
-    
+
     results = dict(existing_asn_names)  # Start with existing data
-    completed = 0
-    failed = 0
-    start_time = time.time()
-    
-    # Invalid region codes that should not be treated as countries
-    INVALID_REGIONS = {"AP", "EU", "AS", "AF", "LA", "NA", "OC", "AN"}
-    
-    def fetch_asn(asn):
-        """Fetch ASN overview and extract country from holder name or RIR data."""
-        max_retries = 2  # Match website behavior
-        
-        for attempt in range(max_retries + 1):
-            try:
-                rate_limiter.acquire()
-                r = requests.get(f"{BASE}/as-overview/data.json",
-                                 params={"resource": f"AS{asn}"},
-                                 headers=UA, timeout=15)
-                r.raise_for_status()
-                data = r.json()
-                
-                if data.get("status") == "ok":
-                    info = data.get("data", {})
-                    holder = info.get("holder", "")
-                    announced = info.get("announced", False)
-                    
-                    # Try to parse country from holder name
-                    country = ""
-                    if asn in country_asns:
-                        country = "BD"
-                    else:
-                        # Try to extract from holder - pattern like "NAME-CC"
-                        parts = holder.split()
-                        if parts:
-                            first = parts[0]
-                            if "-" in first:
-                                suffix = first.split("-")[-1].upper()
-                                if len(suffix) == 2 and suffix.isalpha() and suffix not in INVALID_REGIONS:
-                                    country = suffix
-                    
-                    return asn, {
-                        "asn": asn,
-                        "name": holder or f"AS{asn}",
-                        "holder": holder or f"AS{asn}",
-                        "announced": announced,
-                        "country": country,
-                    }
-                return asn, {"asn": asn, "name": f"AS{asn}", "holder": "", "announced": False, "country": "BD" if asn in country_asns else ""}
-                
-            except requests.RequestException as e:
-                if attempt < max_retries:
-                    time.sleep(1)  # Brief wait before retry
-                    continue
-                # Final failure - return fallback
-                return asn, {"asn": asn, "name": f"AS{asn}", "holder": "", "announced": False, "country": "BD" if asn in country_asns else ""}
-            except Exception:
-                # Unexpected error - return fallback
-                return asn, {"asn": asn, "name": f"AS{asn}", "holder": "", "announced": False, "country": "BD" if asn in country_asns else ""}
-    
-    # Fetch in parallel batches
-    for i in range(0, len(need_fetch), concurrency):
-        batch = need_fetch[i:i + concurrency]
-        
-        with ThreadPoolExecutor(max_workers=concurrency) as executor:
-            futures = [executor.submit(fetch_asn, asn) for asn in batch]
-            
-            for future in as_completed(futures):
+    need_fetch = [a for a in asn_list if a not in existing_asn_names]
+
+    if not need_fetch:
+        print(f"      All ASN names already cached.")
+    else:
+        concurrency = CONCURRENCY
+        print(f"\n[4/4] Fetching ASN info for {len(need_fetch):,} ASNs ({concurrency} parallel)...")
+        completed = 0
+        failed = 0
+        start_time = time.time()
+
+        def fetch_asn(asn):
+            """Fetch the ASN's holder name from RIPEstat as-overview."""
+            fallback = {"asn": asn, "name": f"AS{asn}", "holder": "", "announced": False, "country": ""}
+            max_retries = 2  # Match website behavior
+
+            for attempt in range(max_retries + 1):
                 try:
-                    asn, result = future.result()
-                    results[asn] = result
-                    completed += 1
+                    rate_limiter.acquire()
+                    r = requests.get(f"{BASE}/as-overview/data.json",
+                                     params={"resource": f"AS{asn}"},
+                                     headers=UA, timeout=15)
+                    r.raise_for_status()
+                    data = r.json()
+
+                    if data.get("status") == "ok":
+                        info = data.get("data", {})
+                        holder = info.get("holder", "")
+                        return asn, {
+                            "asn": asn,
+                            "name": holder or f"AS{asn}",
+                            "holder": holder or f"AS{asn}",
+                            "announced": info.get("announced", False),
+                            "country": "",
+                        }
+                    return asn, fallback
+
+                except requests.RequestException:
+                    if attempt < max_retries:
+                        time.sleep(1)  # Brief wait before retry
+                        continue
+                    return asn, fallback
                 except Exception:
-                    failed += 1
-        
-        if completed % 100 == 0:
-            elapsed = time.time() - start_time
-            avg_per_item = elapsed / completed if completed > 0 else 0
-            remaining = (len(need_fetch) - completed) * avg_per_item
-            print(f"      Fetched {completed}/{len(need_fetch)} ASNs (ETA: {remaining:.0f}s)...")
-    
-    # Set country for all BD ASNs
+                    return asn, fallback
+
+        # Fetch in parallel batches
+        for i in range(0, len(need_fetch), concurrency):
+            batch = need_fetch[i:i + concurrency]
+
+            with ThreadPoolExecutor(max_workers=concurrency) as executor:
+                futures = [executor.submit(fetch_asn, asn) for asn in batch]
+
+                for future in as_completed(futures):
+                    try:
+                        asn, result = future.result()
+                        results[asn] = result
+                        completed += 1
+                    except Exception:
+                        failed += 1
+
+            if completed % 100 == 0:
+                elapsed = time.time() - start_time
+                avg_per_item = elapsed / completed if completed > 0 else 0
+                remaining = (len(need_fetch) - completed) * avg_per_item
+                print(f"      Fetched {completed}/{len(need_fetch)} ASNs (ETA: {remaining:.0f}s)...")
+
+    # BD ASNs come from the country's resource list; everything else from the registry.
     for asn in country_asns:
         if asn in results:
             results[asn]["country"] = "BD"
-    
-    # Apply well-known ASN country overrides
-    WELL_KNOWN_COUNTRIES = {
-        "174": "US", "6939": "US", "6461": "US", "3356": "US", "1299": "SE",
-        "2914": "US", "3257": "DE", "3491": "US", "5511": "FR", "6762": "IT",
-        "9002": "EU", "9498": "IN", "4637": "HK", "2516": "JP", "4826": "AU",
-        "7922": "US", "20473": "US", "13335": "US", "16509": "US", "15169": "US",
-        "8075": "US", "32934": "US", "36351": "US", "46489": "US", "397143": "US",
-    }
-    for asn, cc in WELL_KNOWN_COUNTRIES.items():
-        if asn in results:
-            current = results[asn].get("country", "")
-            if not current or current in INVALID_REGIONS:
-                results[asn]["country"] = cc
-    
+    refresh_registered_countries(results, country_asns, rate_limiter)
+
     print(f"      ASN info complete: {len(results):,} total entries")
     with_country = sum(1 for v in results.values() if v.get("country"))
     print(f"      ASNs with country: {with_country:,}/{len(results):,}")
-    
+
     return results
 
 

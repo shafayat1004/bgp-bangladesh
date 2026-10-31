@@ -68,7 +68,7 @@ flowchart TB
         direction TB
 
         API4["④ RIPEstat<br/>as-overview<br/>(per unique ASN)"]:::apiNode
-        API4 --> |"holder name + announced bool"| D4["ASN names & countries<br/>(parsed from holder string)"]:::dataNode
+        API4 --> |"holder name + announced bool"| D4["ASN names & countries<br/>(country from rir-stats-country)"]:::dataNode
 
         API5["⑤ RIPEstat<br/>maxmind-geo-lite-<br/>announced-by-as<br/>(per gateway ASN)"]:::apiNode
         API5 --> |"IP geolocation breakdown"| D5["geo_country &<br/>dominant_country<br/>per ASN"]:::dataNode

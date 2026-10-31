@@ -19,7 +19,7 @@
   --blue: #42a5f5;
   --text: #ffffff;
   --text-muted: #aaaaaa;
-  --text-dim: #666666;
+  --text-dim: #8f8f8f;   /* lightest gray that still meets 4.5:1 on the panels */
   --radius: 6px;
   --transition: 0.2s ease;
 }
@@ -33,6 +33,83 @@ body {
   /* Better mobile scrolling */
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Accessibility helpers ── */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -100px;
+  z-index: 30000;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-weight: bold;
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+
+.skip-link:focus { top: 8px; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* These turn the default outline off for their custom focus style; restore a
+   visible ring for keyboard focus. */
+input[type="range"]:focus-visible,
+.search-input:focus-visible,
+.table-search:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Charts are focusable for keyboard pan/zoom. */
+#viz-panel svg:focus-visible { outline-offset: -3px; }
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.noscript-message {
+  position: fixed;
+  inset: auto 16px 16px;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  z-index: 30000;
+}
+
+.noscript-message a { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ── Layout ── */
@@ -58,8 +135,9 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-#sidebar-header h1 {
+#sidebar-header .site-name {
   font-size: 18px;
+  font-weight: bold;
   color: var(--accent);
   margin-bottom: 8px;
 }
@@ -89,20 +167,34 @@ body {
   flex-wrap: wrap;
 }
 
+.top-bar-title { font-size: 14px; font-weight: 600; color: var(--accent); }
+
 #data-source-label {
   font-size: 12px;
   color: var(--text-muted);
 }
 
 /* ── Tabs ── */
+/* The baseline is an inset shadow rather than a border so the active tab's
+   underline can cover it without a negative margin; overflow clips to the
+   padding box, and a tab reaching into the border made the bar scroll
+   vertically. When the tabs don't fit, they scroll sideways and the right
+   edge fades to show there is more. */
 #tab-nav {
   display: flex;
+  flex-shrink: 0;
   gap: 2px;
   padding: 0 16px;
   background: var(--bg-secondary);
-  border-bottom: 2px solid var(--border);
+  box-shadow: inset 0 -2px 0 var(--border);
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to right, transparent 0, black 8px, black calc(100% - 24px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 8px, black calc(100% - 24px), transparent 100%);
 }
+
+#tab-nav::-webkit-scrollbar { display: none; }
 
 .tab-btn {
   padding: 10px 16px;
@@ -115,7 +207,11 @@ body {
   font-weight: 500;
   white-space: nowrap;
   transition: var(--transition);
-  margin-bottom: -2px;
+}
+
+/* Narrow desktops: tighter tabs so all six fit beside the sidebar. */
+@media (max-width: 1150px) {
+  .tab-btn { padding: 10px 11px; }
 }
 
 .tab-btn:hover {
@@ -187,7 +283,7 @@ body {
 }
 
 .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.stat-value { font-size: 18px; font-weight: bold; color: var(--accent); }
+.stat-value { font-size: 18px; font-weight: bold; color: var(--accent); font-variant-numeric: tabular-nums; }
 
 /* ── ASN List ── */
 .sidebar-section-title {
@@ -208,6 +304,12 @@ body {
 }
 
 .asn-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  border: 0;
   background: var(--bg-card);
   padding: 6px 8px;
   margin: 4px 0;
@@ -217,6 +319,8 @@ body {
   border-left: 3px solid transparent;
 }
 
+.asn-item > span { display: block; }
+
 .asn-item:hover { background: #1a2540; transform: translateX(3px); }
 .asn-item.inside { border-left-color: var(--green); }
 .asn-item.outside { border-left-color: var(--red); }
@@ -224,7 +328,7 @@ body {
 
 .asn-name { font-weight: bold; font-size: 12px; }
 .asn-details { font-size: 10px; color: var(--text-muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.asn-traffic { font-size: 11px; color: var(--accent); margin-top: 2px; }
+.asn-traffic { font-size: 11px; color: var(--accent); margin-top: 2px; font-variant-numeric: tabular-nums; }
 
 /* ── Controls ── */
 .controls-section {
@@ -306,13 +410,17 @@ input[type="range"]::-webkit-slider-thumb {
 .tooltip-detail { font-size: 10px; color: var(--text-muted); line-height: 1.5; padding-left: 4px; }
 
 /* ── D3 Visualization Classes ── */
-.node { cursor: pointer; transition: var(--transition); }
+/* Only transition highlight properties: a blanket transition also animates the
+   SVG transform/d attributes on every simulation tick, which stalls rendering. */
+.node { cursor: pointer; transition: opacity var(--transition), filter var(--transition); }
 .node:hover { filter: brightness(1.3); }
 .node.highlighted { filter: drop-shadow(0 0 8px rgba(79, 195, 247, 0.8)); }
 .node.dimmed { opacity: 0.08; }
 
-.link { stroke-opacity: 0.4; fill: none; transition: var(--transition); }
-.link.highlighted { stroke-opacity: 0.95; stroke-width: 3px !important; filter: drop-shadow(0 0 4px rgba(79, 195, 247, 0.6)); }
+.link { stroke-opacity: 0.4; fill: none; transition: stroke-opacity var(--transition), filter var(--transition); }
+/* No glow filter on links: a big gateway highlights ~700 links and filtering
+   them all took ~0.7 s per redraw (e.g. on each history slider step). */
+.link.highlighted { stroke-opacity: 0.95; stroke-width: 3px !important; }
 .link.dimmed { stroke-opacity: 0.01; }
 
 .node-label {
@@ -325,6 +433,27 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* ── Modal ── */
+/* Native <dialog>: the card fills it, so a click on the dialog itself is a backdrop click. */
+.modal-dialog {
+  border: none;
+  padding: 0;
+  margin: auto;
+  background: transparent;
+  color: var(--text);
+  width: calc(100% - 40px);
+  max-width: 640px;
+  max-height: 85vh;
+  overflow: visible;
+}
+
+.modal-dialog[open] { animation: fadeIn 0.3s; }
+.modal-dialog::backdrop { background: rgba(0, 0, 0, 0.7); }
+
+.modal-card a { color: #51cf66; text-decoration: underline; }
+
+.modal-diagram { list-style: none; padding: 0; }
+.modal-layer-local { background: rgba(66, 165, 245, 0.15); border: 1px solid #42a5f5; }
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -568,6 +697,24 @@ input[type="range"]::-webkit-slider-thumb {
   width: 100%;
   border-collapse: collapse;
   font-size: 12px;
+  /* Fixed layout: column widths come from <colgroup>, not the content, so
+     a date step never resizes columns. Narrow screens scroll sideways inside
+     .table-wrapper instead of squeezing. */
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table-nodes { min-width: 1060px; }
+.data-table-edges { min-width: 820px; }
+
+/* One line per cell at a fixed height; long names end in an ellipsis and
+   show in full on hover (title) and in the row's details. */
+.data-table > thead > tr > th,
+.data-table > tbody > tr:not(.detail-row) > td {
+  height: 34px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .data-table th {
@@ -586,6 +733,21 @@ input[type="range"]::-webkit-slider-thumb {
 
 .data-table th.sortable { cursor: pointer; user-select: none; }
 .data-table th.sortable:hover { color: var(--accent); }
+
+/* Header sort buttons and row expand buttons look like the text they replace. */
+.th-sort, .row-toggle {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.row-toggle { color: var(--accent); text-decoration: underline; }
 
 .data-table td {
   padding: 6px 10px;
@@ -682,6 +844,117 @@ input[type="range"]::-webkit-slider-thumb {
 .viz-ctrl-btn:hover { color: var(--accent); }
 .viz-ctrl-btn.active { color: var(--bg-primary); background: var(--accent); }
 
+/* Pan/zoom buttons (chart-a11y.js): at least 24px targets (WCAG 2.5.8). */
+.viz-nav .viz-ctrl-btn {
+  min-width: 26px;
+  min-height: 26px;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px 6px;
+}
+
+.viz-controls > .viz-nav {
+  display: flex;
+  gap: 4px;
+  padding-left: 4px;
+  border-left: 1px solid var(--border);
+}
+
+/* ── Ranking bar lists (bar-list.js): static, fit the width, scroll down ── */
+.bar-view {
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px 20px 24px;
+}
+
+.bar-view:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.bar-view-head { max-width: 960px; margin-bottom: 12px; }
+.bar-view-title { font-size: 16px; font-weight: 600; color: var(--text); }
+.bar-view-summary { margin-top: 4px; font-size: 13px; color: var(--text-muted); }
+.bar-view-empty { font-size: 14px; color: var(--text-muted); }
+
+.bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 8px;
+  list-style: none;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.bar-legend li { display: flex; align-items: center; gap: 6px; }
+.bar-legend-swatch { width: 12px; height: 12px; border-radius: 2px; }
+
+.bar-list {
+  max-width: 960px;
+  list-style: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fixed row height and columns, so a date step changes bar lengths and
+   numbers but never moves anything else. */
+.bar-row {
+  display: grid;
+  grid-template-columns: 2.5ch minmax(0, 15rem) minmax(0, 1fr) 10ch;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.bar-row:hover { background: var(--bg-card); }
+.bar-row.highlighted { background: #1f3340; box-shadow: inset 3px 0 0 var(--accent); }
+
+.bar-rank { color: var(--text-dim); text-align: right; }
+
+.bar-label { display: flex; align-items: center; gap: 6px; min-width: 0; }
+
+.bar-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.bar-tag {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border: 1px solid var(--tag-color);
+  border-radius: 3px;
+  font-size: 10px;
+  color: var(--tag-color);
+  white-space: nowrap;
+}
+
+.bar-track { display: flex; height: 14px; min-width: 0; }
+.bar-seg { min-width: 0; height: 100%; }
+.bar-seg:first-child { border-radius: 2px 0 0 2px; }
+.bar-seg:last-child { border-radius: 0 2px 2px 0; }
+
+.bar-value { color: var(--text-muted); text-align: right; white-space: nowrap; }
+
+@media (max-width: 600px) {
+  .bar-view { padding: 10px 10px 16px; }
+  .bar-view-title { font-size: 14px; }
+  .bar-view-summary { font-size: 12px; }
+  /* Name and tag stack so the name keeps its width. */
+  .bar-row {
+    grid-template-columns: 2.5ch minmax(0, 42%) minmax(0, 1fr) 8ch;
+    gap: 6px;
+    height: 40px;
+    padding: 0 2px;
+    font-size: 11px;
+  }
+  .bar-label { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .bar-name { max-width: 100%; }
+  .bar-tag { padding: 0 4px; font-size: 9px; }
+}
+
 /* ── History time-slider ── */
 #timeline-bar {
   display: flex;
@@ -728,7 +1001,18 @@ input[type="range"]::-webkit-slider-thumb {
   color: var(--text-dim);
 }
 
-#timeline-label { color: var(--text); white-space: nowrap; }
+/* Fixed-width date and space kept for the spinner and LATEST badge, so
+   stepping through dates never resizes the slider. */
+#timeline-label {
+  display: inline-block;
+  width: 7.5rem;
+  text-align: right;
+  color: var(--text);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+#timeline-readout .hidden { display: inline-block !important; visibility: hidden; }
 
 .timeline-badge {
   font-size: 10px;
@@ -763,8 +1047,8 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
 }
 
-#app-footer a { color: var(--accent); text-decoration: none; }
-#app-footer a:hover { text-decoration: underline; }
+#app-footer a { color: var(--accent); text-decoration: underline; }
+#app-footer a:hover { color: var(--accent-hover); }
 
 /* ── Type Colors ── */
 .sidebar-section-title.iig { color: #51cf66; }
@@ -806,7 +1090,7 @@ input[type="range"]::-webkit-slider-thumb {
 .stat-mini .stat-value { font-size: 15px; }
 .stat-mini .stat-label { font-size: 9px; }
 
-/* ── What's My ASN? ── */
+/* ── How does my internet reach the world? ── */
 .my-asn-section {
   text-align: center;
 }
@@ -835,24 +1119,21 @@ input[type="range"]::-webkit-slider-thumb {
   transform: none;
 }
 
-.my-asn-card {
+.my-path-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 10px;
   margin-top: 8px;
   text-align: left;
-}
-
-.my-asn-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 3px 0;
   font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
 }
 
-.my-asn-label { color: var(--text-muted); }
-.my-asn-value { color: var(--text); font-weight: 600; }
+.my-path-card p + p, .my-path-card .btn { margin-top: 6px; }
+.my-path-card strong { color: var(--text); }
+.my-path-hint { font-size: 11px; color: var(--text-dim); }
 
 .my-asn-error {
   color: var(--red);
@@ -875,6 +1156,7 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  list-style: none;
 }
 
 .legend-item {
@@ -921,8 +1203,9 @@ input[type="range"]::-webkit-slider-thumb {
   border: 1px solid rgba(79, 195, 247, 0.2);
   border-top: 2px solid var(--accent);
   border-radius: 0 0 var(--radius) var(--radius);
-  animation: detailSlideDown 0.2s ease-out;
 }
+
+.detail-row-enter .detail-panel { animation: detailSlideDown 0.2s ease-out; }
 
 @keyframes detailSlideDown {
   from { opacity: 0; transform: translateY(-8px); }
@@ -1094,9 +1377,17 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .type-filter-group input[type="checkbox"] {
   accent-color: var(--accent);
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
+  margin: 3px;
 }
+
+.type-filter-fieldset {
+  border: 0;
+  min-width: 0;
+}
+
+.type-filter-fieldset legend { padding: 0; }
 
 /* ── Mobile Menu Button ── */
 .mobile-menu-btn {
@@ -1166,7 +1457,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* ── Responsive ── */
-@media (max-width: 900px) {
+/* Phones and tablets, and landscape phones (short but wide viewports). */
+@media (max-width: 900px), (max-height: 500px) {
   #app { flex-direction: column; }
   
   .mobile-menu-btn {
@@ -1200,26 +1492,12 @@ input[type="range"]::-webkit-slider-thumb {
   }
   
   /* Title truncation on mobile */
-  #top-bar > div:first-child {
+  #top-bar > .top-bar-title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     min-width: 0;
     flex: 1;
-  }
-  
-  /* Horizontal scroll tabs with fade hints */
-  #tab-nav {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* hide scrollbar for cleaner look */
-    position: relative;
-    mask-image: linear-gradient(to right, transparent 0, black 8px, black calc(100% - 24px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0, black 8px, black calc(100% - 24px), transparent 100%);
-  }
-  
-  #tab-nav::-webkit-scrollbar {
-    display: none;
   }
   
   .tab-btn {
@@ -1241,8 +1519,10 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 8px 12px;
   }
 
+  /* Zero basis: range inputs are width:100% globally, which would push the
+     buttons onto their own rows. */
   #timeline-bar #timeline-slider {
-    flex: 1 1 auto;
+    flex: 1 1 0;
     order: 1;
   }
 
@@ -1252,6 +1532,7 @@ input[type="range"]::-webkit-slider-thumb {
   #timeline-readout {
     order: 3;
     flex: 1 0 100%;
+    min-width: 0;
     justify-content: center;
   }
   
@@ -1272,7 +1553,7 @@ input[type="range"]::-webkit-slider-thumb {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px), (max-height: 500px) {
   .mobile-menu-btn {
     top: 8px;
     left: 8px;
@@ -1284,18 +1565,51 @@ input[type="range"]::-webkit-slider-thumb {
     width: 90%;
   }
   
-  #sidebar-header h1 {
+  #sidebar-header .site-name {
     font-size: 16px;
   }
-  
-  #top-bar {
-    padding: 6px 8px 6px 56px;
-    font-size: 12px;
+
+  /* Keep the title clear of the menu (close) button. */
+  #sidebar-header {
+    padding-left: 56px;
   }
   
+  /* Phones: hide the title bar visually (it holds the page's h1, so it stays
+     for screen readers) and put the tabs beside the menu button to give the
+     chart the height. */
+  #top-bar {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .mobile-menu-btn {
+    top: 2px;
+  }
+
+  #tab-nav {
+    padding-left: 52px;
+    min-height: 44px;
+  }
+
   .tab-btn {
-    font-size: 10px;
-    padding: 8px 12px;
+    font-size: 11px;
+    padding: 13px 12px;
+  }
+
+  #timeline-bar {
+    gap: 4px 8px;
+    padding: 6px 12px 4px;
+  }
+
+  #timeline-readout {
+    font-size: 11px;
   }
   
   .btn {
@@ -1344,9 +1658,24 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 16px;
   }
   
+  /* One line: the long source note truncates instead of wrapping. */
   #app-footer {
     font-size: 9px;
-    padding: 6px 8px;
+    padding: 4px 8px;
+    flex-direction: row;
+    gap: 8px;
+    text-align: left;
+  }
+
+  #app-footer > span:first-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #app-footer > span:last-child {
+    flex: 0 0 auto;
   }
   
   /* Better touch targets for range sliders */
@@ -1472,13 +1801,20 @@ input[type="range"]::-webkit-slider-thumb {
   }
 }
 
+/* Landscape phones: height is what's scarce, so the timeline stays on one
+   row with its date beside the slider. */
+@media (max-height: 500px) {
+  #timeline-bar { flex-wrap: nowrap; }
+  #timeline-readout { flex: 0 0 auto; }
+}
+
 @media (max-width: 400px) {
   #sidebar {
     width: 95%;
   }
   
   #sidebar-header {
-    padding: 12px;
+    padding: 12px 12px 12px 56px;
   }
   
   #sidebar-content {

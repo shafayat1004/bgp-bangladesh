@@ -5,6 +5,8 @@
  */
 
 import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
+import { selectGraph, bandPosition, createSimulation, configureForces, hasBakedLayout, applyBakedPositions } from './force-layout.js';
+import { makeChartAccessible } from '../ui/chart-a11y.js';
 
 const TYPE_COLORS = {
   'outside': '#ff6b6b',
@@ -39,6 +41,38 @@ let minTraffic = 100;
 let maxTraffic = Infinity;
 let renderedEdges = [];
 let stopTimer = null;
+let zoom = null;
+let initialTransform = null;
+let portrait = false;
+let dragLinks = null;
+
+// Space the edge legend takes at the bottom of the panel, kept clear when fitting.
+const LEGEND_HEIGHT = 90;
+const COMPACT_LEGEND_HEIGHT = 44;
+
+const TYPE_LEGEND = [
+  { color: '#4dabf7', label: 'Local Co.' },
+  { color: '#51cf66', label: 'IIG' },
+  { color: '#fcc419', label: 'Detected' },
+  { color: '#17a2b8', label: 'Offshore Ent.' },
+  { color: '#e64980', label: 'Offshore GW' },
+  { color: '#ff6b6b', label: 'Outside' },
+];
+
+// The layout flows left to right. On a portrait panel it is drawn transposed
+// (flowing top to bottom) to use the screen's long side. sx/sy map a node's
+// layout position to where it is drawn.
+const sx = d => (portrait ? d.y : d.x);
+const sy = d => (portrait ? d.x : d.y);
+
+function linkPath(d) {
+  const s = d.source;
+  const t = d.target;
+  if (!s || !t || isNaN(s.x) || isNaN(t.x)) return '';
+  const dx = sx(t) - sx(s), dy = sy(t) - sy(s);
+  const dr = Math.sqrt(dx * dx + dy * dy) * 1.5;
+  return `M${sx(s)},${sy(s)}A${dr},${dr} 0 0,1 ${sx(t)},${sy(t)}`;
+}
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -58,48 +92,84 @@ export function loadData(data, options = {}) {
   if (!container) return;
   const width = container.clientWidth;
   const height = container.clientHeight;
+  portrait = height > width;
 
   svg = d3.select('#force-svg').attr('width', width).attr('height', height);
   svg.selectAll('*').remove();
 
   g = svg.append('g');
 
-  const zoom = d3.zoom().scaleExtent([0.1, 5])
+  zoom = d3.zoom().scaleExtent([0.1, 5])
     .on('zoom', (event) => g.attr('transform', event.transform));
   svg.call(zoom);
-  
-  svg.call(zoom.transform, d3.zoomIdentity.scale(0.6).translate(width * 0.33, height * 0.33));
-  
+
   svg.on('click', () => clearHighlight());
 
-  createLegend(height);
+  const legendHeight = createLegend(width, height);
 
-  simulation = d3.forceSimulation()
-    .force('link', d3.forceLink().id(d => d.asn).distance(180).strength(0.08))
-    .force('charge', d3.forceManyBody().strength(-400).distanceMax(450))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide().radius(d => Math.max(8, Math.sqrt(d.traffic / 100) * 2 + 5)).strength(0.9))
-    .force('x', d3.forceX(d => {
-      if (d.type === 'local-company' || d.type === 'local-isp') return width * 0.15;
-      if (d.type === 'iig' || d.type === 'inside') return width * 0.32;
-      if (d.type === 'detected-iig') return width * 0.5;
-      if (d.type === 'offshore-enterprise') return width * 0.68;
-      if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') return width * 0.78;
-      return width * 0.88;
-    }).strength(0.35))
-    .force('y', d3.forceY(d => {
-      if (d.type === 'local-company' || d.type === 'local-isp') return height * 0.1;
-      if (d.type === 'iig' || d.type === 'inside' || d.type === 'detected-iig') return height * 0.35;
-      if (d.type === 'offshore-enterprise' || d.type === 'offshore-gateway' || d.type === 'offshore-peer') return height * 0.65;
-      return height * 0.9;
-    }).strength(0.85))
-    .velocityDecay(0.55)
-    .alphaDecay(0.02);
+  simulation = createSimulation(d3);
 
-  render();
+  // Positions baked into the data by scripts/precompute_layout.mjs let the graph
+  // appear settled without simulating.
+  const baked = hasBakedLayout(data, minTraffic, maxTraffic);
+  if (data.layout) applyBakedPositions(data.layout, data.nodes);
+  render({ alpha: baked ? 0 : (data.layout ? 0.3 : 1) });
+
+  initialTransform = baked
+    ? fitTransform(simulation.nodes(), width, height - legendHeight)
+    : d3.zoomIdentity.scale(0.6).translate(width * 0.33, height * 0.33);
+  svg.call(zoom.transform, initialTransform);
 }
 
-function createLegend(height) {
+/** Zoom transform that fits all nodes (with their radius) into the view. */
+function fitTransform(nodeList, width, height) {
+  if (!nodeList.length) return d3.zoomIdentity;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const d of nodeList) {
+    const r = Math.max(5, Math.sqrt(d.traffic / 100) * (currentNodeSize / 10));
+    x0 = Math.min(x0, sx(d) - r); y0 = Math.min(y0, sy(d) - r);
+    x1 = Math.max(x1, sx(d) + r); y1 = Math.max(y1, sy(d) + r);
+  }
+  const k = Math.min(5, Math.max(0.1, 0.95 * Math.min(width / (x1 - x0), height / (y1 - y0))));
+  return d3.zoomIdentity
+    .translate(width / 2 - k * (x0 + x1) / 2, height / 2 - k * (y0 + y1) / 2)
+    .scale(k);
+}
+
+// Two-row legend for narrow panels (phones). Returns the height it takes.
+function createCompactLegend(width, height) {
+  const legend = svg.append('g')
+    .attr('class', 'edge-legend')
+    .attr('transform', `translate(8, ${height - COMPACT_LEGEND_HEIGHT})`);
+
+  legend.append('rect')
+    .attr('width', width - 16).attr('height', COMPACT_LEGEND_HEIGHT - 6)
+    .attr('fill', 'rgba(26, 31, 58, 0.9)')
+    .attr('stroke', '#2a3f5f')
+    .attr('rx', 4);
+
+  const edgeTypes = [
+    { label: 'International', stroke: '#4fc3f7', dash: 'none' },
+    { label: 'Domestic', stroke: '#42a5f5', dash: '4,2' },
+  ];
+  edgeTypes.forEach(({ label, stroke, dash }, i) => {
+    const x = 8 + i * 120;
+    legend.append('line').attr('x1', x).attr('y1', 12).attr('x2', x + 24).attr('y2', 12)
+      .attr('stroke', stroke).attr('stroke-width', 2).attr('stroke-dasharray', dash);
+    legend.append('text').attr('x', x + 29).attr('y', 15).attr('fill', '#ccc').attr('font-size', '9px').text(label);
+  });
+
+  let x = 8;
+  TYPE_LEGEND.forEach(({ color, label }) => {
+    legend.append('circle').attr('cx', x + 4).attr('cy', 27).attr('r', 3.5).attr('fill', color);
+    legend.append('text').attr('x', x + 10).attr('y', 30).attr('fill', '#ccc').attr('font-size', '8px').text(label);
+    x += label.length * 4.4 + 16;
+  });
+  return COMPACT_LEGEND_HEIGHT;
+}
+
+function createLegend(width, height) {
+  if (width < 600) return createCompactLegend(width, height);
   const legend = svg.append('g')
     .attr('class', 'edge-legend')
     .attr('transform', `translate(20, ${height - 80})`);
@@ -141,60 +211,95 @@ function createLegend(height) {
     .attr('font-size', '10px')
     .text('Domestic (Local Company - Gateway)');
 
-  const typeLegend = [
-    { color: '#4dabf7', label: 'Local Co.' },
-    { color: '#51cf66', label: 'IIG' },
-    { color: '#fcc419', label: 'Detected' },
-    { color: '#17a2b8', label: 'Offshore Ent.' },
-    { color: '#e64980', label: 'Offshore GW' },
-    { color: '#ff6b6b', label: 'Outside' },
-  ];
   let legendX = 0;
-  typeLegend.forEach(({ color, label }) => {
+  TYPE_LEGEND.forEach(({ color, label }) => {
     legend.append('circle').attr('cx', legendX + 5).attr('cy', 52).attr('r', 4).attr('fill', color);
     legend.append('text').attr('x', legendX + 12).attr('y', 56).attr('fill', '#ccc').attr('font-size', '8px').text(label);
     legendX += label.length * 5 + 20;
   });
+  return LEGEND_HEIGHT;
 }
 
-function render() {
+/**
+ * Copy positions from the nodes currently in the simulation onto the next
+ * dataset's nodes (matched by ASN) so the layout keeps its shape when the data
+ * changes. Unmatched nodes lose any stale position and get placed in their band.
+ * Exported for unit testing. Returns the number of matched nodes.
+ */
+export function carryOverPositions(prevNodes, nextNodes) {
+  const prevByAsn = new Map();
+  for (const n of prevNodes || []) {
+    if (Number.isFinite(n.x) && Number.isFinite(n.y)) prevByAsn.set(n.asn, n);
+  }
+  let matched = 0;
+  for (const n of nextNodes || []) {
+    const p = prevByAsn.get(n.asn);
+    if (p) {
+      n.x = p.x;
+      n.y = p.y;
+      matched++;
+    } else {
+      delete n.x;
+      delete n.y;
+    }
+    n.vx = 0;
+    n.vy = 0;
+  }
+  return matched;
+}
+
+/**
+ * Swap in a new dataset (e.g. a history snapshot) without rebuilding the view:
+ * keeps the zoom, carries node positions over and only gently reheats the layout.
+ */
+export function updateData(data, options = {}) {
+  if (!simulation || !g) { loadData(data, options); return; }
+  if (options.minTraffic !== undefined) minTraffic = options.minTraffic;
+  if (options.maxTraffic !== undefined) maxTraffic = options.maxTraffic;
+  // Snapshots with baked positions were laid out from each other, so they line
+  // up without simulating; otherwise keep the current layout and relax gently.
+  const baked = hasBakedLayout(data, minTraffic, maxTraffic);
+  if (baked) applyBakedPositions(data.layout, data.nodes);
+  else carryOverPositions(simulation.nodes(), data.nodes);
+  currentData = data;
+  const prevHighlight = highlightedNode;
+  highlightedNode = null;
+  render({ alpha: baked ? 0 : 0.1 });
+  if (prevHighlight) highlightASN(prevHighlight);
+}
+
+// Text label for screen readers, plus keyboard and button pan/zoom.
+function describeChart(nodeList, edgeList) {
+  const count = (...types) => nodeList.filter(n => types.includes(n.type)).length;
+  const gateways = count('iig', 'inside', 'detected-iig');
+  const [start, end] = portrait ? ['top', 'bottom'] : ['left', 'right'];
+  const label = `Network graph of ${nodeList.length} networks and ${edgeList.length} connections. `
+    + `${count('local-company', 'local-isp')} local companies on the ${start} reach the internet through `
+    + `${gateways} gateways in the middle and ${count('outside')} international networks on the ${end}.`;
+  makeChartAccessible(svg, { zoom, label, reset: resetView, onEscape: clearHighlight });
+}
+
+// alpha 0 draws the current positions as they are, without running the simulation.
+function render({ alpha = 1 } = {}) {
   if (!currentData || !g) return;
 
   const container = document.getElementById('viz-panel');
   if (!container) return;
-  const width = container.clientWidth;
-  const height = container.clientHeight;
+  // Baked data has its own coordinate space (fitted by the zoom); otherwise use
+  // the panel, with its sides swapped when the layout is drawn transposed.
+  const width = currentData.layout ? currentData.layout.width
+    : (portrait ? container.clientHeight : container.clientWidth);
+  const height = currentData.layout ? currentData.layout.height
+    : (portrait ? container.clientWidth : container.clientHeight);
 
-  renderedEdges = currentData.edges.filter(e => e.count >= minTraffic && e.count <= maxTraffic);
-  const usedNodes = new Set();
-  renderedEdges.forEach(e => {
-    usedNodes.add(e.source?.asn || e.source);
-    usedNodes.add(e.target?.asn || e.target);
-  });
-  const filteredNodes = currentData.nodes.filter(n => usedNodes.has(n.asn));
+  const selected = selectGraph(currentData, minTraffic, maxTraffic);
+  renderedEdges = selected.edges;
+  const filteredNodes = selected.nodes;
 
   // Pre-position nodes
   filteredNodes.forEach(d => {
     if (d.x === undefined || d.y === undefined) {
-      if (d.type === 'local-company' || d.type === 'local-isp') {
-        d.x = width * 0.15 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.1 + (Math.random() - 0.5) * 50;
-      } else if (d.type === 'iig' || d.type === 'inside') {
-        d.x = width * 0.32 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.35 + (Math.random() - 0.5) * 50;
-      } else if (d.type === 'detected-iig') {
-        d.x = width * 0.5 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.35 + (Math.random() - 0.5) * 50;
-      } else if (d.type === 'offshore-enterprise') {
-        d.x = width * 0.68 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.65 + (Math.random() - 0.5) * 50;
-      } else if (d.type === 'offshore-gateway' || d.type === 'offshore-peer') {
-        d.x = width * 0.78 + (Math.random() - 0.5) * width * 0.12;
-        d.y = height * 0.65 + (Math.random() - 0.5) * 50;
-      } else {
-        d.x = width * 0.88 + (Math.random() - 0.5) * width * 0.1;
-        d.y = height * 0.9 + (Math.random() - 0.5) * 50;
-      }
+      [d.x, d.y] = bandPosition(d.type, width, height);
     }
   });
 
@@ -213,6 +318,7 @@ function render() {
     .enter().append('g')
     .attr('class', 'node')
     .call(d3.drag()
+      .subject((event, d) => ({ x: sx(d), y: sy(d) }))
       .on('start', dragStart)
       .on('drag', dragging)
       .on('end', dragEnd));
@@ -235,6 +341,8 @@ function render() {
     byType[type].slice(0, TOP_LABELS_PER_TYPE).forEach(n => labelASNs.add(n.asn));
   }
 
+  // A gentle reheat keeps nodes near their places, so labels can stay visible.
+  const labelsDuringLayout = showLabels && alpha < 1;
   nodes.filter(d => labelASNs.has(d.asn))
     .append('text')
     .attr('class', 'node-label')
@@ -243,31 +351,32 @@ function render() {
       const flag = d.country ? countryToFlag(d.country) : '';
       return `${flag} ${d.name || `AS${d.asn}`}`;
     })
-    .style('display', 'none');
+    .style('display', labelsDuringLayout ? 'block' : 'none');
 
   nodes.on('mouseover', showTooltipHandler)
     .on('mousemove', moveTooltipHandler)
     .on('mouseout', hideTooltipHandler)
     .on('click', highlightNodeHandler);
 
-  const nodeCount = filteredNodes.length;
-  const chargeStrength = Math.max(-600, -350 - nodeCount * 2.5);
-  const distMax = nodeCount > 500 ? 300 : 450;
-  const collStrength = nodeCount > 500 ? 0.5 : 0.9;
+  describeChart(filteredNodes, renderedEdges);
 
-  simulation.force('charge').strength(chargeStrength).distanceMax(distMax);
-  simulation.force('collision').strength(collStrength);
-
+  configureForces(d3, simulation, { width, height, nodeCount: filteredNodes.length });
   simulation.nodes(filteredNodes).on('tick', ticked);
   simulation.force('link').links(renderedEdges);
-  
-  simulation.alpha(1).restart();
-  
+
+  if (stopTimer) clearTimeout(stopTimer);
+  if (alpha === 0) {
+    simulation.stop();
+    ticked();
+    return;
+  }
+
+  simulation.alpha(alpha).restart();
+
   simulation.on('end', () => {
     if (showLabels) d3.selectAll('.node-label').style('display', 'block');
   });
 
-  if (stopTimer) clearTimeout(stopTimer);
   stopTimer = setTimeout(() => {
     if (simulation) {
       simulation.stop();
@@ -277,16 +386,8 @@ function render() {
 }
 
 function ticked() {
-  nodes.attr('transform', d => `translate(${d.x},${d.y})`);
-  
-  links.attr('d', d => {
-    const s = d.source;
-    const t = d.target;
-    if (!s || !t || isNaN(s.x) || isNaN(t.x)) return '';
-    const dx = t.x - s.x, dy = t.y - s.y;
-    const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; 
-    return `M${s.x},${s.y}A${dr},${dr} 0 0,1 ${t.x},${t.y}`;
-  });
+  nodes.attr('transform', d => `translate(${sx(d)},${sy(d)})`);
+  links.attr('d', linkPath);
 }
 
 function buildTooltipHtml(d) {
@@ -352,7 +453,13 @@ export function highlightASN(asn) {
 export function updateFilter(minVal, maxVal) {
   minTraffic = minVal !== undefined ? minVal : minTraffic;
   maxTraffic = maxVal !== undefined ? maxVal : maxTraffic;
-  render();
+  // Back on the baked filter: restore the baked layout; otherwise relax from the current one.
+  if (hasBakedLayout(currentData, minTraffic, maxTraffic)) {
+    applyBakedPositions(currentData.layout, currentData.nodes);
+    render({ alpha: 0 });
+  } else {
+    render({ alpha: currentData?.layout ? 0.3 : 1 });
+  }
 }
 export function setNodeSize(size) {
   currentNodeSize = size;
@@ -371,7 +478,12 @@ export function toggleLabelsVisibility() {
     d3.selectAll('.node-label').style('display', 'none');
   }
 }
-export function resetView() { if (svg) svg.transition().duration(750).call(d3.zoom().transform, d3.zoomIdentity); clearHighlight(); }
+export function resetView() {
+  if (!svg || !zoom) return;
+  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (reduced ? svg : svg.transition().duration(750)).call(zoom.transform, initialTransform || d3.zoomIdentity);
+  clearHighlight();
+}
 
 export function filterByTypes(activeTypes) {
   if (!nodes || !links) return;
@@ -389,21 +501,25 @@ export function filterByTypes(activeTypes) {
   });
 }
 
+// Dragging moves only the dragged node and its own links. It never reheats the
+// simulation: a click also starts a drag, and the rest of the layout should stay put.
 function dragStart(event, d) {
-  if (!event.active) simulation.alphaTarget(0.3).restart();
-  d.fx = d.x;
-  d.fy = d.y;
+  dragLinks = links.filter(l => l.source === d || l.target === d);
 }
 
 function dragging(event, d) {
-  d.fx = event.x;
-  d.fy = event.y;
+  d.x = portrait ? event.y : event.x;
+  d.y = portrait ? event.x : event.y;
+  d.fx = d.x;   // hold it in place if a simulation is still settling
+  d.fy = d.y;
+  d3.select(this).attr('transform', `translate(${sx(d)},${sy(d)})`);
+  dragLinks.attr('d', linkPath);
 }
 
 function dragEnd(event, d) {
-  if (!event.active) simulation.alphaTarget(0);
   d.fx = null;
   d.fy = null;
+  dragLinks = null;
 }
 
 export function destroy() {

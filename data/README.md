@@ -21,6 +21,7 @@ All data is sourced from [RIPEstat](https://stat.ripe.net/), specifically:
 - **BGP State API**: `https://stat.ripe.net/data/bgp-state/data.json`
 - **Country Resource List**: `https://stat.ripe.net/data/country-resource-list/data.json`
 - **AS Overview**: `https://stat.ripe.net/data/as-overview/data.json`
+- **RIR Stats Country**: `https://stat.ripe.net/data/rir-stats-country/data.json` (the country each network is registered to)
 - **MaxMind GeoLite**: `https://stat.ripe.net/data/maxmind-geo-lite-announced-by-as/data.json` (for offshore detection)
 
 ## File Formats
@@ -91,7 +92,12 @@ The primary data file used by the visualization. Contains 6 node types:
 
 ### asn_names.json
 
-Maps ASN numbers to organization names and country info:
+Maps ASN numbers to organization names and the country each network is
+registered to. Bangladeshi ASNs (from the country resource list) are `BD`;
+every other country comes from the regional internet registries via RIPEstat
+`rir-stats-country`, marked `country_source: "rir"`. Entries without that mark
+are looked up again on the next run. Some registry records name a region
+(`EU`, `AP`) rather than a country.
 
 ```json
 {
@@ -100,8 +106,15 @@ Maps ASN numbers to organization names and country info:
     "name": "SUMMITCOMMUNICATIONS-BD Summit Communications Ltd",
     "holder": "SUMMITCOMMUNICATIONS-BD Summit Communications Ltd",
     "announced": true,
-    "country": "BD",
-    "geo_country": "BD"
+    "country": "BD"
+  },
+  "8529": {
+    "asn": "8529",
+    "name": "OMANTEL-AS - Zain Omantel International FZ-LLC",
+    "holder": "OMANTEL-AS - Zain Omantel International FZ-LLC",
+    "announced": true,
+    "country": "AE",
+    "country_source": "rir"
   }
 }
 ```

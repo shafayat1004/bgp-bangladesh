@@ -19,6 +19,9 @@ from scripts.update_bgp_data import (  # noqa: E402
     classify_tentative_iig_type,
     discover_latest_rib_dumps,
     get_country_resources_from_rir_stats,
+    fetch_registered_country,
+    parse_rir_country,
+    refresh_registered_countries,
     get_with_retries,
     ipv4_range_to_prefixes,
     mrt_elem_to_route,
@@ -292,6 +295,69 @@ class TestRirStatsParsing(unittest.TestCase):
                                side_effect=lambda *a, **k: _FakeResponse(text="apnic|US|asn|1|1|x|allocated")):
             with self.assertRaises(RuntimeError):
                 get_country_resources_from_rir_stats("BD")
+
+
+class TestRegisteredCountry(unittest.TestCase):
+    """The registered country comes from the RIRs, never the holder handle."""
+
+    @staticmethod
+    def _payload(*locations, status="ok"):
+        return {"status": status, "data": {"located_resources": [
+            {"resource": "1", "location": loc} for loc in locations]}}
+
+    def test_parse_takes_registry_location(self):
+        self.assertEqual(parse_rir_country(self._payload("AE")), "AE")
+        self.assertEqual(parse_rir_country(self._payload("sg")), "SG")
+
+    def test_parse_keeps_regions_and_drops_unknown(self):
+        self.assertEqual(parse_rir_country(self._payload("EU")), "EU")
+        self.assertEqual(parse_rir_country(self._payload("ZZ")), "")
+        self.assertEqual(parse_rir_country(self._payload()), "")
+        self.assertEqual(parse_rir_country({}), "")
+
+    def test_fetch_returns_none_when_lookup_fails(self):
+        import requests
+
+        with mock.patch.object(ubd, "get_with_retries", side_effect=requests.ConnectionError("down")):
+            self.assertIsNone(fetch_registered_country("8529"))
+        with mock.patch.object(ubd, "get_with_retries",
+                               return_value=_FakeResponse(json_data=self._payload(status="error"))):
+            self.assertIsNone(fetch_registered_country("8529"))
+        with mock.patch.object(ubd, "get_with_retries",
+                               return_value=_FakeResponse(json_data=self._payload("AE"))):
+            self.assertEqual(fetch_registered_country("8529"), "AE")
+
+    def test_refresh_replaces_handle_guesses(self):
+        results = {
+            # Guessed from "OMANTEL-AS" by older versions and cached.
+            "8529": {"asn": "8529", "name": "OMANTEL-AS - Zain Omantel", "country": "AS"},
+            "7473": {"asn": "7473", "name": "SINGTEL-AS-AP Singtel", "country": "AP"},
+            # Already from the registry: not looked up again.
+            "1299": {"asn": "1299", "country": "SE", "country_source": "rir"},
+            # BD ASNs come from the country resource list.
+            "58717": {"asn": "58717", "country": "BD"},
+            # Lookup fails: the guess is dropped, the well-known fallback used.
+            "174": {"asn": "174", "country": "AS"},
+            "999": {"asn": "999", "country": "AS"},
+        }
+        registry = {"8529": "AE", "7473": "SG", "174": None, "999": None}
+        looked_up = []
+
+        def fake_fetch(asn, rate_limiter):
+            looked_up.append(asn)
+            return registry[asn]
+
+        refresh_registered_countries(results, {"58717"}, rate_limiter=None, fetch=fake_fetch)
+
+        self.assertEqual(sorted(looked_up), ["174", "7473", "8529", "999"])
+        self.assertEqual(results["8529"]["country"], "AE")
+        self.assertEqual(results["8529"]["country_source"], "rir")
+        self.assertEqual(results["7473"]["country"], "SG")
+        self.assertEqual(results["1299"]["country"], "SE")
+        self.assertEqual(results["58717"]["country"], "BD")
+        self.assertEqual(results["174"]["country"], "US")
+        self.assertNotIn("country_source", results["174"])   # retried next run
+        self.assertEqual(results["999"]["country"], "")
 
 
 class TestGetWithRetries(unittest.TestCase):

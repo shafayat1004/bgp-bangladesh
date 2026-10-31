@@ -3,6 +3,18 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:js": "node --test tests-js/*.test.js"
+    "serve": "node scripts/dev/serve.mjs",
+    "test:js": "node --test tests-js/*.test.js",
+    "test:e2e": "node --test --test-concurrency=1 tests-e2e/*.test.mjs",
+    "audit:a11y": "node scripts/dev/a11y-audit.mjs",
+    "screenshots": "node scripts/dev/screenshots.mjs",
+    "profile": "node scripts/dev/profile.mjs",
+    "layout": "node scripts/precompute_layout.mjs --country BD",
+    "og-image": "node scripts/dev/og-image.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.14.0",
+    "d3-force": "3.0.0",
+    "playwright": "1.64.1"
   }
 }
