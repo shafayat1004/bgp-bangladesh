@@ -5,7 +5,8 @@
       "name": "site",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "serve"],
-      "port": 8000
+      "env": { "PORT": "8010", "LAN": "1" },
+      "port": 8010
     }
   ]
 }

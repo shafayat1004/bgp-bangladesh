@@ -42,8 +42,11 @@ const CONTENT_TYPES = {
   '.md': 'text/markdown; charset=utf-8',
 };
 
-/** Serve the repo root. port 0 picks a free port. */
-export function startServer({ port = 0 } = {}) {
+/**
+ * Serve the repo root. port 0 picks a free port. host '::' also listens on
+ * the local network (both IPv4 and IPv6), e.g. to open the site on a phone.
+ */
+export function startServer({ port = 0, host = 'localhost' } = {}) {
   const server = http.createServer((req, res) => {
     const urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     let file = path.join(ROOT, urlPath);
@@ -59,7 +62,7 @@ export function startServer({ port = 0 } = {}) {
     });
   });
   return new Promise((resolve) => {
-    server.listen(port, 'localhost', () => {
+    server.listen(port, host, () => {
       const { port: actual } = server.address();
       resolve({ url: `http://localhost:${actual}/`, close: () => new Promise(r => server.close(r)) });
     });
