@@ -99,7 +99,7 @@ rest are feature-detected (`mod.updateData?.(...)`).
 | `destroy()` | leaving the tab | clear the panel, stop timers/simulations |
 | `updateFilter(min, max)` | Min/Max Routes sliders | redraw with the new range, keep the view |
 | `filterByTypes(activeTypes)` | type checkboxes | hide rather than redraw where possible |
-| `highlightASN(asn)` | sidebar list, search, "How does my internet reach the world?" | |
+| `highlightASN(asn)` | sidebar list, search, "How do I reach the world?" | |
 | `resetView()` | Reset View button, `0` key | back to the fitted view |
 | `toggleLabelsVisibility()`, `setNodeSize(n)` | sidebar controls | optional |
 

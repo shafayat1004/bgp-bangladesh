@@ -142,7 +142,7 @@ function populateList(containerId, data, type, cssClass, onNodeClick) {
 }
 
 /**
- * Show why the "How does my internet reach the world?" lookup failed.
+ * Show why the "How do I reach the world?" lookup failed.
  * (The story itself is drawn by my-path.js.)
  */
 export function showMyASNResult(result) {
