@@ -6,7 +6,7 @@
   <title>BGP Bangladesh - How Bangladesh Connects to the Internet</title>
   <meta name="description" content="Interactive map of how Bangladesh's local ISPs reach the global internet: BGP routes through licensed International Internet Gateways (IIGs), detected gateways and offshore networks, updated every few hours from RIPEstat data.">
   <link rel="canonical" href="https://www.shafayat.bd/bgp-bangladesh/">
-  <meta name="theme-color" content="#0d0d0d">
+  <meta name="theme-color" content="#e8e1cf">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
   <meta property="og:type" content="website">
@@ -128,12 +128,12 @@
         <fieldset class="controls-section type-filter-fieldset">
           <legend class="sidebar-section-title">Show Categories</legend>
           <div class="type-filter-group" id="type-filter-checks">
-            <label><input type="checkbox" data-type="local-company" checked> <span style="color:#4dabf7">Local companies</span></label>
-            <label><input type="checkbox" data-type="iig" checked> <span style="color:#51cf66">IIGs</span></label>
-            <label><input type="checkbox" data-type="detected-iig" checked> <span style="color:#fcc419">Detected gateways</span></label>
-            <label><input type="checkbox" data-type="offshore-enterprise" checked> <span style="color:#17a2b8">Offshore enterprises</span></label>
-            <label><input type="checkbox" data-type="offshore-gateway" checked> <span style="color:#f06595">Offshore gateways</span></label>
-            <label><input type="checkbox" data-type="outside" checked> <span style="color:#ff6b6b">International networks</span></label>
+            <label><input type="checkbox" data-type="local-company" checked> <span class="legend-dot cat-local-company" aria-hidden="true"></span> <span>Local companies</span></label>
+            <label><input type="checkbox" data-type="iig" checked> <span class="legend-dot cat-iig" aria-hidden="true"></span> <span>IIGs</span></label>
+            <label><input type="checkbox" data-type="detected-iig" checked> <span class="legend-dot cat-detected-iig" aria-hidden="true"></span> <span>Detected gateways</span></label>
+            <label><input type="checkbox" data-type="offshore-enterprise" checked> <span class="legend-dot cat-offshore-enterprise" aria-hidden="true"></span> <span>Offshore enterprises</span></label>
+            <label><input type="checkbox" data-type="offshore-gateway" checked> <span class="legend-dot cat-offshore-gateway" aria-hidden="true"></span> <span>Offshore gateways</span></label>
+            <label><input type="checkbox" data-type="outside" checked> <span class="legend-dot cat-outside" aria-hidden="true"></span> <span>International networks</span></label>
           </div>
         </fieldset>
 
@@ -152,12 +152,12 @@
         <div class="controls-section legend-section">
           <h2 class="sidebar-section-title">Legend</h2>
           <ul class="legend-items">
-            <li class="legend-item"><span class="legend-dot" style="background:#4dabf7;" aria-hidden="true"></span> <span data-glossary="local-company">Local companies</span></li>
-            <li class="legend-item"><span class="legend-dot" style="background:#51cf66;" aria-hidden="true"></span> <span data-glossary="iig">IIGs (licensed gateways)</span></li>
-            <li class="legend-item"><span class="legend-dot" style="background:#fcc419;" aria-hidden="true"></span> <span data-glossary="detected-iig">Detected gateways</span></li>
-            <li class="legend-item"><span class="legend-dot" style="background:#17a2b8;" aria-hidden="true"></span> <span data-glossary="offshore-enterprise">Offshore enterprises</span></li>
-            <li class="legend-item"><span class="legend-dot" style="background:#e64980;" aria-hidden="true"></span> <span data-glossary="offshore-gateway">Offshore gateways</span></li>
-            <li class="legend-item"><span class="legend-dot" style="background:#ff6b6b;" aria-hidden="true"></span> <span data-glossary="outside">International networks</span></li>
+            <li class="legend-item"><span class="legend-dot cat-local-company" aria-hidden="true"></span> <span data-glossary="local-company">Local companies</span></li>
+            <li class="legend-item"><span class="legend-dot cat-iig" aria-hidden="true"></span> <span data-glossary="iig">IIGs (licensed gateways)</span></li>
+            <li class="legend-item"><span class="legend-dot cat-detected-iig" aria-hidden="true"></span> <span data-glossary="detected-iig">Detected gateways</span></li>
+            <li class="legend-item"><span class="legend-dot cat-offshore-enterprise" aria-hidden="true"></span> <span data-glossary="offshore-enterprise">Offshore enterprises</span></li>
+            <li class="legend-item"><span class="legend-dot cat-offshore-gateway" aria-hidden="true"></span> <span data-glossary="offshore-gateway">Offshore gateways</span></li>
+            <li class="legend-item"><span class="legend-dot cat-outside" aria-hidden="true"></span> <span data-glossary="outside">International networks</span></li>
           </ul>
         </div>
 
@@ -222,7 +222,7 @@
       <div id="viz-panel" role="tabpanel" aria-labelledby="tab-hierarchical" tabindex="-1"></div>
 
       <!-- History time-slider (hidden until the manifest loads) -->
-      <div id="timeline-bar" class="hidden" role="group" aria-label="Data history" aria-hidden="true">
+      <div id="timeline-bar" class="timeline-pending" role="group" aria-label="Data history" aria-hidden="true">
         <button id="timeline-prev" class="timeline-btn" type="button" aria-label="Previous snapshot" title="Previous snapshot">&#8249;</button>
         <input id="timeline-slider" type="range" min="0" max="0" value="0" step="1"
                aria-label="Snapshot date">

@@ -57,13 +57,13 @@ export function initTimeline({ country = 'BD', onSelectSnapshot, onSelectLatest 
       const snapshots = index && Array.isArray(index.snapshots) ? index.snapshots : [];
       // Need at least two points for a meaningful slider.
       if (snapshots.length < 2) {
-        bar.classList.add('hidden');
+        bar.classList.replace('timeline-pending', 'hidden');
         return;
       }
       setup(snapshots);
     })
     .catch(() => {
-      bar.classList.add('hidden');
+      bar.classList.replace('timeline-pending', 'hidden');
     });
 
   function setup(snapshots) {
@@ -72,7 +72,7 @@ export function initTimeline({ country = 'BD', onSelectSnapshot, onSelectLatest 
     let debounceTimer = null;
     let loadToken = 0;            // guards against out-of-order async loads
 
-    bar.classList.remove('hidden');
+    bar.classList.remove('timeline-pending', 'hidden');
     bar.removeAttribute('aria-hidden');
     slider.min = '0';
     slider.max = String(latestIndex);

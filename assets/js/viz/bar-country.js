@@ -8,8 +8,9 @@
 import { countryToFlag } from '../api/ripestat.js';
 import { renderBarList } from './bar-list.js';
 import { countryName, NOT_COUNTRIES } from '../ui/names.js';
+import { CATEGORY_COLORS } from '../ui/colors.js';
 
-const BAR_COLOR = '#ff6b6b';   // matches "Outside BD (International)"
+const BAR_COLOR = CATEGORY_COLORS.outside;   // matches "International networks"
 const TOP_N = 30;
 
 let currentData = null;

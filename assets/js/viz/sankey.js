@@ -6,8 +6,9 @@
 import { CATEGORY_LABELS } from '../ui/glossary.js';
 import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
+import { CATEGORY_COLORS, LINK_COLORS, INK } from '../ui/colors.js';
 
-const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-enterprise': '#17a2b8', 'offshore-gateway': '#e64980', 'local-company': '#4dabf7', 'inside': '#51cf66', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7' };
+const TYPE_COLORS = CATEGORY_COLORS;
 const TYPE_LABELS = CATEGORY_LABELS;
 
 function moveTooltipSmart(event) {
@@ -230,8 +231,8 @@ function render() {
     if (skipped > 0) console.warn(`Sankey: Drew ${drawn} ${srcCol}→${tgtCol} edges, skipped ${skipped} (missing positions)`);
   }
 
-  drawEdges(intlEdges, 'Outside', columns.length > 2 ? 'Gateways' : 'Inside BD', '#4fc3f7');
-  if (domEdges.length > 0) drawEdges(domEdges, 'Local Companies', 'Gateways', '#4dabf7');
+  drawEdges(intlEdges, 'Outside', columns.length > 2 ? 'Gateways' : 'Inside BD', LINK_COLORS.international);
+  if (domEdges.length > 0) drawEdges(domEdges, 'Local Companies', 'Gateways', LINK_COLORS.domestic);
 
   // Draw nodes and labels
   columns.forEach(col => {
@@ -242,7 +243,7 @@ function render() {
       .attr('x', toX(headFlow, headCross)).attr('y', toY(headFlow, headCross))
       .attr('text-anchor', isLandscape ? 'middle' : 'end')
       .attr('dy', isLandscape ? 0 : '0.35em')
-      .attr('fill', col.color).attr('font-size', '12px').attr('font-weight', 'bold').text(col.label);
+      .attr('fill', INK.text).attr('font-size', '12px').attr('font-weight', 'bold').text(col.label);
 
     col.asns.forEach(({ asn }) => {
       const key = `${asn}_${col.label}`;
@@ -276,13 +277,13 @@ function render() {
           g.append('text').attr('class', 'sankey-label').attr('data-asn', asn)
             .attr('x', lx).attr('y', ly).attr('dy', '0.35em')
             .attr('text-anchor', isFirst ? 'start' : 'end')
-            .attr('fill', '#ddd').attr('font-size', '9px').text(labelText);
+            .attr('fill', INK.text).attr('font-size', '9px').text(labelText);
         } else if (pos.len > 36) {
           // Portrait: keep labels horizontal, centered above each (wide enough) bar
           g.append('text').attr('class', 'sankey-label').attr('data-asn', asn)
             .attr('x', pos.cross + pos.len / 2).attr('y', pos.flow - 3)
             .attr('text-anchor', 'middle')
-            .attr('fill', '#ddd').attr('font-size', '9px').text(labelText);
+            .attr('fill', INK.text).attr('font-size', '9px').text(labelText);
         }
       }
     });
@@ -293,7 +294,7 @@ function render() {
   const hintCross = crossTotal + 22;
   g.append('text')
     .attr('x', toX(hintFlow, hintCross)).attr('y', toY(hintFlow, hintCross))
-    .attr('text-anchor', 'middle').attr('fill', '#8f8f8f').attr('font-size', '11px')
+    .attr('text-anchor', 'middle').attr('fill', INK.dim).attr('font-size', '11px')
     .text('Scroll to zoom • Drag to pan • Fit to reset');
 
   // Compute a fit-to-screen transform and a generous zoom-out range so the
@@ -331,8 +332,8 @@ export function highlightASN(asn) {
   svg.selectAll('.sankey-label').attr('opacity', 0.08);
   svg.selectAll('.sankey-link').attr('stroke-opacity', 0.01);
   // Highlight the matching node
-  svg.selectAll(`.sankey-node[data-asn="${asn}"]`).attr('opacity', 1).attr('stroke', '#fff').attr('stroke-width', 2);
-  svg.selectAll(`.sankey-label[data-asn="${asn}"]`).attr('opacity', 1).attr('fill', '#fff').attr('font-weight', 'bold');
+  svg.selectAll(`.sankey-node[data-asn="${asn}"]`).attr('opacity', 1).attr('stroke', INK.text).attr('stroke-width', 2);
+  svg.selectAll(`.sankey-label[data-asn="${asn}"]`).attr('opacity', 1).attr('fill', INK.text).attr('font-weight', 'bold');
   // Highlight connected links and their target/source nodes
   svg.selectAll(`.sankey-link[data-source="${asn}"], .sankey-link[data-target="${asn}"]`).each(function() {
     const link = d3.select(this);
@@ -344,7 +345,7 @@ export function highlightASN(asn) {
   // Click anywhere to clear
   svg.on('click.highlight', () => {
     svg.selectAll('.sankey-node').attr('opacity', 1).attr('stroke', null).attr('stroke-width', null);
-    svg.selectAll('.sankey-label').attr('opacity', 1).attr('fill', '#ddd').attr('font-weight', null);
+    svg.selectAll('.sankey-label').attr('opacity', 1).attr('fill', INK.text).attr('font-weight', null);
     svg.selectAll('.sankey-link').attr('stroke-opacity', 0.35);
     svg.on('click.highlight', null);
   });

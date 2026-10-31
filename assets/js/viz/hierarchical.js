@@ -6,6 +6,7 @@
 import { CATEGORY_LABELS, CATEGORY_PLURALS } from '../ui/glossary.js';
 import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
+import { CATEGORY_COLORS, LINK_COLORS, INK } from '../ui/colors.js';
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -26,7 +27,7 @@ function moveTooltipSmart(event) {
   tooltip.style('left', `${left}px`).style('top', `${top}px`);
 }
 
-const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-enterprise': '#17a2b8', 'offshore-gateway': '#e64980', 'local-company': '#4dabf7', 'inside': '#51cf66', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7' };
+const TYPE_COLORS = CATEGORY_COLORS;
 const TYPE_LABELS = CATEGORY_PLURALS;
 
 let currentData = null;
@@ -185,7 +186,7 @@ function render() {
       .attr('class', 'hier-layer-title')
       .attr('x', 0)
       .attr('y', currentLayerY - 6)
-      .attr('fill', TYPE_COLORS[layer.type])
+      .attr('fill', INK.text)
       .attr('font-size', `${titleSize}px`)
       .attr('font-weight', 'bold')
       .text(TYPE_LABELS[layer.type] || layer.type);
@@ -247,7 +248,7 @@ function render() {
 
     const opacity = 0.08 + (edge.count / maxCount) * 0.45;
     const strokeW = Math.max(0.5, (edge.count / maxCount) * 3.5);
-    const color = edge.type === 'domestic' ? '#4dabf7' : '#4fc3f7';
+    const color = edge.type === 'domestic' ? LINK_COLORS.domestic : LINK_COLORS.international;
 
     // Calculate control points for smoother curves in multi-row layout
     const dx = tgtPos.x - srcPos.x;
@@ -302,18 +303,18 @@ function render() {
       .attr('transform', `translate(${pos.x - boxW / 2},${pos.y - boxH / 2})`).attr('cursor', 'pointer');
 
     group.append('rect').attr('width', boxW).attr('height', boxH)
-      .attr('fill', color + '25').attr('stroke', color).attr('stroke-width', 1.5).attr('rx', 4);
+      .attr('fill', color + '33').attr('stroke', color).attr('stroke-width', 1.5).attr('rx', 4);
 
     const flag = n.country ? countryToFlag(n.country) : '';
     const displayName = n.name || `AS${n.asn}`;
     const truncated = displayName.length > 10 ? displayName.slice(0, 9) + '...' : displayName;
 
     group.append('text').attr('x', boxW / 2).attr('y', boxH / 2 - 3).attr('text-anchor', 'middle')
-      .attr('fill', '#fff').attr('font-size', '8px').attr('font-weight', 'bold')
+      .attr('fill', INK.text).attr('font-size', '8px').attr('font-weight', 'bold')
       .text(`${flag} ${truncated}`);
 
     group.append('text').attr('x', boxW / 2).attr('y', boxH / 2 + 9).attr('text-anchor', 'middle')
-      .attr('fill', '#aaa').attr('font-size', '7px')
+      .attr('fill', INK.muted).attr('font-size', '7px')
       .text(`${(n.percentage || 0).toFixed(1)}%`);
 
     group.on('mouseover', function (event) {
