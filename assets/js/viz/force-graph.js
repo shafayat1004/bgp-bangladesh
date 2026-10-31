@@ -13,7 +13,7 @@ import { CATEGORY_COLORS, LINK_COLORS, INK, categoryColor } from '../ui/colors.j
 
 const TYPE_LABELS = CATEGORY_LABELS;
 
-let svg, g, simulation, nodes, links, tooltip;
+let svg, g, simulation, nodes, links, linkGroup, tooltip;
 let showLabels = true;
 let highlightedNode = null;
 let currentNodeSize = 15;
@@ -26,6 +26,19 @@ let zoom = null;
 let initialTransform = null;
 let portrait = false;
 let dragLinks = null;
+let dashScale = null;
+
+// Local links are dashed, with the dash kept the same length on screen as in
+// the legend. Dashes in layout units would split each line into hundreds of
+// sub-pixel dashes at the zoomed-out default view, which Chrome redraws on
+// every pan, zoom and hover. The dash is set once on the links' group (local
+// links inherit it) and only when a zoom ends, so a gesture never restyles links.
+const DOMESTIC_DASH = [4, 2];
+function scaleDashes(k) {
+  if (!linkGroup || k === dashScale) return;
+  dashScale = k;
+  linkGroup.attr('stroke-dasharray', DOMESTIC_DASH.map(v => +(v / k).toFixed(2)).join(','));
+}
 
 // Space the edge legend takes at the bottom of the panel, kept clear when fitting.
 const LEGEND_HEIGHT = 90;
@@ -81,7 +94,8 @@ export function loadData(data, options = {}) {
   g = svg.append('g');
 
   zoom = d3.zoom().scaleExtent([0.1, 5])
-    .on('zoom', (event) => g.attr('transform', event.transform));
+    .on('zoom', (event) => g.attr('transform', event.transform))
+    .on('end', (event) => scaleDashes(event.transform.k));
   svg.call(zoom);
 
   svg.on('click', () => clearHighlight());
@@ -286,19 +300,26 @@ function render({ alpha = 1 } = {}) {
 
   g.selectAll('*').remove();
 
-  links = g.append('g').selectAll('path')
+  linkGroup = g.append('g');
+  dashScale = null;
+  scaleDashes(d3.zoomTransform(svg.node()).k);
+  links = linkGroup.selectAll('path')
     .data(renderedEdges)
     .enter().append('path')
     .attr('class', 'link')
     .attr('stroke', d => d.type === 'domestic' ? LINK_COLORS.domestic : LINK_COLORS.international)
     .attr('stroke-width', d => Math.max(0.5, Math.sqrt(d.count / 500)))
-    .attr('stroke-dasharray', d => d.type === 'domestic' ? '4,2' : 'none');
+    .attr('stroke-dasharray', d => d.type === 'domestic' ? null : 'none');
 
   nodes = g.append('g').selectAll('g')
     .data(filteredNodes)
     .enter().append('g')
     .attr('class', 'node')
+    // Only a mouse drags a network. A drag claims its touch, so a pinch with a
+    // finger on a network would move networks instead of zooming; on touch
+    // screens fingers always pan and zoom the view, and a tap still selects.
     .call(d3.drag()
+      .filter(event => event.type !== 'touchstart' && !event.ctrlKey && !event.button)
       .subject((event, d) => ({ x: sx(d), y: sy(d) }))
       .on('start', dragStart)
       .on('drag', dragging)
