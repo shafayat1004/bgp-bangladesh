@@ -50,7 +50,7 @@ while the site still had jargon, a jumpy table and an unreadable flow chart.
 - `assets/js/viz/*.js` – one module per tab (see the `chart-views` skill for the module contract).
 - `assets/js/viz/force-layout.js` – Network Graph forces, shared by the browser and `scripts/precompute_layout.mjs`.
 - `assets/js/ui/chart-a11y.js` – chart labels plus keyboard/button pan and zoom.
-- `scripts/update_bgp_data.py` – data pipeline (GitHub Action every 4 h) → `data/BD/viz_data.json` + `data/BD/history/`.
+- `scripts/update_bgp_data.py` – data pipeline (GitHub Action every 4 h) → `data/BD/viz_data.json` + `data/BD/history/` (see the `data-pipeline` skill before changing it or the data).
 - `scripts/dev/` – Playwright dev tools; `tests-js/` unit tests; `tests-e2e/` browser tests.
 
 D3 v7 is a global loaded from d3js.org; modules are native ES modules.
@@ -73,7 +73,7 @@ The dev scripts use installed Chrome, or Playwright's Chromium (`npx playwright 
 
 ## Rules that matter here
 
-- **Don't commit changes under `data/`.** A bot commits new data every 4 hours, so local data commits conflict. `npm run layout` edits data files locally for testing only; CI bakes positions on its next run. Pull before pushing.
+- **Don't commit changes under `data/`.** A bot commits new data every 4 hours, so local data commits conflict. `npm run layout` edits data files locally for testing only; CI bakes positions on its next run. Pull before pushing. The rare exception, a one-off correction the next run can't make (e.g. wrong values in history), follows the `data-pipeline` skill.
 - **Never put a CSS `transition` on properties the graphs update every frame.** In Chromium the SVG `transform` and `d` attributes are CSS properties; a blanket `transition` on `.node`/`.link` once started ~8,500 animations per tick and made frames 9x slower. Transition only highlight properties (opacity, filter).
 - **Avoid CSS `filter` on many SVG elements.** A drop-shadow on ~700 highlighted links cost ~0.7 s per redraw.
 - **A click on a node also fires d3-drag's `start`.** Never reheat the simulation there, or every click moves the whole graph.
