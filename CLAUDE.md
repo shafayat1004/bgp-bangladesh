@@ -59,7 +59,7 @@ D3 v7 is a global loaded from d3js.org; modules are native ES modules.
 
 | | |
 |---|---|
-| `npm run serve` | local server on :8000 with caching off |
+| `npm run serve` | local server on :8000 with caching off (`PORT=8010` for another port, `-- --lan` to open it from a phone on the same Wi-Fi) |
 | `npm run test:js` | unit tests (node:test) |
 | `npm run test:e2e` | browser regression tests (graph stability, slider, keyboard, phone sidebar) |
 | `npm run audit:a11y` | axe WCAG 2.2 AA audit of every view, desktop + phone |
