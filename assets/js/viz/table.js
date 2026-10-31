@@ -5,6 +5,7 @@
 
 import { countryToFlag } from '../api/ripestat.js';
 import { GLOSSARY, CATEGORY_LABELS as TYPE_LABELS, CATEGORY_PLURALS, termHelp } from '../ui/glossary.js';
+import { friendlyName } from '../ui/names.js';
 const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-enterprise': 'type-offshore-enterprise', 'offshore-gateway': 'type-offshore-gateway', 'local-company': 'type-local-company', 'inside': 'type-iig', 'offshore-peer': 'type-offshore-peer', 'local-isp': 'type-local-company' };
 
 // Connections in the detail panel, grouped by the other network's category.
@@ -107,7 +108,8 @@ function getConnections(asn) {
     const type = nodeMap[other]?.type || '';
     (groups[type] ||= []).push({
       asn: other,
-      name: nodeMap[other]?.name || `AS${other}`,
+      name: friendlyName(nodeMap[other] || { asn: other }),
+      fullName: nodeMap[other]?.name || '',
       country: nodeMap[other]?.country || '',
       type,
       count: e.count,
@@ -141,7 +143,7 @@ function buildDetailPanel(n) {
       const cf = c.country ? countryToFlag(c.country) + ' ' : '';
       html += `<tr>
         <td>AS${c.asn}</td>
-        <td>${cf}${c.name}</td>
+        <td title="${attr(c.fullName)}">${cf}${c.name}</td>
         <td>${cf}${c.country || '-'}</td>
         <td><span class="type-badge ${TYPE_CLASSES[c.type] || ''}">${TYPE_LABELS[c.type] || c.type}</span></td>
         <td class="num">${c.count.toLocaleString()}</td>
@@ -203,7 +205,7 @@ function buildDetailPanel(n) {
   return `
     <div class="detail-panel">
       <div class="detail-header">
-        <div class="detail-title">${regFlag} ${n.name || `AS${n.asn}`}</div>
+        <div class="detail-title">${regFlag} ${friendlyName(n)}</div>
         <button class="detail-close" type="button" title="Close" aria-label="Close details">&times;</button>
       </div>
 
@@ -211,7 +213,7 @@ function buildDetailPanel(n) {
         <div class="detail-section">
           <div class="detail-section-title">Identity</div>
           <div class="detail-row"><span class="detail-label">ASN${termHelp('asn')}:</span><span class="detail-value">AS${n.asn}</span></div>
-          <div class="detail-row"><span class="detail-label">Name:</span><span class="detail-value">${n.name || '-'}</span></div>
+          <div class="detail-row"><span class="detail-label">Registry name:</span><span class="detail-value">${n.name || '-'}</span></div>
           ${n.description && n.description !== n.name ? `<div class="detail-row"><span class="detail-label">Organisation:</span><span class="detail-value">${n.description}</span></div>` : ''}
           ${n.country ? `<div class="detail-row"><span class="detail-label">Registered in${termHelp('registered')}:</span><span class="detail-value">${regFlag} ${n.country}</span></div>` : ''}
           ${geoKnown && !(n.geo_breakdown && n.geo_breakdown.length > 0) ? `<div class="detail-row"><span class="detail-label">IP location${termHelp('ip-location')}:</span><span class="detail-value${geoDiffers ? ' detail-warning' : ''}">${geoFlag} ${n.geo_country}${geoDiffers ? ' (not where it is registered)' : ''}</span></div>` : ''}
@@ -330,9 +332,11 @@ function renderNodesTable() {
   }
 
   const col = columns.find(c => c.key === currentSort.column);
+  // Sort names by what's shown, not by the registry handle in front of them.
+  const sortValue = currentSort.column === 'name' ? friendlyName : (r) => r[currentSort.column] ?? '';
   rows.sort((a, b) => {
-    let va = a[currentSort.column] ?? '';
-    let vb = b[currentSort.column] ?? '';
+    let va = sortValue(a);
+    let vb = sortValue(b);
     if (col?.numeric) { va = Number(va) || 0; vb = Number(vb) || 0; }
     else { va = String(va).toLowerCase(); vb = String(vb).toLowerCase(); }
     if (va < vb) return currentSort.asc ? -1 : 1;
@@ -360,7 +364,7 @@ function renderNodesTable() {
     tbodyHtml += `<tr data-asn="${n.asn}" class="clickable-row${isExpanded ? ' row-expanded' : ''}">
       <td>${n.rank || '-'}</td>
       <td><button type="button" class="row-toggle" aria-expanded="${isExpanded}"${isExpanded ? ` aria-controls="detail-${n.asn}"` : ''} aria-label="AS${n.asn} details">AS${n.asn}</button></td>
-      <td title="${attr(n.name)}">${regFlag} ${n.name || '-'}${licenseBadge}</td>
+      <td title="${attr(`${n.name || ''} (AS${n.asn})`)}">${regFlag} ${friendlyName(n)}${licenseBadge}</td>
       <td>${regFlag} ${n.country || '-'}</td>
       <td class="${geoClass}">${geoDisplay}</td>
       <td>${peerDisplay}</td>
@@ -449,8 +453,10 @@ function renderEdgesTable() {
       const tgt = e.target?.asn || e.target;
       return {
         source: src, target: tgt, count: e.count,
-        source_name: nodeMap[src]?.name || '',
-        target_name: nodeMap[tgt]?.name || '',
+        source_name: friendlyName(nodeMap[src] || { asn: src }),
+        target_name: friendlyName(nodeMap[tgt] || { asn: tgt }),
+        source_full: nodeMap[src]?.name || '',
+        target_full: nodeMap[tgt]?.name || '',
         edge_type: CONNECTION_KINDS[e.type] || 'International',
         source_country: nodeMap[src]?.country || '',
         target_country: nodeMap[tgt]?.country || '',
@@ -463,7 +469,7 @@ function renderEdgesTable() {
     
     rows = rows.filter(r =>
       r.source.includes(normalizedQuery) || r.target.includes(normalizedQuery) ||
-      r.source_name.toLowerCase().includes(searchQuery) || r.target_name.toLowerCase().includes(searchQuery) ||
+      r.source_full.toLowerCase().includes(searchQuery) || r.target_full.toLowerCase().includes(searchQuery) ||
       r.edge_type.toLowerCase().includes(searchQuery)
     );
   }
@@ -489,9 +495,9 @@ function renderEdgesTable() {
     const typeCls = r.edge_type === 'Local' ? 'type-local-company' : 'type-outside';
     return `<tr>
       <td>${sf}AS${r.source}</td>
-      <td title="${attr(r.source_name)}">${sf}${r.source_name || '-'}</td>
+      <td title="${attr(`${r.source_full} (AS${r.source})`)}">${sf}${r.source_name}</td>
       <td>${tf}AS${r.target}</td>
-      <td title="${attr(r.target_name)}">${tf}${r.target_name || '-'}</td>
+      <td title="${attr(`${r.target_full} (AS${r.target})`)}">${tf}${r.target_name}</td>
       <td><span class="type-badge ${typeCls}">${r.edge_type}</span></td>
       <td class="num">${r.count.toLocaleString()}</td>
     </tr>`;
