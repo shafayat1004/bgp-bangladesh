@@ -24,6 +24,13 @@ Read this before any UI or content change. The roadmap is issue #24.
   peering location, transit, share) gets an explanation that opens on hover,
   keyboard focus and tap. Use the shared glossary (`assets/js/ui/glossary.js`)
   instead of writing explanations inline.
+- **Factual, never accusatory.** The site is educational: it says what the
+  routes show, through whom, when, and from which source, and lets people
+  draw their own conclusions. Naming a network that stayed reachable during a
+  shutdown is fine; judging it, guessing at motives, or talking about
+  legality or exemptions is not. Say "routes visible worldwide", not "online"
+  or "had internet": routes can't show who could actually get online. Follow
+  the `writing-site-text` skill for any visitor-facing words.
 - **Calm and predictable.** Nothing should jump when the date or a filter
   changes: fixed sizes, tabular numbers, stable ordering, and the user's
   zoom, scroll, sort and selection kept. Things move only when movement helps
