@@ -10,8 +10,11 @@ data/
 └── BD/                           # Bangladesh
     ├── viz_data.json             # Processed visualization data with 6 types
     ├── asn_names.json            # ASN name/organization/country lookup
-    ├── bgp_routes_raw.jsonl      # Raw BGP route snapshot, JSONL format (~150MB)
-    └── metadata.json             # Timestamp, stats, schema version
+    ├── bgp_routes_raw.jsonl      # Raw BGP route snapshot, JSONL format (~150MB, not committed)
+    ├── country_resources.json    # Last good list of BD ASNs and allocated prefixes
+    ├── announced_prefixes.json   # Last good announced prefixes per BD ASN (cache)
+    ├── metadata.json             # Timestamp, stats, schema version, run completeness
+    └── history/                  # One viz_data snapshot per run (7 days) + index.json
 ```
 
 ## Data Source
@@ -128,9 +131,53 @@ are looked up again on the next run. Some registry records name a region
   "last_updated": "2026-02-07T12:00:00Z",
   "schema_version": 3,
   "model": "license-aware",
-  "stats": { ... }
+  "stats": { ... },
+  "completeness": {
+    "complete": true,
+    "routes": {
+      "batches": 145,
+      "batches_failed_first_try": 3,
+      "retry_requests": 12,
+      "retry_requests_failed": 0,
+      "prefixes": 15210,
+      "prefixes_missing": 0,
+      "seconds": 1096.4
+    },
+    "announced_prefixes": {
+      "asns": 2023,
+      "fetched": 2023,
+      "failed": 0,
+      "from_cache": 0,
+      "missing": 0,
+      "used_cache": false,
+      "timed_out": false,
+      "budget_seconds": 720,
+      "seconds": 402.1
+    }
+  }
 }
 ```
+
+`completeness` says how much of this run's data was fetched fresh:
+
+- `complete`: `true` when every prefix returned routes and every network's
+  announced prefixes were fetched this run; `false` otherwise; `null` when
+  unknown (MRT fallback runs). The whole object is `null` for `--reprocess` runs.
+- `routes`: RIPEstat `bgp-state` requests. Batches that fail are retried at the
+  end as smaller requests. `prefixes_missing` is what was still lost; above
+  0.5% of `prefixes` the run fails and nothing is committed, so a committed
+  run has at most that many.
+- `announced_prefixes`: the per-network prefix lookup. `from_cache` networks
+  used their last good answer from `announced_prefixes.json` because they
+  failed or the step hit its time budget (`timed_out`); `missing` networks had
+  neither (only their allocated blocks were queried).
+
+### announced_prefixes.json
+
+Cache of each BD network's announced prefixes (`{"asns": {"<asn>": [prefixes]}}`),
+rewritten every run with the fresh answers and the last good answer for any
+network that wasn't fetched. The route fetch queries these prefixes as well as
+the allocated blocks in `country_resources.json`.
 
 ## Updating Data
 

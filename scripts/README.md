@@ -40,8 +40,22 @@ python3 scripts/update_bgp_data.py --country IN
 - `data/BD/asn_names.json` - ASN names and countries (~50KB)
 - `data/BD/metadata.json` - Timestamp and statistics
 
+**Partial fetches and slow runs:**
+- **Announced prefixes (`[1b/4]`) have a 12-minute budget** (`ANNOUNCED_PREFIXES_BUDGET_SECONDS`).
+  Networks not fetched in time, or whose lookup failed, use their last good
+  answer from `data/BD/announced_prefixes.json`. Networks the cache doesn't know
+  are fetched first, and with no cache at all the step runs without a budget.
+- **Failed `bgp-state` batches are retried once more at the end**, after a
+  30-second pause, each split into 4 smaller requests.
+- **If routes are still missing for more than 0.5% of prefixes**
+  (`MAX_MISSING_PREFIX_SHARE`), the run fails before writing anything, so the
+  committed data and history stay as they were. A smaller loss is committed
+  with a warning. Runs normally differ by about 1% in routes, so a loss that
+  small can't pass as a real change.
+- `metadata.json` records all of this under `completeness` (see `data/README.md`).
+
 **Features:**
-- Parallel fetching (5 BGP batches, 20 ASN lookups) - matches website behavior
+- Parallel fetching (8 workers for BGP batches and announced prefixes)
 - Rate limiting (4 req/sec) - respects RIPEstat API limits
 - Progress reporting with ETA
 - ASN info caching (reuses existing names to speed up updates)

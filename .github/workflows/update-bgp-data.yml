@@ -23,7 +23,9 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    # Route fetches have taken up to 47 minutes on slow RIPEstat days. Runs
+    # are 4 hours apart, so the extra room can't overlap the next run.
+    timeout-minutes: 90
 
     steps:
       - name: Checkout repository
@@ -80,7 +82,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/BD/viz_data.json data/BD/asn_names.json data/BD/metadata.json data/BD/country_resources.json
+          git add data/BD/viz_data.json data/BD/asn_names.json data/BD/metadata.json data/BD/country_resources.json data/BD/announced_prefixes.json
           # Stage history snapshots, the manifest, and any pruned deletions.
           git add -A data/BD/history
 
