@@ -283,6 +283,9 @@ input[type="range"]:focus-visible,
 }
 
 .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+/* Keep the "?" beside the label when a narrow tile wraps it onto two lines. */
+.stat-label:has(.term-help) { display: flex; align-items: flex-start; }
+.stat-label .term-help { margin: -1px 0 0 3px; }
 .stat-value { font-size: 18px; font-weight: bold; color: var(--accent); font-variant-numeric: tabular-nums; }
 
 /* ── ASN List ── */
@@ -408,6 +411,65 @@ input[type="range"]::-webkit-slider-thumb {
 .tooltip-value { color: var(--text); font-weight: bold; }
 .tooltip-insight { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 10px; color: var(--text-muted); line-height: 1.4; font-style: italic; }
 .tooltip-detail { font-size: 10px; color: var(--text-muted); line-height: 1.5; padding-left: 4px; }
+
+/* ── Glossary "?" buttons and their popover (assets/js/ui/glossary.js) ── */
+.term-help {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  /* With the margins, a 24px circle around it touches no other control (WCAG 2.5.8). */
+  margin: 0 5px 0 6px;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: none;
+  color: var(--accent);
+  font: bold 10px/1 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+  vertical-align: 1px;
+  cursor: help;
+  flex: none;
+}
+/* 24px target (WCAG 2.5.8) without a bigger circle */
+.term-help::after { content: ''; position: absolute; inset: -5px; }
+.term-help:hover, .term-help[aria-expanded="true"] { background: var(--accent); color: var(--bg-primary); }
+.term-help:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.term-popover {
+  position: fixed;
+  z-index: 20000;
+  max-width: calc(100vw - 16px);
+  padding: 10px 12px;
+  background: #1f2730;
+  border: 1px solid #3b4b5c;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  color: #dee2e6;
+  font: normal 13px/1.45 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: normal;
+  cursor: auto;
+}
+.term-popover p { margin: 0 0 6px; }
+.term-popover p:last-child { margin-bottom: 0; }
+.term-popover-title { font-weight: bold; color: var(--text); }
+.term-example-btn {
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.term-example-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.term-example { margin-top: 6px !important; padding-left: 8px; border-left: 3px solid var(--green); }
 
 /* ── D3 Visualization Classes ── */
 /* Only transition highlight properties: a blanket transition also animates the
@@ -1076,15 +1138,15 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* ── Stats Row ── */
 .stat-row {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  /* Two per row: three left the labels (and their "?") too little room. */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 6px;
 }
 
 .stat-mini {
-  flex: 1;
   padding: 6px 8px;
-  min-width: 80px;
+  min-width: 0;
 }
 
 .stat-mini .stat-value { font-size: 15px; }
@@ -1831,7 +1893,7 @@ input[type="range"]::-webkit-slider-thumb {
   
   /* Make stats more compact */
   .stat-mini .stat-label {
-    font-size: 8px;
+    font-size: 9px;
   }
   
   .stat-mini .stat-value {

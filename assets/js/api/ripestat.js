@@ -4,6 +4,8 @@
  * Includes "What's My ASN?" detection and country info for ASNs.
  */
 
+import { CATEGORY_LABELS } from '../ui/glossary.js';
+
 const RIPESTAT_BASE = 'https://stat.ripe.net/data';
 
 /**
@@ -1012,19 +1014,9 @@ export class RIPEStatClient {
 }
 
 /**
- * Shared TYPE_LABELS map for all visualizations
+ * Shared category names for all visualizations (from the glossary)
  */
-export const SHARED_TYPE_LABELS = {
-  'outside': 'Outside BD (Intl Feeder)',
-  'iig': 'IIG (Licensed Gateway)',
-  'detected-iig': 'Detected Gateway',
-  'offshore-enterprise': 'Offshore Enterprise',
-  'offshore-gateway': 'Offshore Gateway',
-  'local-company': 'Local Company',
-  'inside': 'Inside BD (Gateway)',
-  'offshore-peer': 'BD Offshore Peer',
-  'local-isp': 'Local ISP',
-};
+export const SHARED_TYPE_LABELS = CATEGORY_LABELS;
 
 /**
  * Build enriched tooltip HTML for a BGP node.
@@ -1036,7 +1028,7 @@ export const SHARED_TYPE_LABELS = {
  */
 export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
   const regFlag = d.country ? countryToFlag(d.country) : '';
-  const licenseBadge = d.licensed ? ' <span style="color:#51cf66;font-size:9px">[BTRC Licensed]</span>' : '';
+  const licenseBadge = d.licensed ? ' <span style="color:#51cf66;font-size:9px">[Licensed IIG]</span>' : '';
   const typeLabel = typeLabels[d.type] || d.type || '';
 
   // Determine if geo differs from registration
@@ -1047,7 +1039,7 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
   html += `<div class="tooltip-row"><span class="tooltip-label">ASN:</span><span class="tooltip-value">AS${d.asn}</span></div>`;
 
   if (d.description && d.description !== d.name) {
-    html += `<div class="tooltip-row"><span class="tooltip-label">Org:</span><span class="tooltip-value">${d.description}</span></div>`;
+    html += `<div class="tooltip-row"><span class="tooltip-label">Organisation:</span><span class="tooltip-value">${d.description}</span></div>`;
   }
 
   if (d.country) {
@@ -1063,7 +1055,7 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
       const style = loc.country !== d.country ? 'color:#fcc419;font-weight:bold' : '';
       html += `<div class="tooltip-row"><span class="tooltip-label">IP Location:</span><span class="tooltip-value" style="${style}">${flag} ${loc.country}${cityInfo}${loc.country !== d.country ? ' ⚠' : ''}</span></div>`;
     } else {
-      html += `<div class="tooltip-row"><span class="tooltip-label">IP Distribution:</span></div>`;
+      html += `<div class="tooltip-row"><span class="tooltip-label">IP locations, per address block:</span></div>`;
       for (const loc of d.geo_breakdown) {
         const flag = countryToFlag(loc.country);
         const cityInfo = loc.city ? ` (${loc.city})` : '';
@@ -1080,16 +1072,16 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
   // Show BGP peering location for offshore ASNs
   if (d.peering_country) {
     const peerFlag = countryToFlag(d.peering_country);
-    html += `<div class="tooltip-row"><span class="tooltip-label">BGP Peering:</span><span class="tooltip-value">${peerFlag} ${d.peering_country}</span></div>`;
+    html += `<div class="tooltip-row"><span class="tooltip-label">Peering at:</span><span class="tooltip-value">${peerFlag} ${d.peering_country}</span></div>`;
     if (d.peering_details && d.peering_details.length > 0) {
       html += `<div class="tooltip-detail">&nbsp;&nbsp;Peers at: ${d.peering_details.slice(0, 2).join(', ')}</div>`;
     }
   }
 
-  html += `<div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${typeLabel}</span></div>`;
+  html += `<div class="tooltip-row"><span class="tooltip-label">Category:</span><span class="tooltip-value">${typeLabel}</span></div>`;
 
   if (d.traffic !== undefined) {
-    html += `<div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${d.traffic.toLocaleString()}</span></div>`;
+    html += `<div class="tooltip-row"><span class="tooltip-label">Routes seen:</span><span class="tooltip-value">${d.traffic.toLocaleString()}</span></div>`;
   }
   if (d.rank) {
     html += `<div class="tooltip-row"><span class="tooltip-label">Rank:</span><span class="tooltip-value">#${d.rank}</span></div>`;
@@ -1101,12 +1093,12 @@ export function buildNodeTooltipHtml(d, typeLabels = SHARED_TYPE_LABELS) {
   // Classification insight for offshore types
   if (d.type === 'offshore-enterprise') {
     const peerLoc = d.peering_country || d.geo_country;
-    html += `<div class="tooltip-insight">Registered in ${d.country || 'BD'} but physically peers in ${peerLoc}. No downstream BD customers — classified as harmless offshore presence.</div>`;
+    html += `<div class="tooltip-insight">Registered in ${d.country || 'BD'} but located in ${peerLoc}. No other Bangladeshi networks connect through it, so it looks like a company with servers abroad.</div>`;
   } else if (d.type === 'offshore-gateway') {
     const peerLoc = d.peering_country || d.geo_country;
-    html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but physically peers in ${peerLoc}. Has downstream BD customers — potential unlicensed IIG (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#e64980;text-decoration:underline">license list</a>).</div>`;
+    html += `<div class="tooltip-insight" style="color:#e64980">Registered in ${d.country || 'BD'} but located in ${peerLoc}, and other Bangladeshi networks connect through it, so it may be acting as an unlicensed gateway (<a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#e64980;text-decoration:underline">licence list</a>).</div>`;
   } else if (d.type === 'detected-iig') {
-    html += `<div class="tooltip-insight" style="color:#fcc419">Not in <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#fcc419;text-decoration:underline">BTRC license list</a> but has downstream BD customers — potentially acting as an unlicensed gateway.</div>`;
+    html += `<div class="tooltip-insight" style="color:#fcc419">Not on <a href="https://github.com/shafayat1004/bgp-bangladesh/blob/main/docs/List%20of%20IIG%20Service%20Providers%20License.pdf" target="_blank" style="color:#fcc419;text-decoration:underline">BTRC's licence list</a>, but other Bangladeshi networks connect through it, so it may be acting as an unlicensed gateway.</div>`;
   }
 
   return html;
@@ -1130,7 +1122,7 @@ export function buildEdgeTooltipHtml(srcNode, tgtNode, count, edgeType) {
   let html = `<div class="tooltip-title">${sf}${sn} &rarr; ${tf}${tn}</div>`;
   html += `<div class="tooltip-row"><span class="tooltip-label">Routes:</span><span class="tooltip-value">${count.toLocaleString()}</span></div>`;
   if (edgeType) {
-    html += `<div class="tooltip-row"><span class="tooltip-label">Type:</span><span class="tooltip-value">${edgeType}</span></div>`;
+    html += `<div class="tooltip-row"><span class="tooltip-label">Kind:</span><span class="tooltip-value">${edgeType === 'domestic' ? 'Local' : 'International'}</span></div>`;
   }
   return html;
 }

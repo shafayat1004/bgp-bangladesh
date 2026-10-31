@@ -47,3 +47,10 @@ test('friendlyName drops a leading registry handle', () => {
   assert.equal(friendlyName({ asn: '1', name: 'CLOUDFLARENET' }), 'CLOUDFLARENET');
   assert.equal(friendlyName({ asn: '7', name: '' }), 'AS7');
 });
+
+test('friendlyName drops a handle followed by " - "', () => {
+  assert.equal(friendlyName({ asn: '1', name: 'HURRICANE - Hurricane Electric LLC' }), 'Hurricane Electric LLC');
+  assert.equal(friendlyName({ asn: '1', name: 'FASTZONEIT-AS-AP - FAST ZONE IT' }), 'FAST ZONE IT');
+  assert.equal(friendlyName({ asn: '1', name: 'BBIL-AP BHARTI Airtel Ltd.' }), 'BHARTI Airtel Ltd.');
+  assert.equal(friendlyName({ asn: '1', name: 'BHARTI Airtel Ltd.' }), 'BHARTI Airtel Ltd.');
+});

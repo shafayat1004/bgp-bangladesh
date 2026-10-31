@@ -22,7 +22,7 @@ Read this before any UI or content change. The roadmap is issue #24.
   edges. The data counts *route observations*, so say "routes" and don't call
   it traffic. Every technical term (ASN, IIG, registered country, IP location,
   peering location, transit, share) gets an explanation that opens on hover,
-  keyboard focus and tap. Use the shared glossary once it exists (issue #4)
+  keyboard focus and tap. Use the shared glossary (`assets/js/ui/glossary.js`)
   instead of writing explanations inline.
 - **Calm and predictable.** Nothing should jump when the date or a filter
   changes: fixed sizes, tabular numbers, stable ordering, and the user's

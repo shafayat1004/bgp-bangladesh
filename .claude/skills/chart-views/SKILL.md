@@ -43,8 +43,17 @@ heights, fitted to the panel width, scrolling like a page.
 - The numbers are route observations: say "routes" or "routes seen", not
   "traffic".
 - Every technical term gets an explanation reachable by hover, keyboard focus
-  and tap (issue #4 adds a shared glossary; use it instead of ad-hoc text).
+  and tap. Write it once in `assets/js/ui/glossary.js` and put `termHelp(key)`
+  (a "?" button) right after the term; static HTML can mark the term with
+  `data-glossary="<key>"` instead. Each entry has one plain sentence and an
+  optional `example(data)` built from the snapshot on screen. Don't put a "?"
+  inside a `<label>` or another button, and don't write explanations inline.
+  Hover tooltips on charts can't hold buttons, so they only use the words.
 - Category names match everywhere: tabs, legend, sidebar, table, tooltips.
+  Use `CATEGORY_LABELS` / `CATEGORY_PLURALS` from the glossary rather than a
+  local label table.
+- `tests-e2e` fails when "node", "edge" or "traffic" appears on screen in any
+  view, so a new view or string gets checked automatically.
 - Show network names with `friendlyName` (`assets/js/ui/names.js`): registry
   names start with a handle (`LINK3-TECH-AS-BD-AP Link3 Technologies Ltd.`)
   that means nothing to a visitor. Put the full name and `AS<number>` in a

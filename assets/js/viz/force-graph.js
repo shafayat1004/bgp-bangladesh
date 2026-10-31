@@ -4,6 +4,7 @@
  * Standard D3.js implementation.
  */
 
+import { CATEGORY_LABELS } from '../ui/glossary.js';
 import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
 import { selectGraph, bandPosition, createSimulation, configureForces, hasBakedLayout, applyBakedPositions } from './force-layout.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
@@ -20,17 +21,7 @@ const TYPE_COLORS = {
   'local-isp': '#4dabf7',  // backward compat
 };
 
-const TYPE_LABELS = {
-  'outside': 'Outside BD (Intl Feeder)',
-  'iig': 'IIG (Licensed Gateway)',
-  'detected-iig': 'Detected Gateway',
-  'offshore-enterprise': 'Offshore Enterprise',
-  'offshore-gateway': 'Offshore Gateway',
-  'local-company': 'Local Company',
-  'inside': 'Inside BD (Gateway)',
-  'offshore-peer': 'BD Offshore Peer',  // backward compat
-  'local-isp': 'Local ISP',  // backward compat
-};
+const TYPE_LABELS = CATEGORY_LABELS;
 
 let svg, g, simulation, nodes, links, tooltip;
 let showLabels = true;
@@ -51,12 +42,12 @@ const LEGEND_HEIGHT = 90;
 const COMPACT_LEGEND_HEIGHT = 44;
 
 const TYPE_LEGEND = [
-  { color: '#4dabf7', label: 'Local Co.' },
+  { color: '#4dabf7', label: 'Local' },
   { color: '#51cf66', label: 'IIG' },
   { color: '#fcc419', label: 'Detected' },
-  { color: '#17a2b8', label: 'Offshore Ent.' },
-  { color: '#e64980', label: 'Offshore GW' },
-  { color: '#ff6b6b', label: 'Outside' },
+  { color: '#17a2b8', label: 'Offshore ent.' },
+  { color: '#e64980', label: 'Offshore gateway' },
+  { color: '#ff6b6b', label: 'International' },
 ];
 
 // The layout flows left to right. On a portrait panel it is drawn transposed
@@ -150,7 +141,7 @@ function createCompactLegend(width, height) {
 
   const edgeTypes = [
     { label: 'International', stroke: '#4fc3f7', dash: 'none' },
-    { label: 'Domestic', stroke: '#42a5f5', dash: '4,2' },
+    { label: 'Local', stroke: '#42a5f5', dash: '4,2' },
   ];
   edgeTypes.forEach(({ label, stroke, dash }, i) => {
     const x = 8 + i * 120;
@@ -186,7 +177,7 @@ function createLegend(width, height) {
     .attr('fill', '#aaa')
     .attr('font-size', '11px')
     .attr('font-weight', 'bold')
-    .text('Edge Types:');
+    .text('Connections:');
 
   legend.append('line')
     .attr('x1', 0).attr('y1', 15)
@@ -197,7 +188,7 @@ function createLegend(width, height) {
     .attr('x', 45).attr('y', 19)
     .attr('fill', '#ccc')
     .attr('font-size', '10px')
-    .text('International (Gateway - Outside)');
+    .text('International (gateway to network abroad)');
 
   legend.append('line')
     .attr('x1', 0).attr('y1', 35)
@@ -209,7 +200,7 @@ function createLegend(width, height) {
     .attr('x', 45).attr('y', 39)
     .attr('fill', '#ccc')
     .attr('font-size', '10px')
-    .text('Domestic (Local Company - Gateway)');
+    .text('Local (local company to gateway)');
 
   let legendX = 0;
   TYPE_LEGEND.forEach(({ color, label }) => {

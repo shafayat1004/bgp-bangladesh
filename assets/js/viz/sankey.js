@@ -3,11 +3,12 @@
  * Shows route flow: Local ISPs → Gateways → Outside ASNs
  */
 
+import { CATEGORY_LABELS } from '../ui/glossary.js';
 import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 
 const TYPE_COLORS = { 'outside': '#ff6b6b', 'iig': '#51cf66', 'detected-iig': '#fcc419', 'offshore-enterprise': '#17a2b8', 'offshore-gateway': '#e64980', 'local-company': '#4dabf7', 'inside': '#51cf66', 'offshore-peer': '#ffa94d', 'local-isp': '#4dabf7' };
-const TYPE_LABELS = { 'outside': 'Outside BD', 'iig': 'IIG (Licensed)', 'detected-iig': 'Detected Gateway', 'offshore-enterprise': 'Offshore Enterprise', 'offshore-gateway': 'Offshore Gateway', 'local-company': 'Local Company', 'inside': 'Inside BD', 'offshore-peer': 'Offshore Peer', 'local-isp': 'Local ISP' };
+const TYPE_LABELS = CATEGORY_LABELS;
 
 function moveTooltipSmart(event) {
   const tooltip = d3.select('#tooltip');
@@ -147,10 +148,10 @@ function render() {
 
   // Column flow positions (Outside -> Gateways -> Local Companies)
   const columns = hasLocalISP && localISPASNs.length > 0
-    ? [{ asns: outsideSorted, flow: 0, color: TYPE_COLORS.outside, label: 'Outside' },
+    ? [{ asns: outsideSorted, flow: 0, color: TYPE_COLORS.outside, label: 'International networks' },
        { asns: iigSorted, flow: flowSpan / 2 - thickness / 2, color: TYPE_COLORS.iig, label: 'Gateways' },
-       { asns: ispSorted, flow: flowSpan - thickness, color: TYPE_COLORS['local-company'], label: 'Local Companies' }]
-    : [{ asns: outsideSorted, flow: 0, color: TYPE_COLORS.outside, label: 'Outside' },
+       { asns: ispSorted, flow: flowSpan - thickness, color: TYPE_COLORS['local-company'], label: 'Local companies' }]
+    : [{ asns: outsideSorted, flow: 0, color: TYPE_COLORS.outside, label: 'International networks' },
        { asns: iigSorted, flow: flowSpan - thickness, color: TYPE_COLORS.iig, label: 'Inside BD' }];
 
   // Layout nodes in each column along the cross axis
@@ -314,7 +315,7 @@ function render() {
 
   makeChartAccessible(svg, {
     zoom: svgZoom,
-    label: 'Traffic flow diagram: routes flow from local companies through gateways to international networks. The width of each band shows how many routes it carries.',
+    label: 'Route flow diagram: routes flow from local companies through gateways to international networks. The width of each band shows how many routes it carries.',
     reset: fitToView,
     toolbar: document.getElementById('sankey-controls'),
     includeReset: false,
