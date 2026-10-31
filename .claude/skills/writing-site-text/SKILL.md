@@ -57,6 +57,7 @@ A section about shutdowns or who could stay connected has, in order:
 | a network registered in Singapore | through Singapore, routed via Singapore (registered country is not location) |
 | routes seen dropped from about 1,388 to 69 networks | the shutdown hit, the country went dark |
 | unusually low: 210 networks visible (typical: about 1,385) | Bangladesh is offline, internet cut |
+| feature names that state the question: "Reachable from abroad" | names that suggest watching someone: "Shutdown watch", "Blackout tracker" |
 
 ## Conditions
 
