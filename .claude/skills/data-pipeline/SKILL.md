@@ -39,6 +39,27 @@ name, not a country: guessing from its suffix turned `OMANTEL-AS` into
 American Samoa and `SINGTEL-AS-AP` into "AP". Registry records can still say
 `EU` or `AP` (a region); keep those and let the UI label them as regions.
 
+Registry answers change over time. `rir-stats-country` returns an empty
+location for an ASN the RIR has taken back (APNIC lists it as `RESERVED`),
+and takes a `query_time` parameter that returns what the registry said
+earlier. Use that before deciding a country is unknowable.
+
+**Private-use and reserved ASNs are noise, not networks with a missing
+country.** 64512-65534 and 4200000000-4294967294 (private use), 64496-64511
+and 65536-65551 (documentation), and 0, 23456, 65535, 65552-131071 and
+4294967295 (reserved) have no registry record and belong to nobody. When
+one shows up in AS paths (e.g. AS65260 "-Private Use AS-" as an
+"international network"), it leaked from someone's internal routing. Don't look up or invent a country for it; raise whether the
+pipeline should drop it from paths instead of counting it.
+
+**Look in the data before going to the network.** Nodes in `viz_data.json`
+already carry `geo_breakdown` (IP location split), `peering_country` /
+`peering_details` / `peering_source`, `country`, `traffic`, `rank` and
+`percentage`, and `asn_names.json` holds every name and country seen.
+Re-running changed logic on those stored values is reproducible and needs no
+lookups; live lookups answer "what would the next run do" and can differ.
+Say which one you used.
+
 RIPEstat allows about 8 parallel requests; the pipeline rate-limits to 4 per
 second (`RateLimiter`) and retries timeouts and 429/5xx (`get_with_retries`).
 Read timeouts during a big lookup are normal.
@@ -54,7 +75,10 @@ When you change how a cached field is derived:
 
 1. Record where each value came from (e.g. `country_source: "rir"`).
 2. On each run, refresh entries without that mark (`refresh_registered_countries`
-   is the pattern). A failed lookup must not leave the old guess behind:
+   is the pattern). Set the mark only on an answer, including "the source has
+   nothing for this ASN"; never on a failed request. A test run marked failed
+   PeeringDB lookups as checked, so those networks would never have been
+   asked again. A failed lookup must not leave the old guess behind either:
    clear it (or use a documented fallback) and leave it unmarked so the next
    run retries.
 3. Expect the first run after the change to do one big batch of lookups
@@ -88,7 +112,12 @@ data is written once and never recomputed (only a missing layout is added).
    Then print before/after counts for what the site shows (e.g. countries of
    `outside` nodes, route share per country) and spot-check a few well-known
    networks. Numbers that look implausible (29 networks in American Samoa)
-   are the signal.
+   are the signal. A one-off backfill script gets the same treatment: point
+   it at copies, not at `data/`, until you've decided the data should change.
+
+   When a rule has a threshold, report the cases near it (a network at 80.05%
+   of an 80% line) and the readings of the request you chose between; those
+   are the user's decisions, not yours.
 3. Mirror the change in `ripestat.js` (live fetch, "How does my internet reach
    the world?") and `reprocess_3layer.py`, which imports helpers from
    `update_bgp_data.py`. Add a `tests-js/` test for any JS parser.

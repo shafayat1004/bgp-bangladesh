@@ -32,3 +32,6 @@ data/BD/bgp_routes_raw.jsonl
 # Local dev tooling output (screenshots, profiles) and Playwright MCP logs
 .dev-output/
 .playwright-mcp/
+
+# Agent worktrees made by Claude Code
+.claude/worktrees/

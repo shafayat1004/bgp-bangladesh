@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: unknown-country-networks
+expected_outcome: |
+  Identifies both networks (AS140321 FIANS-AS-AP and AS65260 "-Private Use AS-").
+  Finds that AS140321's registry record (rir-stats-country) has no location, and
+  that AS65260 is a private-use ASN (64512-65534) that shouldn't be counted as an
+  international network at all. Proposes or makes a pipeline fix (e.g. drop
+  private/reserved ASNs from AS paths, and leave a genuinely unknown registry
+  country empty or use another reliable source rather than guessing from the
+  name), with unit tests, and checks it against the real data on a scratch copy.
+  Doesn't run the full updater into data/ and doesn't commit data.

@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: geo-threshold-offshore
+expected_outcome: |
+  Changes fetch_geo_country (or the dominant-country logic) in
+  scripts/update_bgp_data.py to drop locations under 5%, with a unit test. Runs
+  the changed logic against real data for the current offshore networks (the
+  offshore-enterprise and offshore-gateway nodes in data/BD/viz_data.json),
+  using a scratch copy or live lookups, not by running the full updater into
+  data/, and reports which networks would change category and why. Notes the
+  browser live-fetch path (ripestat.js fetchGeoCountries) needs the same change.
+  Doesn't commit data.
