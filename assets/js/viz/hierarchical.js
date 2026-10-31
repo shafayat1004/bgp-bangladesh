@@ -307,7 +307,7 @@ function render() {
 
     const flag = n.country ? countryToFlag(n.country) : '';
     const displayName = n.name || `AS${n.asn}`;
-    const truncated = displayName.length > 10 ? displayName.slice(0, 9) + '...' : displayName;
+    const truncated = displayName.length > 10 ? displayName.slice(0, 9) + '…' : displayName;
 
     group.append('text').attr('x', boxW / 2).attr('y', boxH / 2 - 3).attr('text-anchor', 'middle')
       .attr('fill', INK.text).attr('font-size', '8px').attr('font-weight', 'bold')

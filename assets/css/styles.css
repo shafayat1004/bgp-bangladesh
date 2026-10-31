@@ -40,8 +40,12 @@
   --cat-outside: #b4532a;
   --radius: 6px;
   --transition: 0.2s ease;
+  /* What buttons and list items animate; never `all` (CLAUDE.md). */
+  --transition-ui: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, filter 0.2s ease;
   color-scheme: light;
 }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -166,6 +170,7 @@ input[type="range"]:focus-visible,
 #sidebar-content {
   flex: 1;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 12px 16px;
 }
 
@@ -225,6 +230,7 @@ input[type="range"]:focus-visible,
   width: max(100%, 360px);
   max-height: 60vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   margin: 0;
   padding: 4px;
   list-style: none;
@@ -241,8 +247,8 @@ input[type="range"]:focus-visible,
   border-radius: 4px;
   cursor: pointer;
 }
-.site-search-list [role="option"]:hover,
 .site-search-list [role="option"][aria-selected="true"] { background: var(--bg-raised); }
+@media (hover: hover) and (pointer: fine) { .site-search-list [role="option"]:hover { background: var(--bg-raised); } }
 .site-search-list [role="option"][aria-selected="true"] { box-shadow: inset 3px 0 0 var(--accent); }
 .search-opt-name { overflow: hidden; color: var(--text); font-size: 13px; white-space: nowrap; text-overflow: ellipsis; }
 .search-opt-meta { color: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
@@ -287,7 +293,7 @@ input[type="range"]:focus-visible,
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
-  transition: var(--transition);
+  transition: var(--transition-ui);
 }
 
 /* Narrow desktops: tighter tabs so all six fit beside the sidebar. */
@@ -295,9 +301,11 @@ input[type="range"]:focus-visible,
   .tab-btn { padding: 10px 11px; }
 }
 
-.tab-btn:hover {
-  color: var(--text);
-  background: var(--bg-card);
+@media (hover: hover) and (pointer: fine) {
+  .tab-btn:hover {
+    color: var(--text);
+    background: var(--bg-card);
+  }
 }
 
 .tab-btn.active {
@@ -328,26 +336,43 @@ input[type="range"]:focus-visible,
   cursor: pointer;
   font-weight: 600;
   font-size: 12px;
-  transition: var(--transition);
+  transition: var(--transition-ui);
   white-space: nowrap;
 }
 
-.btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+@media (hover: hover) and (pointer: fine) { .btn:hover { background: var(--accent-hover); transform: translateY(-1px); } }
 .btn:active { transform: translateY(0); }
+
+/* Touch screens get no hover styles (they stick after a tap), so a press
+   shows its own feedback. */
+.btn:active, .btn-my-asn:active { background: var(--accent-hover); }
+.btn-outline:active, .tab-btn:active, .viz-ctrl-btn:active, .timeline-btn:active,
+.mobile-menu-btn:active, .detail-close:active, .asn-item:active, .bar-row:active,
+.clickable-row:active td { background: var(--bg-raised); }
+
+/* Controls aren't text: a long press (holding the date arrows, say) must not
+   select the page or open the copy menu, and taps fire without waiting to see
+   whether a double-tap zoom follows. */
+button, [role="button"], .asn-item, #viz-panel svg {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+button, a, [role="button"], label, input[type="range"] { touch-action: manipulation; }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
 .btn-small { padding: 4px 10px; font-size: 11px; }
 .btn-active { background: var(--accent); color: var(--bg-primary); }
 
 .btn-danger { background: var(--red); }
-.btn-danger:hover { background: #7d3b23; }
+@media (hover: hover) and (pointer: fine) { .btn-danger:hover { background: #7d3b23; } }
 
 .btn-outline {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-muted);
 }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+@media (hover: hover) and (pointer: fine) { .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: transparent; } }
 
 .btn-primary { background: var(--accent); }
 .btn-cancel { background: var(--red); }
@@ -383,6 +408,7 @@ input[type="range"]:focus-visible,
 #local-company-list, #iig-list, #outside-list {
   max-height: 300px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   overflow-x: hidden;
   padding-right: 4px;
 }
@@ -399,13 +425,13 @@ input[type="range"]:focus-visible,
   margin: 4px 0;
   border-radius: 4px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--transition-ui);
   border-left: 3px solid transparent;
 }
 
 .asn-item > span { display: block; }
 
-.asn-item:hover { background: var(--bg-raised); transform: translateX(3px); }
+@media (hover: hover) and (pointer: fine) { .asn-item:hover { background: var(--bg-raised); transform: translateX(3px); } }
 .asn-item.inside { border-left-color: var(--green); }
 .asn-item.outside { border-left-color: var(--red); }
 .asn-item.highlighted { background: var(--bg-raised); border-left-width: 5px; }
@@ -500,7 +526,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 /* 24px target (WCAG 2.5.8) without a bigger circle */
 .term-help::after { content: ''; position: absolute; inset: -5px; }
-.term-help:hover, .term-help[aria-expanded="true"] { background: var(--accent); color: var(--bg-primary); }
+.term-help[aria-expanded="true"] { background: var(--accent); color: var(--bg-primary); }
+@media (hover: hover) and (pointer: fine) { .term-help:hover { background: var(--accent); color: var(--bg-primary); } }
 .term-help:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .term-popover {
@@ -540,7 +567,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* Only transition highlight properties: a blanket transition also animates the
    SVG transform/d attributes on every simulation tick, which stalls rendering. */
 .node { cursor: pointer; transition: opacity var(--transition), filter var(--transition); }
-.node:hover { filter: brightness(1.12); }
+@media (hover: hover) and (pointer: fine) { .node:hover { filter: brightness(1.12); } }
 .node.highlighted { filter: drop-shadow(0 0 6px rgba(20, 69, 58, 0.75)); }
 .node.dimmed { opacity: 0.08; }
 
@@ -607,6 +634,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 28px;
   position: relative;
 }
@@ -623,7 +651,7 @@ input[type="range"]::-webkit-slider-thumb {
   line-height: 1;
 }
 
-.modal-close:hover { color: var(--text); }
+@media (hover: hover) and (pointer: fine) { .modal-close:hover { color: var(--text); } }
 
 .modal-title { font-size: 20px; color: var(--accent); margin-bottom: 16px; }
 
@@ -786,7 +814,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .toast-message { flex: 1; }
 .toast-close { background: none; border: none; color: var(--reverse); font-size: 18px; cursor: pointer; opacity: 0.7; padding: 0 4px; }
-.toast-close:hover { opacity: 1; }
+@media (hover: hover) and (pointer: fine) { .toast-close:hover { opacity: 1; } }
 
 /* ── Data Table ── */
 .table-toolbar {
@@ -822,7 +850,7 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 11px;
 }
 
-.table-wrapper { overflow: auto; flex: 1; padding: 0 16px; }
+.table-wrapper { overflow: auto; overscroll-behavior: contain; flex: 1; padding: 0 16px; }
 
 .data-table {
   width: 100%;
@@ -863,7 +891,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .data-table th.sortable { cursor: pointer; user-select: none; }
-.data-table th.sortable:hover { color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .data-table th.sortable:hover { color: var(--accent); } }
 
 /* Header sort buttons and row expand buttons look like the text they replace. */
 .th-sort, .row-toggle {
@@ -886,7 +914,7 @@ input[type="range"]::-webkit-slider-thumb {
   color: var(--text-muted);
 }
 
-.data-table tr:hover td { background: var(--bg-card); color: var(--text); }
+@media (hover: hover) and (pointer: fine) { .data-table tr:hover td { background: var(--bg-card); color: var(--text); } }
 
 .data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
 
@@ -970,7 +998,7 @@ input[type="range"]::-webkit-slider-thumb {
   white-space: nowrap;
 }
 
-.viz-ctrl-btn:hover { color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .viz-ctrl-btn:hover { color: var(--accent); } }
 .viz-ctrl-btn.active { color: var(--bg-primary); background: var(--accent); }
 
 /* Pan/zoom buttons (chart-a11y.js): at least 24px targets (WCAG 2.5.8). */
@@ -993,6 +1021,7 @@ input[type="range"]::-webkit-slider-thumb {
 .bar-view {
   height: 100%;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 16px 20px 24px;
 }
 
@@ -1035,7 +1064,7 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 12px;
 }
 
-.bar-row:hover { background: var(--bg-card); }
+@media (hover: hover) and (pointer: fine) { .bar-row:hover { background: var(--bg-card); } }
 .bar-row.highlighted { background: var(--bg-raised); box-shadow: inset 3px 0 0 var(--accent); }
 
 .bar-rank { color: var(--text-dim); text-align: right; }
@@ -1122,7 +1151,7 @@ input[type="range"]::-webkit-slider-thumb {
   transition: border-color 0.15s, color 0.15s;
 }
 
-.timeline-btn:hover { border-color: var(--accent); color: var(--accent-hover); }
+@media (hover: hover) and (pointer: fine) { .timeline-btn:hover { border-color: var(--accent); color: var(--accent-hover); } }
 
 #timeline-readout {
   flex: 0 0 auto;
@@ -1182,7 +1211,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #app-footer a { color: var(--accent); text-decoration: underline; }
-#app-footer a:hover { color: var(--accent-hover); }
+@media (hover: hover) and (pointer: fine) { #app-footer a:hover { color: var(--accent-hover); } }
 
 /* ── Category colours ── */
 /* Category colour as a mark beside ink text: the hues are too light for text. */
@@ -1250,12 +1279,14 @@ input[type="range"]::-webkit-slider-thumb {
   border: none;
   cursor: pointer;
   font-weight: bold;
-  transition: var(--transition);
+  transition: var(--transition-ui);
 }
 
-.btn-my-asn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .btn-my-asn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+  }
 }
 
 .btn-my-asn:disabled {
@@ -1321,7 +1352,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* ── Clickable Table Rows ── */
 .clickable-row { cursor: pointer; transition: background 0.15s; }
-.clickable-row:hover { background: var(--bg-raised); }
+@media (hover: hover) and (pointer: fine) { .clickable-row:hover { background: var(--bg-raised); } }
 .clickable-row.row-expanded { background: var(--accent-soft); border-bottom: none; }
 
 /* ── Geo Mismatch Highlight ── */
@@ -1384,9 +1415,9 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   justify-content: center;
   border-radius: var(--radius);
-  transition: var(--transition);
+  transition: var(--transition-ui);
 }
-.detail-close:hover { background: var(--bg-raised); color: var(--text); }
+@media (hover: hover) and (pointer: fine) { .detail-close:hover { background: var(--bg-raised); color: var(--text); } }
 
 .detail-grid {
   display: grid;
@@ -1443,7 +1474,7 @@ input[type="range"]::-webkit-slider-thumb {
   color: var(--accent);
   text-decoration: underline;
 }
-.detail-value a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
+@media (hover: hover) and (pointer: fine) { .detail-value a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; } }
 
 .detail-value.detail-warning { color: var(--warn); }
 .detail-value.detail-licensed { color: var(--accent); }
@@ -1490,7 +1521,7 @@ input[type="range"]::-webkit-slider-thumb {
   color: var(--text-muted);
 }
 
-.detail-connections-table tr:hover td { background: var(--bg-raised); }
+@media (hover: hover) and (pointer: fine) { .detail-connections-table tr:hover td { background: var(--bg-raised); } }
 
 .detail-empty {
   font-size: 11px;
@@ -1552,12 +1583,14 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   gap: 5px;
   padding: 0;
-  transition: var(--transition);
+  transition: var(--transition-ui);
 }
 
-.mobile-menu-btn:hover {
-  background: var(--bg-card);
-  border-color: var(--accent);
+@media (hover: hover) and (pointer: fine) {
+  .mobile-menu-btn:hover {
+    background: var(--bg-card);
+    border-color: var(--accent);
+  }
 }
 
 .mobile-menu-btn span {
@@ -1565,7 +1598,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 22px;
   height: 2px;
   background: var(--text);
-  transition: var(--transition);
+  transition: transform var(--transition), opacity var(--transition);
   border-radius: 2px;
 }
 
@@ -1909,6 +1942,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 100% !important;
     max-height: 40vh;
     overflow-y: auto;
+    overscroll-behavior: contain;
     border-radius: 12px 12px 0 0;
     border-bottom: none;
     font-size: 11px;

@@ -61,10 +61,10 @@ function render() {
 
   container.innerHTML = `
     <div class="table-toolbar">
-      <input type="search" id="table-search" placeholder="Search name, ASN or country..." class="table-search" value="${searchQuery}" aria-label="Search the table">
+      <input type="search" id="table-search" placeholder="Search name, ASN or country…" class="table-search" value="${searchQuery}" aria-label="Search the table">
       <div class="table-toolbar-right">
-        <button type="button" class="btn btn-small ${!showEdges ? 'btn-active' : ''}" id="table-show-nodes" aria-pressed="${!showEdges}">Networks</button>
-        <button type="button" class="btn btn-small ${showEdges ? 'btn-active' : ''}" id="table-show-edges" aria-pressed="${showEdges}">Connections</button>
+        <button type="button" class="btn btn-small ${!showEdges ? 'btn-active' : 'btn-outline'}" id="table-show-nodes" aria-pressed="${!showEdges}">Networks</button>
+        <button type="button" class="btn btn-small ${showEdges ? 'btn-active' : 'btn-outline'}" id="table-show-edges" aria-pressed="${showEdges}">Connections</button>
         <select id="table-page-size" class="table-select" aria-label="Rows per page">
           <option value="25" ${pageSize === 25 ? 'selected' : ''}>25 rows</option>
           <option value="50" ${pageSize === 50 ? 'selected' : ''}>50 rows</option>
