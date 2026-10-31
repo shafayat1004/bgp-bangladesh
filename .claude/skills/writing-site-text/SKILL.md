@@ -27,8 +27,8 @@ ADN Telecom. Source: RIPEstat."
 "Bangladesh Police: no routes visible from 18 Jul to 24 Jul 2024. Source:
 RIPEstat routing history."
 
-"CEL Telecom holds an international voice gateway (IGW) licence (BTRC list,
-30 Oct 2024) and connects directly to Tata (routes seen today)."
+"BG Tel holds an international voice gateway (IGW) licence (BTRC list,
+30 Oct 2024) and connects directly to Tata (routes seen 31 Oct 2026)."
 
 ## Section recipe
 
