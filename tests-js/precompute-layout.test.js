@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 
-import { computeLayout, withLayoutBlock, stripLayoutBlock } from '../scripts/precompute_layout.mjs';
+import { computeLayout, withLayoutBlock, stripLayoutBlock, filesMissingLayout } from '../scripts/precompute_layout.mjs';
 import { LAYOUT_VERSION, hasBakedLayout, applyBakedPositions } from '../assets/js/viz/force-layout.js';
 
 // Small dataset shaped like viz_data.json.
@@ -80,4 +83,26 @@ test('applyBakedPositions: positions matching nodes and resets velocity', () => 
   assert.equal(applyBakedPositions({ positions: { 1: [3, 4] } }, nodes), 1);
   assert.deepEqual(nodes[0], { asn: '1', x: 3, y: 4, vx: 0, vy: 0 });
   assert.equal(nodes[1].x, undefined);
+});
+
+test('filesMissingLayout: lists the snapshots and viz_data.json without a current layout', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'layout-check-'));
+  try {
+    const baked = withLayoutBlock(pythonText, computeLayout(data).layout);
+    const stale = withLayoutBlock(pythonText, { ...computeLayout(data).layout, version: -1 });
+    fs.mkdirSync(path.join(dir, 'history'));
+    fs.writeFileSync(path.join(dir, 'history', 'index.json'), JSON.stringify({
+      snapshots: [{ file: 'a.json' }, { file: 'b.json' }, { file: 'c.json' }, { file: 'gone.json' }],
+    }));
+    fs.writeFileSync(path.join(dir, 'history', 'a.json'), baked);
+    fs.writeFileSync(path.join(dir, 'history', 'b.json'), pythonText);
+    fs.writeFileSync(path.join(dir, 'history', 'c.json'), stale);
+    fs.writeFileSync(path.join(dir, 'viz_data.json'), baked);
+    assert.deepEqual(filesMissingLayout(dir), [path.join('history', 'b.json'), path.join('history', 'c.json')]);
+
+    fs.writeFileSync(path.join(dir, 'viz_data.json'), pythonText);
+    assert.ok(filesMissingLayout(dir).includes('viz_data.json'));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 });

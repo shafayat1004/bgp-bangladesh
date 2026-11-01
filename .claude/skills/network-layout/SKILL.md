@@ -37,7 +37,10 @@ The layout reads left to right along the path traffic takes: local companies
 - **CI**: `.github/workflows/update-bgp-data.yml` runs `npm ci` then
   `node scripts/precompute_layout.mjs --country BD` after the Python updater.
   The script only processes files without a current-version layout, so
-  normally it touches just the new snapshot (~1.5 s).
+  normally it touches just the new snapshot (~1.5 s). After pushing the data,
+  the run checks every file has a layout (`--check`) and fails if not. The
+  site-checks workflow bakes layouts before its browser tests (not
+  committed), so a PR that bumps `LAYOUT_VERSION` still passes.
 
 ## Changing the layout
 
@@ -62,8 +65,9 @@ The layout reads left to right along the path traffic takes: local companies
 ## Baking now, without waiting for CI
 
 Signs the committed data has no current layout: the graph moves and settles
-on open, `npm run profile` prints "baked layout in data: no", and the e2e
-"baked positions" test skips instead of failing (issue #32). If the user wants
+on open, `npm run profile` prints "baked layout in data: no",
+`node scripts/precompute_layout.mjs --check` lists the files, and the data
+run's last step fails (issue #32). If the user wants
 it fixed now, bake locally; don't dispatch `update-bgp-data.yml`. The workflow
 refetches BGP data and adds an off-schedule history snapshot just to run a
 script that takes ~1 s per file.
@@ -85,7 +89,7 @@ Before pushing:
   run that checked out the older `main` can't push over yours.
 
 Commit only `data/BD`, push to `main`, then check `npm run profile` shows 0
-simulation ticks on open and the e2e "baked positions" test runs. Remove the
+simulation ticks on open and `node scripts/precompute_layout.mjs --check` passes. Remove the
 worktree and branch afterwards.
 
 ## Things that bite

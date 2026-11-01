@@ -85,7 +85,7 @@ The dev scripts use installed Chrome, or Playwright's Chromium (`npx playwright 
 - **Avoid CSS `filter` on many SVG elements.** A drop-shadow on ~700 highlighted links cost ~0.7 s per redraw.
 - **Put `:hover` styles inside `@media (hover: hover) and (pointer: fine)`.** On phones a hover style sticks after a tap (a tapped button stayed lifted and green, looking selected). Touch gets `:active` press styles instead. Chrome's device mode doesn't show this; check in the iOS Simulator or on a phone.
 - **A click on a node also fires d3-drag's `start`.** Never reheat the simulation there, or every click moves the whole graph.
-- Keep the site WCAG 2.2 AA: `npm run audit:a11y` must report no violations and `npm run test:e2e` must pass.
+- Keep the site WCAG 2.2 AA: `npm run audit:a11y` must report no violations and `npm run test:e2e` must pass. The `Site checks` workflow runs both, plus unit tests, screenshots and the profile, on PRs touching site code; `Pipeline tests` runs the Python tests on pipeline changes. The profile is informational in CI (runners are slower than the budgets assume); still run `npm run profile -- --check` locally for graph, slider or chart CSS changes.
 - **PRs close their issues.** Fill in `.github/pull_request_template.md`: one `Fixes #N` line per issue the PR finishes (GitHub closes it when the PR merges into `main`), `Part of #N` for issues it only moves forward, or `No issue`. The "PR links issues" check fails otherwise. Merges are squash or rebase only.
 
 ## Known issues

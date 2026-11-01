@@ -1,0 +1,97 @@
+name: Site checks
+
+# Unit tests, browser tests and the accessibility audit on every change to
+# site code. The bot's data-only commits (every 4 hours) don't match these
+# paths, so they don't run this.
+
+on:
+  push:
+    branches: [main]
+    paths: &site-paths
+      - "index.html"
+      - "assets/**"
+      - "scripts/dev/**"
+      - "scripts/precompute_layout.mjs"
+      - "tests-e2e/**"
+      - "tests-js/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/site-checks.yml"
+  pull_request:
+    paths: *site-paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Make sure a browser is available
+        # The runner image ships Chrome, which the dev scripts use first.
+        # Fall back to Playwright's Chromium if it ever doesn't.
+        run: |
+          if command -v google-chrome >/dev/null; then
+            google-chrome --version
+          else
+            npx playwright install --with-deps chromium
+          fi
+
+      - name: Unit tests
+        run: npm run test:js
+
+      - name: Bake Network Graph layouts (not committed)
+        # A PR that changes the layout bumps LAYOUT_VERSION, and the committed
+        # data only gets new positions on the next data run. Bake here so the
+        # browser tests see what the site will show then.
+        run: npm run layout
+
+      - name: Browser tests
+        run: npm run test:e2e
+
+      - name: Accessibility audit
+        run: npm run audit:a11y
+
+      - name: Screenshots
+        if: ${{ !cancelled() }}
+        run: npm run screenshots -- --slider-step
+
+      # Budgets were tuned on a fast Mac and runners are slower, so the profile
+      # is reported but doesn't fail the job yet (see #1).
+      - name: Performance profile (desktop)
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: npm run profile -- --check --json
+
+      - name: Performance profile (phone)
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: npm run profile -- --check --viewport phone
+
+      - name: Upload screenshots and profile
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: site-checks-output
+          path: .dev-output/
+          retention-days: 14
+          if-no-files-found: ignore
