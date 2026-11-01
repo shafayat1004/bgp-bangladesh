@@ -4,28 +4,10 @@
  */
 
 import { CATEGORY_LABELS, CATEGORY_PLURALS } from '../ui/glossary.js';
-import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
+import { countryToFlag } from '../ui/names.js';
+import { buildNodeTooltipHtml, buildEdgeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 import { CATEGORY_COLORS, LINK_COLORS, INK } from '../ui/colors.js';
-
-function moveTooltipSmart(event) {
-  const tooltip = d3.select('#tooltip');
-  const tooltipNode = tooltip.node();
-  if (!tooltipNode) return;
-  // On mobile, tooltip is a CSS bottom sheet
-  if (window.innerWidth <= 900) return;
-  
-  const rect = tooltipNode.getBoundingClientRect();
-  let left = event.pageX + 15;
-  let top = event.pageY + 15;
-  
-  if (left + rect.width > window.innerWidth) left = event.pageX - rect.width - 15;
-  if (top + rect.height > window.innerHeight) top = event.pageY - rect.height - 15;
-  left = Math.max(5, left);
-  top = Math.max(5, top);
-  
-  tooltip.style('left', `${left}px`).style('top', `${top}px`);
-}
 
 const TYPE_COLORS = CATEGORY_COLORS;
 const TYPE_LABELS = CATEGORY_PLURALS;
@@ -271,9 +253,9 @@ function render() {
         const link = d3.select(this);
         const originalWidth = parseFloat(link.attr('data-original-width'));
         link.attr('stroke-opacity', 0.9).attr('stroke-width', originalWidth + 2);
-        d3.select('#tooltip').html(buildEdgeTooltipHtml(nodeMap[src], nodeMap[tgt], edge.count, edge.type || 'international')).style('display', 'block');
+        showTooltip(buildEdgeTooltipHtml(nodeMap[src], nodeMap[tgt], edge.count, edge.type || 'international'), event);
       })
-      .on('mousemove', moveTooltipSmart)
+      .on('mousemove', moveTooltip)
       .on('mouseout', function () { 
         const link = d3.select(this);
         const linkSrc = link.attr('data-source');
@@ -290,7 +272,7 @@ function render() {
           const originalWidth = parseFloat(link.attr('data-original-width'));
           link.attr('stroke-opacity', originalOpacity).attr('stroke-width', originalWidth);
         }
-        d3.select('#tooltip').style('display', 'none'); 
+        endHover(); 
       });
   });
 
@@ -318,10 +300,10 @@ function render() {
       .text(`${(n.percentage || 0).toFixed(1)}%`);
 
     group.on('mouseover', function (event) {
-      d3.select('#tooltip').html(buildNodeTooltipHtml(n, CATEGORY_LABELS)).style('display', 'block');
+      showTooltip(buildNodeTooltipHtml(n, CATEGORY_LABELS), event);
     })
-    .on('mousemove', moveTooltipSmart)
-    .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); })
+    .on('mousemove', moveTooltip)
+    .on('mouseout', function () { endHover(); })
     .on('click', function (event) {
       event.stopPropagation();
       highlightASN(asn);

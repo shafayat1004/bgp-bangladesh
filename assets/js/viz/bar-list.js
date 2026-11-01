@@ -5,7 +5,7 @@
  * width, scrolls vertically like a page, and screen readers read each row.
  */
 
-import { positionTooltip } from '../ui/tooltip.js';
+import { showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
 
 /**
  * Draw (or redraw) a bar list into the panel, keeping the scroll position.
@@ -54,7 +54,6 @@ export function renderBarList(container, view) {
     return;
   }
 
-  const tooltip = d3.select('#tooltip');
   const list = el('ol', 'bar-list', root);
   for (const row of view.rows) {
     const li = el('li', 'bar-row', list);
@@ -84,9 +83,9 @@ export function renderBarList(container, view) {
     if (row.detail) el('span', 'visually-hidden', li).textContent = ` ${row.detail}`;
 
     if (row.tooltip) {
-      li.addEventListener('mouseenter', () => tooltip.html(row.tooltip()).style('display', 'block'));
-      li.addEventListener('mousemove', (event) => positionTooltip(event, tooltip));
-      li.addEventListener('mouseleave', () => tooltip.style('display', 'none'));
+      li.addEventListener('mouseenter', (event) => showTooltip(row.tooltip(), event));
+      li.addEventListener('mousemove', moveTooltip);
+      li.addEventListener('mouseleave', endHover);
     }
   }
 

@@ -6,9 +6,9 @@
  */
 
 import { CATEGORY_LABELS } from '../ui/glossary.js';
-import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
+import { buildNodeTooltipHtml } from '../ui/tooltip.js';
 import { renderBarList, highlightBarRow } from './bar-list.js';
-import { friendlyName } from '../ui/names.js';
+import { countryToFlag, friendlyName } from '../ui/names.js';
 import { CATEGORY_COLORS, LINK_COLORS } from '../ui/colors.js';
 
 // The gateway categories this ranking shows, with their colours.

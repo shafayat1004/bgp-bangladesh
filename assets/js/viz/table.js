@@ -3,9 +3,8 @@
  * Clicking a row expands a detail panel showing full analysis info.
  */
 
-import { countryToFlag } from '../api/ripestat.js';
 import { GLOSSARY, CATEGORY_LABELS as TYPE_LABELS, CATEGORY_PLURALS, termHelp } from '../ui/glossary.js';
-import { friendlyName } from '../ui/names.js';
+import { countryToFlag, friendlyName } from '../ui/names.js';
 const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-enterprise': 'type-offshore-enterprise', 'offshore-gateway': 'type-offshore-gateway', 'local-company': 'type-local-company', 'inside': 'type-iig', 'offshore-peer': 'type-offshore-peer', 'local-isp': 'type-local-company' };
 
 // Connections in the detail panel, grouped by the other network's category.

@@ -3,7 +3,7 @@
  * Manages sidebar controls: data source indicator, ASN lists by type, filters.
  */
 
-import { countryToFlag } from '../api/ripestat.js';
+import { countryToFlag } from './names.js';
 import { termHelp } from './glossary.js';
 
 const PREFS_KEY = 'bgp_bd_prefs';

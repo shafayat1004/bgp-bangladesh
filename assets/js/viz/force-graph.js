@@ -5,7 +5,8 @@
  */
 
 import { CATEGORY_LABELS } from '../ui/glossary.js';
-import { countryToFlag, buildNodeTooltipHtml } from '../api/ripestat.js';
+import { countryToFlag } from '../ui/names.js';
+import { buildNodeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
 import { selectGraph, bandPosition, createSimulation, configureForces, hasBakedLayout, applyBakedPositions } from './force-layout.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 import { CATEGORY_COLORS, LINK_COLORS, INK, categoryColor } from '../ui/colors.js';
@@ -13,7 +14,7 @@ import { CATEGORY_COLORS, LINK_COLORS, INK, categoryColor } from '../ui/colors.j
 
 const TYPE_LABELS = CATEGORY_LABELS;
 
-let svg, g, simulation, nodes, links, linkGroup, tooltip;
+let svg, g, simulation, nodes, links, linkGroup;
 let showLabels = true;
 let highlightedNode = null;
 let currentNodeSize = 15;
@@ -72,7 +73,6 @@ export function init(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML = '<svg id="force-svg"></svg>';
-  tooltip = d3.select('#tooltip');
 }
 
 export function loadData(data, options = {}) {
@@ -356,8 +356,8 @@ function render({ alpha = 1 } = {}) {
     .style('display', labelsDuringLayout ? 'block' : 'none');
 
   nodes.on('mouseover', showTooltipHandler)
-    .on('mousemove', moveTooltipHandler)
-    .on('mouseout', hideTooltipHandler)
+    .on('mousemove', moveTooltip)
+    .on('mouseout', endHover)
     .on('click', highlightNodeHandler);
 
   describeChart(filteredNodes, renderedEdges);
@@ -392,34 +392,7 @@ function ticked() {
   links.attr('d', linkPath);
 }
 
-function buildTooltipHtml(d) {
-  return buildNodeTooltipHtml(d, TYPE_LABELS);
-}
-
-function showTooltipHandler(event, d) { if (tooltip) tooltip.html(buildTooltipHtml(d)).style('display', 'block'); }
-function moveTooltipHandler(event) {
-  if (!tooltip) return;
-  if (window.innerWidth <= 900) return;
-  const offset = 15;
-  let left = event.pageX + offset;
-  let top = event.pageY + offset;
-  
-  const tooltipNode = tooltip.node();
-  if (tooltipNode) {
-    const rect = tooltipNode.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    
-    if (left + rect.width > viewportWidth) left = event.pageX - rect.width - offset;
-    if (top + rect.height > viewportHeight) top = event.pageY - rect.height - offset;
-    
-    left = Math.max(5, left);
-    top = Math.max(5, top);
-  }
-  
-  tooltip.style('left', `${left}px`).style('top', `${top}px`);
-}
-function hideTooltipHandler() { if (tooltip) tooltip.style('display', 'none'); }
+function showTooltipHandler(event, d) { showTooltip(buildNodeTooltipHtml(d, TYPE_LABELS), event); }
 
 function highlightNodeHandler(event, d) {
   event.stopPropagation();

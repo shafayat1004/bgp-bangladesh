@@ -15,6 +15,7 @@ import { describePath, renderMyPath } from './ui/my-path.js';
 import { initGlossary, setGlossaryData, addTermHelp, renderGlossaryList, CATEGORY_LABELS } from './ui/glossary.js';
 import { initSearch } from './ui/search.js';
 import { friendlyName } from './ui/names.js';
+import { setupTooltip, hideTooltip } from './ui/tooltip.js';
 
 import * as ForceGraph from './viz/force-graph.js';
 import * as Sankey from './viz/sankey.js';
@@ -60,6 +61,7 @@ async function init() {
   setupTabs();
   setupButtons();
   setupMobileMenu();
+  setupTooltip();
   setupFilters();
   setupTypeFilters();
   
@@ -180,8 +182,7 @@ function onDataLoaded({ inPlace = false } = {}) {
   if (inPlace && mod?.updateData) {
     // An open tooltip (a details sheet on phones) would still show the previous
     // date's numbers, so it closes.
-    const tip = document.getElementById('tooltip');
-    if (tip) tip.style.display = 'none';
+    hideTooltip();
     mod.updateData(currentData, { minTraffic: defaultMinTraffic, maxTraffic: defaultMaxTraffic });
     if (activeTypeFilters.size < 6 && mod.filterByTypes) {
       mod.filterByTypes(activeTypeFilters);
@@ -333,13 +334,6 @@ function setupButtons() {
     }
   });
 
-  // Hover tooltips can be dismissed without moving the pointer (WCAG 1.4.13).
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    const tip = document.getElementById('tooltip');
-    if (tip) tip.style.display = 'none';
-  });
-
   // What's My ASN?
   document.getElementById('btn-my-asn')?.addEventListener('click', detectMyASN);
 }
@@ -401,53 +395,6 @@ function setupMobileMenu() {
   window.addEventListener('resize', () => {
     setOpen(sidebar.classList.contains('active') && isMobile());
   });
-
-  // Tap on viz panel dismisses tooltip on mobile
-  const vizPanel = document.getElementById('viz-panel');
-  if (vizPanel) {
-    vizPanel.addEventListener('click', (e) => {
-      if (!isMobile()) return;
-      // Only dismiss if tapping on empty space (not a node/link)
-      const target = e.target;
-      if (target.tagName === 'svg' || target.classList.contains('viz-container') || target.id === 'viz-panel') {
-        const tip = document.getElementById('tooltip');
-        if (tip) tip.style.display = 'none';
-      }
-    });
-  }
-
-  // On phones the tooltip is a bottom sheet. It sits just above the date bar
-  // (--sheet-bottom in the CSS) so the date stays reachable while it is open.
-  const timelineBar = document.getElementById('timeline-bar');
-  if (timelineBar) {
-    const placeSheet = () => {
-      const rect = timelineBar.getBoundingClientRect();
-      const bottom = rect.height ? Math.max(0, window.innerHeight - rect.top) : 0;
-      document.documentElement.style.setProperty('--sheet-bottom', `${Math.round(bottom)}px`);
-    };
-    new ResizeObserver(placeSheet).observe(timelineBar);
-    window.addEventListener('resize', placeSheet);
-    placeSheet();
-  }
-
-  // A tap opens the sheet before the rest of that tap (its click) arrives. If
-  // the sheet opens under the finger, the click would land on the sheet and
-  // the tapped network would not be selected, so the sheet lets taps through
-  // for a moment after it opens.
-  const tip = document.getElementById('tooltip');
-  if (tip) {
-    let wasOpen = false;
-    let timer = null;
-    new MutationObserver(() => {
-      const open = tip.style.display === 'block';
-      if (open && !wasOpen && isMobile()) {
-        tip.style.pointerEvents = 'none';
-        clearTimeout(timer);
-        timer = setTimeout(() => { tip.style.pointerEvents = ''; }, 400);
-      }
-      wasOpen = open;
-    }).observe(tip, { attributes: true, attributeFilter: ['style'] });
-  }
 }
 
 // ────────────────────────────────────────

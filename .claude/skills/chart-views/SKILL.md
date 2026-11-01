@@ -151,9 +151,17 @@ simulations replace `source`/`target` with node objects, so read them as
   not narrow), and `(max-width: 600px), (max-height: 500px)` as compact
   (bottom-sheet tooltip, hidden title bar). In JS use the same query with
   `matchMedia` (as `isMobile` in `main.js` does), not `innerWidth <= 900`.
-  Older tooltip code in `tooltip.js`, `sankey.js`, `hierarchical.js`,
-  and `force-graph.js` still checks `innerWidth`; align it
-  when you touch those files.
+  Traffic Flow's default orientation still checks `innerWidth`; align it
+  when you touch it.
+- **Tooltips: use `assets/js/ui/tooltip.js`.** `showTooltip(html, event)` on
+  mouseover, `moveTooltip` on mousemove, `endHover` on mouseout or
+  mouseleave; build the HTML with `buildNodeTooltipHtml` /
+  `buildEdgeTooltipHtml`. Don't position or show `#tooltip` yourself. On
+  compact screens it is a details sheet with a close button that ignores
+  `endHover`: on touch, mouseout fires at the start of the next tap, and
+  closing the sheet then let that tap land on the network under the sheet.
+  It closes with its button, Escape, a tap elsewhere in the chart panel, or
+  a date change (`hideTooltip`).
 - **Keep the view across snapshots.** In `updateData`, keep the current zoom
   transform (`hierarchical.js` stores `savedTransform`) and re-apply any
   highlight if that ASN still exists.

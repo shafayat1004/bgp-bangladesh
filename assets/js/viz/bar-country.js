@@ -5,9 +5,8 @@
  * Bangladesh's gateways, as a static bar list.
  */
 
-import { countryToFlag } from '../api/ripestat.js';
 import { renderBarList } from './bar-list.js';
-import { countryName, NOT_COUNTRIES } from '../ui/names.js';
+import { countryName, countryToFlag, NOT_COUNTRIES } from '../ui/names.js';
 import { CATEGORY_COLORS } from '../ui/colors.js';
 
 const BAR_COLOR = CATEGORY_COLORS.outside;   // matches "International networks"
