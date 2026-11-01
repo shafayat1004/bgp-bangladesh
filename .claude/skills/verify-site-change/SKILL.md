@@ -101,7 +101,7 @@ Run what matches the change; when unsure, run all of it.
 
 - **Baked layout**: the profile header says whether `data/BD/viz_data.json` has
   baked positions. Without them the graph simulates on load, the numbers look
-  worse and the e2e "baked positions" test skips; run `npm run layout` (don't
+  worse and the e2e "baked positions" test fails; run `npm run layout` (don't
   commit the data, see CLAUDE.md). `git checkout -- data`, switching branches
   or pulling a bot commit removes a local bake, so check before profiling.
 - **Share image** (`npm run og-image`, after visible changes to the graph or

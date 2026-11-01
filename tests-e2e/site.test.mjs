@@ -34,7 +34,10 @@ test('every view renders without console errors (desktop and phone)', async () =
   }
 });
 
-test('Network Graph draws baked positions without simulating', { skip: !dataHasBakedLayout() && 'no baked layout in data (run npm run layout)' }, async () => {
+test('Network Graph draws baked positions without simulating', async () => {
+  // A missing layout used to skip this test, which hid #32. CI bakes layouts
+  // before running the tests, so this fails only when baking itself is broken.
+  assert.ok(dataHasBakedLayout(), 'data/BD/viz_data.json has no baked layout (run npm run layout)');
   const site = await openSite(browser, server.url, { tab: 'hierarchical' });
   const { page } = site;
   await page.evaluate(() => {

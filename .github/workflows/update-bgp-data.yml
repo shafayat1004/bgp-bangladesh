@@ -106,3 +106,10 @@ jobs:
           done
           echo "::error::Could not push the data update after 3 attempts"
           exit 1
+
+      - name: Check every data file has a baked layout
+        # After the push, so a layout problem never holds back the data. A
+        # missing layout makes the Network Graph simulate on open (#32); this
+        # makes the run fail visibly instead.
+        run: |
+          node scripts/precompute_layout.mjs --country BD --check

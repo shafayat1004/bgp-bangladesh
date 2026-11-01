@@ -15,8 +15,9 @@
  * the file (written by update_bgp_data.py) stays byte-for-byte unchanged.
  *
  * Usage:
- *   node scripts/precompute_layout.mjs [--country BD] [--force]
+ *   node scripts/precompute_layout.mjs [--country BD] [--force | --check]
  *     --force   recompute files that already have a current layout
+ *     --check   change nothing; exit 1 if any file lacks a current layout
  */
 
 import fs from 'node:fs';
@@ -123,6 +124,23 @@ function writeLayout(file, text, layout) {
 
 const isCurrent = (data) => data.layout?.version === LAYOUT_VERSION;
 
+/**
+ * Data files (viz_data.json and the history snapshots in index.json) without a
+ * current-version layout with positions, as paths relative to dataDir.
+ */
+export function filesMissingLayout(dataDir) {
+  const historyDir = path.join(dataDir, 'history');
+  const indexFile = path.join(historyDir, 'index.json');
+  const snapshots = fs.existsSync(indexFile) ? (readJson(indexFile).data.snapshots || []) : [];
+  const files = [...snapshots.map(s => path.join('history', s.file)), 'viz_data.json'];
+  return files.filter(rel => {
+    const file = path.join(dataDir, rel);
+    if (!fs.existsSync(file)) return false;   // a missing snapshot isn't a layout problem
+    const { data } = readJson(file);
+    return !isCurrent(data) || !Object.keys(data.layout.positions || {}).length;
+  });
+}
+
 function main(argv) {
   const args = argv.slice(2);
   const countryIdx = args.indexOf('--country');
@@ -133,6 +151,19 @@ function main(argv) {
   const dataDir = path.join(projectDir, 'data', country);
   const historyDir = path.join(dataDir, 'history');
   const indexFile = path.join(historyDir, 'index.json');
+
+  if (args.includes('--check')) {
+    const missing = filesMissingLayout(dataDir);
+    if (!missing.length) {
+      console.log(`[layout] Every ${country} data file has a current layout (version ${LAYOUT_VERSION}).`);
+      return;
+    }
+    console.error(`[layout] ${missing.length} ${country} data file(s) have no current layout (version ${LAYOUT_VERSION}):`);
+    for (const rel of missing) console.error(`      ${rel}`);
+    console.error('      Run: node scripts/precompute_layout.mjs --country ' + country);
+    process.exitCode = 1;
+    return;
+  }
 
   console.log(`[layout] Precomputing network graph positions for ${country}`);
 
