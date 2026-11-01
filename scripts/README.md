@@ -64,21 +64,6 @@ python3 scripts/update_bgp_data.py --country IN
 
 ---
 
-### `fetch_bgp_routes.py` (Legacy)
-**Purpose:** Fetch raw BGP routes only (first step of two-step process).
-
-**Usage:**
-```bash
-python3 scripts/fetch_bgp_routes.py
-python3 scripts/fetch_bgp_routes.py --country BD --output data/BD/bgp_routes_raw.json
-```
-
-**Output:** Creates `bgp_routes_raw.json` with raw BGP route data.
-
-**When to use:** Only if you want to separate fetching from processing (e.g., for debugging).
-
----
-
 ### `reclassify_stored.py`
 
 **Purpose:** Re-apply the current classification rules and licence lists to the stored `viz_data.json` and every history snapshot, without fetching. Run it after a rule or licence-list change so the history slider doesn't show the change as a jump, then re-bake layouts with `node scripts/precompute_layout.mjs --country BD --force`. Snapshots only hold the drawn connections, so it's close to, not identical with, what the pipeline would produce. Follow the `data-pipeline` skill ("Correcting the data itself") before committing the result.
@@ -91,7 +76,7 @@ python3 scripts/fetch_bgp_routes.py --country BD --output data/BD/bgp_routes_raw
 python3 scripts/reprocess_3layer.py
 ```
 
-**Input:** Requires `data/BD/bgp_routes_raw.jsonl` (or legacy `.json`) and `data/btrc_iig_licenses.json` to exist.
+**Input:** Requires `data/BD/bgp_routes_raw.jsonl` (written by `update_bgp_data.py`; the update workflow deletes it after each run, so run the updater locally first) and `data/btrc_iig_licenses.json`.
 
 **Output:** Updates `viz_data.json`, `asn_names.json`, and `metadata.json`.
 
@@ -102,29 +87,15 @@ python3 scripts/reprocess_3layer.py
 
 ---
 
-## Workflow Comparison
+## Updating the data
 
-### Recommended: One-Step Workflow
 ```bash
 python3 scripts/update_bgp_data.py
-git add data/BD/*.json
-git commit -m "Update BGP data: $(date +%Y-%m-%d)"
-git push
 ```
 
-### Legacy: Two-Step Workflow
-```bash
-# Step 1: Fetch raw routes
-python3 scripts/fetch_bgp_routes.py
-
-# Step 2: Process into visualization data
-python3 scripts/reprocess_3layer.py
-
-# Commit
-git add data/BD/*.json
-git commit -m "Update BGP data: $(date +%Y-%m-%d)"
-git push
-```
+Run it locally to test. Don't commit the result: the update workflow commits
+new data every 4 hours, and local data commits conflict with it (see
+`CLAUDE.md` and the `data-pipeline` skill).
 
 ## Technical Details
 

@@ -205,12 +205,9 @@ python3 scripts/update_bgp_data.py --country IN  # For other countries
 - ✓ Updates ASN names database (`asn_names.json`)
 - ✓ Creates metadata with timestamp and stats (`metadata.json`)
 
-**Alternative: Individual Scripts** (for debugging/development):
+**Reprocess without refetching** (for debugging/development): after a run of
+`update_bgp_data.py` has saved `bgp_routes_raw.jsonl`:
 ```bash
-# Step 1: Fetch raw BGP routes only
-python3 scripts/fetch_bgp_routes.py  # Creates bgp_routes_raw.json
-
-# Step 2: Reprocess existing raw data
 python3 scripts/reprocess_3layer.py  # Updates viz_data.json, asn_names.json, metadata.json
 ```
 
@@ -269,7 +266,6 @@ bgp-bangladesh/
 │           └── table.js             # Data table (sortable, filterable)
 ├── scripts/
 │   ├── update_bgp_data.py           # Python: All-in-one data updater (fetch + process)
-│   ├── fetch_bgp_routes.py          # Python: Fetch raw BGP routes only (legacy)
 │   └── reprocess_3layer.py          # Python: Reprocess raw routes only (legacy)
 └── docs/
     ├── README.md                    # User guide
