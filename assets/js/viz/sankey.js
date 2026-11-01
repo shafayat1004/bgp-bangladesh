@@ -4,31 +4,13 @@
  */
 
 import { CATEGORY_LABELS } from '../ui/glossary.js';
-import { countryToFlag, buildNodeTooltipHtml, buildEdgeTooltipHtml } from '../api/ripestat.js';
+import { countryToFlag } from '../ui/names.js';
+import { buildNodeTooltipHtml, buildEdgeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 import { CATEGORY_COLORS, LINK_COLORS, INK } from '../ui/colors.js';
 
 const TYPE_COLORS = CATEGORY_COLORS;
 const TYPE_LABELS = CATEGORY_LABELS;
-
-function moveTooltipSmart(event) {
-  const tooltip = d3.select('#tooltip');
-  const tooltipNode = tooltip.node();
-  if (!tooltipNode) return;
-  // On mobile, tooltip is a CSS bottom sheet
-  if (window.innerWidth <= 900) return;
-  
-  const rect = tooltipNode.getBoundingClientRect();
-  let left = event.pageX + 15;
-  let top = event.pageY + 15;
-  
-  if (left + rect.width > window.innerWidth) left = event.pageX - rect.width - 15;
-  if (top + rect.height > window.innerHeight) top = event.pageY - rect.height - 15;
-  left = Math.max(5, left);
-  top = Math.max(5, top);
-  
-  tooltip.style('left', `${left}px`).style('top', `${top}px`);
-}
 
 let currentData = null;
 let currentOptions = {};
@@ -221,12 +203,12 @@ function render() {
         .attr('stroke', color)
         .attr('stroke-opacity', 0.35)
         .attr('stroke-width', Math.max(1, bandW))
-        .on('mouseover', function () {
+        .on('mouseover', function (event) {
           d3.select(this).attr('stroke-opacity', 0.6);
-          d3.select('#tooltip').html(buildEdgeTooltipHtml(nodeMap[src], nodeMap[tgt], edge.count)).style('display', 'block');
+          showTooltip(buildEdgeTooltipHtml(nodeMap[src], nodeMap[tgt], edge.count), event);
         })
-        .on('mousemove', moveTooltipSmart)
-        .on('mouseout', function () { d3.select(this).attr('stroke-opacity', 0.35); d3.select('#tooltip').style('display', 'none'); });
+        .on('mousemove', moveTooltip)
+        .on('mouseout', function () { d3.select(this).attr('stroke-opacity', 0.35); endHover(); });
     });
     if (skipped > 0) console.warn(`Sankey: Drew ${drawn} ${srcCol}→${tgtCol} edges, skipped ${skipped} (missing positions)`);
   }
@@ -260,12 +242,12 @@ function render() {
         .attr('x', rx).attr('y', ry)
         .attr('width', rw).attr('height', rh)
         .attr('fill', pos.color).attr('rx', 2)
-        .on('mouseover', function () {
+        .on('mouseover', function (event) {
           const nodeData = node || { asn, name: `AS${asn}` };
-          d3.select('#tooltip').html(buildNodeTooltipHtml(nodeData, TYPE_LABELS)).style('display', 'block');
+          showTooltip(buildNodeTooltipHtml(nodeData, TYPE_LABELS), event);
         })
-        .on('mousemove', moveTooltipSmart)
-        .on('mouseout', function () { d3.select('#tooltip').style('display', 'none'); });
+        .on('mousemove', moveTooltip)
+        .on('mouseout', function () { endHover(); });
 
       if (pos.len > 10) {
         const flag = node?.country ? countryToFlag(node.country) + ' ' : '';

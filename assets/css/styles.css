@@ -502,6 +502,9 @@ input[type="range"]::-webkit-slider-thumb {
 .tooltip-value { color: var(--text); font-weight: bold; }
 .tooltip-insight { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border-soft); font-size: 10px; color: var(--text-muted); line-height: 1.4; font-style: italic; }
 .tooltip-detail { font-size: 10px; color: var(--text-muted); line-height: 1.5; padding-left: 4px; }
+/* Only the phone details sheet can be closed by hand; a hover tooltip closes
+   when the pointer leaves. */
+.tooltip .tooltip-close { display: none; }
 
 /* ── Glossary "?" buttons and their popover (assets/js/ui/glossary.js) ── */
 .term-help {
@@ -1963,7 +1966,17 @@ input[type="range"]::-webkit-slider-thumb {
   
   .tooltip-title {
     font-size: 13px;
-    padding-right: 24px; /* room for close indicator */
+    padding-right: 36px; /* room for the close button */
+  }
+
+  .tooltip .tooltip-close {
+    display: flex;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-card);
   }
   
   /* Add a grab bar at top */

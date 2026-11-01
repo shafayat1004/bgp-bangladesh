@@ -356,3 +356,69 @@ test('header search: a network hidden by the Min Routes filter is still shown', 
   assert.equal(await page.evaluate((asn) => !!document.querySelector(`#table-body tr[data-asn="${asn}"]`), small), true);
   await site.close();
 });
+
+const tooltipState = (page) => page.evaluate(() => {
+  const tip = document.getElementById('tooltip');
+  const close = tip.querySelector('.tooltip-close');
+  const r = tip.getBoundingClientRect();
+  return {
+    open: tip.style.display === 'block',
+    title: tip.querySelector('.tooltip-title')?.textContent || '',
+    closeShown: getComputedStyle(close).display !== 'none',
+    inWindow: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight,
+  };
+});
+
+test('tooltip: hover opens it inside the window, Escape and leaving close it (desktop)', async () => {
+  const site = await openSite(browser, server.url, { tab: 'hierarchical' });
+  const { page } = site;
+  const box = await page.locator('#hier-svg g.hier-node').first().boundingBox();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.waitForTimeout(100);
+  let tip = await tooltipState(page);
+  assert.equal(tip.open, true);
+  assert.notEqual(tip.title, '');
+  assert.equal(tip.inWindow, true, 'tooltip stays inside the window');
+  assert.equal(tip.closeShown, false, 'no close button on a hover tooltip');
+  await page.keyboard.press('Escape');
+  assert.equal((await tooltipState(page)).open, false, 'Escape closes it');
+
+  await switchTab(page, 'bar-gateway');
+  const row = await page.locator('.bar-row').first().boundingBox();
+  await page.mouse.move(row.x + row.width / 2, row.y + row.height / 2);
+  await page.waitForTimeout(100);
+  assert.equal((await tooltipState(page)).open, true, 'bar rows use the same tooltip');
+  await page.mouse.move(2, 2);
+  await page.waitForTimeout(100);
+  assert.equal((await tooltipState(page)).open, false, 'leaving the row closes it');
+  await site.close();
+});
+
+test('tooltip: on phones the details sheet has a close button that closes it', async () => {
+  for (const viewport of ['phone', 'phone-landscape']) {
+    const site = await openSite(browser, server.url, { viewport, tab: 'hierarchical' });
+    const { page } = site;
+    await page.tap('#hier-svg g.hier-node');
+    await page.waitForTimeout(500);   // the sheet lets taps through for 400 ms after opening
+    const tip = await tooltipState(page);
+    assert.equal(tip.open, true, `${viewport}: a tap opens the sheet`);
+    assert.equal(tip.closeShown, true, `${viewport}: close button shown`);
+    const size = await page.locator('#tooltip .tooltip-close').boundingBox();
+    assert.ok(size.width >= 24 && size.height >= 24, `${viewport}: close button is at least 24px`);
+    assert.equal(await page.getAttribute('#tooltip .tooltip-close', 'aria-label'), 'Close details');
+    // A tap on the sheet itself must not reach the network underneath it.
+    await page.tap('#tooltip .tooltip-title');
+    await page.waitForTimeout(100);
+    assert.deepEqual(await tooltipState(page), tip, `${viewport}: tapping the sheet leaves it as it was`);
+    await page.tap('#tooltip .tooltip-close');
+    await page.waitForTimeout(100);
+    assert.equal((await tooltipState(page)).open, false, `${viewport}: the close button closes it`);
+
+    await page.tap('#hier-svg g.hier-node');
+    await page.waitForTimeout(500);
+    await page.tap('#hier-svg', { position: { x: 3, y: 3 } });
+    await page.waitForTimeout(100);
+    assert.equal((await tooltipState(page)).open, false, `${viewport}: a tap elsewhere in the chart closes it`);
+    await site.close();
+  }
+});

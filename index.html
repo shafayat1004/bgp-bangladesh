@@ -334,7 +334,10 @@
   </dialog>
 
   <!-- Shared tooltip -->
-  <div class="tooltip" id="tooltip" role="tooltip" style="display: none;"></div>
+  <div class="tooltip" id="tooltip" role="tooltip" style="display: none;">
+    <button class="detail-close tooltip-close" type="button" aria-label="Close details">&times;</button>
+    <div class="tooltip-body"></div>
+  </div>
 
   <!-- Main script -->
   <script type="module" src="assets/js/main.js"></script>

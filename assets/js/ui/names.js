@@ -28,3 +28,16 @@ export function friendlyName(node) {
   const m = name.match(/^[A-Z0-9]+(?:-[A-Z0-9]+)*\s+-\s+(.+)$/) || name.match(/^[A-Z0-9]+(?:-[A-Z0-9]+)+\s+(.+)$/);
   return (m ? m[1] : name) || `AS${node?.asn}`;
 }
+
+/**
+ * A two-letter country code as a flag emoji
+ */
+export function countryToFlag(cc) {
+  if (!cc || cc.length !== 2) return '';
+  const upper = cc.toUpperCase();
+  const offset = 0x1F1E6 - 65; // 'A' = 65
+  return String.fromCodePoint(
+    upper.charCodeAt(0) + offset,
+    upper.charCodeAt(1) + offset
+  );
+}

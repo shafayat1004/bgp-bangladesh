@@ -9,8 +9,6 @@
  *   - Outside ASNs (international feeders)
  */
 
-import { countryToFlag } from './ripestat.js';
-
 /**
  * Create a fresh analysis accumulator for incremental route processing.
  * @returns {Object} Empty analysis state
