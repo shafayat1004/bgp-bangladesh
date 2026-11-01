@@ -5,7 +5,8 @@
 
 import { GLOSSARY, CATEGORY_LABELS as TYPE_LABELS, CATEGORY_PLURALS, termHelp } from '../ui/glossary.js';
 import { countryToFlag, friendlyName } from '../ui/names.js';
-const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-enterprise': 'type-offshore-enterprise', 'offshore-gateway': 'type-offshore-gateway', 'local-company': 'type-local-company', 'inside': 'type-iig', 'offshore-peer': 'type-offshore-peer', 'local-isp': 'type-local-company' };
+import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
+const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-enterprise': 'type-offshore-enterprise', 'offshore-gateway': 'type-offshore-gateway', 'local-company': 'type-local-company' };
 
 // Connections in the detail panel, grouped by the other network's category.
 const CONNECTION_GROUPS = ['outside', 'iig', 'detected-iig', 'offshore-gateway', 'offshore-enterprise', 'local-company'];
@@ -101,12 +102,11 @@ function getConnections(asn) {
   const groups = {};
   if (!currentData?.edges) return groups;
 
-  const nodeMap = {};
-  currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
+  const nodeMap = networksByAsn(currentData.nodes);
 
   for (const e of currentData.edges) {
-    const src = e.source?.asn || e.source;
-    const tgt = e.target?.asn || e.target;
+    const src = sourceAsn(e);
+    const tgt = targetAsn(e);
     const other = src === asn ? tgt : tgt === asn ? src : null;
     if (!other) continue;
     const type = nodeMap[other]?.type || '';
@@ -436,8 +436,7 @@ function renderEdgesTable() {
   const tbody = document.getElementById('table-body');
   const footer = document.getElementById('table-footer');
 
-  const nodeMap = {};
-  currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
+  const nodeMap = networksByAsn(currentData.nodes);
 
   const columns = [
     // Every connection runs from a network to the gateway it connects through.
@@ -456,8 +455,8 @@ function renderEdgesTable() {
   let rows = currentData.edges
     .filter(e => e.count >= minTraffic && e.count <= maxTraffic)
     .map(e => {
-      const src = e.source?.asn || e.source;
-      const tgt = e.target?.asn || e.target;
+      const src = sourceAsn(e);
+      const tgt = targetAsn(e);
       return {
         source: src, target: tgt, count: e.count,
         source_name: friendlyName(nodeMap[src] || { asn: src }),

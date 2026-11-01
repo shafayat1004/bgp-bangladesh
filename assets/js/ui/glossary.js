@@ -14,6 +14,7 @@
  */
 
 import { friendlyName, countryName } from './names.js';
+import { connectionEnds, networksByAsn } from '../data/network-data.js';
 
 // Category names, the same everywhere: tabs, legend, sidebar, table, tooltips.
 export const CATEGORY_LABELS = {
@@ -23,10 +24,6 @@ export const CATEGORY_LABELS = {
   'offshore-enterprise': 'Offshore enterprise',
   'offshore-gateway': 'Offshore gateway',
   'outside': 'International network',
-  // Older snapshots
-  'inside': 'Gateway',
-  'offshore-peer': 'Offshore enterprise',
-  'local-isp': 'Local company',
 };
 
 export const CATEGORY_PLURALS = {
@@ -36,9 +33,6 @@ export const CATEGORY_PLURALS = {
   'offshore-enterprise': 'Offshore enterprises',
   'offshore-gateway': 'Offshore gateways',
   'outside': 'International networks',
-  'inside': 'Gateways',
-  'offshore-peer': 'Offshore enterprises',
-  'local-isp': 'Local companies',
 };
 
 const GATEWAY_TYPES = new Set(['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway']);
@@ -52,8 +46,6 @@ export function aboutNumber(n) {
   return Math.round(n).toLocaleString('en-US');
 }
 
-const ends = (e) => [e.source?.asn || e.source, e.target?.asn || e.target];
-
 function biggest(data, type, keep = () => true) {
   let best = null;
   for (const n of data?.nodes || []) {
@@ -64,15 +56,15 @@ function biggest(data, type, keep = () => true) {
 
 /** Networks of the given types connected to `asn`, busiest connection first. */
 function neighbours(data, asn, types) {
-  const byAsn = new Map((data?.nodes || []).map(n => [n.asn, n]));
+  const byAsn = networksByAsn(data?.nodes);
   const found = new Map();
   for (const e of data?.edges || []) {
-    const [a, b] = ends(e);
+    const [a, b] = connectionEnds(e);
     const other = a === asn ? b : b === asn ? a : null;
-    const n = other && byAsn.get(other);
+    const n = other && byAsn[other];
     if (n && types.has(n.type)) found.set(other, Math.max(found.get(other) || 0, e.count || 0));
   }
-  return [...found.entries()].sort((x, y) => y[1] - x[1]).map(([a]) => byAsn.get(a));
+  return [...found.entries()].sort((x, y) => y[1] - x[1]).map(([a]) => byAsn[a]);
 }
 
 const LOCAL = new Set(['local-company']);
@@ -148,8 +140,8 @@ export const GLOSSARY = {
       let top = null;
       for (const e of data?.edges || []) if (!top || e.count > top.count) top = e;
       if (!top) return null;
-      const byAsn = new Map(data.nodes.map(n => [n.asn, n]));
-      const [a, b] = ends(top).map(x => byAsn.get(x));
+      const byAsn = networksByAsn(data.nodes);
+      const [a, b] = connectionEnds(top).map(x => byAsn[x]);
       return a && b ? `The busiest one here is between ${name(a)} and ${name(b)}, with about ${aboutNumber(top.count)} routes seen.` : null;
     },
   },

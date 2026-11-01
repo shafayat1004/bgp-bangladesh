@@ -401,7 +401,6 @@ button, a, [role="button"], label, input[type="range"] { touch-action: manipulat
   font-weight: 600;
 }
 
-.sidebar-section-title.inside { color: var(--green); }
 .sidebar-section-title.outside { color: var(--red); }
 
 /* Scrollable ASN lists */
@@ -432,7 +431,6 @@ button, a, [role="button"], label, input[type="range"] { touch-action: manipulat
 .asn-item > span { display: block; }
 
 @media (hover: hover) and (pointer: fine) { .asn-item:hover { background: var(--bg-raised); transform: translateX(3px); } }
-.asn-item.inside { border-left-color: var(--green); }
 .asn-item.outside { border-left-color: var(--red); }
 .asn-item.highlighted { background: var(--bg-raised); border-left-width: 5px; }
 
@@ -1220,8 +1218,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* Category colour as a mark beside ink text: the hues are too light for text. */
 .sidebar-section-title.iig::before, .sidebar-section-title.detected-iig::before,
 .sidebar-section-title.offshore-enterprise::before, .sidebar-section-title.offshore-gateway::before,
-.sidebar-section-title.local-company::before, .sidebar-section-title.outside::before,
-.sidebar-section-title.inside::before {
+.sidebar-section-title.local-company::before, .sidebar-section-title.outside::before {
   content: '';
   display: inline-block;
   width: 10px;
@@ -1238,14 +1235,13 @@ input[type="range"]::-webkit-slider-thumb {
 .cat-offshore-enterprise, .sidebar-section-title.offshore-enterprise, .asn-item.offshore-enterprise, .type-offshore-enterprise { --cat: var(--cat-offshore-enterprise); }
 .cat-offshore-gateway, .sidebar-section-title.offshore-gateway, .asn-item.offshore-gateway, .type-offshore-gateway { --cat: var(--cat-offshore-gateway); }
 .cat-outside, .sidebar-section-title.outside, .asn-item.outside, .type-outside { --cat: var(--cat-outside); }
-.sidebar-section-title.inside, .asn-item.inside, .type-inside { --cat: var(--cat-iig); }
 .legend-dot[class*="cat-"] { background: var(--cat); }
 
 .asn-item { border-left-color: var(--cat, transparent); }
 
 /* Category chips: a tint of the hue, ink text, a solid edge in the hue. */
 .type-iig, .type-detected-iig, .type-offshore-enterprise, .type-offshore-gateway,
-.type-local-company, .type-outside, .type-inside {
+.type-local-company, .type-outside {
   background: color-mix(in srgb, var(--cat) 22%, var(--bg-card));
   color: var(--text);
   box-shadow: inset 3px 0 0 var(--cat);

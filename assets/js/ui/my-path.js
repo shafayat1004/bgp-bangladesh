@@ -6,6 +6,7 @@
  */
 
 import { friendlyName } from './names.js';
+import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
 
 const GATEWAY_TYPES = new Set(['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway']);
 
@@ -33,13 +34,12 @@ function shares(edges, keyOf, nodeMap) {
  * { status: 'found', node, role, gateways, international }.
  */
 export function describePath(data, asn) {
-  const nodeMap = {};
-  data.nodes.forEach(n => { nodeMap[n.asn] = n; });
+  const nodeMap = networksByAsn(data.nodes);
   const node = nodeMap[asn];
   if (!node) return { status: 'missing' };
 
-  const src = e => e.source?.asn || e.source;
-  const tgt = e => e.target?.asn || e.target;
+  const src = sourceAsn;
+  const tgt = targetAsn;
 
   // Domestic connections point from a network to the gateway it uses.
   const gateways = shares(

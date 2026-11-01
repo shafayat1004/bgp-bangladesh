@@ -8,6 +8,7 @@ import { countryToFlag } from '../ui/names.js';
 import { buildNodeTooltipHtml, buildEdgeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 import { CATEGORY_COLORS, LINK_COLORS, INK } from '../ui/colors.js';
+import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
 
 const TYPE_COLORS = CATEGORY_COLORS;
 const TYPE_LABELS = CATEGORY_LABELS;
@@ -84,12 +85,11 @@ function render() {
   const toY = (flow, cross) => (isLandscape ? cross : flow);
   const thickness = NODE_THICKNESS;
 
-  const nodeMap = {};
-  currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
+  const nodeMap = networksByAsn(currentData.nodes);
 
   // Check if we have domestic edges (full model) or international-only
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
-  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-company' || n.type === 'local-isp');
+  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-company');
 
   // Filter by traffic range - no arbitrary limits, only user-controlled filtering
   const intlEdges = currentData.edges
@@ -103,12 +103,12 @@ function render() {
   const allEdges = [...intlEdges, ...domEdges];
 
   // Collect unique ASNs per column
-  const outsideASNs = [...new Set(intlEdges.map(e => e.source?.asn || e.source))];
+  const outsideASNs = [...new Set(intlEdges.map(e => sourceAsn(e)))];
   const iigASNs = [...new Set([
-    ...intlEdges.map(e => e.target?.asn || e.target),
-    ...domEdges.map(e => e.target?.asn || e.target),
+    ...intlEdges.map(e => targetAsn(e)),
+    ...domEdges.map(e => targetAsn(e)),
   ])];
-  const localISPASNs = hasLocalISP ? [...new Set(domEdges.map(e => e.source?.asn || e.source))] : [];
+  const localISPASNs = hasLocalISP ? [...new Set(domEdges.map(e => sourceAsn(e)))] : [];
 
   // Calculate totals per ASN across relevant edges
   function calcTotals(asns, edges, getASN) {
@@ -120,9 +120,9 @@ function render() {
     return asns.sort((a, b) => (totals[b] || 0) - (totals[a] || 0)).map(asn => ({ asn, total: totals[asn] || 0 }));
   }
 
-  const outsideSorted = calcTotals(outsideASNs, intlEdges, e => e.source?.asn || e.source);
-  const iigSorted = calcTotals(iigASNs, allEdges, e => e.target?.asn || e.target);
-  const ispSorted = calcTotals(localISPASNs, domEdges, e => e.source?.asn || e.source);
+  const outsideSorted = calcTotals(outsideASNs, intlEdges, e => sourceAsn(e));
+  const iigSorted = calcTotals(iigASNs, allEdges, e => targetAsn(e));
+  const ispSorted = calcTotals(localISPASNs, domEdges, e => sourceAsn(e));
 
   // Flow-axis span: how far apart the columns sit. Cross axis: where nodes stack.
   const margin = 36;
@@ -170,8 +170,8 @@ function render() {
   function drawEdges(edges, srcCol, tgtCol, color) {
     let drawn = 0, skipped = 0;
     edges.forEach(edge => {
-      const src = edge.source?.asn || edge.source;
-      const tgt = edge.target?.asn || edge.target;
+      const src = sourceAsn(edge);
+      const tgt = targetAsn(edge);
       const srcPos = positions[`${src}_${srcCol}`];
       const tgtPos = positions[`${tgt}_${tgtCol}`];
       if (!srcPos || !tgtPos) {
@@ -342,21 +342,20 @@ export function filterByTypes(activeTypes) {
   const svg = d3.select('#sankey-svg');
   if (svg.empty()) return;
   
-  // Build lookup map for performance
-  const nodeTypeMap = {};
-  currentData.nodes.forEach(n => { nodeTypeMap[n.asn] = n.type; });
+  const byAsn = networksByAsn(currentData.nodes);
+  const isShown = (asn) => activeTypes.has(byAsn[asn]?.type);
   
   svg.selectAll('.sankey-node').attr('display', function() {
     const asn = d3.select(this).attr('data-asn');
-    return nodeTypeMap[asn] && activeTypes.has(nodeTypeMap[asn]) ? null : 'none';
+    return isShown(asn) ? null : 'none';
   });
   svg.selectAll('.sankey-label').attr('display', function() {
     const asn = d3.select(this).attr('data-asn');
-    return nodeTypeMap[asn] && activeTypes.has(nodeTypeMap[asn]) ? null : 'none';
+    return isShown(asn) ? null : 'none';
   });
   svg.selectAll('.sankey-link').attr('display', function() {
     const src = d3.select(this).attr('data-source');
     const tgt = d3.select(this).attr('data-target');
-    return (nodeTypeMap[src] && activeTypes.has(nodeTypeMap[src]) && nodeTypeMap[tgt] && activeTypes.has(nodeTypeMap[tgt])) ? null : 'none';
+    return isShown(src) && isShown(tgt) ? null : 'none';
   });
 }

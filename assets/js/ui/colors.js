@@ -21,13 +21,10 @@ export const CATEGORY_COLORS = {
   'outside': '#b4532a',              // vermilion
 };
 
-// Old category names some live-fetch paths may still produce (see issue #36).
-const LEGACY = { 'inside': 'iig', 'local-isp': 'local-company', 'offshore-peer': 'offshore-gateway' };
-
 export const UNKNOWN_COLOR = '#8a8670';
 
 export function categoryColor(type) {
-  return CATEGORY_COLORS[type] || CATEGORY_COLORS[LEGACY[type]] || UNKNOWN_COLOR;
+  return CATEGORY_COLORS[type] || UNKNOWN_COLOR;
 }
 
 // Connections: international ones in ink grey, local ones in the local-company blue

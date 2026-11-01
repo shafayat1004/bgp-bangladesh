@@ -8,6 +8,7 @@ import { countryToFlag } from '../ui/names.js';
 import { buildNodeTooltipHtml, buildEdgeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 import { CATEGORY_COLORS, LINK_COLORS, INK } from '../ui/colors.js';
+import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
 
 const TYPE_COLORS = CATEGORY_COLORS;
 const TYPE_LABELS = CATEGORY_PLURALS;
@@ -91,11 +92,10 @@ function render() {
   });
   svg.call(zoom);
 
-  const nodeMap = {};
-  currentData.nodes.forEach(n => { nodeMap[n.asn] = n; });
+  const nodeMap = networksByAsn(currentData.nodes);
 
   const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
-  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-company' || n.type === 'local-isp');
+  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-company');
 
   // Filter edges by traffic range (handle undefined/null traffic as 0)
   const filteredIntl = currentData.edges
@@ -107,8 +107,8 @@ function render() {
 
   const usedASNs = new Set();
   [...filteredIntl, ...filteredDom].forEach(e => {
-    usedASNs.add(e.source?.asn || e.source);
-    usedASNs.add(e.target?.asn || e.target);
+    usedASNs.add(sourceAsn(e));
+    usedASNs.add(targetAsn(e));
   });
 
   // Determine layers (top to bottom: Local Companies → IIGs → Detected → Offshore → Outside)
@@ -116,11 +116,11 @@ function render() {
   const filterNodes = (type) => currentData.nodes.filter(n => n.type === type && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
   
   if (hasLocalISP) {
-    const localCompanies = currentData.nodes.filter(n => (n.type === 'local-company' || n.type === 'local-isp') && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
+    const localCompanies = currentData.nodes.filter(n => n.type === 'local-company' && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
     if (localCompanies.length > 0) layers.push({ type: 'local-company', nodes: localCompanies });
   }
 
-  const iigs = currentData.nodes.filter(n => (n.type === 'iig' || n.type === 'inside') && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
+  const iigs = currentData.nodes.filter(n => n.type === 'iig' && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
   if (iigs.length > 0) layers.push({ type: 'iig', nodes: iigs });
 
   const detectedIigs = filterNodes('detected-iig');
@@ -222,8 +222,8 @@ function render() {
   const maxCount = Math.max(...allEdges.map(e => e.count), 1);
 
   allEdges.forEach(edge => {
-    const src = edge.source?.asn || edge.source;
-    const tgt = edge.target?.asn || edge.target;
+    const src = sourceAsn(edge);
+    const tgt = targetAsn(edge);
     const srcPos = positions[src];
     const tgtPos = positions[tgt];
     if (!srcPos || !tgtPos) return;
@@ -375,17 +375,16 @@ export function filterByTypes(activeTypes) {
   const svg = d3.select('#hier-svg');
   if (svg.empty()) return;
   
-  // Build lookup map for performance
-  const nodeTypeMap = {};
-  currentData.nodes.forEach(n => { nodeTypeMap[n.asn] = n.type; });
+  const byAsn = networksByAsn(currentData.nodes);
+  const isShown = (asn) => activeTypes.has(byAsn[asn]?.type);
   
   svg.selectAll('.hier-node').attr('display', function() {
     const asn = d3.select(this).attr('data-asn');
-    return nodeTypeMap[asn] && activeTypes.has(nodeTypeMap[asn]) ? null : 'none';
+    return isShown(asn) ? null : 'none';
   });
   svg.selectAll('.hier-link').attr('display', function() {
     const src = d3.select(this).attr('data-source');
     const tgt = d3.select(this).attr('data-target');
-    return (nodeTypeMap[src] && activeTypes.has(nodeTypeMap[src]) && nodeTypeMap[tgt] && activeTypes.has(nodeTypeMap[tgt])) ? null : 'none';
+    return isShown(src) && isShown(tgt) ? null : 'none';
   });
 }

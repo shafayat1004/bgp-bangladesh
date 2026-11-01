@@ -10,6 +10,7 @@ import { buildNodeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/
 import { selectGraph, bandPosition, createSimulation, configureForces, hasBakedLayout, applyBakedPositions } from './force-layout.js';
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 import { CATEGORY_COLORS, LINK_COLORS, INK, categoryColor } from '../ui/colors.js';
+import { sourceAsn, targetAsn, connectionEnds, networksByAsn } from '../data/network-data.js';
 
 
 const TYPE_LABELS = CATEGORY_LABELS;
@@ -266,10 +267,10 @@ export function updateData(data, options = {}) {
 // Text label for screen readers, plus keyboard and button pan/zoom.
 function describeChart(nodeList, edgeList) {
   const count = (...types) => nodeList.filter(n => types.includes(n.type)).length;
-  const gateways = count('iig', 'inside', 'detected-iig');
+  const gateways = count('iig', 'detected-iig');
   const [start, end] = portrait ? ['top', 'bottom'] : ['left', 'right'];
   const label = `Network graph of ${nodeList.length} networks and ${edgeList.length} connections. `
-    + `${count('local-company', 'local-isp')} local companies on the ${start} reach the internet through `
+    + `${count('local-company')} local companies on the ${start} reach the internet through `
     + `${gateways} gateways in the middle and ${count('outside')} international networks on the ${end}.`;
   makeChartAccessible(svg, { zoom, label, reset: resetView, onEscape: clearHighlight });
 }
@@ -401,8 +402,8 @@ function highlightNodeHandler(event, d) {
   const connectedNodes = new Set([d.asn]);
   const connectedEdges = new Set();
   renderedEdges.forEach(e => {
-    const src = e.source?.asn || e.source;
-    const tgt = e.target?.asn || e.target;
+    const src = sourceAsn(e);
+    const tgt = targetAsn(e);
     if (src === d.asn || tgt === d.asn) { connectedEdges.add(e); connectedNodes.add(src); connectedNodes.add(tgt); }
   });
   nodes.classed('highlighted', n => n.asn === d.asn).classed('dimmed', n => !connectedNodes.has(n.asn));
@@ -462,17 +463,13 @@ export function resetView() {
 
 export function filterByTypes(activeTypes) {
   if (!nodes || !links) return;
-  const nodeTypeMap = {};
-  currentData.nodes.forEach(n => { nodeTypeMap[n.asn] = n.type; });
-  
+  const byAsn = networksByAsn(currentData.nodes);
+  const isShown = (asn) => activeTypes.has(byAsn[asn]?.type);
+
   nodes.attr('display', d => activeTypes.has(d.type) ? null : 'none');
   links.attr('display', d => {
-    const sAsn = (d.source && d.source.asn) ? d.source.asn : d.source;
-    const tAsn = (d.target && d.target.asn) ? d.target.asn : d.target;
-    
-    const srcType = nodeTypeMap[sAsn];
-    const tgtType = nodeTypeMap[tAsn];
-    return (srcType && activeTypes.has(srcType) && tgtType && activeTypes.has(tgtType)) ? null : 'none';
+    const [src, tgt] = connectionEnds(d);
+    return isShown(src) && isShown(tgt) ? null : 'none';
   });
 }
 

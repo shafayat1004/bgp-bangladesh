@@ -39,13 +39,10 @@ export function selectGraph(data, minTraffic, maxTraffic) {
  */
 export const FLOW_X = {
   'local-company': 0.08,
-  'local-isp': 0.08,
   'iig': 0.40,
-  'inside': 0.40,
   'detected-iig': 0.52,
   'offshore-enterprise': 0.68,
   'offshore-gateway': 0.76,
-  'offshore-peer': 0.76,
   'outside': 0.92,
 };
 

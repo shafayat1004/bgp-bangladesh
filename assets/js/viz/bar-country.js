@@ -8,6 +8,7 @@
 import { renderBarList } from './bar-list.js';
 import { countryName, countryToFlag, NOT_COUNTRIES } from '../ui/names.js';
 import { CATEGORY_COLORS } from '../ui/colors.js';
+import { sourceAsn, networksByAsn } from '../data/network-data.js';
 
 const BAR_COLOR = CATEGORY_COLORS.outside;   // matches "International networks"
 const TOP_N = 30;
@@ -32,15 +33,14 @@ export function updateData(data, options = {}) {
 
 /** Routes per registered country of international networks. Exported for testing. */
 export function countryTotals(data, minTraffic = 0, maxTraffic = Infinity) {
-  const nodeMap = {};
-  data.nodes.forEach(n => { nodeMap[n.asn] = n; });
+  const nodeMap = networksByAsn(data.nodes);
 
   const totals = {};
   data.edges.forEach(e => {
     if (e.type === 'domestic') return;
     const count = e.count || 0;
     if (count < minTraffic || count > maxTraffic) return;
-    const src = e.source?.asn || e.source;
+    const src = sourceAsn(e);
     const node = nodeMap[src];
     if (!node || node.type !== 'outside') return;
     const cc = node.country || 'Unknown';

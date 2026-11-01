@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-import { CATEGORY_COLORS, LINK_COLORS, INK, categoryColor } from '../assets/js/ui/colors.js';
+import { CATEGORY_COLORS, LINK_COLORS, INK, UNKNOWN_COLOR, categoryColor } from '../assets/js/ui/colors.js';
 
 const css = readFileSync(new URL('../assets/css/styles.css', import.meta.url), 'utf8');
 const root = css.slice(css.indexOf(':root {'), css.indexOf('}', css.indexOf(':root {')));
@@ -56,8 +56,7 @@ test('colors: every category outline (ink) stands out from its fill', () => {
   }
 });
 
-test('colors: old category names fall back to their current colour', () => {
-  assert.equal(categoryColor('inside'), CATEGORY_COLORS.iig);
-  assert.equal(categoryColor('local-isp'), CATEGORY_COLORS['local-company']);
-  assert.notEqual(categoryColor('nonsense'), undefined);
+test('colors: an unknown category gets the neutral colour', () => {
+  assert.equal(categoryColor('local-company'), CATEGORY_COLORS['local-company']);
+  assert.equal(categoryColor('nonsense'), UNKNOWN_COLOR);
 });

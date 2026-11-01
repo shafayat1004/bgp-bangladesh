@@ -68,7 +68,7 @@ export function populateSidebar(data, onNodeClick) {
   if (statsEl) {
     const s = data.stats;
     const detectedCount = s.total_detected_iig || 0;
-    const offshoreEntCount = s.total_offshore_enterprise || s.total_offshore_peer || 0;
+    const offshoreEntCount = s.total_offshore_enterprise || 0;
     const offshoreGwCount = s.total_offshore_gateway || 0;
     statsEl.innerHTML = `
       <div class="stat">
@@ -78,11 +78,11 @@ export function populateSidebar(data, onNodeClick) {
       <div class="stat-row">
         <div class="stat stat-mini">
           <div class="stat-label">Local companies${termHelp('local-company')}</div>
-          <div class="stat-value">${s.total_local_company || s.total_local_isp || 0}</div>
+          <div class="stat-value">${s.total_local_company || 0}</div>
         </div>
         <div class="stat stat-mini">
           <div class="stat-label">IIGs${termHelp('iig')}</div>
-          <div class="stat-value">${s.total_iig || s.total_inside || 0}</div>
+          <div class="stat-value">${s.total_iig || 0}</div>
         </div>
         <div class="stat stat-mini">
           <div class="stat-label">International networks${termHelp('outside')}</div>
