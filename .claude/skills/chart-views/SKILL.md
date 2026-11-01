@@ -79,7 +79,8 @@ A history slider step or a filter change must not make the view jump (issue #5):
 - Keep what the user set: zoom/pan, scroll position, sort, page, selection,
   expanded rows. Implement `updateData` for this; without it the slider does a
   full rebuild.
-- `main.js` calls `filterByTypes` again after every date step (whenever not
+- `applyFilters` (`assets/js/ui/filters.js`, which owns the filter state)
+  calls `filterByTypes` again after every draw and date step (whenever not
   all types are ticked), with the same set. Treat an unchanged filter as a
   no-op; resetting the page there sent the Data Table back to page 1 on every
   step (`typeFilterKey` in `table.js`).

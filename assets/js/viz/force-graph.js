@@ -11,6 +11,7 @@ import { selectGraph, bandPosition, createSimulation, configureForces, hasBakedL
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 import { CATEGORY_COLORS, LINK_COLORS, INK, categoryColor } from '../ui/colors.js';
 import { sourceAsn, targetAsn, connectionEnds, networksByAsn } from '../data/network-data.js';
+import { DEFAULT_MIN_ROUTES, DEFAULT_NODE_SIZE } from '../ui/filters.js';
 
 
 const TYPE_LABELS = CATEGORY_LABELS;
@@ -18,9 +19,9 @@ const TYPE_LABELS = CATEGORY_LABELS;
 let svg, g, simulation, nodes, links, linkGroup;
 let showLabels = true;
 let highlightedNode = null;
-let currentNodeSize = 15;
+let currentNodeSize = DEFAULT_NODE_SIZE;
 let currentData = null;
-let minTraffic = 100;
+let minTraffic = DEFAULT_MIN_ROUTES;
 let maxTraffic = Infinity;
 let renderedEdges = [];
 let stopTimer = null;
@@ -78,9 +79,9 @@ export function init(containerId) {
 
 export function loadData(data, options = {}) {
   currentData = data;
-  minTraffic = options.minTraffic !== undefined ? options.minTraffic : 100;
-  maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
-  currentNodeSize = options.nodeSize || 15;
+  minTraffic = options.minTraffic ?? DEFAULT_MIN_ROUTES;
+  maxTraffic = options.maxTraffic ?? Infinity;
+  currentNodeSize = options.nodeSize || DEFAULT_NODE_SIZE;
   showLabels = options.showLabels !== false;
 
   const container = document.getElementById('viz-panel');

@@ -9,6 +9,7 @@ import { buildNodeTooltipHtml, buildEdgeTooltipHtml, showTooltip, moveTooltip, e
 import { makeChartAccessible } from '../ui/chart-a11y.js';
 import { CATEGORY_COLORS, LINK_COLORS, INK } from '../ui/colors.js';
 import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
+import { DEFAULT_MIN_ROUTES } from '../ui/filters.js';
 
 const TYPE_COLORS = CATEGORY_COLORS;
 const TYPE_LABELS = CATEGORY_LABELS;
@@ -59,8 +60,8 @@ function fitToView() {
 function render() {
   if (!currentData) return;
   const options = currentOptions;
-  const minTraffic = options.minTraffic !== undefined ? options.minTraffic : 100;
-  const maxTraffic = options.maxTraffic !== undefined ? options.maxTraffic : Infinity;
+  const minTraffic = options.minTraffic ?? DEFAULT_MIN_ROUTES;
+  const maxTraffic = options.maxTraffic ?? Infinity;
 
   const container = document.getElementById('viz-panel');
   if (!container) return;
