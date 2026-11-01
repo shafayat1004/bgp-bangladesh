@@ -6,6 +6,7 @@
 import { GLOSSARY, CATEGORY_LABELS as TYPE_LABELS, CATEGORY_PLURALS, termHelp } from '../ui/glossary.js';
 import { countryToFlag, friendlyName } from '../ui/names.js';
 import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
+import { DEFAULT_MIN_ROUTES } from '../ui/filters.js';
 const TYPE_CLASSES = { 'outside': 'type-outside', 'iig': 'type-iig', 'detected-iig': 'type-detected-iig', 'offshore-enterprise': 'type-offshore-enterprise', 'offshore-gateway': 'type-offshore-gateway', 'local-company': 'type-local-company' };
 
 // Connections in the detail panel, grouped by the other network's category.
@@ -314,8 +315,8 @@ function renderNodesTable() {
 
   renderSortableHeader(thead, columns);
 
-  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 100;
-  const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
+  const minTraffic = currentOptions.minTraffic ?? DEFAULT_MIN_ROUTES;
+  const maxTraffic = currentOptions.maxTraffic ?? Infinity;
   let rows = currentData.nodes.filter(n => n.traffic >= minTraffic && n.traffic <= maxTraffic);
   
   // Apply type filters
@@ -450,8 +451,8 @@ function renderEdgesTable() {
 
   renderSortableHeader(thead, columns);
 
-  const minTraffic = currentOptions.minTraffic !== undefined ? currentOptions.minTraffic : 100;
-  const maxTraffic = currentOptions.maxTraffic !== undefined ? currentOptions.maxTraffic : Infinity;
+  const minTraffic = currentOptions.minTraffic ?? DEFAULT_MIN_ROUTES;
+  const maxTraffic = currentOptions.maxTraffic ?? Infinity;
   let rows = currentData.edges
     .filter(e => e.count >= minTraffic && e.count <= maxTraffic)
     .map(e => {

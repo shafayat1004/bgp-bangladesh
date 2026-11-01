@@ -54,6 +54,7 @@ while the site still had jargon, a jumpy table and an unreadable flow chart.
 
 - `index.html` – page shell: sidebar, ARIA tabs, `#viz-panel`, history slider, intro `<dialog>`, SEO metadata.
 - `assets/js/main.js` – wiring: data loading, tabs, filters, history slider, live fetch.
+- `assets/js/ui/filters.js` – the filter state (Min/Max Routes, categories, circle size) every view reads.
 - `assets/js/viz/*.js` – one module per tab (see the `chart-views` skill for the module contract).
 - `assets/js/viz/force-layout.js` – Network Graph forces, shared by the browser and `scripts/precompute_layout.mjs`.
 - `assets/js/ui/chart-a11y.js` – chart labels plus keyboard/button pan and zoom.

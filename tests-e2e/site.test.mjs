@@ -422,3 +422,36 @@ test('tooltip: on phones the details sheet has a close button that closes it', a
     await site.close();
   }
 });
+
+test('filters survive a date step and a tab switch', async () => {
+  const site = await openSite(browser, server.url, { tab: 'hierarchical' });
+  const { page } = site;
+  await page.click('#type-filter-checks input[data-type="outside"]');
+  await page.evaluate(() => {
+    const s = document.getElementById('filter-min-traffic');
+    s.value = 500;
+    s.dispatchEvent(new Event('input'));
+  });
+  const state = (selector) => page.evaluate((sel) => ({
+    hidden: document.querySelectorAll(sel).length,
+    outsideTicked: document.querySelector('#type-filter-checks input[data-type="outside"]').checked,
+    minRoutes: document.getElementById('filter-min-traffic').value,
+    minLabel: document.getElementById('filter-min-traffic-label').textContent,
+  }), selector);
+  const before = await state('#hier-svg .hier-node[display="none"]');
+  assert.ok(before.hidden > 0, 'unticking a category hides its networks');
+
+  await page.click('#timeline-prev');
+  await page.waitForFunction(() => document.getElementById('timeline-spinner').classList.contains('hidden'));
+  await page.waitForTimeout(300);
+  const stepped = await state('#hier-svg .hier-node[display="none"]');
+  assert.ok(stepped.hidden > 0, 'still hidden after a date step');
+  assert.deepEqual({ ...stepped, hidden: 0 }, { ...before, hidden: 0 });
+
+  await switchTab(page, 'force-graph');
+  const switched = await state('#force-svg g.node[display="none"]');
+  assert.ok(switched.hidden > 0, 'still hidden in another view');
+  assert.deepEqual({ ...switched, hidden: 0 }, { ...before, hidden: 0 });
+  assert.equal(before.minRoutes, '500');
+  await site.close();
+});

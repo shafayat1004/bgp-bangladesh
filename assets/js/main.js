@@ -6,7 +6,7 @@
 import { RIPEStatClient } from './api/ripestat.js';
 import { analyzeGateways, buildVisualizationData, computeShares, createAnalysisState, analyzeRoutesBatch, finalizeAnalysis } from './api/data-processor.js';
 import { showModal, resetModal } from './ui/modal.js';
-import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, loadPreferences, savePreferences, showMyASNResult } from './ui/controls.js';
+import { populateSidebar, setDataSourceLabel, getActiveTab, saveActiveTab, showMyASNResult } from './ui/controls.js';
 import { initTimeline, formatTimestamp } from './ui/timeline.js';
 import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel } from './ui/loading.js';
 import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './ui/export.js';
@@ -16,6 +16,7 @@ import { initGlossary, setGlossaryData, addTermHelp, renderGlossaryList, CATEGOR
 import { initSearch } from './ui/search.js';
 import { friendlyName } from './ui/names.js';
 import { setupTooltip, hideTooltip } from './ui/tooltip.js';
+import { setupFilters, currentFilters, applyFilters, hiddenByRoutes, isTypeShown, setRouteFilter, showType } from './ui/filters.js';
 
 import * as ForceGraph from './viz/force-graph.js';
 import * as Sankey from './viz/sankey.js';
@@ -62,8 +63,7 @@ async function init() {
   setupButtons();
   setupMobileMenu();
   setupTooltip();
-  setupFilters();
-  setupTypeFilters();
+  setupFilters(() => (currentData ? vizModules[activeTab] : null));
   
   // Start WASM loading in parallel with data loading (non-blocking)
   if (wasmSupported) {
@@ -173,23 +173,16 @@ function onDataLoaded({ inPlace = false } = {}) {
     if (mod?.highlightASN) mod.highlightASN(asn);
   });
 
-  // Load with user's saved filter preference
-  const prefs = loadPreferences();
-  const defaultMinTraffic = prefs.minTraffic !== undefined ? prefs.minTraffic : 100;
-  const defaultMaxTraffic = prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity;
-
   const mod = vizModules[activeTab];
   if (inPlace && mod?.updateData) {
     // An open tooltip (a details sheet on phones) would still show the previous
     // date's numbers, so it closes.
     hideTooltip();
-    mod.updateData(currentData, { minTraffic: defaultMinTraffic, maxTraffic: defaultMaxTraffic });
-    if (activeTypeFilters.size < 6 && mod.filterByTypes) {
-      mod.filterByTypes(activeTypeFilters);
-    }
+    mod.updateData(currentData, currentFilters());
+    applyFilters(mod);
     return;
   }
-  switchTab(activeTab, { minTraffic: defaultMinTraffic, maxTraffic: defaultMaxTraffic });
+  switchTab(activeTab);
 }
 
 // ────────────────────────────────────────
@@ -241,7 +234,7 @@ function switchTab(tabId, options = {}) {
   const mod = vizModules[tabId];
   if (mod) {
     mod.init('viz-panel');
-    mod.loadData(currentData, { ...savedLoadOptions(), ...options });
+    mod.loadData(currentData, { ...currentFilters(), ...options });
 
     // Capture current dimensions for resize detection
     const vizPanel = document.getElementById('viz-panel');
@@ -250,21 +243,8 @@ function switchTab(tabId, options = {}) {
       lastHeight = vizPanel.clientHeight;
     }
 
-    // Re-apply type filter if not all types are selected
-    if (activeTypeFilters.size < 6 && mod.filterByTypes) {
-      mod.filterByTypes(activeTypeFilters);
-    }
+    applyFilters(mod);
   }
-}
-
-// The user's saved filters, for a view drawn from scratch.
-function savedLoadOptions() {
-  const prefs = loadPreferences();
-  return {
-    minTraffic: prefs.minTraffic !== undefined ? prefs.minTraffic : 100,
-    maxTraffic: prefs.maxTraffic !== undefined ? prefs.maxTraffic : Infinity,
-    nodeSize: prefs.nodeSize || 15,
-  };
 }
 
 function highlightTab(tabId) {
@@ -420,9 +400,7 @@ async function detectMyASN() {
 
 function showMyPath(lookup) {
   const path = describePath(currentData, lookup.asn);
-  const { minTraffic, maxTraffic } = savedLoadOptions();
-  const traffic = path.node?.traffic || 0;
-  const hiddenBy = path.status === 'found' && (traffic < minTraffic || traffic > maxTraffic) ? 'filter' : null;
+  const hiddenBy = path.status === 'found' && hiddenByRoutes(path.node?.traffic) ? 'filter' : null;
   renderMyPath(document.getElementById('my-asn-result'), lookup, path, {
     hiddenBy,
     onShowAll: () => {
@@ -444,15 +422,13 @@ function focusNetwork(asn) {
   if (!node) return;
   const name = friendlyName(node);
 
-  const { minTraffic, maxTraffic } = savedLoadOptions();
   const notes = [];
-  if ((node.traffic || 0) < minTraffic || (node.traffic || 0) > maxTraffic) {
+  if (hiddenByRoutes(node.traffic)) {
     setRouteFilter(0, Infinity);
     notes.push('Min/Max Routes reset to show all networks');
   }
-  if (!activeTypeFilters.has(node.type)) {
-    const cb = document.querySelector(`#type-filter-checks input[data-type="${node.type}"]`);
-    if (cb) { cb.checked = true; cb.dispatchEvent(new Event('change')); }
+  if (!isTypeShown(node.type)) {
+    showType(node.type);
     notes.push(`${CATEGORY_LABELS[node.type]} shown again`);
   }
 
@@ -460,123 +436,6 @@ function focusNetwork(asn) {
   if (!fits) switchTab('table');
   vizModules[activeTab]?.highlightASN?.(asn);
   showToast('info', `Showing ${name} (AS${asn}, ${CATEGORY_LABELS[node.type] || node.type})${notes.length ? `. ${notes.join('; ')}.` : ''}`, 4000);
-}
-
-// Move the Min/Max Routes sliders as if the user had, so labels, saved
-// preferences and the view all follow.
-function setRouteFilter(min, max) {
-  const minSlider = document.getElementById('filter-min-traffic');
-  const maxSlider = document.getElementById('filter-max-traffic');
-  if (maxSlider) { maxSlider.value = Number.isFinite(max) ? max : maxSlider.max; maxSlider.dispatchEvent(new Event('input')); }
-  if (minSlider) { minSlider.value = min; minSlider.dispatchEvent(new Event('input')); }
-}
-
-// ────────────────────────────────────────
-// Filters
-// ────────────────────────────────────────
-
-function setupFilters() {
-  const prefs = loadPreferences();
-
-  const minTrafficSlider = document.getElementById('filter-min-traffic');
-  const minTrafficLabel = document.getElementById('filter-min-traffic-label');
-  const maxTrafficSlider = document.getElementById('filter-max-traffic');
-  const maxTrafficLabel = document.getElementById('filter-max-traffic-label');
-  const sizeSlider = document.getElementById('filter-node-size');
-
-  // Min traffic filter
-  if (minTrafficSlider) {
-    const defaultMin = prefs.minTraffic !== undefined ? prefs.minTraffic : 100;
-    minTrafficSlider.value = defaultMin;
-    if (minTrafficLabel) minTrafficLabel.textContent = defaultMin.toLocaleString();
-    
-    minTrafficSlider.addEventListener('input', () => {
-      const minVal = parseInt(minTrafficSlider.value);
-      const rawMax = maxTrafficSlider ? parseInt(maxTrafficSlider.value) : 40000;
-      const maxVal = rawMax >= 40000 ? Infinity : rawMax;
-      
-      if (minTrafficLabel) minTrafficLabel.textContent = minVal.toLocaleString();
-      savePreferences({ ...loadPreferences(), minTraffic: minVal });
-      
-      const mod = vizModules[activeTab];
-      if (mod?.updateFilter) {
-        mod.updateFilter(minVal, maxVal);
-        // Re-apply type filter after traffic filter update
-        if (activeTypeFilters.size < 6 && mod.filterByTypes) {
-          mod.filterByTypes(activeTypeFilters);
-        }
-      }
-    });
-  }
-
-  // Max traffic filter
-  if (maxTrafficSlider) {
-    const defaultMax = prefs.maxTraffic !== undefined ? Math.min(prefs.maxTraffic, 40000) : 40000;
-    maxTrafficSlider.value = defaultMax;
-    if (maxTrafficLabel) {
-      maxTrafficLabel.textContent = defaultMax >= 40000 ? '∞' : defaultMax.toLocaleString();
-      maxTrafficSlider.setAttribute('aria-valuetext', defaultMax >= 40000 ? 'No limit' : defaultMax.toLocaleString());
-    }
-    
-    maxTrafficSlider.addEventListener('input', () => {
-      const minVal = minTrafficSlider ? parseInt(minTrafficSlider.value) : 0;
-      const maxVal = parseInt(maxTrafficSlider.value);
-      const isInfinity = maxVal >= 40000;
-      
-      if (maxTrafficLabel) {
-        maxTrafficLabel.textContent = isInfinity ? '∞' : maxVal.toLocaleString();
-        maxTrafficSlider.setAttribute('aria-valuetext', isInfinity ? 'No limit' : maxVal.toLocaleString());
-      }
-      savePreferences({ ...loadPreferences(), maxTraffic: isInfinity ? Infinity : maxVal });
-      
-      const mod = vizModules[activeTab];
-      if (mod?.updateFilter) {
-        mod.updateFilter(minVal, isInfinity ? Infinity : maxVal);
-        // Re-apply type filter after traffic filter update
-        if (activeTypeFilters.size < 6 && mod.filterByTypes) {
-          mod.filterByTypes(activeTypeFilters);
-        }
-      }
-    });
-  }
-
-  if (sizeSlider) {
-    if (prefs.nodeSize) sizeSlider.value = prefs.nodeSize;
-    sizeSlider.addEventListener('input', () => {
-      const val = parseInt(sizeSlider.value);
-      savePreferences({ ...loadPreferences(), nodeSize: val });
-      const mod = vizModules[activeTab];
-      if (mod?.setNodeSize) mod.setNodeSize(val);
-    });
-  }
-}
-
-// ────────────────────────────────────────
-// Type Filters (new category checkboxes)
-// ────────────────────────────────────────
-
-let activeTypeFilters = new Set(['outside', 'iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway', 'local-company']);
-
-function setupTypeFilters() {
-  const container = document.getElementById('type-filter-checks');
-  if (!container) return;
-
-  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    cb.addEventListener('change', () => {
-      const type = cb.dataset.type;
-      if (cb.checked) activeTypeFilters.add(type);
-      else activeTypeFilters.delete(type);
-      applyTypeFilter();
-    });
-  });
-}
-
-function applyTypeFilter() {
-  if (!currentData) return;
-  const mod = vizModules[activeTab];
-  if (mod?.filterByTypes) {
-    mod.filterByTypes(activeTypeFilters);
-  }
 }
 
 // Public: called from table module for cross-viz filtering
@@ -827,8 +686,8 @@ window.addEventListener('resize', () => {
       if (currentData && mod) {
         mod.destroy?.();
         mod.init('viz-panel');
-        mod.loadData(currentData, savedLoadOptions());
-        if (activeTypeFilters.size < 6) mod.filterByTypes?.(activeTypeFilters);
+        mod.loadData(currentData, currentFilters());
+        applyFilters(mod);
       }
     }
   }, 300);
