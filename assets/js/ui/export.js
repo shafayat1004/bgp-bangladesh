@@ -3,6 +3,8 @@
  * Handles CSV and JSON data downloads.
  */
 
+import { sourceAsn, targetAsn } from '../data/network-data.js';
+
 /**
  * Trigger a browser file download from a string.
  */
@@ -27,7 +29,7 @@ function dateStamp() {
  */
 export function exportNodesCSV(data) {
   const BOM = '\uFEFF';
-  const typeOrder = { 'iig': 0, 'detected-iig': 1, 'offshore-enterprise': 2, 'offshore-gateway': 3, 'local-company': 4, 'inside': 0, 'outside': 5 };
+  const typeOrder = { 'iig': 0, 'detected-iig': 1, 'offshore-enterprise': 2, 'offshore-gateway': 3, 'local-company': 4, 'outside': 5 };
   const header = 'rank,asn,name,type,licensed,country,traffic,percentage,description';
   const rows = data.nodes
     .sort((a, b) => {
@@ -62,8 +64,8 @@ export function exportEdgesCSV(data) {
   const rows = data.edges
     .sort((a, b) => b.count - a.count)
     .map(e => {
-      const src = e.source?.asn || e.source;
-      const tgt = e.target?.asn || e.target;
+      const src = sourceAsn(e);
+      const tgt = targetAsn(e);
       const sn = (nameMap[src] || '').replace(/"/g, '""');
       const tn = (nameMap[tgt] || '').replace(/"/g, '""');
       return `${src},"${sn}",${tgt},"${tn}",${e.type || 'international'},${e.count}`;

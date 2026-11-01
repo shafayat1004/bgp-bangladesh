@@ -119,8 +119,10 @@ rest are feature-detected (`mod.updateData?.(...)`).
 (`local-company`, `iig`, `detected-iig`, `offshore-enterprise`,
 `offshore-gateway`, `outside`), `traffic`, `name`, `country`. Edges have
 `source`, `target`, `count` and `type` (`domestic`/`international`). D3
-simulations replace `source`/`target` with node objects, so read them as
-`e.source?.asn || e.source`.
+simulations replace `source`/`target` with node objects, so read them with
+`sourceAsn`, `targetAsn` or `connectionEnds`, and look networks up with
+`networksByAsn`, all from `assets/js/data/network-data.js`. Colours come from
+`assets/js/ui/colors.js` and names from the glossary's `CATEGORY_LABELS`.
 
 ## Adding a tab
 

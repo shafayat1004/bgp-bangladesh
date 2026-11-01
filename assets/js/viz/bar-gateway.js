@@ -10,6 +10,7 @@ import { buildNodeTooltipHtml } from '../ui/tooltip.js';
 import { renderBarList, highlightBarRow } from './bar-list.js';
 import { countryToFlag, friendlyName } from '../ui/names.js';
 import { CATEGORY_COLORS, LINK_COLORS } from '../ui/colors.js';
+import { targetAsn, networksByAsn } from '../data/network-data.js';
 
 // The gateway categories this ranking shows, with their colours.
 const TYPE_COLORS = Object.fromEntries(
@@ -51,15 +52,14 @@ export function updateData(data, options = {}) {
 
 /** Route totals per gateway for the current filter. Exported for testing. */
 export function gatewayTotals(data, minTraffic = 0, maxTraffic = Infinity) {
-  const nodeMap = {};
-  data.nodes.forEach(n => { nodeMap[n.asn] = n; });
+  const nodeMap = networksByAsn(data.nodes);
 
   const totals = {};
   data.edges.forEach(e => {
     const count = e.count || 0;
     if (count < minTraffic || count > maxTraffic) return;
     // Both edge kinds point at the gateway: outside -> gateway, local -> gateway.
-    const tgt = e.target?.asn || e.target;
+    const tgt = targetAsn(e);
     const node = nodeMap[tgt];
     if (!node || !TYPE_COLORS[node.type]) return;
     const t = totals[tgt] ||= { asn: tgt, node, international: 0, local: 0 };

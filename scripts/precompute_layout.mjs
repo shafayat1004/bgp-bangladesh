@@ -29,6 +29,7 @@ import {
   LAYOUT_VERSION, LAYOUT_WIDTH, LAYOUT_HEIGHT, LAYOUT_MIN_TRAFFIC, LAYOUT_MAX_TRAFFIC,
   selectGraph, bandPosition, createSimulation, configureForces,
 } from '../assets/js/viz/force-layout.js';
+import { sourceAsn, targetAsn } from '../assets/js/data/network-data.js';
 
 const LAYOUT_KEY = '\n  "layout": ';
 // Gentle reheat when most nodes already have a place; 0.3 moved the median node
@@ -57,7 +58,7 @@ export function computeLayout(data, previousPositions = null) {
     const [x, y] = prev || bandPosition(n.type, LAYOUT_WIDTH, LAYOUT_HEIGHT, random);
     return { asn: n.asn, type: n.type, traffic: n.traffic, x, y };
   });
-  const simEdges = edges.map(e => ({ source: e.source?.asn || e.source, target: e.target?.asn || e.target }));
+  const simEdges = edges.map(e => ({ source: sourceAsn(e), target: targetAsn(e) }));
 
   const simulation = createSimulation(d3).stop();
   configureForces(d3, simulation, { width: LAYOUT_WIDTH, height: LAYOUT_HEIGHT, nodeCount: simNodes.length });
