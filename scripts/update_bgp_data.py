@@ -3,9 +3,8 @@
 Update BGP data for Bangladesh - All-in-one script.
 Fetches live BGP routes from RIPEstat and processes them into visualization data.
 
-This script combines the functionality of:
-- fetch_bgp_routes.py (fetches raw BGP routes in parallel)
-- reprocess into license-aware 6-category classification model
+It fetches raw BGP routes in parallel and processes them into the
+license-aware 6-category classification model.
 
 Categories:
   - outside: International transit providers
