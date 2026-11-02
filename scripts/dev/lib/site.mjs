@@ -25,9 +25,10 @@ export const VIEWPORTS = {
   'phone-landscape': { viewport: { width: 844, height: 390 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
 };
 
-// Console noise that is expected locally: the WASM build is not committed and
-// there is no favicon.ico (the page uses an SVG icon).
-const IGNORED_ERRORS = /wasm|favicon\.ico/i;
+// Console noise that is expected locally: the WASM build is not committed,
+// there is no favicon.ico (the page uses an SVG icon), and history/changes.json
+// is written by the scheduled data update, so a branch may not have it yet.
+const IGNORED_ERRORS = /wasm|favicon\.ico|history\/changes\.json/i;
 
 const CONTENT_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -95,7 +96,7 @@ export async function openSite(browser, baseUrl, { viewport = 'desktop', tab = '
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', e => errors.push(String(e)));
-  page.on('console', m => { if (m.type() === 'error' && !IGNORED_ERRORS.test(m.text())) errors.push(m.text()); });
+  page.on('console', m => { if (m.type() === 'error' && !IGNORED_ERRORS.test(`${m.text()} ${m.location()?.url || ''}`)) errors.push(m.text()); });
 
   await context.addInitScript(({ tab, showIntro }) => {
     window.confirm = () => true;   // Network Graph CPU warning, live-fetch prompt

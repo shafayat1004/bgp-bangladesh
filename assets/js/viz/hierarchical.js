@@ -462,20 +462,21 @@ function box(n) {
   btn.type = 'button';
   btn.dataset.asn = n.asn;
   btn.style.setProperty('--cat', CATEGORY_COLORS[n.type]);
-  const name = friendlyName(n);
-  const flag = n.type === 'outside' && n.country ? `${countryToFlag(n.country)} ` : '';
   const mine = String(n.asn) === mineAsn();
-  const share = `${(n.percentage || 0).toFixed(1)}% of routes seen${mine && hiddenMine ? ' (hidden by your filters elsewhere)' : ''}`;
-  btn.setAttribute('aria-label', `${name}, ${CATEGORY_LABELS[n.type] || n.type}, ${share}${mine ? ', your network' : ''}`);
   btn.classList.toggle('mine', mine);
+  // The name screen readers hear is the visible text plus hidden extras, so it
+  // always contains what is on screen (no aria-label).
   const nameEl = el('span', 'layered-box-name', btn);
-  if (mine) {
-    const tag = el('span', 'layered-tag', nameEl);
-    tag.textContent = 'YOURS';
-    tag.setAttribute('aria-hidden', 'true');
+  if (mine) el('span', 'layered-tag', nameEl).textContent = 'YOURS';
+  if (n.type === 'outside' && n.country) {
+    const flag = el('span', '', nameEl);
+    flag.textContent = `${countryToFlag(n.country)} `;
+    flag.setAttribute('aria-hidden', 'true');
   }
-  nameEl.append(`${flag}${name}`);
-  el('span', 'layered-box-share', btn).textContent = share;
+  nameEl.append(friendlyName(n));
+  el('span', 'visually-hidden', btn).textContent = `, ${CATEGORY_LABELS[n.type] || n.type}, `;
+  el('span', 'layered-box-share', btn).textContent =
+    `${(n.percentage || 0).toFixed(1)}% of routes seen${mine && hiddenMine ? ' (hidden by your filters elsewhere)' : ''}`;
   btn.addEventListener('click', () => openPath(n.asn));
   // Hover details for a mouse only: on touch the details sheet would cover the path.
   btn.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') showTooltip(buildNodeTooltipHtml(n, CATEGORY_LABELS), e); });

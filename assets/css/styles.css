@@ -1290,8 +1290,22 @@ input[type="range"]::-webkit-slider-thumb {
   .layered-zoom { margin: 0 -12px; padding: 6px 12px; }
   .layered-title { font-size: 14px; }
   .layered-summary { font-size: 12px; }
+}
+
+@media (max-width: 600px) {
   .layered-mine { flex-direction: column; align-items: stretch; gap: 6px; min-height: 104px; }
   .layered-mine-btn { align-self: flex-start; }
+}
+
+/* Landscape phones: height is scarce, so the boxes come first; the layer
+   notes and summary stay one "?" away. */
+@media (max-height: 500px) {
+  .layered-summary, .layered-layer-note { display: none; }
+  .layered-head { margin-top: 8px; }
+  .layered-mine { min-height: 52px; margin-top: 8px; padding: 4px 12px; }
+  .layered-layer { margin-top: 10px; }
+  .layered-layer-title { margin-bottom: 6px; }
+  .layered-path-summary { min-height: 0; }
 }
 
 /* ── Layered View: one network's path ── */

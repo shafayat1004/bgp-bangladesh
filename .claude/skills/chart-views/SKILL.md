@@ -30,11 +30,21 @@ Bangladesh's routes?"). Then:
 ## When a view may pan and zoom
 
 Only when the content is genuinely larger than the screen and spatial
-(Network Graph, Layered View, Traffic Flow). Bar charts, rankings, tables and
+(Network Graph, Traffic Flow). Bar charts, rankings, tables and
 summaries fit the panel and use normal vertical scrolling; making them pan or
 zoom adds movement without adding understanding (issue #8). Gateway Ranking
 and Country Origins are HTML lists with CSS bars (`bar-list.js`): fixed row
 heights, fitted to the panel width, scrolling like a page.
+
+The Layered View used to pan and zoom an SVG of ~1,600 tiny boxes: nothing
+was readable at the fitted size and about 3,200 text labels made it the slowest
+view to pan on a phone. It is now an HTML page (`hierarchical.js`): a grid
+of boxes per layer that scrolls vertically. Zoom steps through box sizes
+(`ZOOM_LEVELS`: buttons, `+`/`-`/`0`, Ctrl/⌘ + wheel, two-finger pinch);
+rows reflow and the box at the top stays put (`anchorFor`/`restoreAnchor`).
+Picking a network opens its path screen (`layered-path-view.js`) instead of
+fading the rest. Prefer this shape (bigger boxes, taller page) to freeform
+pan/zoom whenever the content is a list of named things.
 
 ## Words on screen
 
@@ -107,7 +117,7 @@ rest are feature-detected (`mod.updateData?.(...)`).
 | Export | Called when | Notes |
 |---|---|---|
 | `init(containerId)` | tab opens, panel resized | create the `<svg>` (and any `.viz-controls`) inside the container; may do nothing for HTML views that draw everything in `loadData` |
-| `loadData(data, options)` | first draw, tab switch, live fetch, "Static Data" | full draw; `options` has `minTraffic`, `maxTraffic`, `nodeSize`. Reset zoom/highlight here |
+| `loadData(data, options)` | first draw, tab switch, live fetch, "Static Data" | full draw; `options` has `minTraffic`, `maxTraffic`, `nodeSize` and `snapshotTs` (the history snapshot drawn, null for live data). Reset zoom/highlight here |
 | `updateData(data, options)` | history slider step | keep the user's pan/zoom, scroll, sort, selection and highlight; without it the slider falls back to a full rebuild, which resets their view |
 | `destroy()` | leaving the tab | clear the panel, stop timers/simulations |
 | `updateFilter(min, max)` | Min/Max Routes sliders | redraw with the new range, keep the view |
@@ -115,6 +125,7 @@ rest are feature-detected (`mod.updateData?.(...)`).
 | `highlightASN(asn)` | sidebar list, search, "How do I reach the world?" | |
 | `resetView()` | Reset View button, `0` key | back to the fitted view |
 | `toggleLabelsVisibility()`, `setNodeSize(n)` | sidebar controls | optional |
+| `reflows` (a `true` constant) | panel resized | HTML views that reflow by themselves; `main.js` then skips its destroy/init/loadData, so rotating a phone keeps zoom, scroll and an open path |
 
 `data` is `{ nodes, edges, stats, layout? }`. Nodes have `asn`, `type`
 (`local-company`, `iig`, `detected-iig`, `offshore-enterprise`,
@@ -135,15 +146,15 @@ simulations replace `source`/`target` with node objects, so read them with
    Arrow-key handling and selection state come from `setupTabs`/`highlightTab`.
 4. Add the name to `TABS` in `scripts/dev/lib/site.mjs` so the screenshots,
    accessibility audit and e2e tests cover it. `waitForView` there waits for
-   `#viz-panel svg *, #viz-panel table, #viz-panel .bar-view`; if the new view
+   `#viz-panel svg *, #viz-panel table, #viz-panel .bar-view` or a Layered View
+box; if the new view
    draws something else, add its selector or every dev script hangs on it.
 
 ## Drawing conventions
 
 - **Fit to the panel.** Lay the chart out in its own coordinates, then fit the
-  content to `#viz-panel` (see `fitTransform` in `force-graph.js`, and
-  `chooseColumns` in `hierarchical.js`, which picks a grid shape for the panel's
-  aspect ratio). Starting at a fixed scale or offset is what left views tiny or
+  content to `#viz-panel` (see `fitTransform` in `force-graph.js`; HTML views
+  like the Layered View fit with a CSS grid instead). Starting at a fixed scale or offset is what left views tiny or
   half off-screen. For zoomable views keep the fitted transform for
   `resetView`; static views just size themselves to the panel.
 - **Portrait screens.** Phones are portrait; a left-to-right chart should flow
@@ -166,8 +177,17 @@ simulations replace `source`/`target` with node objects, so read them with
   It closes with its button, Escape, a tap elsewhere in the chart panel, or
   a date change (`hideTooltip`).
 - **Keep the view across snapshots.** In `updateData`, keep the current zoom
-  transform (`hierarchical.js` stores `savedTransform`) and re-apply any
-  highlight if that ASN still exists.
+  transform (`force-graph.js`) or box size, scroll anchor and open path
+  (`hierarchical.js`), and re-apply any highlight if that ASN still exists.
+- **Show what changed, by name.** The Layered View's path screen marks
+  connections NEW and GONE (a text tag, GONE also dashed and crossed out),
+  keeps one card order for the whole history range (`stableOrder` in
+  `assets/js/data/changes.js`), and lets a GONE card collapse after
+  `GONE_TICKS` snapshots, the one deliberate movement. Shares come from
+  `data/BD/history/changes.json`; without it, compare with the previous
+  snapshot (`fromTwoSnapshots`). Say "Not in this data since <date>", never
+  "removed": snapshots keep only the busiest connections, so leaving the data
+  doesn't mean a connection stopped.
 - **Accessibility for zoomable views.** After setting up zoom, call
   `makeChartAccessible(svg, { zoom, label, reset, onEscape })` from
   `assets/js/ui/chart-a11y.js`. It makes the SVG focusable with a spoken

@@ -74,21 +74,134 @@ test('clicking a node highlights it without moving any node', async () => {
   await site.close();
 });
 
-test('history slider keeps pan/zoom (Network Graph and Layered View)', async () => {
-  for (const [tab, svgId] of [['force-graph', 'force-svg'], ['hierarchical', 'hier-svg']]) {
-    const site = await openSite(browser, server.url, { tab });
-    const { page } = site;
-    await page.focus(`#${svgId}`);
-    await page.keyboard.press('+');
-    await page.keyboard.press('ArrowLeft');
-    await page.waitForTimeout(500);
-    const zoomed = await transformOf(page, svgId);
-    await page.click('#timeline-prev');
-    await page.waitForFunction(() => document.getElementById('timeline-spinner').classList.contains('hidden'));
-    await page.waitForTimeout(300);
-    assert.equal(await transformOf(page, svgId), zoomed, `${tab} lost the user's pan/zoom`);
-    await site.close();
+const stepBack = async (page) => {
+  await page.click('#timeline-prev');
+  await page.waitForFunction(() => document.getElementById('timeline-spinner').classList.contains('hidden'));
+  await page.waitForTimeout(300);
+};
+
+test('history slider keeps pan/zoom (Network Graph)', async () => {
+  const site = await openSite(browser, server.url, { tab: 'force-graph' });
+  const { page } = site;
+  await page.focus('#force-svg');
+  await page.keyboard.press('+');
+  await page.keyboard.press('ArrowLeft');
+  await page.waitForTimeout(500);
+  const zoomed = await transformOf(page, 'force-svg');
+  await stepBack(page);
+  assert.equal(await transformOf(page, 'force-svg'), zoomed, 'Network Graph lost the user\'s pan/zoom');
+  await site.close();
+});
+
+// The first box below the sticky zoom bar and where it sits on screen.
+const layeredState = (page) => page.evaluate(() => {
+  const v = document.querySelector('.layered-view');
+  const top = v.getBoundingClientRect().top;
+  const below = top + document.querySelector('.layered-zoom').offsetHeight;
+  const first = [...v.querySelectorAll('.layered-box')].find(b => b.getBoundingClientRect().bottom > below);
+  return {
+    zoom: v.querySelector('.layered-zoom-level').textContent,
+    scrollTop: v.scrollTop,
+    first: first.dataset.asn,
+    firstOffset: Math.round(first.getBoundingClientRect().top - top),
+  };
+});
+
+test('history slider keeps the Layered View\'s size, scroll and open path', async () => {
+  const site = await openSite(browser, server.url, { tab: 'hierarchical' });
+  const { page } = site;
+  await page.focus('.layered-view');
+  await page.keyboard.press('+');
+  await page.evaluate(() => { document.querySelector('.layered-view').scrollTop += 600; });
+  const before = await layeredState(page);
+  assert.equal(before.zoom, 'Large');
+  await stepBack(page);
+  const after = await layeredState(page);
+  assert.equal(after.zoom, before.zoom);
+  assert.equal(after.first, before.first, 'the box at the top stays the same');
+  assert.ok(Math.abs(after.firstOffset - before.firstOffset) <= 2, `top box moved ${after.firstOffset - before.firstOffset}px`);
+  assert.ok(Math.abs(after.scrollTop - before.scrollTop) <= 2 || after.first === before.first);
+
+  await page.click(`.layered-box[data-asn="${after.first}"]`);
+  await page.waitForSelector('.layered-path-title');
+  const title = await page.textContent('.layered-path-title');
+  await stepBack(page);
+  assert.equal(await page.textContent('.layered-path-title'), title, 'the path stays open across a date step');
+  assert.deepEqual(site.errors, []);
+  await site.close();
+});
+
+test('Layered View: picking a network opens its path and back restores the overview', async () => {
+  const site = await openSite(browser, server.url, { tab: 'hierarchical' });
+  const { page } = site;
+  await page.evaluate(() => { document.querySelector('.layered-view').scrollTop = 400; });
+  const before = await layeredState(page);
+  await page.focus(`.layered-box[data-asn="${before.first}"]`);
+  await page.keyboard.press('Enter');
+  await page.waitForSelector('.layered-path-title');
+  const opened = await page.evaluate(() => ({
+    focus: document.activeElement.className,
+    summary: document.querySelector('.layered-path-summary').textContent,
+    overview: !!document.querySelector('.layered-view'),
+  }));
+  assert.equal(opened.focus, 'layered-path-title');
+  assert.match(opened.summary, /routes|gateway/);
+  assert.equal(opened.overview, false);
+  await page.keyboard.press('Escape');
+  await page.waitForSelector('.layered-view');
+  const back = await page.evaluate(() => ({ focus: document.activeElement.dataset.asn, scrollTop: document.querySelector('.layered-view').scrollTop }));
+  assert.equal(back.focus, before.first, 'focus returns to the box that opened the path');
+  assert.ok(Math.abs(back.scrollTop - before.scrollTop) <= 2, `scroll ${before.scrollTop} -> ${back.scrollTop}`);
+  await site.close();
+});
+
+test('Play steps through snapshots and stops at the latest', async () => {
+  const site = await openSite(browser, server.url, { tab: 'table' });
+  const { page } = site;
+  const max = await page.$eval('#timeline-slider', e => Number(e.max));
+  await page.$eval('#timeline-slider', (e, v) => { e.value = String(v); e.dispatchEvent(new Event('input')); }, max - 2);
+  await page.waitForFunction(() => document.getElementById('timeline-spinner').classList.contains('hidden'));
+  await page.waitForTimeout(300);
+  const width = await page.$eval('#timeline-play', e => e.getBoundingClientRect().width);
+  await page.click('#timeline-play');
+  assert.equal(await page.textContent('#timeline-play .timeline-play-text'), 'Pause');
+  assert.equal(await page.$eval('#timeline-play', e => e.getBoundingClientRect().width), width, 'Play and Pause are one width');
+  await page.waitForFunction(() => document.getElementById('timeline-play').dataset.playing === 'false', null, { timeout: 10000 });
+  const end = await page.evaluate(() => ({
+    value: Number(document.getElementById('timeline-slider').value),
+    latest: !document.getElementById('timeline-latest-badge').classList.contains('hidden'),
+    text: document.querySelector('#timeline-play .timeline-play-text').textContent,
+  }));
+  assert.deepEqual(end, { value: max, latest: true, text: 'Play' });
+  assert.deepEqual(site.errors, []);
+  await site.close();
+});
+
+test('Layered View path on a phone has no sideways scroll', async () => {
+  const site = await openSite(browser, server.url, { viewport: 'phone', tab: 'hierarchical' });
+  const { page } = site;
+  // The gateway with the most connections abroad, and the local network with the most gateways.
+  const [gateway, local] = await page.evaluate(async () => {
+    const d = await fetch('data/BD/viz_data.json').then(r => r.json());
+    const count = (pick) => { const m = {}; for (const e of d.edges) { const k = pick(e); if (k) m[k] = (m[k] || 0) + 1; } return Object.entries(m).sort((a, b) => b[1] - a[1])[0][0]; };
+    return [count(e => e.type === 'international' && e.target), count(e => e.type === 'domestic' && e.source)];
+  });
+  for (const asn of [gateway, local]) {
+    await page.evaluate((a) => window._bgpHighlightASN(a), asn);
+    await page.waitForSelector('.layered-path-title');
+    const s = await page.evaluate(() => ({
+      pageWide: document.documentElement.scrollWidth > innerWidth,
+      pathWide: document.querySelector('.layered-path').scrollWidth > document.querySelector('.layered-path').clientWidth,
+      gateways: document.querySelectorAll('[data-column="gateways"] > li').length,
+      abroad: document.querySelectorAll('[data-column="abroad"] > li').length,
+    }));
+    assert.equal(s.pageWide, false, `AS${asn}: page scrolls sideways`);
+    assert.equal(s.pathWide, false, `AS${asn}: path scrolls sideways`);
+    if (asn === gateway) assert.ok(s.abroad <= 10, `AS${asn}: ${s.abroad} networks abroad shown`);
+    else assert.ok(s.abroad <= 4 * s.gateways, `AS${asn}: ${s.abroad} abroad for ${s.gateways} gateways`);
   }
+  assert.deepEqual(site.errors, []);
+  await site.close();
 });
 
 test('keyboard: skip link, tabs and chart pan/zoom', async () => {
@@ -110,14 +223,13 @@ test('keyboard: skip link, tabs and chart pan/zoom', async () => {
   assert.deepEqual(tabState, { focused: 'tab-bar-gateway', selected: 'tab-bar-gateway', panel: 'tab-bar-gateway' });
 
   await switchTab(page, 'hierarchical');
-  await page.focus('#hier-svg');
-  const start = await transformOf(page, 'hier-svg');
+  await page.focus('.layered-view');
+  const zoomLabel = () => page.textContent('.layered-zoom-level');
+  const start = await zoomLabel();
   await page.keyboard.press('+');
-  await page.waitForTimeout(400);
-  assert.notEqual(await transformOf(page, 'hier-svg'), start, '+ should zoom');
+  assert.notEqual(await zoomLabel(), start, '+ should make the boxes bigger');
   await page.keyboard.press('0');
-  await page.waitForTimeout(900);
-  assert.equal(await transformOf(page, 'hier-svg'), start, '0 should reset');
+  assert.equal(await zoomLabel(), start, '0 should reset');
   await site.close();
 });
 
@@ -216,6 +328,12 @@ test('no graph jargon or "traffic" on screen, in any view or the intro', async (
     await page.click('#table-show-edges');
     const hit = (await visibleWords(page)).split('\n').find(line => JARGON.test(line));
     assert.equal(hit, undefined, `${viewport} connections table: "${hit}"`);
+    // The Layered View's path screen.
+    await switchTab(page, 'hierarchical');
+    await page.evaluate(() => document.querySelector('.layered-box').click());
+    await page.waitForSelector('.layered-path-title');
+    const pathHit = (await visibleWords(page)).split('\n').find(line => JARGON.test(line));
+    assert.equal(pathHit, undefined, `${viewport} path screen: "${pathHit}"`);
     await site.close();
   }
 });
@@ -301,10 +419,12 @@ test('header search: "/" focuses it, arrows and Enter choose, the view highlight
   assert.equal(await page.evaluate(() => document.getElementById('site-search').getAttribute('aria-activedescendant')), 'site-search-opt-0');
   await page.keyboard.press('Enter');
   await page.waitForTimeout(300);
-  assert.equal(await page.evaluate(() => document.querySelector('.hier-node[data-asn="58717"]').getAttribute('opacity')), '1');
+  assert.equal(await page.textContent('.layered-path-title'), 'Summit Communications Ltd', 'the Layered View opens its path');
+  assert.equal(await page.evaluate(() => document.activeElement.className), 'layered-path-title', 'focus moves to the path');
   assert.equal(await page.evaluate(() => document.getElementById('site-search-list').hidden), true);
 
   // Escape closes the list, then clears the text.
+  await page.focus('#site-search');
   await page.keyboard.type(' ');
   await page.keyboard.press('Escape');
   assert.equal(await page.evaluate(() => document.getElementById('site-search-list').hidden), true);
@@ -372,7 +492,7 @@ const tooltipState = (page) => page.evaluate(() => {
 test('tooltip: hover opens it inside the window, Escape and leaving close it (desktop)', async () => {
   const site = await openSite(browser, server.url, { tab: 'hierarchical' });
   const { page } = site;
-  const box = await page.locator('#hier-svg g.hier-node').first().boundingBox();
+  const box = await page.locator('.layered-box').first().boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await page.waitForTimeout(100);
   let tip = await tooltipState(page);
@@ -394,11 +514,20 @@ test('tooltip: hover opens it inside the window, Escape and leaving close it (de
   await site.close();
 });
 
+// Screen position of the Network Graph's biggest network.
+const biggestNode = (page) => page.evaluate(() => {
+  let best = null;
+  d3.selectAll('#force-svg g.node').each(function (d) { if (!best || d.traffic > best.t) best = { t: d.traffic, el: this }; });
+  const r = best.el.querySelector('circle').getBoundingClientRect();
+  return [r.x + r.width / 2, r.y + r.height / 2];
+});
+
 test('tooltip: on phones the details sheet has a close button that closes it', async () => {
   for (const viewport of ['phone', 'phone-landscape']) {
-    const site = await openSite(browser, server.url, { viewport, tab: 'hierarchical' });
+    const site = await openSite(browser, server.url, { viewport, tab: 'force-graph' });
     const { page } = site;
-    await page.tap('#hier-svg g.hier-node');
+    const node = await biggestNode(page);
+    await page.touchscreen.tap(...node);
     await page.waitForTimeout(500);   // the sheet lets taps through for 400 ms after opening
     const tip = await tooltipState(page);
     assert.equal(tip.open, true, `${viewport}: a tap opens the sheet`);
@@ -414,9 +543,9 @@ test('tooltip: on phones the details sheet has a close button that closes it', a
     await page.waitForTimeout(100);
     assert.equal((await tooltipState(page)).open, false, `${viewport}: the close button closes it`);
 
-    await page.tap('#hier-svg g.hier-node');
+    await page.touchscreen.tap(...node);
     await page.waitForTimeout(500);
-    await page.tap('#hier-svg', { position: { x: 3, y: 3 } });
+    await page.tap('#force-svg', { position: { x: 3, y: 3 } });
     await page.waitForTimeout(100);
     assert.equal((await tooltipState(page)).open, false, `${viewport}: a tap elsewhere in the chart closes it`);
     await site.close();
@@ -432,19 +561,20 @@ test('filters survive a date step and a tab switch', async () => {
     s.value = 500;
     s.dispatchEvent(new Event('input'));
   });
+  // In the Layered View a hidden category has no layer; in the Network Graph its networks are hidden.
   const state = (selector) => page.evaluate((sel) => ({
-    hidden: document.querySelectorAll(sel).length,
+    hidden: sel ? document.querySelectorAll(sel).length : Number(!document.querySelector('.layered-layer[data-type="outside"]')),
     outsideTicked: document.querySelector('#type-filter-checks input[data-type="outside"]').checked,
     minRoutes: document.getElementById('filter-min-traffic').value,
     minLabel: document.getElementById('filter-min-traffic-label').textContent,
   }), selector);
-  const before = await state('#hier-svg .hier-node[display="none"]');
+  const before = await state(null);
   assert.ok(before.hidden > 0, 'unticking a category hides its networks');
 
   await page.click('#timeline-prev');
   await page.waitForFunction(() => document.getElementById('timeline-spinner').classList.contains('hidden'));
   await page.waitForTimeout(300);
-  const stepped = await state('#hier-svg .hier-node[display="none"]');
+  const stepped = await state(null);
   assert.ok(stepped.hidden > 0, 'still hidden after a date step');
   assert.deepEqual({ ...stepped, hidden: 0 }, { ...before, hidden: 0 });
 

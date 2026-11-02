@@ -354,7 +354,7 @@ export function renderPathView(container, opts) {
     if (!btn) {
       btn = el('button', 'layered-card', li);
       btn.type = 'button';
-      btn.innerHTML = '<span class="layered-card-name"></span><span class="layered-card-row"></span>';
+      btn.innerHTML = '<span class="layered-card-name"></span><span class="visually-hidden layered-card-extra"></span><span class="layered-card-row"></span>';
       btn.addEventListener('click', () => onCard(btn));
     }
     btn.dataset.asn = c.asn;
@@ -370,8 +370,13 @@ export function renderPathView(container, opts) {
       const tag = el('span', `layered-tag tag-${c.state}`, nameEl);
       tag.textContent = c.state === 'new' ? 'NEW' : 'GONE';
     }
-    const flag = c.node?.type === 'outside' && c.node.country ? `${countryToFlag(c.node.country)} ` : '';
-    el('span', 'layered-card-label', nameEl).textContent = `${flag}${c.name}`;
+    const label = el('span', 'layered-card-label', nameEl);
+    if (c.node?.type === 'outside' && c.node.country) {
+      const flag = el('span', '', label);
+      flag.textContent = `${countryToFlag(c.node.country)} `;
+      flag.setAttribute('aria-hidden', 'true');
+    }
+    label.append(c.name);
 
     const row = btn.querySelector('.layered-card-row');
     const sinceTs = c.since !== null ? m.history.snapshots[c.since] : null;
@@ -395,20 +400,23 @@ export function renderPathView(container, opts) {
       fill.style.width = `${Math.max(0, Math.min(100, c.share))}%`;
       row.querySelector('.layered-card-value').textContent = pct(c.share);
       const d = c.delta;
-      row.querySelector('.layered-card-delta').textContent = d !== null && Math.abs(d) >= 1
-        ? `${d > 0 ? '▲ +' : '▼ −'}${Math.abs(d)} pts` : '';
+      const delta = row.querySelector('.layered-card-delta');
+      delta.replaceChildren();
+      if (d !== null && Math.abs(d) >= 1) {
+        const arrow = el('span', '', delta);
+        arrow.textContent = d > 0 ? '▲ ' : '▼ ';
+        arrow.setAttribute('aria-hidden', 'true');
+        el('span', 'visually-hidden', delta).textContent = d > 0 ? 'up ' : 'down ';
+        delta.append(`${d > 0 ? '+' : '−'}${Math.abs(d)} pts`);
+      }
     }
 
-    const whose = shareOf(column, m);
-    const parts = [c.name];
-    if (c.node) parts.push(CATEGORY_LABELS[c.node.type] || c.node.type);
-    if (c.state === 'gone') parts.push(`gone: not in this data since ${when(sinceTs)}, was ${pct(c.share)}`);
-    else {
-      if (!noShare) parts.push(`${pct(c.share)} of ${whose}`);
-      if (c.state === 'new') parts.push(`new on ${when(sinceTs)}`);
-      if (!noShare && c.delta !== null && Math.abs(c.delta) >= 1) parts.push(`${c.delta > 0 ? 'up' : 'down'} ${Math.abs(c.delta)} points`);
-    }
-    btn.setAttribute('aria-label', parts.join(', '));
+    // Spoken extras after the name; everything visible is read as shown.
+    const extra = [c.node ? CATEGORY_LABELS[c.node.type] || c.node.type : ''];
+    if (c.state === 'gone') extra.push(`was ${pct(c.share)}`);
+    else if (!noShare) extra.push(`share of ${shareOf(column, m)}:`);
+    if (c.state === 'new') extra.push(`new on ${when(sinceTs)}`);
+    btn.querySelector('.layered-card-extra').textContent = `, ${extra.filter(Boolean).join(', ')} `;
     if (role === 'local') btn.setAttribute('aria-pressed', String(emphasis === `${column}:${c.asn}`));
     else btn.removeAttribute('aria-pressed');
   }
