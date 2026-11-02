@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { pathCards } from '../assets/js/viz/layered-path-view.js';
+import { pathCards, pathHistory } from '../assets/js/viz/layered-path-view.js';
 import { buildPath } from '../assets/js/viz/layered-path.js';
 import { indexChanges, fromTwoSnapshots } from '../assets/js/data/changes.js';
 
@@ -124,4 +124,26 @@ test('pathCards: gateway and outside roles', () => {
   const out = pathCards(buildPath(data, '9498'), history, 10, { asn: '9498', lookupNode });
   assert.equal(out.role, 'outside');
   assert.deepEqual(out.columns.gateways.map(c => [c.asn, c.share]), [['58717', 30]]);
+});
+
+test('pathHistory: uses changes.json when it has the date', () => {
+  const h = pathHistory({ history, ts: SNAPSHOTS[7], data, prevData: null, prevTs: null });
+  assert.equal(h.fromHistory, true);
+  assert.equal(h.pos, 7);
+});
+
+test('pathHistory: without changes.json, compares only with an earlier snapshot', () => {
+  const prev = { nodes, edges: [{ source: '137967', target: '10075', count: 5, type: 'domestic' }] };
+  const forward = pathHistory({ history: null, ts: 'tB', data, prevData: prev, prevTs: 'tA' });
+  assert.deepEqual([forward.fromHistory, forward.pos, forward.history.snapshots], [false, 1, ['tA', 'tB']]);
+  // Stepping back: the snapshot shown before is newer, so nothing can be called NEW or GONE.
+  const back = pathHistory({ history: null, ts: 'tA', data, prevData: prev, prevTs: 'tB' });
+  assert.deepEqual([back.pos, back.history.snapshots], [0, ['tA']]);
+  assert.ok(pathCards(path, back.history, back.pos, opts).columns.gateways.every(c => c.state === 'present'));
+});
+
+test('pathHistory: live data (no timestamp) gets no comparison', () => {
+  const prev = { nodes, edges: [] };
+  const live = pathHistory({ history, ts: null, data, prevData: prev, prevTs: SNAPSHOTS[10] });
+  assert.deepEqual([live.fromHistory, live.pos, live.history.snapshots], [false, 0, [null]]);
 });

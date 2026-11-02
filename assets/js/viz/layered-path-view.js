@@ -127,6 +127,20 @@ export function pathCards(path, history, pos, { asn, lookupNode = () => null } =
   return { role, columns, lines, events };
 }
 
+/**
+ * The history the path screen marks changes from: changes.json when it has
+ * this date; otherwise the snapshot shown before, but only when it is older
+ * (stepping back would mark changes the wrong way round, and live data has
+ * no date to compare). Pure; exported for testing.
+ */
+export function pathHistory({ history, ts, data, prevData, prevTs }) {
+  const pos = history && ts ? snapshotPos(history, ts) : -1;
+  if (pos >= 0) return { history, pos, fromHistory: true };
+  const earlier = prevData && prevData !== data && ts && prevTs && prevTs < ts;
+  const two = fromTwoSnapshots(earlier ? prevData : null, data, prevTs, ts ?? null);
+  return { history: two, pos: two.snapshots.length - 1, fromHistory: false };
+}
+
 // ── Drawing ──
 
 const reducedMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -194,16 +208,7 @@ export function renderPathView(container, opts) {
 
   function model() {
     const asn = String(o.asn);
-    let history = o.history;
-    let pos = history ? snapshotPos(history, o.ts) : -1;
-    const fromHistory = pos >= 0;
-    if (!fromHistory) {
-      // No change summary (or it doesn't have this date yet): compare with the
-      // snapshot shown before, if any.
-      const prev = o.prevData && o.prevData !== o.data && o.prevTs !== o.ts ? o.prevData : null;
-      history = fromTwoSnapshots(prev, o.data, o.prevTs, o.ts || 'now');
-      pos = history.snapshots.length - 1;
-    }
+    const { history, pos, fromHistory } = pathHistory(o);
     const path = buildPath(o.data, asn);
     const cards = pathCards(path, history, pos, { asn, lookupNode: o.lookupNode });
     return { asn, path, history, pos, fromHistory, cards };

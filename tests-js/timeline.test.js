@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { resolveSelection, formatTimestamp, nextPlayIndex, PLAY_STEP_MS } from '../assets/js/ui/timeline.js';
+import { resolveSelection, formatTimestamp, nextPlayIndex, PLAY_STEP_MS, createPlayer } from '../assets/js/ui/timeline.js';
 
 const snapshots = [
   { ts: '2026-06-01T06:00:00Z', file: 'a.json' },
@@ -60,4 +60,59 @@ test('nextPlayIndex: steps forward', () => {
 
 test('nextPlayIndex: stops past the end', () => {
   assert.equal(nextPlayIndex(2, 2, false), null);
+});
+
+// A player whose steps stay pending until the test resolves them, like a slow snapshot load.
+function slowPlayer(start = 1, latest = 5) {
+  let cur = start;
+  const steps = [];
+  const pending = [];
+  const player = createPlayer({
+    latest: () => latest,
+    current: () => cur,
+    step: (i) => { cur = i; steps.push(i); return new Promise((r) => pending.push(r)); },
+    stepMs: 5,
+  });
+  return { player, steps, pending };
+}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+test('createPlayer: Pause then Play during a slow load leaves one Play running', async () => {
+  const { player, steps, pending } = slowPlayer();
+  player.play();
+  await sleep(20);                 // first step is loading
+  assert.deepEqual(steps, [2]);
+  player.pause();
+  player.play();
+  await sleep(20);                 // the new Play's first step is loading too
+  assert.deepEqual(steps, [2, 3]);
+  pending[0](true);                // the old load finishes
+  await sleep(30);
+  assert.deepEqual(steps, [2, 3], 'the paused Play must not step again');
+  assert.equal(player.isPlaying(), true);
+});
+
+test('createPlayer: an old load replaced by a newer one does not stop the new Play', async () => {
+  const { player, steps, pending } = slowPlayer();
+  player.play();
+  await sleep(20);
+  player.pause();
+  player.play();
+  await sleep(20);
+  pending[0](false);               // superseded by the new Play's load
+  await sleep(10);
+  assert.equal(player.isPlaying(), true);
+  pending[1](true);
+  await sleep(20);
+  assert.deepEqual(steps, [2, 3, 4]);
+});
+
+test('createPlayer: from the latest starts at the oldest and stops at the latest', async () => {
+  let cur = 2;
+  const steps = [];
+  const player = createPlayer({ latest: () => 2, current: () => cur, step: async (i) => { cur = i; steps.push(i); return true; }, stepMs: 1 });
+  player.play();
+  await sleep(40);
+  assert.deepEqual(steps, [0, 1, 2]);
+  assert.equal(player.isPlaying(), false);
 });

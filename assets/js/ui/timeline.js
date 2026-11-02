@@ -25,6 +25,64 @@ export function nextPlayIndex(current, latestIndex, starting) {
 const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
 /**
+ * The Play loop, apart from the DOM so it can be tested.
+ *   current()   index on screen        latest()  newest index
+ *   step(i)     show snapshot i; resolves true once drawn, false if replaced
+ *   prefetch(i) optional: start loading snapshot i
+ *   onChange(playing) optional
+ * Each step waits until the snapshot is drawn, then stepMs, so Play never
+ * skips a snapshot or shows stale data. It stops at the latest.
+ */
+export function createPlayer({ current, latest, step, prefetch = () => {}, onChange = () => {}, stepMs = PLAY_STEP_MS }) {
+  let playing = false;
+  let playTimer = null;
+  let playWake = null;
+  let run = 0;                 // each Play gets a number; a paused one stops at its next await
+
+  function setPlaying(on) {
+    playing = on;
+    onChange(on);
+  }
+
+  function wait(ms) {
+    return new Promise((resolve) => {
+      playWake = resolve;
+      playTimer = setTimeout(resolve, ms);
+    });
+  }
+
+  function pause() {
+    if (!playing) return;
+    run++;
+    setPlaying(false);
+    clearTimeout(playTimer);
+    playWake?.();
+  }
+
+  async function play() {
+    const mine = ++run;
+    const live = () => mine === run;
+    setPlaying(true);
+    let starting = true;
+    while (live()) {
+      const idx = nextPlayIndex(current(), latest(), starting);
+      if (idx === null) break;
+      if (!starting || idx === 0) {
+        const ok = await step(idx);
+        if (!ok || !live()) break;
+      }
+      starting = false;
+      if (current() >= latest()) break;
+      if (current() + 1 < latest()) prefetch(current() + 1);
+      await wait(stepMs);
+    }
+    if (live()) setPlaying(false);
+  }
+
+  return { play, pause, isPlaying: () => playing };
+}
+
+/**
  * Format an ISO timestamp into a compact, human-friendly label.
  * Exported for unit testing.
  */
@@ -102,9 +160,18 @@ export function initTimeline({ country = 'BD', onSelectSnapshot, onSelectLatest,
 
     updateLabel(latestIndex);
 
-    let playing = false;
-    let playTimer = null;
-    let playWake = null;          // resolves the current Play wait early on pause
+    const player = createPlayer({
+      current: () => Number(slider.value),
+      latest: () => latestIndex,
+      step: (idx) => {
+        slider.value = String(idx);
+        updateLabel(idx);
+        return select(idx);
+      },
+      prefetch: (idx) => loadSnapshot(snapshots[idx].file).catch(() => {}),
+      onChange: showPlaying,
+    });
+    const pause = () => player.pause();
 
     slider.addEventListener('input', () => {
       pause();
@@ -116,10 +183,9 @@ export function initTimeline({ country = 'BD', onSelectSnapshot, onSelectLatest,
 
     if (prevBtn) prevBtn.addEventListener('click', () => { pause(); step(-1); });
     if (nextBtn) nextBtn.addEventListener('click', () => { pause(); step(1); });
-    if (playBtn) playBtn.addEventListener('click', () => (playing ? pause() : play()));
+    if (playBtn) playBtn.addEventListener('click', () => (player.isPlaying() ? player.pause() : player.play()));
 
-    function setPlaying(on) {
-      playing = on;
+    function showPlaying(on) {
       if (!playBtn) return;
       // The name says what a press does (Play/Pause), so no aria-pressed:
       // a state on top of a changing name reads as "Pause, pressed".
@@ -127,44 +193,6 @@ export function initTimeline({ country = 'BD', onSelectSnapshot, onSelectLatest,
       playBtn.querySelector('.timeline-play-icon').textContent = on ? '❚❚' : '▶';
       playBtn.querySelector('.timeline-play-text').textContent = on ? 'Pause' : 'Play';
       if (status) status.textContent = on ? 'Playing' : 'Paused';
-    }
-
-    function pause() {
-      if (!playing) return;
-      setPlaying(false);
-      clearTimeout(playTimer);
-      playWake?.();
-    }
-
-    function wait(ms) {
-      return new Promise((resolve) => {
-        playWake = resolve;
-        playTimer = setTimeout(resolve, ms);
-      });
-    }
-
-    // Each step waits until the snapshot is drawn, then PLAY_STEP_MS, so Play
-    // never skips a snapshot or shows stale data. Stops at the latest.
-    async function play() {
-      setPlaying(true);
-      let starting = true;
-      while (playing) {
-        const current = Number(slider.value);
-        const idx = nextPlayIndex(current, latestIndex, starting);
-        if (idx === null) break;
-        if (!starting || idx === 0) {
-          slider.value = String(idx);
-          updateLabel(idx);
-          const ok = await select(idx);
-          if (!ok) break;
-        }
-        starting = false;
-        if (!playing || Number(slider.value) >= latestIndex) break;
-        const following = Number(slider.value) + 1;
-        if (following < latestIndex) loadSnapshot(snapshots[following].file).catch(() => {});
-        await wait(PLAY_STEP_MS);
-      }
-      if (playing) setPlaying(false);
     }
 
     function drawMarks(positions) {
@@ -254,7 +282,7 @@ export function initTimeline({ country = 'BD', onSelectSnapshot, onSelectLatest,
       currentIndex: () => Number(slider.value),
       snapshots: () => snapshots,
       setMarks: drawMarks,
-      isPlaying: () => playing,
+      isPlaying: player.isPlaying,
     });
   }
 }
