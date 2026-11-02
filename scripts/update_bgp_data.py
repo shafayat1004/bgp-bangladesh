@@ -380,11 +380,80 @@ def write_history_index(country_code, retention_days=RETENTION_DAYS):
     print(f"      Wrote history index with {len(snapshots)} snapshot(s) to {path}")
 
 
+def _percent(count, total):
+    """Integer percent rounded half up, matching JavaScript's Math.round."""
+    return int(100 * count / total + 0.5) if total else 0
+
+
+def build_change_summary(country_code, snapshots):
+    """Per-connection shares for every snapshot, for the Layered View's change marks.
+
+    `snapshots` is a list of (iso_ts, viz_data), oldest first. Each connection is
+    [source, target, kind, s0, s1] with one integer percent (or None when the
+    connection is absent) per snapshot:
+      "d" (local network -> gateway): s0 = share of the local network's routes,
+          s1 = share of the gateway's customer routes.
+      "i" (network abroad -> gateway): s0 = share of the gateway's routes abroad,
+          s1 = share of the network abroad's routes into Bangladesh.
+    """
+    n = len(snapshots)
+    conns = {}
+    for pos, (_ts, viz) in enumerate(snapshots):
+        edges = [e for e in viz.get("edges", []) if e.get("type") in ("domestic", "international")]
+        totals = collections.Counter()
+        for e in edges:
+            kind = "d" if e["type"] == "domestic" else "i"
+            totals[(kind, "src", str(e["source"]))] += e.get("count", 0)
+            totals[(kind, "tgt", str(e["target"]))] += e.get("count", 0)
+        for e in edges:
+            src, tgt, count = str(e["source"]), str(e["target"]), e.get("count", 0)
+            kind = "d" if e["type"] == "domestic" else "i"
+            conn = conns.get((src, tgt))
+            if conn is None:
+                conn = conns[(src, tgt)] = [src, tgt, kind, [None] * n, [None] * n]
+            src_share = _percent(count, totals[(kind, "src", src)])
+            tgt_share = _percent(count, totals[(kind, "tgt", tgt)])
+            if kind == "d":
+                conn[3][pos], conn[4][pos] = src_share, tgt_share
+            else:
+                conn[3][pos], conn[4][pos] = tgt_share, src_share
+    return {
+        "country": country_code.upper(),
+        "snapshots": [ts for ts, _viz in snapshots],
+        "connections": list(conns.values()),
+    }
+
+
+def write_change_summary(country_code):
+    """Rebuild history/changes.json from the snapshot files currently on disk."""
+    history_dir = _history_dir(country_code)
+    if not os.path.isdir(history_dir):
+        return
+    snapshots = []
+    for name in sorted(os.listdir(history_dir)):
+        snap_dt = _parse_snapshot_ts(name) if name.endswith(".json") else None
+        if snap_dt is None:
+            continue
+        try:
+            with open(os.path.join(history_dir, name)) as f:
+                viz = json.load(f)
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+        snapshots.append((snap_dt.strftime("%Y-%m-%dT%H:%M:%SZ"), viz))
+    snapshots.sort(key=lambda s: s[0])
+    summary = build_change_summary(country_code, snapshots)
+    path = os.path.join(history_dir, "changes.json")
+    with open(path, "w") as f:
+        json.dump(summary, f, separators=(",", ":"))
+    print(f"      Wrote change summary for {len(summary['connections'])} connection(s) to {path}")
+
+
 def update_history(country_code, viz_data, metadata, retention_days=RETENTION_DAYS):
     """Archive the current run, prune old snapshots, and rebuild the manifest."""
     archive_snapshot(country_code, viz_data, metadata)
     prune_history(country_code, retention_days)
     write_history_index(country_code, retention_days)
+    write_change_summary(country_code)
 
 
 # ═══════════════════════════════════════════════════════════════════════════

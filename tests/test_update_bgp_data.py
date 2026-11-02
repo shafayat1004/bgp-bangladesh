@@ -2,6 +2,7 @@ import collections
 import json
 import os
 import sys
+import time
 import types
 import unittest
 from unittest import mock
@@ -578,6 +579,70 @@ class TestHistorySnapshots(unittest.TestCase):
         self.assertEqual(ts_list, [older, newer])
         self.assertEqual(index["snapshots"][0]["stats"]["valid_observations"], 111)
         self.assertEqual(index["snapshots"][1]["file"], _snapshot_filename(newer))
+
+    @staticmethod
+    def _edges(*rows):
+        kinds = {"d": "domestic", "i": "international"}
+        return {"stats": {}, "nodes": [],
+                "edges": [{"source": s, "target": t, "count": c, "type": kinds[k]}
+                          for s, t, k, c in rows]}
+
+    @staticmethod
+    def _by_key(summary):
+        return {(c[0], c[1]): c for c in summary["connections"]}
+
+    def test_build_change_summary_shares(self):
+        ts_a, ts_b = "2026-06-01T06:00:00Z", "2026-06-01T10:00:00Z"
+        snap_a = self._edges(("100", "200", "d", 60), ("100", "300", "d", 40),
+                             ("400", "200", "d", 100),
+                             ("900", "200", "i", 75), ("901", "200", "i", 25))
+        snap_b = self._edges(("100", "200", "d", 50), ("400", "200", "d", 100))
+        summary = ubd.build_change_summary("bd", [(ts_a, snap_a), (ts_b, snap_b)])
+        self.assertEqual(summary["country"], "BD")
+        self.assertEqual(summary["snapshots"], [ts_a, ts_b])
+        conns = self._by_key(summary)
+        # 100's share 60/100 then 50/50; 200's customers 60/160 -> 38, 50/150 -> 33
+        self.assertEqual(conns[("100", "200")], ["100", "200", "d", [60, 100], [38, 33]])
+        self.assertEqual(conns[("100", "300")], ["100", "300", "d", [40, None], [100, None]])
+        self.assertEqual(conns[("400", "200")], ["400", "200", "d", [100, 100], [63, 67]])
+        # "i": s0 = share of the gateway's international routes, s1 = of the network abroad's
+        self.assertEqual(conns[("900", "200")], ["900", "200", "i", [75, None], [100, None]])
+        self.assertEqual(conns[("901", "200")], ["901", "200", "i", [25, None], [100, None]])
+        self.assertEqual(len(conns), 5)
+
+    def test_build_change_summary_rounds_half_up(self):
+        snap = self._edges(("500", "600", "d", 1), ("500", "601", "d", 7))
+        conns = self._by_key(ubd.build_change_summary("BD", [("2026-06-01T06:00:00Z", snap)]))
+        self.assertEqual(conns[("500", "600")][3], [13])  # 12.5 rounds up, as JS Math.round
+        self.assertEqual(conns[("500", "601")][3], [88])
+
+    def test_write_change_summary_ignores_index_and_itself(self):
+        import tempfile
+
+        older, newer = "2026-06-01T06:00:00Z", "2026-06-01T10:00:00Z"
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch.object(ubd, "_history_dir", return_value=tmp):
+                archive_snapshot("BD", self._edges(("1", "2", "d", 5)), {"last_updated": newer})
+                archive_snapshot("BD", self._edges(("1", "2", "d", 5)), {"last_updated": older})
+                write_history_index("BD", retention_days=7)
+                with open(os.path.join(tmp, "changes.json"), "w") as f:
+                    json.dump({"snapshots": ["stale"]}, f)
+                ubd.write_change_summary("BD")
+                with open(os.path.join(tmp, "changes.json")) as f:
+                    raw = f.read()
+        summary = json.loads(raw)
+        self.assertEqual(summary["snapshots"], [older, newer])
+        self.assertEqual(list(summary.keys()), ["country", "snapshots", "connections"])
+        self.assertNotIn(" ", raw)  # compact
+
+    def test_update_history_writes_change_summary(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch.object(ubd, "_history_dir", return_value=tmp):
+                ubd.update_history("BD", self._edges(("1", "2", "d", 5)),
+                                   {"last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())})
+                self.assertTrue(os.path.exists(os.path.join(tmp, "changes.json")))
 
 
 def _prefixes(n):
