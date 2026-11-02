@@ -126,6 +126,7 @@ rest are feature-detected (`mod.updateData?.(...)`).
 | `resetView()` | Reset View button, `0` key | back to the fitted view |
 | `toggleLabelsVisibility()`, `setNodeSize(n)` | sidebar controls | optional |
 | `reflows` (a `true` constant) | panel resized | HTML views that reflow by themselves; `main.js` then skips its destroy/init/loadData, so rotating a phone keeps zoom, scroll and an open path |
+| `scrollsPage` (a `true` constant) | tab opens | views that read like a page (Layered View, rankings); on phones the page scrolls instead of the panel, so a tap on the iOS status bar scrolls back to the top. Read and set scroll through `scrollerFor(root)` (`assets/js/ui/page-scroll.js`), never `root.scrollTop`. Not for views that scroll sideways or have sticky headings of their own (Data Table) |
 
 `data` is `{ nodes, edges, stats, layout? }`. Nodes have `asn`, `type`
 (`local-company`, `iig`, `detected-iig`, `offshore-enterprise`,

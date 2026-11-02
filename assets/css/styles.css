@@ -1285,9 +1285,33 @@ input[type="range"]::-webkit-slider-thumb {
 @media (hover: hover) and (pointer: fine) { .layered-more:hover { border-color: var(--accent); } }
 .layered-more:active { background: var(--bg-raised); }
 
+/* Phones: in the Layered View and the rankings the page scrolls instead of
+   the panel, since iOS only scrolls the page to the top on a tap on the
+   status bar (ui/page-scroll.js). The tabs stick to the top, the history bar
+   and footer to the bottom; scroll padding keeps a focused or highlighted
+   row clear of them. */
+@media (max-width: 600px), (max-height: 500px) {
+  :root:has(> body.page-scroll) {
+    scroll-padding: var(--tabs-h, 0px) 0 calc(var(--timeline-h, 0px) + var(--footer-h, 0px));
+  }
+  /* The Layered View's size bar (6px padding, 32px buttons, 1px border) sticks under the tabs. */
+  :root:has(> body.page-scroll .layered-zoom) { scroll-padding-top: calc(var(--tabs-h, 0px) + 45px); }
+  body.page-scroll { height: auto; overflow: visible; }
+  body.page-scroll #app { height: auto; min-height: 100dvh; overflow-x: clip; }
+  body.page-scroll #main { overflow: visible; }
+  body.page-scroll #tab-nav { position: sticky; top: 0; z-index: 50; }
+  body.page-scroll #viz-panel { flex: 1 0 auto; overflow: visible; }
+  body.page-scroll .layered-view,
+  body.page-scroll .layered-path,
+  body.page-scroll .bar-view { height: auto; overflow: visible; }
+  body.page-scroll .layered-zoom { top: var(--tabs-h, 0px); }
+  body.page-scroll #timeline-bar { position: sticky; bottom: var(--footer-h, 0px); z-index: 50; }
+  body.page-scroll #app-footer { position: sticky; bottom: 0; z-index: 50; }
+}
+
 @media (max-width: 600px), (max-height: 500px) {
   .layered-view { padding: 0 12px 16px; }
-  .layered-zoom { margin: 0 -12px; padding: 6px 12px; }
+  .layered-zoom { justify-content: center; margin: 0 -12px; padding: 6px 12px; }
   .layered-title { font-size: 14px; }
   .layered-summary { font-size: 12px; }
 }
@@ -2321,7 +2345,11 @@ input[type="range"]::-webkit-slider-thumb {
   #app-footer > span:last-child {
     flex: 0 0 auto;
   }
-  
+
+  /* A 24px tap target without a taller footer: content scrolls under the
+     footer in the Layered View, so other targets can come close. */
+  #btn-show-intro { padding: 7px 0; margin: -7px 0; }
+
   /* Better touch targets for range sliders */
   input[type="range"]::-webkit-slider-thumb {
     width: 20px;

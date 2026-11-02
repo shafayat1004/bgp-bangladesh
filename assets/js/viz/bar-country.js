@@ -10,6 +10,9 @@ import { countryName, countryToFlag, NOT_COUNTRIES } from '../ui/names.js';
 import { CATEGORY_COLORS } from '../ui/colors.js';
 import { sourceAsn, networksByAsn } from '../data/network-data.js';
 
+/** Tells main.js the page scrolls on phones instead of the panel. */
+export const scrollsPage = true;
+
 const BAR_COLOR = CATEGORY_COLORS.outside;   // matches "International networks"
 const TOP_N = 30;
 

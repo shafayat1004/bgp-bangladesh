@@ -260,6 +260,9 @@ function switchTab(tabId, options = {}) {
   saveActiveTab(tabId);
   highlightTab(tabId);
   const mod = vizModules[tabId];
+  // Before init, so the view measures the panel in its final layout.
+  document.body.classList.toggle('page-scroll', !!mod?.scrollsPage);
+  window.scrollTo(0, 0);
   if (mod) {
     mod.init('viz-panel');
     mod.loadData(currentData, { ...viewOptions(), ...options });
@@ -729,11 +732,26 @@ window.addEventListener('resize', () => {
 });
 
 // iOS Safari can leave the page scrolled after a pinch zoom, which puts the
-// tabs under the status bar. The page itself never scrolls, so put it back
-// once the zoom returns to normal (#31).
+// tabs under the status bar. The page itself doesn't scroll (except in a
+// .page-scroll view on phones), so put it back once the zoom returns to
+// normal (#31).
 window.visualViewport?.addEventListener('resize', () => {
+  if (getComputedStyle(document.body).overflowY !== 'hidden') return;
   if (window.visualViewport.scale <= 1.01 && (window.scrollX || window.scrollY)) window.scrollTo(0, 0);
 });
+
+// When the page scrolls (.page-scroll), the tabs stick to the top and the
+// history bar above the footer; the CSS needs their heights for that.
+const barHeights = new ResizeObserver(() => {
+  const style = document.documentElement.style;
+  for (const [name, id] of [['--tabs-h', 'tab-nav'], ['--timeline-h', 'timeline-bar'], ['--footer-h', 'app-footer']]) {
+    style.setProperty(name, `${document.getElementById(id)?.offsetHeight || 0}px`);
+  }
+});
+for (const id of ['tab-nav', 'timeline-bar', 'app-footer']) {
+  const bar = document.getElementById(id);
+  if (bar) barHeights.observe(bar);
+}
 
 // iOS Safari only applies :active (the press feedback touch screens get instead
 // of hover) when the page listens for touchstart.

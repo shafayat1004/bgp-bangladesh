@@ -15,6 +15,7 @@ import { sourceAsn, targetAsn } from '../data/network-data.js';
 import { DEFAULT_MIN_ROUTES } from '../ui/filters.js';
 import { findMyNetwork, myNetwork, lookupStatus, onMyNetwork, onLookupStatus } from '../ui/my-network.js';
 import { renderPathView } from './layered-path-view.js';
+import { scrollerFor } from '../ui/page-scroll.js';
 
 /** Box sizes, smallest first. Zoom steps through them; rows reflow. */
 export const ZOOM_LEVELS = [
@@ -59,11 +60,14 @@ export function overviewLayers(data, { minTraffic = DEFAULT_MIN_ROUTES, maxTraff
   return layers;
 }
 
+const isPage = (scroller) => scroller === document.scrollingElement;
+const viewTop = (scroller) => (isPage(scroller) ? 0 : scroller.getBoundingClientRect().top);
+
 /** The first box at least partly below the sticky zoom bar, and where it sits. */
-export function anchorFor(scroller) {
-  const top = scroller.getBoundingClientRect().top;
-  const below = top + (scroller.querySelector('.layered-zoom')?.offsetHeight || 0);
-  for (const box of scroller.querySelectorAll('.layered-box')) {
+export function anchorFor(root) {
+  const top = viewTop(scrollerFor(root));
+  const below = root.querySelector('.layered-zoom')?.getBoundingClientRect().bottom ?? top;
+  for (const box of root.querySelectorAll('.layered-box')) {
     const r = box.getBoundingClientRect();
     if (r.bottom > below) return { asn: box.dataset.asn, offset: r.top - top };
   }
@@ -71,11 +75,12 @@ export function anchorFor(scroller) {
 }
 
 /** Scroll so the anchored box is back at the same place on screen. */
-export function restoreAnchor(scroller, anchor) {
+export function restoreAnchor(root, anchor) {
   if (!anchor) return false;
-  const box = scroller.querySelector(`.layered-box[data-asn="${CSS.escape(anchor.asn)}"]`);
+  const box = root.querySelector(`.layered-box[data-asn="${CSS.escape(anchor.asn)}"]`);
   if (!box) return false;
-  scroller.scrollTop += box.getBoundingClientRect().top - scroller.getBoundingClientRect().top - anchor.offset;
+  const scroller = scrollerFor(root);
+  scroller.scrollTop += box.getBoundingClientRect().top - viewTop(scroller) - anchor.offset;
   return true;
 }
 
@@ -102,6 +107,9 @@ const knownNodes = new Map();  // every network seen, to name a GONE one
 
 /** Tells main.js not to redraw on a resize: the grid reflows by itself. */
 export const reflows = true;
+
+/** Tells main.js the page scrolls on phones instead of the panel. */
+export const scrollsPage = true;
 
 function remember(data) {
   for (const n of data?.nodes || []) knownNodes.set(String(n.asn), n);
@@ -170,7 +178,7 @@ export function resetView() {
   if (pathAsn) backToOverview();
   const root = viewRoot();
   applyZoom(DEFAULT_ZOOM);
-  if (root) root.scrollTop = 0;
+  if (root) scrollerFor(root).scrollTop = 0;
 }
 
 export function destroy() {
@@ -191,12 +199,14 @@ export function openPath(asn) {
   if (!container || !currentData) return;
   asn = String(asn);
   const root = viewRoot();
-  if (root) overviewSaved = { scrollTop: root.scrollTop, anchor: anchorFor(root) };
+  if (root) overviewSaved = { scrollTop: scrollerFor(root).scrollTop, anchor: anchorFor(root) };
   selectedAsn = asn;
   hideTooltip();
   if (pathView) pathView.destroy();
   pathAsn = asn;
   pathView = renderPathView(container, pathOptions());
+  const path = container.querySelector('.layered-path');
+  if (path) scrollerFor(path).scrollTop = 0;
 }
 
 function filtersActive() {
@@ -251,8 +261,9 @@ function backToOverview() {
   if (box) {
     box.focus({ preventScroll: true });
     const r = box.getBoundingClientRect();
-    const v = root.getBoundingClientRect();
-    if (r.bottom < v.top || r.top > v.bottom) box.scrollIntoView({ block: 'center' });
+    const scroller = scrollerFor(root);
+    const bottom = isPage(scroller) ? window.innerHeight : scroller.getBoundingClientRect().bottom;
+    if (r.bottom < viewTop(scroller) || r.top > bottom) box.scrollIntoView({ block: 'center' });
   } else {
     root.focus({ preventScroll: true });
   }
@@ -295,7 +306,7 @@ function render({ keepAnchor = false, scrollTop = null } = {}) {
   if (!container || !currentData) return;
   const old = container.querySelector('.layered-view');
   const anchor = keepAnchor && old ? anchorFor(old) : null;
-  const oldScroll = old ? old.scrollTop : 0;
+  const oldScroll = old ? scrollerFor(old).scrollTop : 0;
   const active = document.activeElement;
   const focusedAsn = old?.contains(active) ? active.closest('.layered-box')?.dataset.asn : null;
   const focusedControl = old?.contains(active) ? active.closest('[data-control]')?.dataset.control : null;
@@ -353,8 +364,8 @@ function render({ keepAnchor = false, scrollTop = null } = {}) {
   container.replaceChildren(root);
   markSelected(root);
 
-  if (scrollTop !== null) root.scrollTop = scrollTop;
-  else if (!restoreAnchor(root, anchor)) root.scrollTop = oldScroll;
+  if (scrollTop !== null) scrollerFor(root).scrollTop = scrollTop;
+  else if (!restoreAnchor(root, anchor)) scrollerFor(root).scrollTop = oldScroll;
 
   // A redraw replaces the focused element; put focus back on its replacement.
   if (focusedAsn) root.querySelector(`.layered-box[data-asn="${CSS.escape(focusedAsn)}"]`)?.focus({ preventScroll: true });
