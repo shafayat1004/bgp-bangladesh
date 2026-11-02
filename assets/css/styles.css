@@ -1115,6 +1115,144 @@ input[type="range"]::-webkit-slider-thumb {
   .bar-tag { padding: 0 4px; font-size: 9px; }
 }
 
+/* ── Layered View ── */
+/* A page of boxes that scrolls vertically. Zoom changes --box-min and
+   --box-h; the grid reflows, so nothing ever pans sideways. */
+.layered-view {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  padding: 0 20px 24px;
+  --box-min: 150px;
+  --box-h: 48px;
+}
+.layered-view:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.layered-zoom {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 -20px;
+  padding: 8px 20px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-soft);
+}
+.layered-zoom-level {
+  width: 9.5rem;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.layered-zoom-btn {
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--accent);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.layered-zoom-btn:disabled { color: var(--text-dim); opacity: 0.6; cursor: default; }
+@media (hover: hover) and (pointer: fine) { .layered-zoom-btn:not(:disabled):hover { border-color: var(--accent); } }
+.layered-zoom-btn:not(:disabled):active { background: var(--bg-raised); }
+
+.layered-head { max-width: 960px; margin: 14px 0 6px; }
+.layered-title { font-size: 16px; font-weight: 600; color: var(--text); }
+.layered-summary { margin-top: 4px; font-size: 13px; color: var(--text-muted); }
+.layered-empty { margin-top: 16px; font-size: 14px; color: var(--text-muted); }
+
+.layered-layer { margin-top: 18px; }
+.layered-layer-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.layered-swatch { width: 12px; height: 12px; border-radius: 2px; flex: 0 0 auto; }
+.layered-count {
+  font-weight: 400;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.layered-layer-note { margin: 2px 0 8px; font-size: 12px; color: var(--text-muted); max-width: 70ch; }
+
+.layered-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--box-min), 100%), 1fr));
+  gap: 6px;
+  list-style: none;
+}
+.layered-grid > li { min-width: 0; }   /* long names ellipsize instead of widening a column */
+
+/* Category as a stripe beside ink text (the hues are too light for text). */
+.layered-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: var(--box-h);
+  padding: 0 8px 0 10px;
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-left: 4px solid var(--cat);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.layered-box-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+}
+.layered-box-share {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.zoom-names .layered-box-share { display: none; }
+.zoom-large .layered-box-name { font-size: 14px; }
+.zoom-large .layered-box-share { font-size: 12px; }
+@media (hover: hover) and (pointer: fine) { .layered-box:hover { border-color: var(--accent); border-left-color: var(--cat); } }
+.layered-box:active { background: var(--bg-raised); }
+.layered-box.selected { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.layered-more {
+  margin-top: 8px;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) { .layered-more:hover { border-color: var(--accent); } }
+.layered-more:active { background: var(--bg-raised); }
+
+@media (max-width: 600px), (max-height: 500px) {
+  .layered-view { padding: 0 12px 16px; }
+  .layered-zoom { margin: 0 -12px; padding: 6px 12px; }
+  .layered-title { font-size: 14px; }
+  .layered-summary { font-size: 12px; }
+}
+
 /* ── History time-slider ── */
 /* Until the history list loads the bar keeps its space but stays invisible, so
    the chart panel already has its final height when the first view draws

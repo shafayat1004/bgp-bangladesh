@@ -115,7 +115,7 @@ export async function openSite(browser, baseUrl, { viewport = 'desktop', tab = '
 /** Wait until data is loaded and the active view has drawn. */
 export async function waitForView(page) {
   await page.waitForFunction(() => !document.getElementById('timeline-bar').classList.contains('timeline-pending'));
-  await page.waitForFunction(() => document.querySelector('#viz-panel svg *, #viz-panel table, #viz-panel .bar-view'));
+  await page.waitForFunction(() => document.querySelector('#viz-panel svg *, #viz-panel table, #viz-panel .bar-view, #viz-panel .layered-view .layered-box'));
   await page.waitForTimeout(300);
 }
 

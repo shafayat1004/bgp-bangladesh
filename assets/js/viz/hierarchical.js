@@ -1,391 +1,331 @@
 /**
- * Hierarchical Layered View
- * Top: Local ISPs | Middle: Gateways | Bottom: Outside ASNs
+ * Layered View
+ * "How do networks in Bangladesh reach the world?" as a page of boxes, one
+ * layer per step from local companies at the top to international networks
+ * at the bottom. It scrolls like a page: zooming makes the boxes bigger, rows
+ * reflow and the page gets taller, so nothing pans sideways. Picking a
+ * network opens its path.
  */
 
-import { CATEGORY_LABELS, CATEGORY_PLURALS } from '../ui/glossary.js';
-import { countryToFlag } from '../ui/names.js';
-import { buildNodeTooltipHtml, buildEdgeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
-import { makeChartAccessible } from '../ui/chart-a11y.js';
-import { CATEGORY_COLORS, LINK_COLORS, INK } from '../ui/colors.js';
-import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
+import { CATEGORY_LABELS, CATEGORY_PLURALS, GLOSSARY, termHelp } from '../ui/glossary.js';
+import { friendlyName, countryToFlag } from '../ui/names.js';
+import { buildNodeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
+import { CATEGORY_COLORS } from '../ui/colors.js';
+import { sourceAsn, targetAsn } from '../data/network-data.js';
 import { DEFAULT_MIN_ROUTES } from '../ui/filters.js';
 
-const TYPE_COLORS = CATEGORY_COLORS;
-const TYPE_LABELS = CATEGORY_PLURALS;
+/** Box sizes, smallest first. Zoom steps through them; rows reflow. */
+export const ZOOM_LEVELS = [
+  { id: 'names', label: 'Names only', minWidth: 110, height: 30 },
+  { id: 'shares', label: 'Names and shares', minWidth: 150, height: 48 },
+  { id: 'large', label: 'Large', minWidth: 210, height: 58 },
+];
+export const DEFAULT_ZOOM = 1;
+/** Local companies shown before "Show N smaller local companies". */
+export const LOCAL_CAP = 40;
+
+const LAYER_ORDER = ['local-company', 'iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway', 'outside'];
+const WHEEL_STEP_MS = 250;     // Ctrl/⌘ + wheel or trackpad pinch: one size step per 250 ms
+const PINCH_STEP = 1.25;       // two-finger pinch: one step per 25% change in finger distance
+
+/** Layer explanations: the first sentence of each category's glossary entry. */
+const firstSentence = (text) => text.match(/^.*?\.(?=\s|$)/)?.[0] || text;
+
+/**
+ * The overview's layers, top to bottom, each with its networks by routes seen.
+ * A network is shown when its routes seen are in the Min/Max range and it is
+ * in at least one connection within that range. total is the layer's routes
+ * seen. Pure; exported for testing.
+ */
+export function overviewLayers(data, { minTraffic = DEFAULT_MIN_ROUTES, maxTraffic = Infinity, activeTypes = null } = {}) {
+  const inRange = (v) => (v || 0) >= minTraffic && (v || 0) <= maxTraffic;
+  const used = new Set();
+  for (const e of data.edges || []) {
+    if (!inRange(e.count)) continue;
+    used.add(String(sourceAsn(e)));
+    used.add(String(targetAsn(e)));
+  }
+  const layers = [];
+  for (const type of LAYER_ORDER) {
+    if (activeTypes && !activeTypes.has(type)) continue;
+    const nodes = (data.nodes || [])
+      .filter(n => n.type === type && used.has(String(n.asn)) && inRange(n.traffic))
+      .sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
+    if (!nodes.length) continue;
+    layers.push({ type, total: nodes.reduce((s, n) => s + (n.traffic || 0), 0), nodes });
+  }
+  return layers;
+}
+
+/** The first box at least partly below the sticky zoom bar, and where it sits. */
+export function anchorFor(scroller) {
+  const top = scroller.getBoundingClientRect().top;
+  const below = top + (scroller.querySelector('.layered-zoom')?.offsetHeight || 0);
+  for (const box of scroller.querySelectorAll('.layered-box')) {
+    const r = box.getBoundingClientRect();
+    if (r.bottom > below) return { asn: box.dataset.asn, offset: r.top - top };
+  }
+  return null;
+}
+
+/** Scroll so the anchored box is back at the same place on screen. */
+export function restoreAnchor(scroller, anchor) {
+  if (!anchor) return false;
+  const box = scroller.querySelector(`.layered-box[data-asn="${CSS.escape(anchor.asn)}"]`);
+  if (!box) return false;
+  scroller.scrollTop += box.getBoundingClientRect().top - scroller.getBoundingClientRect().top - anchor.offset;
+  return true;
+}
+
+// ── View state ──
 
 let currentData = null;
 let currentOptions = {};
-let highlightedASN = null; // Track which ASN is currently highlighted
-let savedTransform = null; // Preserve zoom/pan across re-renders
-let zoom = null;
-let fittedTransform = null; // The "whole picture" view, used by Reset View
+let activeTypes = null;        // null: every category shown
+let zoomIndex = DEFAULT_ZOOM;
+let showAllLocal = false;
+let selectedAsn = null;
+let lastWheelStep = 0;
 
-const BOX_W = 70;
-const BOX_H = 28;
-const CELL_W = BOX_W;      // boxes touch horizontally
-const CELL_H = BOX_H + 2;  // minimal vertical spacing
-const LAYER_PAD = 12;      // space between a layer's title and the next layer
-const FIT_MARGIN = 12;     // screen pixels kept free around the fitted picture
-
-/**
- * Pick how many boxes go in each row so the whole picture, zoomed to fit, is as
- * large as possible on a width x height panel. Exported for unit testing.
- */
-export function chooseColumns(layerSizes, width, height, titleHeight) {
-  const maxN = Math.max(1, ...layerSizes);
-  let best = { cols: 1, scale: 0 };
-  for (let cols = 1; cols <= maxN; cols++) {
-    const contentW = cols * CELL_W + CELL_W / 2;  // zigzag rows are offset by half a cell
-    const contentH = layerSizes.reduce((sum, n) => sum + titleHeight + Math.ceil(n / cols) * CELL_H + LAYER_PAD, 0);
-    const scale = Math.min(width / contentW, height / contentH);
-    if (scale > best.scale) best = { cols, scale };
-  }
-  return best;
-}
+/** Tells main.js not to redraw on a resize: the grid reflows by itself. */
+export const reflows = true;
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
-  if (container) container.innerHTML = '<svg id="hier-svg"></svg>';
-  savedTransform = null; // Reset on fresh init
+  if (container) container.innerHTML = '';
 }
 
 export function loadData(data, options = {}) {
   currentData = data;
   currentOptions = options;
-  savedTransform = null; // Reset zoom for new data
-  highlightedASN = null;
-  render();
+  activeTypes = null;
+  zoomIndex = DEFAULT_ZOOM;
+  showAllLocal = false;
+  selectedAsn = null;
+  render({ scrollTop: 0 });
 }
 
-/** Swap in a new snapshot, keeping the current pan/zoom and highlight. */
+/** Swap in a new snapshot, keeping the zoom size, scroll, "show all" and selection. */
 export function updateData(data, options = {}) {
   currentData = data;
   currentOptions = { ...currentOptions, ...options };
-  render();
+  render({ keepAnchor: true });
+}
+
+export function updateFilter(minVal, maxVal) {
+  if (minVal !== undefined) currentOptions.minTraffic = minVal;
+  if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
+  render({ keepAnchor: true });
+}
+
+export function filterByTypes(types) {
+  const key = (s) => (s ? [...s].sort().join(',') : '*');
+  const next = types && types.size < LAYER_ORDER.length ? new Set(types) : null;
+  if (key(next) === key(activeTypes)) return;   // the same filter again after a redraw
+  activeTypes = next;
+  render({ keepAnchor: true });
 }
 
 export function resetView() {
-  if (!zoom || !fittedTransform) return;
-  const svg = d3.select('#hier-svg');
-  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  (reduced ? svg : svg.transition().duration(750)).call(zoom.transform, fittedTransform);
+  const root = viewRoot();
+  applyZoom(DEFAULT_ZOOM);
+  if (root) root.scrollTop = 0;
 }
 
-function render() {
-  if (!currentData) return;
-  const options = currentOptions;
-  const minTraffic = options.minTraffic ?? DEFAULT_MIN_ROUTES;
-  const maxTraffic = options.maxTraffic ?? Infinity;
-
-  const container = document.getElementById('viz-panel');
-  if (!container) return;
-  const width = container.clientWidth;
-  const height = container.clientHeight;
-
-  const svg = d3.select('#hier-svg').attr('width', width).attr('height', height);
-  svg.selectAll('*').remove();
-
-  const g = svg.append('g');
-  zoom = d3.zoom().scaleExtent([0.1, 4]).on('zoom', (event) => {
-    g.attr('transform', event.transform);
-    savedTransform = event.transform; // Persist zoom state across re-renders
-  });
-  svg.call(zoom);
-
-  const nodeMap = networksByAsn(currentData.nodes);
-
-  const hasDomestic = currentData.edges.some(e => e.type === 'domestic');
-  const hasLocalISP = currentData.nodes.some(n => n.type === 'local-company');
-
-  // Filter edges by traffic range (handle undefined/null traffic as 0)
-  const filteredIntl = currentData.edges
-    .filter(e => (e.type === 'international' || !e.type) && (e.count || 0) >= minTraffic && (e.count || 0) <= maxTraffic)
-    .sort((a, b) => b.count - a.count);
-  const filteredDom = hasDomestic 
-    ? currentData.edges.filter(e => e.type === 'domestic' && (e.count || 0) >= minTraffic && (e.count || 0) <= maxTraffic).sort((a, b) => b.count - a.count)
-    : [];
-
-  const usedASNs = new Set();
-  [...filteredIntl, ...filteredDom].forEach(e => {
-    usedASNs.add(sourceAsn(e));
-    usedASNs.add(targetAsn(e));
-  });
-
-  // Determine layers (top to bottom: Local Companies → IIGs → Detected → Offshore → Outside)
-  const layers = [];
-  const filterNodes = (type) => currentData.nodes.filter(n => n.type === type && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
-  
-  if (hasLocalISP) {
-    const localCompanies = currentData.nodes.filter(n => n.type === 'local-company' && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
-    if (localCompanies.length > 0) layers.push({ type: 'local-company', nodes: localCompanies });
-  }
-
-  const iigs = currentData.nodes.filter(n => n.type === 'iig' && usedASNs.has(n.asn) && (n.traffic || 0) >= minTraffic && (n.traffic || 0) <= maxTraffic).sort((a, b) => (b.traffic || 0) - (a.traffic || 0));
-  if (iigs.length > 0) layers.push({ type: 'iig', nodes: iigs });
-
-  const detectedIigs = filterNodes('detected-iig');
-  if (detectedIigs.length > 0) layers.push({ type: 'detected-iig', nodes: detectedIigs });
-
-  const offshoreEnt = filterNodes('offshore-enterprise');
-  if (offshoreEnt.length > 0) layers.push({ type: 'offshore-enterprise', nodes: offshoreEnt });
-
-  const offshoreGw = filterNodes('offshore-gateway');
-  if (offshoreGw.length > 0) layers.push({ type: 'offshore-gateway', nodes: offshoreGw });
-
-  const outside = filterNodes('outside');
-  if (outside.length > 0) layers.push({ type: 'outside', nodes: outside });
-
-  // Size the rows to the panel's shape, then zoom so the whole picture fills it.
-  // Layer titles are sized for the fitted zoom so they stay readable; that
-  // changes the layout height, so fit twice.
-  const layerSizes = layers.map(l => l.nodes.length);
-  const availW = width - 2 * FIT_MARGIN;
-  const availH = height - 2 * FIT_MARGIN;
-  let titleSize = 14;
-  let fit = chooseColumns(layerSizes, availW, availH, titleSize + 8);
-  titleSize = Math.min(48, Math.max(14, 13 / fit.scale));
-  fit = chooseColumns(layerSizes, availW, availH, titleSize + 8);
-  const maxNodesPerRow = fit.cols;
-  const minSpacing = CELL_W;
-  const boxW = BOX_W;
-  const boxH = BOX_H;
-  const w = maxNodesPerRow * CELL_W + CELL_W / 2;
-
-  // Position each layer with multi-row zigzag layout
-  const positions = {};
-  let currentLayerY = 0;
-
-  layers.forEach((layer, li) => {
-    const nodeCount = layer.nodes.length;
-    const nodesPerRow = Math.min(maxNodesPerRow, nodeCount);
-    const numRows = Math.ceil(nodeCount / nodesPerRow);
-    const rowSpacing = CELL_H;
-    const layerHeight = numRows * rowSpacing;
-
-    // Layer title above its rows
-    currentLayerY += titleSize + 8;
-    g.append('text')
-      .attr('class', 'hier-layer-title')
-      .attr('x', 0)
-      .attr('y', currentLayerY - 6)
-      .attr('fill', INK.text)
-      .attr('font-size', `${titleSize}px`)
-      .attr('font-weight', 'bold')
-      .text(TYPE_LABELS[layer.type] || layer.type);
-
-    // Layout nodes in zigzag pattern
-    layer.nodes.forEach((n, i) => {
-      const row = Math.floor(i / nodesPerRow);
-      const colInRow = i % nodesPerRow;
-      const actualNodesInThisRow = Math.min(nodesPerRow, nodeCount - row * nodesPerRow);
-
-      // Calculate horizontal spacing for this row
-      const rowWidth = actualNodesInThisRow * minSpacing;
-      const startX = (w - CELL_W / 2 - rowWidth) / 2;
-      
-      // Zigzag: even rows left-to-right, odd rows offset by half-spacing for zigzag effect
-      let x;
-      if (row % 2 === 0) {
-        // Even row: normal left-to-right
-        x = startX + colInRow * minSpacing + minSpacing / 2;
-      } else {
-        // Odd row: offset by half-spacing for zigzag, and optionally reverse order
-        const offset = minSpacing / 2;
-        x = startX + colInRow * minSpacing + minSpacing / 2 + offset;
-      }
-      
-      const y = currentLayerY + row * rowSpacing + boxH / 2;
-      positions[n.asn] = { x, y, type: layer.type };
-    });
-    
-    // Move to next layer's vertical position (minimal spacing between layers)
-    currentLayerY += layerHeight + LAYER_PAD;
-  });
-
-  // Fit the whole picture to the panel; keep the user's pan/zoom if they have one.
-  const k = fit.scale;
-  fittedTransform = d3.zoomIdentity
-    .translate((width - k * w) / 2, (height - k * currentLayerY) / 2)
-    .scale(k);
-  svg.call(zoom.transform, savedTransform || fittedTransform);
-
-  const layerSummary = layers.map(l => `${l.nodes.length} ${TYPE_LABELS[l.type] || l.type}`).join(', ');
-  makeChartAccessible(svg, {
-    zoom,
-    label: `Layered view, from local companies at the top to international networks at the bottom: ${layerSummary}. Lines connect each network to the gateways it uses.`,
-    reset: resetView,
-    onEscape: clearHighlight,
-  });
-
-  // Draw edges (use filtered edges with adaptive curves for multi-row layout)
-  const allEdges = [...filteredIntl, ...filteredDom];
-  const maxCount = Math.max(...allEdges.map(e => e.count), 1);
-
-  allEdges.forEach(edge => {
-    const src = sourceAsn(edge);
-    const tgt = targetAsn(edge);
-    const srcPos = positions[src];
-    const tgtPos = positions[tgt];
-    if (!srcPos || !tgtPos) return;
-
-    const opacity = 0.08 + (edge.count / maxCount) * 0.45;
-    const strokeW = Math.max(0.5, (edge.count / maxCount) * 3.5);
-    const color = edge.type === 'domestic' ? LINK_COLORS.domestic : LINK_COLORS.international;
-
-    // Calculate control points for smoother curves in multi-row layout
-    const dx = tgtPos.x - srcPos.x;
-    const dy = tgtPos.y - srcPos.y;
-    const midY = (srcPos.y + tgtPos.y) / 2;
-    
-    // Add horizontal offset to control points for better curve separation
-    const horizontalOffset = Math.abs(dx) > 100 ? dx * 0.3 : 0;
-    const cp1x = srcPos.x + horizontalOffset;
-    const cp1y = srcPos.y + dy * 0.25;
-    const cp2x = tgtPos.x - horizontalOffset;
-    const cp2y = tgtPos.y - dy * 0.25;
-
-    g.append('path')
-      .attr('class', 'hier-link').attr('data-source', src).attr('data-target', tgt)
-      .attr('d', `M${srcPos.x},${srcPos.y} C${cp1x},${cp1y} ${cp2x},${cp2y} ${tgtPos.x},${tgtPos.y}`)
-      .attr('fill', 'none').attr('stroke', color).attr('stroke-opacity', opacity).attr('stroke-width', strokeW)
-      .attr('data-original-opacity', opacity).attr('data-original-width', strokeW)  // Store originals
-      .on('mouseover', function (event) {
-        const link = d3.select(this);
-        const originalWidth = parseFloat(link.attr('data-original-width'));
-        link.attr('stroke-opacity', 0.9).attr('stroke-width', originalWidth + 2);
-        showTooltip(buildEdgeTooltipHtml(nodeMap[src], nodeMap[tgt], edge.count, edge.type || 'international'), event);
-      })
-      .on('mousemove', moveTooltip)
-      .on('mouseout', function () { 
-        const link = d3.select(this);
-        const linkSrc = link.attr('data-source');
-        const linkTgt = link.attr('data-target');
-        
-        // Check if this link should stay highlighted
-        if (highlightedASN && (linkSrc === highlightedASN || linkTgt === highlightedASN)) {
-          // Restore to highlighted state
-          const originalWidth = parseFloat(link.attr('data-original-width'));
-          link.attr('stroke-opacity', 0.95).attr('stroke-width', originalWidth + 2);
-        } else {
-          // Restore to original state
-          const originalOpacity = parseFloat(link.attr('data-original-opacity'));
-          const originalWidth = parseFloat(link.attr('data-original-width'));
-          link.attr('stroke-opacity', originalOpacity).attr('stroke-width', originalWidth);
-        }
-        endHover(); 
-      });
-  });
-
-  // Draw nodes
-  for (const [asn, pos] of Object.entries(positions)) {
-    const n = nodeMap[asn];
-    if (!n) continue;
-    const color = TYPE_COLORS[pos.type];
-    const group = g.append('g').attr('class', 'hier-node').attr('data-asn', asn)
-      .attr('transform', `translate(${pos.x - boxW / 2},${pos.y - boxH / 2})`).attr('cursor', 'pointer');
-
-    group.append('rect').attr('width', boxW).attr('height', boxH)
-      .attr('fill', color + '33').attr('stroke', color).attr('stroke-width', 1.5).attr('rx', 4);
-
-    const flag = n.country ? countryToFlag(n.country) : '';
-    const displayName = n.name || `AS${n.asn}`;
-    const truncated = displayName.length > 10 ? displayName.slice(0, 9) + '…' : displayName;
-
-    group.append('text').attr('x', boxW / 2).attr('y', boxH / 2 - 3).attr('text-anchor', 'middle')
-      .attr('fill', INK.text).attr('font-size', '8px').attr('font-weight', 'bold')
-      .text(`${flag} ${truncated}`);
-
-    group.append('text').attr('x', boxW / 2).attr('y', boxH / 2 + 9).attr('text-anchor', 'middle')
-      .attr('fill', INK.muted).attr('font-size', '7px')
-      .text(`${(n.percentage || 0).toFixed(1)}%`);
-
-    group.on('mouseover', function (event) {
-      showTooltip(buildNodeTooltipHtml(n, CATEGORY_LABELS), event);
-    })
-    .on('mousemove', moveTooltip)
-    .on('mouseout', function () { endHover(); })
-    .on('click', function (event) {
-      event.stopPropagation();
-      highlightASN(asn);
-    });
-  }
-
-  // Keep a highlight across re-renders (filter changes, history snapshots).
-  if (highlightedASN) {
-    if (positions[highlightedASN]) highlightASN(highlightedASN);
-    else highlightedASN = null;
-  }
+export function destroy() {
+  const c = document.getElementById('viz-panel');
+  if (c) c.innerHTML = '';
 }
 
-export function destroy() { const c = document.getElementById('viz-panel'); if (c) c.innerHTML = ''; }
+/** Mark one network and bring it into view (opening the long tail if needed). */
 export function highlightASN(asn) {
-  highlightedASN = asn; // Store the highlighted ASN
-  const svg = d3.select('#hier-svg');
-  // Dim everything more (lower opacity)
-  svg.selectAll('.hier-node').attr('opacity', 0.08);
-  svg.selectAll('.hier-link')
-    .attr('stroke-opacity', 0.01)
-    .style('pointer-events', 'none'); // Disable hover on dimmed links
-  
-  // Highlight matching node (full visibility)
-  svg.selectAll(`.hier-node[data-asn="${asn}"]`).attr('opacity', 1);
-  
-  // Highlight connected links and their partner nodes (full visibility)
-  svg.selectAll('.hier-link').each(function() {
-    const link = d3.select(this);
-    const src = link.attr('data-source');
-    const tgt = link.attr('data-target');
-    if (src === asn || tgt === asn) {
-      // Use stored original width instead of current width to prevent accumulation
-      const originalWidth = parseFloat(link.attr('data-original-width')) || 1;
-      link.attr('stroke-opacity', 0.95)
-        .attr('stroke-width', originalWidth + 2)
-        .style('pointer-events', 'all'); // Re-enable hover on highlighted links
-      const other = src === asn ? tgt : src;
-      svg.selectAll(`.hier-node[data-asn="${other}"]`).attr('opacity', 1);
-    }
-  });
-  
-  // Click to clear
-  svg.on('click.highlight', clearHighlight);
+  if (!currentData) return;
+  selectedAsn = String(asn);
+  const find = () => viewRoot()?.querySelector(`.layered-box[data-asn="${CSS.escape(selectedAsn)}"]`);
+  if (!find() && !showAllLocal) {
+    showAllLocal = true;
+    render({ keepAnchor: true });
+  }
+  markSelected(viewRoot());
+  find()?.scrollIntoView({ block: 'center' });
 }
 
-function clearHighlight() {
-  highlightedASN = null; // Clear the highlighted ASN
-  const svg = d3.select('#hier-svg');
-  svg.selectAll('.hier-node').attr('opacity', 1);
-  svg.selectAll('.hier-link').each(function() {
-    const link = d3.select(this);
-    // Restore original values from stored attributes
-    const originalOpacity = parseFloat(link.attr('data-original-opacity'));
-    const originalWidth = parseFloat(link.attr('data-original-width'));
-    link.attr('stroke-opacity', originalOpacity)
-      .attr('stroke-width', originalWidth)
-      .style('pointer-events', 'all'); // Re-enable all hover events
-  });
-  svg.on('click.highlight', null);
+/** Open a network's path. The path screen comes later; until then, select it. */
+export function openPath(asn) {
+  highlightASN(asn);
 }
-export function updateFilter(minVal, maxVal) { 
-  if (minVal !== undefined) currentOptions.minTraffic = minVal;
-  if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
-  render(); 
+
+// ── Drawing ──
+
+const viewRoot = () => document.querySelector('#viz-panel .layered-view');
+
+function markSelected(root) {
+  if (!root) return;
+  root.querySelectorAll('.layered-box.selected').forEach(b => b.classList.remove('selected'));
+  if (selectedAsn) root.querySelector(`.layered-box[data-asn="${CSS.escape(selectedAsn)}"]`)?.classList.add('selected');
 }
-export function filterByTypes(activeTypes) {
-  if (!currentData) return;
-  const svg = d3.select('#hier-svg');
-  if (svg.empty()) return;
-  
-  const byAsn = networksByAsn(currentData.nodes);
-  const isShown = (asn) => activeTypes.has(byAsn[asn]?.type);
-  
-  svg.selectAll('.hier-node').attr('display', function() {
-    const asn = d3.select(this).attr('data-asn');
-    return isShown(asn) ? null : 'none';
+
+/** Change the box size in place (no redraw), keeping the top box where it is. */
+function applyZoom(index) {
+  const next = Math.max(0, Math.min(ZOOM_LEVELS.length - 1, index));
+  const root = viewRoot();
+  if (!root || next === zoomIndex) { zoomIndex = next; return; }
+  const anchor = anchorFor(root);
+  zoomIndex = next;
+  setZoomStyle(root);
+  restoreAnchor(root, anchor);
+}
+
+function setZoomStyle(root) {
+  const level = ZOOM_LEVELS[zoomIndex];
+  for (const z of ZOOM_LEVELS) root.classList.toggle(`zoom-${z.id}`, z === level);
+  root.style.setProperty('--box-min', `${level.minWidth}px`);
+  root.style.setProperty('--box-h', `${level.height}px`);
+  const label = root.querySelector('.layered-zoom-level');
+  if (label) label.textContent = level.label;
+  root.querySelector('[data-control="zoom-out"]')?.toggleAttribute('disabled', zoomIndex === 0);
+  root.querySelector('[data-control="zoom-in"]')?.toggleAttribute('disabled', zoomIndex === ZOOM_LEVELS.length - 1);
+}
+
+function render({ keepAnchor = false, scrollTop = null } = {}) {
+  const container = document.getElementById('viz-panel');
+  if (!container || !currentData) return;
+  const old = container.querySelector('.layered-view');
+  const anchor = keepAnchor && old ? anchorFor(old) : null;
+  const oldScroll = old ? old.scrollTop : 0;
+  const active = document.activeElement;
+  const focusedAsn = old?.contains(active) ? active.closest('.layered-box')?.dataset.asn : null;
+  const focusedControl = old?.contains(active) ? active.closest('[data-control]')?.dataset.control : null;
+  const rootFocused = old && active === old;
+
+  const layers = overviewLayers(currentData, { ...currentOptions, activeTypes });
+
+  const root = document.createElement('div');
+  root.className = 'layered-view';
+  root.tabIndex = 0;
+  root.setAttribute('role', 'region');
+  const summary = layers.map(l => `${l.nodes.length.toLocaleString('en-US')} ${(CATEGORY_PLURALS[l.type] || l.type).toLowerCase()}`).join(', ');
+  root.setAttribute('aria-label', `Layered view: ${summary || 'no networks'}`);
+
+  root.append(zoomBar());
+
+  const head = el('div', 'layered-head', root);
+  el('h2', 'layered-title', head).textContent = 'How do networks in Bangladesh reach the world?';
+  el('p', 'layered-summary', head).textContent =
+    'Local companies connect to gateways, and gateways connect to international networks. Pick a network to see its path.';
+
+  if (!layers.length) el('p', 'layered-empty', root).textContent = 'No networks match the current filters.';
+
+  for (const layer of layers) {
+    const section = el('section', 'layered-layer', root);
+    section.dataset.type = layer.type;
+    const h = el('h3', 'layered-layer-title', section);
+    h.innerHTML = `<span class="layered-swatch" aria-hidden="true"></span>${CATEGORY_PLURALS[layer.type]} ${termHelp(layer.type)} <span class="layered-count">${layer.nodes.length.toLocaleString('en-US')}</span>`;
+    h.querySelector('.layered-swatch').style.background = CATEGORY_COLORS[layer.type];
+    const short = GLOSSARY[layer.type]?.short;
+    if (short) el('p', 'layered-layer-note', section).textContent = firstSentence(short);
+
+    const capped = layer.type === 'local-company' && !showAllLocal && layer.nodes.length > LOCAL_CAP;
+    const grid = el('ul', 'layered-grid', section);
+    for (const n of capped ? layer.nodes.slice(0, LOCAL_CAP) : layer.nodes) grid.append(box(n));
+
+    if (layer.type === 'local-company' && layer.nodes.length > LOCAL_CAP) {
+      const more = el('button', 'layered-more', section);
+      more.type = 'button';
+      more.dataset.control = 'more';
+      more.textContent = capped
+        ? `Show ${(layer.nodes.length - LOCAL_CAP).toLocaleString('en-US')} smaller local companies`
+        : `Show only the ${LOCAL_CAP} biggest local companies`;
+      more.addEventListener('click', () => {
+        showAllLocal = !showAllLocal;
+        render({ keepAnchor: true });
+      });
+    }
+  }
+
+  setZoomStyle(root);
+  bindInput(root);
+  container.replaceChildren(root);
+  markSelected(root);
+
+  if (scrollTop !== null) root.scrollTop = scrollTop;
+  else if (!restoreAnchor(root, anchor)) root.scrollTop = oldScroll;
+
+  // A redraw replaces the focused element; put focus back on its replacement.
+  if (focusedAsn) root.querySelector(`.layered-box[data-asn="${CSS.escape(focusedAsn)}"]`)?.focus({ preventScroll: true });
+  else if (focusedControl) root.querySelector(`[data-control="${focusedControl}"]`)?.focus({ preventScroll: true });
+  else if (rootFocused) root.focus({ preventScroll: true });
+}
+
+function zoomBar() {
+  const bar = document.createElement('div');
+  bar.className = 'layered-zoom';
+  bar.innerHTML = `
+    <button type="button" class="layered-zoom-btn" data-control="zoom-out" aria-label="Smaller boxes">−</button>
+    <span class="layered-zoom-level" aria-live="polite"></span>
+    <button type="button" class="layered-zoom-btn" data-control="zoom-in" aria-label="Bigger boxes">+</button>`;
+  bar.querySelector('[data-control="zoom-out"]').addEventListener('click', () => applyZoom(zoomIndex - 1));
+  bar.querySelector('[data-control="zoom-in"]').addEventListener('click', () => applyZoom(zoomIndex + 1));
+  return bar;
+}
+
+function box(n) {
+  const li = document.createElement('li');
+  const btn = el('button', 'layered-box', li);
+  btn.type = 'button';
+  btn.dataset.asn = n.asn;
+  btn.style.setProperty('--cat', CATEGORY_COLORS[n.type]);
+  const name = friendlyName(n);
+  const flag = n.type === 'outside' && n.country ? `${countryToFlag(n.country)} ` : '';
+  const share = `${(n.percentage || 0).toFixed(1)}% of routes seen`;
+  btn.setAttribute('aria-label', `${name}, ${CATEGORY_LABELS[n.type] || n.type}, ${share}`);
+  el('span', 'layered-box-name', btn).textContent = `${flag}${name}`;
+  el('span', 'layered-box-share', btn).textContent = share;
+  btn.addEventListener('click', () => openPath(n.asn));
+  // Hover details for a mouse only: on touch the details sheet would cover the path.
+  btn.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') showTooltip(buildNodeTooltipHtml(n, CATEGORY_LABELS), e); });
+  btn.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') moveTooltip(e); });
+  btn.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') endHover(); });
+  return li;
+}
+
+function bindInput(root) {
+  root.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === '+' || e.key === '=') { e.preventDefault(); applyZoom(zoomIndex + 1); }
+    else if (e.key === '-' || e.key === '_') { e.preventDefault(); applyZoom(zoomIndex - 1); }
+    else if (e.key === '0') { e.preventDefault(); applyZoom(DEFAULT_ZOOM); }
   });
-  svg.selectAll('.hier-link').attr('display', function() {
-    const src = d3.select(this).attr('data-source');
-    const tgt = d3.select(this).attr('data-target');
-    return isShown(src) && isShown(tgt) ? null : 'none';
-  });
+
+  // Ctrl/⌘ + wheel, which is also what a trackpad pinch sends.
+  root.addEventListener('wheel', (e) => {
+    if (!e.ctrlKey && !e.metaKey) return;
+    e.preventDefault();
+    const now = performance.now();
+    if (now - lastWheelStep < WHEEL_STEP_MS || e.deltaY === 0) return;
+    lastWheelStep = now;
+    applyZoom(zoomIndex + (e.deltaY < 0 ? 1 : -1));
+  }, { passive: false });
+
+  // Two-finger pinch on touch screens; one finger still scrolls the page.
+  let pinchBase = 0;
+  const dist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  root.addEventListener('touchstart', (e) => { if (e.touches.length === 2) pinchBase = dist(e.touches); }, { passive: true });
+  root.addEventListener('touchmove', (e) => {
+    if (e.touches.length !== 2 || !pinchBase) return;
+    e.preventDefault();
+    const ratio = dist(e.touches) / pinchBase;
+    if (ratio >= PINCH_STEP || ratio <= 1 / PINCH_STEP) {
+      pinchBase = dist(e.touches);
+      applyZoom(zoomIndex + (ratio > 1 ? 1 : -1));
+    }
+  }, { passive: false });
+  root.addEventListener('touchend', (e) => { if (e.touches.length < 2) pinchBase = 0; }, { passive: true });
+}
+
+function el(tag, className, parent) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  parent?.appendChild(node);
+  return node;
 }

@@ -688,7 +688,7 @@ window.addEventListener('resize', () => {
       // Redraw for the new size (e.g. a phone turned sideways), keeping the
       // user's filters.
       const mod = vizModules[activeTab];
-      if (currentData && mod) {
+      if (currentData && mod && !mod.reflows) {
         mod.destroy?.();
         mod.init('viz-panel');
         mod.loadData(currentData, currentFilters());
