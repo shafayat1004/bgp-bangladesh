@@ -13,6 +13,7 @@ import { buildNodeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/
 import { CATEGORY_COLORS } from '../ui/colors.js';
 import { sourceAsn, targetAsn } from '../data/network-data.js';
 import { DEFAULT_MIN_ROUTES } from '../ui/filters.js';
+import { findMyNetwork, myNetwork, lookupStatus, onMyNetwork, onLookupStatus } from '../ui/my-network.js';
 
 /** Box sizes, smallest first. Zoom steps through them; rows reflow. */
 export const ZOOM_LEVELS = [
@@ -198,7 +199,7 @@ function render({ keepAnchor = false, scrollTop = null } = {}) {
   const focusedControl = old?.contains(active) ? active.closest('[data-control]')?.dataset.control : null;
   const rootFocused = old && active === old;
 
-  const layers = overviewLayers(currentData, { ...currentOptions, activeTypes });
+  const layers = withMine(overviewLayers(currentData, { ...currentOptions, activeTypes }));
 
   const root = document.createElement('div');
   root.className = 'layered-view';
@@ -213,6 +214,8 @@ function render({ keepAnchor = false, scrollTop = null } = {}) {
   el('h2', 'layered-title', head).textContent = 'How do networks in Bangladesh reach the world?';
   el('p', 'layered-summary', head).textContent =
     'Local companies connect to gateways, and gateways connect to international networks. Pick a network to see its path.';
+
+  root.append(minePrompt());
 
   if (!layers.length) el('p', 'layered-empty', root).textContent = 'No networks match the current filters.';
 
@@ -257,6 +260,85 @@ function render({ keepAnchor = false, scrollTop = null } = {}) {
   else if (rootFocused) root.focus({ preventScroll: true });
 }
 
+const mineAsn = () => myNetwork()?.asn ?? null;
+
+/**
+ * Put the visitor's network first in its layer, even when the filters would
+ * hide it (it is then marked as hidden elsewhere).
+ */
+function withMine(layers) {
+  hiddenMine = false;
+  const asn = mineAsn();
+  const node = asn && currentData.nodes.find(n => String(n.asn) === asn);
+  if (!node) return layers;
+  let layer = layers.find(l => l.type === node.type);
+  const shown = layer?.nodes.includes(node);
+  if (!layer) {
+    layer = { type: node.type, total: 0, nodes: [] };
+    const at = layers.findIndex(l => LAYER_ORDER.indexOf(l.type) > LAYER_ORDER.indexOf(node.type));
+    layers.splice(at === -1 ? layers.length : at, 0, layer);
+  }
+  layer.nodes = [node, ...layer.nodes.filter(n => n !== node)];
+  hiddenMine = !shown;
+  return layers;
+}
+let hiddenMine = false;
+
+/**
+ * "Is one of these yours?": the lookup offered inside the view, never run on
+ * its own (it sends the visitor's IP address to ipify.org and RIPEstat). The
+ * box keeps one height in every state, so nothing below it moves.
+ */
+function minePrompt() {
+  const box = document.createElement('div');
+  box.className = 'layered-mine';
+  const text = el('div', 'layered-mine-text', box);
+  text.setAttribute('aria-live', 'polite');
+  const btn = el('button', 'btn btn-outline btn-small layered-mine-btn', box);
+  btn.type = 'button';
+  btn.dataset.control = 'mine';
+
+  const status = lookupStatus();
+  const mine = myNetwork();
+  const node = mine && currentData.nodes.find(n => String(n.asn) === mine.asn);
+  if (status === 'done' && mine) {
+    const who = friendlyName(node || { name: mine.holder, asn: mine.asn });
+    const p = el('p', '', text);
+    p.append('You\'re on ', strongText(who), ` (AS${mine.asn}).`);
+    if (node) {
+      el('p', 'layered-mine-note', text).textContent = 'Marked YOURS below.';
+      btn.textContent = 'Show its path';
+      btn.addEventListener('click', () => openPath(mine.asn));
+    } else {
+      el('p', 'layered-mine-note', text).textContent = 'It isn\'t among the networks in this data.';
+      btn.remove();
+      // Focus was on the button; keep it in the box instead of losing it.
+      text.tabIndex = -1;
+      text.dataset.control = 'mine';
+    }
+    return box;
+  }
+  el('p', '', text).textContent = status === 'error'
+    ? 'Couldn\'t look up your network. Try again.'
+    : 'Is one of these yours?';
+  el('p', 'layered-mine-note', text).textContent = 'Sends your IP address to ipify.org and RIPEstat to look it up.';
+  btn.textContent = status === 'pending' ? 'Looking up your network…' : 'Find my network';
+  // aria-disabled rather than disabled, so keyboard focus stays on it while waiting.
+  if (status === 'pending') btn.setAttribute('aria-disabled', 'true');
+  btn.addEventListener('click', () => { findMyNetwork().catch(() => {}); });
+  return box;
+}
+
+function strongText(t) {
+  const s = document.createElement('strong');
+  s.textContent = t;
+  return s;
+}
+
+// The lookup can finish (or start) from the sidebar too; redraw if this view is open.
+onLookupStatus(() => { if (viewRoot()) render({ keepAnchor: true }); });
+onMyNetwork(() => { if (viewRoot()) render({ keepAnchor: true }); });
+
 function zoomBar() {
   const bar = document.createElement('div');
   bar.className = 'layered-zoom';
@@ -277,9 +359,17 @@ function box(n) {
   btn.style.setProperty('--cat', CATEGORY_COLORS[n.type]);
   const name = friendlyName(n);
   const flag = n.type === 'outside' && n.country ? `${countryToFlag(n.country)} ` : '';
-  const share = `${(n.percentage || 0).toFixed(1)}% of routes seen`;
-  btn.setAttribute('aria-label', `${name}, ${CATEGORY_LABELS[n.type] || n.type}, ${share}`);
-  el('span', 'layered-box-name', btn).textContent = `${flag}${name}`;
+  const mine = String(n.asn) === mineAsn();
+  const share = `${(n.percentage || 0).toFixed(1)}% of routes seen${mine && hiddenMine ? ' (hidden by your filters elsewhere)' : ''}`;
+  btn.setAttribute('aria-label', `${name}, ${CATEGORY_LABELS[n.type] || n.type}, ${share}${mine ? ', your network' : ''}`);
+  btn.classList.toggle('mine', mine);
+  const nameEl = el('span', 'layered-box-name', btn);
+  if (mine) {
+    const tag = el('span', 'layered-tag', nameEl);
+    tag.textContent = 'YOURS';
+    tag.setAttribute('aria-hidden', 'true');
+  }
+  nameEl.append(`${flag}${name}`);
   el('span', 'layered-box-share', btn).textContent = share;
   btn.addEventListener('click', () => openPath(n.asn));
   // Hover details for a mouse only: on touch the details sheet would cover the path.

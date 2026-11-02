@@ -1169,6 +1169,44 @@ input[type="range"]::-webkit-slider-thumb {
 .layered-summary { margin-top: 4px; font-size: 13px; color: var(--text-muted); }
 .layered-empty { margin-top: 16px; font-size: 14px; color: var(--text-muted); }
 
+/* "Is one of these yours?": one fixed height in every state, so the grid
+   below never moves when the lookup finishes. */
+.layered-mine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 960px;
+  min-height: 64px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+}
+.layered-mine-text { min-width: 0; }
+.layered-mine-note { font-size: 12px; color: var(--text-muted); }
+.layered-mine-btn { flex: 0 0 auto; }
+.layered-mine-btn[aria-disabled="true"] { color: var(--text-dim); cursor: progress; }
+
+.layered-tag {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  line-height: 16px;
+  vertical-align: 1px;
+  color: var(--reverse);
+  background: var(--accent);
+  border-radius: 3px;
+}
+.layered-box.mine { outline: 2px solid var(--accent); outline-offset: 1px; }
+
 .layered-layer { margin-top: 18px; }
 .layered-layer-title {
   display: flex;
@@ -1251,6 +1289,8 @@ input[type="range"]::-webkit-slider-thumb {
   .layered-zoom { margin: 0 -12px; padding: 6px 12px; }
   .layered-title { font-size: 14px; }
   .layered-summary { font-size: 12px; }
+  .layered-mine { flex-direction: column; align-items: stretch; gap: 6px; min-height: 104px; }
+  .layered-mine-btn { align-self: flex-start; }
 }
 
 /* ── History time-slider ── */

@@ -12,6 +12,7 @@ import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel
 import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './ui/export.js';
 import { wasmSupported, createAnalysisWorker } from './wasm-bridge.js';
 import { describePath, renderMyPath } from './ui/my-path.js';
+import { setLookup, findMyNetwork, onMyNetwork, onLookupStatus } from './ui/my-network.js';
 import { initGlossary, setGlossaryData, addTermHelp, renderGlossaryList, CATEGORY_LABELS } from './ui/glossary.js';
 import { initSearch } from './ui/search.js';
 import { friendlyName } from './ui/names.js';
@@ -386,34 +387,40 @@ function setupMobileMenu() {
 // What's My ASN?
 // ────────────────────────────────────────
 
-async function detectMyASN() {
+// One lookup for the sidebar and the Layered View's "Find my network": a
+// result from either shows in both. Only the sidebar button highlights it.
+setLookup(() => ripeClient.getMyASN());
+onMyNetwork((lookup) => { if (currentData) showMyPath(lookup, { highlight: false }); });
+onLookupStatus((status) => {
   const btn = document.getElementById('btn-my-asn');
-  const resultEl = document.getElementById('my-asn-result');
-  const label = btn?.textContent;
-  if (btn) { btn.disabled = true; btn.textContent = 'Looking up your network…'; }
+  if (!btn) return;
+  btn.dataset.label ??= btn.textContent;
+  btn.disabled = status === 'pending';
+  btn.textContent = status === 'pending' ? 'Looking up your network…' : btn.dataset.label;
+});
 
+async function detectMyASN() {
   try {
-    const lookup = await ripeClient.getMyASN();
-    if (!currentData || !resultEl) return;
+    const lookup = await findMyNetwork();
+    if (!currentData || !document.getElementById('my-asn-result')) return;
     showMyPath(lookup);
   } catch (err) {
     showMyASNResult({ error: `Could not find your network: ${err.message}` });
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = label; }
   }
 }
 
-function showMyPath(lookup) {
+function showMyPath(lookup, { highlight = true } = {}) {
   const path = describePath(currentData, lookup.asn);
   const hiddenBy = path.status === 'found' && hiddenByRoutes(path.node?.traffic) ? 'filter' : null;
   renderMyPath(document.getElementById('my-asn-result'), lookup, path, {
     hiddenBy,
+    highlighted: highlight,
     onShowAll: () => {
       setRouteFilter(0, Infinity);
       showMyPath(lookup);
     },
   });
-  if (path.status === 'found' && !hiddenBy) vizModules[activeTab]?.highlightASN?.(lookup.asn);
+  if (highlight && path.status === 'found' && !hiddenBy) vizModules[activeTab]?.highlightASN?.(lookup.asn);
 }
 
 // Views that can show any network; Gateway Ranking only shows gateways and
