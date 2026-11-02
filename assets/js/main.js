@@ -13,6 +13,7 @@ import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './u
 import { wasmSupported, createAnalysisWorker } from './wasm-bridge.js';
 import { describePath, renderMyPath } from './ui/my-path.js';
 import { setLookup, findMyNetwork, onMyNetwork, onLookupStatus } from './ui/my-network.js';
+import { loadChanges } from './data/changes.js';
 import { initGlossary, setGlossaryData, addTermHelp, renderGlossaryList, CATEGORY_LABELS } from './ui/glossary.js';
 import { initSearch } from './ui/search.js';
 import { friendlyName } from './ui/names.js';
@@ -115,6 +116,7 @@ async function loadStaticData() {
     if (!vizResponse.ok) throw new Error('Failed to load visualization data');
     currentData = await vizResponse.json();
     latestData = currentData;
+    liveData = false;
 
     let meta = {};
     if (metaResponse.ok) meta = await metaResponse.json();
@@ -140,21 +142,41 @@ async function loadStaticData() {
 let timelineInitialized = false;
 let timelineApi = null;       // set once the history list loads
 let snapshotIndex = null;     // index of the snapshot on screen in the history list
+let liveData = false;         // "Fetch Latest Routes" data is no snapshot
+
+/** Timestamp of the history snapshot on screen, or null (live data, no history). */
+function currentSnapshotTs() {
+  if (!timelineApi || liveData) return null;
+  const snaps = timelineApi.snapshots();
+  return snaps[snapshotIndex ?? snaps.length - 1]?.ts ?? null;
+}
+
+/** What every view gets: the filters, plus which snapshot it is drawing. */
+function viewOptions() {
+  return { ...currentFilters(), snapshotTs: currentSnapshotTs() };
+}
 
 function setupTimeline() {
   if (timelineInitialized) return;  // bind listeners only once (revert re-loads static)
   timelineInitialized = true;
+  // The Layered View's change marks; the site works without them.
+  const changes = loadChanges(COUNTRY);
   initTimeline({
     country: COUNTRY,
-    onReady: (api) => { timelineApi = api; },
+    onReady: (api) => {
+      timelineApi = api;
+      changes.then((index) => Hierarchical.setHistory({ api, changes: index, ts: currentSnapshotTs() }));
+    },
     onSelectLatest: (index) => {
       snapshotIndex = index;
+      liveData = false;
       currentData = latestData;
       setDataSourceLabel(`Static data from: ${latestDateStr}`);
       onDataLoaded({ inPlace: true });
     },
     onSelectSnapshot: (viz, ts, index) => {
       snapshotIndex = index;
+      liveData = false;
       currentData = viz;
       setDataSourceLabel(`Snapshot: ${formatTimestamp(ts)}`);
       onDataLoaded({ inPlace: true });
@@ -184,7 +206,7 @@ function onDataLoaded({ inPlace = false } = {}) {
     // An open tooltip (a details sheet on phones) would still show the previous
     // date's numbers, so it closes.
     hideTooltip();
-    mod.updateData(currentData, currentFilters());
+    mod.updateData(currentData, viewOptions());
     applyFilters(mod);
     return;
   }
@@ -240,7 +262,7 @@ function switchTab(tabId, options = {}) {
   const mod = vizModules[tabId];
   if (mod) {
     mod.init('viz-panel');
-    mod.loadData(currentData, { ...currentFilters(), ...options });
+    mod.loadData(currentData, { ...viewOptions(), ...options });
 
     // Capture current dimensions for resize detection
     const vizPanel = document.getElementById('viz-panel');
@@ -647,6 +669,7 @@ async function fetchLiveData() {
     updateProgress({ step: 5, totalSteps: 5, message: 'Done!', progress: 1, complete: true });
 
     currentData = vizData;
+    liveData = true;
     setDataSourceLabel(`Live data from: ${new Date().toLocaleString()}`);
     onDataLoaded();
 
@@ -698,7 +721,7 @@ window.addEventListener('resize', () => {
       if (currentData && mod && !mod.reflows) {
         mod.destroy?.();
         mod.init('viz-panel');
-        mod.loadData(currentData, currentFilters());
+        mod.loadData(currentData, viewOptions());
         applyFilters(mod);
       }
     }

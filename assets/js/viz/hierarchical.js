@@ -9,11 +9,12 @@
 
 import { CATEGORY_LABELS, CATEGORY_PLURALS, GLOSSARY, termHelp } from '../ui/glossary.js';
 import { friendlyName, countryToFlag } from '../ui/names.js';
-import { buildNodeTooltipHtml, showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
+import { buildNodeTooltipHtml, showTooltip, moveTooltip, endHover, hideTooltip } from '../ui/tooltip.js';
 import { CATEGORY_COLORS } from '../ui/colors.js';
 import { sourceAsn, targetAsn } from '../data/network-data.js';
 import { DEFAULT_MIN_ROUTES } from '../ui/filters.js';
 import { findMyNetwork, myNetwork, lookupStatus, onMyNetwork, onLookupStatus } from '../ui/my-network.js';
+import { renderPathView } from './layered-path-view.js';
 
 /** Box sizes, smallest first. Zoom steps through them; rows reflow. */
 export const ZOOM_LEVELS = [
@@ -88,8 +89,23 @@ let showAllLocal = false;
 let selectedAsn = null;
 let lastWheelStep = 0;
 
+// Path screen
+let pathAsn = null;            // the network whose path is open, or null
+let pathView = null;
+let overviewSaved = null;      // { scrollTop, anchor } to restore on back
+let currentTs = null;          // timestamp of the snapshot on screen, if known
+let prevData = null;           // the snapshot shown before, for NEW/GONE without changes.json
+let prevTs = null;
+let timeline = null;           // TimelineApi
+let changes = null;            // ChangeIndex from changes.json, or null
+const knownNodes = new Map();  // every network seen, to name a GONE one
+
 /** Tells main.js not to redraw on a resize: the grid reflows by itself. */
 export const reflows = true;
+
+function remember(data) {
+  for (const n of data?.nodes || []) knownNodes.set(String(n.asn), n);
+}
 
 export function init(containerId) {
   const container = document.getElementById(containerId);
@@ -97,8 +113,13 @@ export function init(containerId) {
 }
 
 export function loadData(data, options = {}) {
+  closePath();
   currentData = data;
   currentOptions = options;
+  currentTs = options.snapshotTs ?? null;
+  prevData = null;
+  prevTs = null;
+  remember(data);
   activeTypes = null;
   zoomIndex = DEFAULT_ZOOM;
   showAllLocal = false;
@@ -106,17 +127,34 @@ export function loadData(data, options = {}) {
   render({ scrollTop: 0 });
 }
 
-/** Swap in a new snapshot, keeping the zoom size, scroll, "show all" and selection. */
+/** Swap in a new snapshot, keeping the zoom size, scroll, "show all", selection and an open path. */
 export function updateData(data, options = {}) {
+  prevData = currentData;
+  prevTs = currentTs;
   currentData = data;
   currentOptions = { ...currentOptions, ...options };
-  render({ keepAnchor: true });
+  currentTs = options.snapshotTs ?? null;
+  remember(data);
+  if (pathAsn) pathView.update(pathOptions());
+  else render({ keepAnchor: true });
+}
+
+/**
+ * The timeline (to jump and mark the slider), the change summary and the
+ * timestamp of the data on screen, once the history has loaded.
+ */
+export function setHistory({ api = null, changes: index = null, ts = null } = {}) {
+  timeline = api;
+  changes = index;
+  currentTs = ts;
+  if (pathAsn) pathView.update(pathOptions());
 }
 
 export function updateFilter(minVal, maxVal) {
   if (minVal !== undefined) currentOptions.minTraffic = minVal;
   if (maxVal !== undefined) currentOptions.maxTraffic = maxVal;
-  render({ keepAnchor: true });
+  if (pathAsn) pathView.update(pathOptions());
+  else render({ keepAnchor: true });
 }
 
 export function filterByTypes(types) {
@@ -124,36 +162,100 @@ export function filterByTypes(types) {
   const next = types && types.size < LAYER_ORDER.length ? new Set(types) : null;
   if (key(next) === key(activeTypes)) return;   // the same filter again after a redraw
   activeTypes = next;
-  render({ keepAnchor: true });
+  if (pathAsn) pathView.update(pathOptions());
+  else render({ keepAnchor: true });
 }
 
 export function resetView() {
+  if (pathAsn) backToOverview();
   const root = viewRoot();
   applyZoom(DEFAULT_ZOOM);
   if (root) root.scrollTop = 0;
 }
 
 export function destroy() {
+  closePath();
   const c = document.getElementById('viz-panel');
   if (c) c.innerHTML = '';
 }
 
-/** Mark one network and bring it into view (opening the long tail if needed). */
+/** Search, the sidebar list and "How do I reach the world?" open the network's path. */
 export function highlightASN(asn) {
   if (!currentData) return;
-  selectedAsn = String(asn);
-  const find = () => viewRoot()?.querySelector(`.layered-box[data-asn="${CSS.escape(selectedAsn)}"]`);
-  if (!find() && !showAllLocal) {
-    showAllLocal = true;
-    render({ keepAnchor: true });
-  }
-  markSelected(viewRoot());
-  find()?.scrollIntoView({ block: 'center' });
+  openPath(asn);
 }
 
-/** Open a network's path. The path screen comes later; until then, select it. */
+/** Show one network's path instead of the overview. */
 export function openPath(asn) {
-  highlightASN(asn);
+  const container = document.getElementById('viz-panel');
+  if (!container || !currentData) return;
+  asn = String(asn);
+  const root = viewRoot();
+  if (root) overviewSaved = { scrollTop: root.scrollTop, anchor: anchorFor(root) };
+  selectedAsn = asn;
+  hideTooltip();
+  if (pathView) pathView.destroy();
+  pathAsn = asn;
+  pathView = renderPathView(container, pathOptions());
+}
+
+function filtersActive() {
+  const min = currentOptions.minTraffic ?? DEFAULT_MIN_ROUTES;
+  const max = currentOptions.maxTraffic ?? Infinity;
+  return activeTypes !== null || min !== DEFAULT_MIN_ROUTES || max !== Infinity;
+}
+
+function pathOptions() {
+  return {
+    data: currentData,
+    asn: pathAsn,
+    ts: currentTs,
+    history: changes,
+    prevData,
+    prevTs,
+    filtersActive: filtersActive(),
+    mine: myNetwork()?.asn ?? null,
+    lookupNode: (asn) => knownNodes.get(String(asn)) || null,
+    onBack: backToOverview,
+    onPick: (asn) => openPath(asn),
+    onJump: (ts) => {
+      const i = timeline?.snapshots().findIndex(snap => snap.ts === ts) ?? -1;
+      if (i >= 0) timeline.selectIndex(i);
+    },
+    onMarks: (timestamps) => {
+      if (!timeline) return;
+      const snaps = timeline.snapshots();
+      timeline.setMarks(timestamps.map(ts => snaps.findIndex(snap => snap.ts === ts)).filter(i => i >= 0));
+    },
+  };
+}
+
+function closePath() {
+  if (!pathView) return;
+  pathView.destroy();
+  pathView = null;
+  pathAsn = null;
+}
+
+/** Back to the overview at the same size and scroll, focus on the network's box. */
+function backToOverview() {
+  const asn = pathAsn;
+  closePath();
+  const saved = overviewSaved;
+  overviewSaved = null;
+  render({ scrollTop: saved?.scrollTop ?? 0 });
+  const root = viewRoot();
+  if (!root) return;
+  if (saved?.anchor) restoreAnchor(root, saved.anchor);
+  const box = root.querySelector(`.layered-box[data-asn="${CSS.escape(asn)}"]`);
+  if (box) {
+    box.focus({ preventScroll: true });
+    const r = box.getBoundingClientRect();
+    const v = root.getBoundingClientRect();
+    if (r.bottom < v.top || r.top > v.bottom) box.scrollIntoView({ block: 'center' });
+  } else {
+    root.focus({ preventScroll: true });
+  }
 }
 
 // ── Drawing ──
@@ -337,7 +439,10 @@ function strongText(t) {
 
 // The lookup can finish (or start) from the sidebar too; redraw if this view is open.
 onLookupStatus(() => { if (viewRoot()) render({ keepAnchor: true }); });
-onMyNetwork(() => { if (viewRoot()) render({ keepAnchor: true }); });
+onMyNetwork(() => {
+  if (pathAsn) pathView.update(pathOptions());
+  else if (viewRoot()) render({ keepAnchor: true });
+});
 
 function zoomBar() {
   const bar = document.createElement('div');

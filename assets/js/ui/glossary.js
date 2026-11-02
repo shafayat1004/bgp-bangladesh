@@ -263,6 +263,11 @@ export const GLOSSARY = {
       return g && i ? `${name(g)}'s share is ${Math.round(g.percentage || 0)}%, and ${name(i)}'s is ${Math.round(i.percentage || 0)}%.` : null;
     },
   },
+  'data-cutoff': {
+    title: 'Busiest connections only',
+    ask: 'Why can a connection leave this data?',
+    short: 'Each snapshot keeps the 2,000 busiest connections between local networks and gateways and the 1,500 busiest between gateways and networks abroad, so a small connection can leave the data without stopping.',
+  },
   'ripestat': {
     title: 'RIPEstat',
     ask: 'What is RIPEstat?',
