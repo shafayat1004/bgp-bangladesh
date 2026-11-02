@@ -12,6 +12,9 @@ import { countryToFlag, friendlyName } from '../ui/names.js';
 import { CATEGORY_COLORS, LINK_COLORS } from '../ui/colors.js';
 import { targetAsn, networksByAsn } from '../data/network-data.js';
 
+/** Tells main.js the page scrolls on phones instead of the panel. */
+export const scrollsPage = true;
+
 // The gateway categories this ranking shows, with their colours.
 const TYPE_COLORS = Object.fromEntries(
   ['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway'].map(t => [t, CATEGORY_COLORS[t]]));

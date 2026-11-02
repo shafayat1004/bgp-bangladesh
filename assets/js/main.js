@@ -12,6 +12,8 @@ import { showProgress, updateProgress, hideProgress, showToast, onProgressCancel
 import { exportNodesCSV, exportEdgesCSV, exportJSON, exportRawRoutes } from './ui/export.js';
 import { wasmSupported, createAnalysisWorker } from './wasm-bridge.js';
 import { describePath, renderMyPath } from './ui/my-path.js';
+import { setLookup, findMyNetwork, onMyNetwork, onLookupStatus } from './ui/my-network.js';
+import { loadChanges } from './data/changes.js';
 import { initGlossary, setGlossaryData, addTermHelp, renderGlossaryList, CATEGORY_LABELS } from './ui/glossary.js';
 import { initSearch } from './ui/search.js';
 import { friendlyName } from './ui/names.js';
@@ -114,6 +116,7 @@ async function loadStaticData() {
     if (!vizResponse.ok) throw new Error('Failed to load visualization data');
     currentData = await vizResponse.json();
     latestData = currentData;
+    liveData = false;
 
     let meta = {};
     if (metaResponse.ok) meta = await metaResponse.json();
@@ -137,18 +140,43 @@ async function loadStaticData() {
 // ────────────────────────────────────────
 
 let timelineInitialized = false;
+let timelineApi = null;       // set once the history list loads
+let snapshotIndex = null;     // index of the snapshot on screen in the history list
+let liveData = false;         // "Fetch Latest Routes" data is no snapshot
+
+/** Timestamp of the history snapshot on screen, or null (live data, no history). */
+function currentSnapshotTs() {
+  if (!timelineApi || liveData) return null;
+  const snaps = timelineApi.snapshots();
+  return snaps[snapshotIndex ?? snaps.length - 1]?.ts ?? null;
+}
+
+/** What every view gets: the filters, plus which snapshot it is drawing. */
+function viewOptions() {
+  return { ...currentFilters(), snapshotTs: currentSnapshotTs() };
+}
 
 function setupTimeline() {
   if (timelineInitialized) return;  // bind listeners only once (revert re-loads static)
   timelineInitialized = true;
+  // The Layered View's change marks; the site works without them.
+  const changes = loadChanges(COUNTRY);
   initTimeline({
     country: COUNTRY,
-    onSelectLatest: () => {
+    onReady: (api) => {
+      timelineApi = api;
+      changes.then((index) => Hierarchical.setHistory({ api, changes: index, ts: currentSnapshotTs() }));
+    },
+    onSelectLatest: (index) => {
+      snapshotIndex = index;
+      liveData = false;
       currentData = latestData;
       setDataSourceLabel(`Static data from: ${latestDateStr}`);
       onDataLoaded({ inPlace: true });
     },
-    onSelectSnapshot: (viz, ts) => {
+    onSelectSnapshot: (viz, ts, index) => {
+      snapshotIndex = index;
+      liveData = false;
       currentData = viz;
       setDataSourceLabel(`Snapshot: ${formatTimestamp(ts)}`);
       onDataLoaded({ inPlace: true });
@@ -178,7 +206,7 @@ function onDataLoaded({ inPlace = false } = {}) {
     // An open tooltip (a details sheet on phones) would still show the previous
     // date's numbers, so it closes.
     hideTooltip();
-    mod.updateData(currentData, currentFilters());
+    mod.updateData(currentData, viewOptions());
     applyFilters(mod);
     return;
   }
@@ -232,9 +260,12 @@ function switchTab(tabId, options = {}) {
   saveActiveTab(tabId);
   highlightTab(tabId);
   const mod = vizModules[tabId];
+  // Before init, so the view measures the panel in its final layout.
+  document.body.classList.toggle('page-scroll', !!mod?.scrollsPage);
+  window.scrollTo(0, 0);
   if (mod) {
     mod.init('viz-panel');
-    mod.loadData(currentData, { ...currentFilters(), ...options });
+    mod.loadData(currentData, { ...viewOptions(), ...options });
 
     // Capture current dimensions for resize detection
     const vizPanel = document.getElementById('viz-panel');
@@ -381,34 +412,40 @@ function setupMobileMenu() {
 // What's My ASN?
 // ────────────────────────────────────────
 
-async function detectMyASN() {
+// One lookup for the sidebar and the Layered View's "Find my network": a
+// result from either shows in both. Only the sidebar button highlights it.
+setLookup(() => ripeClient.getMyASN());
+onMyNetwork((lookup) => { if (currentData) showMyPath(lookup, { highlight: false }); });
+onLookupStatus((status) => {
   const btn = document.getElementById('btn-my-asn');
-  const resultEl = document.getElementById('my-asn-result');
-  const label = btn?.textContent;
-  if (btn) { btn.disabled = true; btn.textContent = 'Looking up your network…'; }
+  if (!btn) return;
+  btn.dataset.label ??= btn.textContent;
+  btn.disabled = status === 'pending';
+  btn.textContent = status === 'pending' ? 'Looking up your network…' : btn.dataset.label;
+});
 
+async function detectMyASN() {
   try {
-    const lookup = await ripeClient.getMyASN();
-    if (!currentData || !resultEl) return;
+    const lookup = await findMyNetwork();
+    if (!currentData || !document.getElementById('my-asn-result')) return;
     showMyPath(lookup);
   } catch (err) {
     showMyASNResult({ error: `Could not find your network: ${err.message}` });
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = label; }
   }
 }
 
-function showMyPath(lookup) {
+function showMyPath(lookup, { highlight = true } = {}) {
   const path = describePath(currentData, lookup.asn);
   const hiddenBy = path.status === 'found' && hiddenByRoutes(path.node?.traffic) ? 'filter' : null;
   renderMyPath(document.getElementById('my-asn-result'), lookup, path, {
     hiddenBy,
+    highlighted: highlight,
     onShowAll: () => {
       setRouteFilter(0, Infinity);
       showMyPath(lookup);
     },
   });
-  if (path.status === 'found' && !hiddenBy) vizModules[activeTab]?.highlightASN?.(lookup.asn);
+  if (highlight && path.status === 'found' && !hiddenBy) vizModules[activeTab]?.highlightASN?.(lookup.asn);
 }
 
 // Views that can show any network; Gateway Ranking only shows gateways and
@@ -635,6 +672,7 @@ async function fetchLiveData() {
     updateProgress({ step: 5, totalSteps: 5, message: 'Done!', progress: 1, complete: true });
 
     currentData = vizData;
+    liveData = true;
     setDataSourceLabel(`Live data from: ${new Date().toLocaleString()}`);
     onDataLoaded();
 
@@ -683,10 +721,10 @@ window.addEventListener('resize', () => {
       // Redraw for the new size (e.g. a phone turned sideways), keeping the
       // user's filters.
       const mod = vizModules[activeTab];
-      if (currentData && mod) {
+      if (currentData && mod && !mod.reflows) {
         mod.destroy?.();
         mod.init('viz-panel');
-        mod.loadData(currentData, currentFilters());
+        mod.loadData(currentData, viewOptions());
         applyFilters(mod);
       }
     }
@@ -694,11 +732,26 @@ window.addEventListener('resize', () => {
 });
 
 // iOS Safari can leave the page scrolled after a pinch zoom, which puts the
-// tabs under the status bar. The page itself never scrolls, so put it back
-// once the zoom returns to normal (#31).
+// tabs under the status bar. The page itself doesn't scroll (except in a
+// .page-scroll view on phones), so put it back once the zoom returns to
+// normal (#31).
 window.visualViewport?.addEventListener('resize', () => {
+  if (getComputedStyle(document.body).overflowY !== 'hidden') return;
   if (window.visualViewport.scale <= 1.01 && (window.scrollX || window.scrollY)) window.scrollTo(0, 0);
 });
+
+// When the page scrolls (.page-scroll), the tabs stick to the top and the
+// history bar above the footer; the CSS needs their heights for that.
+const barHeights = new ResizeObserver(() => {
+  const style = document.documentElement.style;
+  for (const [name, id] of [['--tabs-h', 'tab-nav'], ['--timeline-h', 'timeline-bar'], ['--footer-h', 'app-footer']]) {
+    style.setProperty(name, `${document.getElementById(id)?.offsetHeight || 0}px`);
+  }
+});
+for (const id of ['tab-nav', 'timeline-bar', 'app-footer']) {
+  const bar = document.getElementById(id);
+  if (bar) barHeights.observe(bar);
+}
 
 // iOS Safari only applies :active (the press feedback touch screens get instead
 // of hover) when the page listens for touchstart.

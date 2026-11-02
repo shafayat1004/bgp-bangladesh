@@ -39,6 +39,7 @@ python3 scripts/update_bgp_data.py --country IN
 - `data/BD/viz_data.json` - Processed visualization data (~3MB)
 - `data/BD/asn_names.json` - ASN names and countries (~50KB)
 - `data/BD/metadata.json` - Timestamp and statistics
+- `data/BD/history/` - One snapshot per run (7 days), `index.json` listing them, and `changes.json` with every connection's share in each snapshot (see `data/README.md`)
 
 **Partial fetches and slow runs:**
 - **Announced prefixes (`[1b/4]`) have a 12-minute budget** (`ANNOUNCED_PREFIXES_BUDGET_SECONDS`).

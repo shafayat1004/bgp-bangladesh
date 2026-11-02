@@ -40,12 +40,20 @@ try {
       { name: 'intro dialog', tab: 'hierarchical', showIntro: true },
       ...args.tabs.map(tab => ({ name: tab, tab })),
       ...(viewport !== 'desktop' ? [{ name: 'sidebar open', tab: 'hierarchical', openSidebar: true }] : []),
+      // Layered View path screens: a local company's and a gateway's.
+      { name: 'path (local company)', tab: 'hierarchical', openPath: '.layered-layer[data-type="local-company"] .layered-box' },
+      { name: 'path (gateway)', tab: 'hierarchical', openPath: '.layered-layer[data-type="iig"] .layered-box' },
     ];
     for (const state of states) {
       const site = await openSite(browser, server.url, { viewport, tab: state.tab, showIntro: state.showIntro });
       if (state.openSidebar) {
         await site.page.click('#mobile-menu-btn');
         await site.page.waitForTimeout(400);
+      }
+      if (state.openPath) {
+        await site.page.evaluate((sel) => document.querySelector(sel).click(), state.openPath);
+        await site.page.waitForSelector('.layered-path-title');
+        await site.page.waitForTimeout(300);
       }
       const violations = await audit(site.page);
       total += violations.length;

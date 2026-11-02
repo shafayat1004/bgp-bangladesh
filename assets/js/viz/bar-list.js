@@ -6,6 +6,7 @@
  */
 
 import { showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
+import { scrollerFor } from '../ui/page-scroll.js';
 
 /**
  * Draw (or redraw) a bar list into the panel, keeping the scroll position.
@@ -25,7 +26,7 @@ import { showTooltip, moveTooltip, endHover } from '../ui/tooltip.js';
  */
 export function renderBarList(container, view) {
   const previous = container.querySelector('.bar-view');
-  const scrollTop = previous ? previous.scrollTop : 0;
+  const scrollTop = previous ? scrollerFor(previous).scrollTop : 0;
   container.innerHTML = '';
 
   const root = document.createElement('div');
@@ -89,7 +90,7 @@ export function renderBarList(container, view) {
     }
   }
 
-  root.scrollTop = scrollTop;
+  scrollerFor(root).scrollTop = scrollTop;
 }
 
 /** Mark one row and scroll it into view; returns false if it isn't listed. */

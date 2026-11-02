@@ -18,6 +18,8 @@ data/
     └── history/                  # One viz_data snapshot per run (7 days) + index.json
 ```
 
+`history/changes.json` is rebuilt from the retained snapshots on every run. For each connection seen in any snapshot it lists `[source, target, kind, s0, s1]`: `kind` is `d` (local network → gateway) or `i` (network abroad → gateway), and `s0`/`s1` hold one whole-number percent per snapshot (same order as its `snapshots` list), or `null` where the connection isn't in that snapshot. For `d`, `s0` is the share of the local network's routes and `s1` the share of the gateway's customer routes; for `i`, `s0` is the share of the gateway's routes abroad and `s1` the share of the network abroad's routes into Bangladesh. The Layered View uses it to mark what appeared, disappeared or moved on a network's path without loading every snapshot (about 50 KB gzipped for a week).
+
 ## Data Source
 
 All data is sourced from [RIPEstat](https://stat.ripe.net/), specifically:

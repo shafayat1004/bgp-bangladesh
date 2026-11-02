@@ -8,7 +8,7 @@
 import { friendlyName } from './names.js';
 import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
 
-const GATEWAY_TYPES = new Set(['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway']);
+export const GATEWAY_TYPES = new Set(['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway']);
 
 const GATEWAY_LABELS = {
   'iig': 'a licensed international gateway (IIG)',
@@ -102,8 +102,9 @@ function strong(text) {
  *   hiddenBy      'filter' when the network exists but the Min/Max Routes
  *                 filter hides it
  *   onShowAll     called by the "show smaller networks" button
+ *   highlighted   false when the chart wasn't told to highlight it
  */
-export function renderMyPath(el, lookup, path, { hiddenBy, onShowAll } = {}) {
+export function renderMyPath(el, lookup, path, { hiddenBy, onShowAll, highlighted = true } = {}) {
   el.innerHTML = '';
   const card = document.createElement('div');
   card.className = 'my-path-card';
@@ -145,7 +146,7 @@ export function renderMyPath(el, lookup, path, { hiddenBy, onShowAll } = {}) {
     btn.textContent = 'Show smaller networks';
     btn.addEventListener('click', () => onShowAll?.());
     card.append(btn);
-  } else if (role !== 'outside') {
+  } else if (role !== 'outside' && highlighted) {
     para(card, 'It\'s highlighted in the chart.').className = 'my-path-hint';
   }
 }

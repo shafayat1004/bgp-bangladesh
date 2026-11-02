@@ -155,7 +155,7 @@ The app analyzes BGP AS paths and cross-references the BTRC IIG license list to 
 | **Traffic Flow** | Sankey diagram showing route flow through gateways | Understanding bottlenecks and volume distribution |
 | **Market Share** | Treemap showing each ASN's market share per layer | Comparing relative sizes and dominance |
 | **Chord Diagram** | Circular view of pairwise connections | Seeing all interconnections at once |
-| **Layered View** | Top-to-bottom hierarchical layout (zoomable) | Following specific paths through layers |
+| **Layered View** | Top-to-bottom boxes per layer that scroll like a page; picking a network shows its path and what changed on it this week | Following one network's path out to the world |
 | **Data Table** | Sortable, searchable table with all stats | Finding specific numbers and doing research |
 
 ### Interactive Features
@@ -260,7 +260,7 @@ bgp-bangladesh/
 │       └── viz/                     # 6 visualization modules
 │           ├── force-graph.js       # Network graph (D3 force simulation)
 │           ├── sankey.js            # Traffic flow (zoomable, 3 columns)
-│           ├── hierarchical.js      # Layered view (zoomable)
+│           ├── hierarchical.js      # Layered view (overview grid and path screen)
 │           ├── bar-gateway.js       # Gateway ranking (stacked bars)
 │           ├── bar-country.js       # Country origins (horizontal bars)
 │           └── table.js             # Data table (sortable, filterable)
