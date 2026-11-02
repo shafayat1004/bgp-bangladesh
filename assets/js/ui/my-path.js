@@ -8,7 +8,7 @@
 import { friendlyName } from './names.js';
 import { sourceAsn, targetAsn, networksByAsn } from '../data/network-data.js';
 
-const GATEWAY_TYPES = new Set(['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway']);
+export const GATEWAY_TYPES = new Set(['iig', 'detected-iig', 'offshore-enterprise', 'offshore-gateway']);
 
 const GATEWAY_LABELS = {
   'iig': 'a licensed international gateway (IIG)',
