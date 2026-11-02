@@ -1129,10 +1129,42 @@ input[type="range"]::-webkit-slider-thumb {
   border-top: 1px solid var(--border);
 }
 
+/* The slider and the change marks drawn over its track. */
+.timeline-track {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
 #timeline-bar #timeline-slider {
   flex: 1;
   min-width: 0;
+  width: 100%;
   margin: 0;
+}
+
+/* Thumb is 16px on desktop, 22px on phones: marks line up with its centre. */
+#timeline-marks {
+  --thumb: 16px;
+  position: absolute;
+  left: calc(var(--thumb) / 2);
+  right: calc(var(--thumb) / 2);
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.timeline-mark {
+  position: absolute;
+  left: calc(var(--at) * 100%);
+  bottom: 0;
+  width: 3px;
+  height: 7px;
+  margin-left: -1.5px;
+  background: var(--red);
+  border-radius: 1px;
 }
 
 .timeline-btn {
@@ -1153,6 +1185,15 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 @media (hover: hover) and (pointer: fine) { .timeline-btn:hover { border-color: var(--accent); color: var(--accent-hover); } }
+
+/* Fixed width, so swapping Play and Pause never moves the slider. */
+.timeline-play {
+  width: 5.5rem;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.timeline-play-icon { font-size: 11px; width: 1em; text-align: center; }
 
 #timeline-readout {
   flex: 0 0 auto;
@@ -1698,11 +1739,12 @@ input[type="range"]::-webkit-slider-thumb {
 
   /* Zero basis: range inputs are width:100% globally, which would push the
      buttons onto their own rows. */
-  #timeline-bar #timeline-slider {
+  .timeline-track {
     flex: 1 1 0;
     order: 1;
   }
 
+  #timeline-play { order: -1; }
   #timeline-prev { order: 0; }
   #timeline-next { order: 2; }
 
@@ -1862,6 +1904,14 @@ input[type="range"]::-webkit-slider-thumb {
     width: 38px;
     height: 38px;
     font-size: 20px;
+  }
+
+  #timeline-marks { --thumb: 22px; }
+
+  /* Icon only on phones; the name stays for screen readers. */
+  .timeline-play { width: 38px; }
+  .timeline-play .timeline-play-text {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
   }
 
   /* Bigger touch targets for in-viz controls */

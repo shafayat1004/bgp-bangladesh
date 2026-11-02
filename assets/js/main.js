@@ -137,18 +137,23 @@ async function loadStaticData() {
 // ────────────────────────────────────────
 
 let timelineInitialized = false;
+let timelineApi = null;       // set once the history list loads
+let snapshotIndex = null;     // index of the snapshot on screen in the history list
 
 function setupTimeline() {
   if (timelineInitialized) return;  // bind listeners only once (revert re-loads static)
   timelineInitialized = true;
   initTimeline({
     country: COUNTRY,
-    onSelectLatest: () => {
+    onReady: (api) => { timelineApi = api; },
+    onSelectLatest: (index) => {
+      snapshotIndex = index;
       currentData = latestData;
       setDataSourceLabel(`Static data from: ${latestDateStr}`);
       onDataLoaded({ inPlace: true });
     },
-    onSelectSnapshot: (viz, ts) => {
+    onSelectSnapshot: (viz, ts, index) => {
+      snapshotIndex = index;
       currentData = viz;
       setDataSourceLabel(`Snapshot: ${formatTimestamp(ts)}`);
       onDataLoaded({ inPlace: true });

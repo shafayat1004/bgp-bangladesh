@@ -223,14 +223,19 @@
 
       <!-- History time-slider (hidden until the manifest loads) -->
       <div id="timeline-bar" class="timeline-pending" role="group" aria-label="Data history" aria-hidden="true">
+        <button id="timeline-play" class="timeline-btn timeline-play" type="button" data-playing="false"><span class="timeline-play-icon" aria-hidden="true">&#9654;</span> <span class="timeline-play-text">Play</span></button>
         <button id="timeline-prev" class="timeline-btn" type="button" aria-label="Previous snapshot" title="Previous snapshot">&#8249;</button>
-        <input id="timeline-slider" type="range" min="0" max="0" value="0" step="1"
-               aria-label="Snapshot date">
+        <div class="timeline-track">
+          <input id="timeline-slider" type="range" min="0" max="0" value="0" step="1"
+                 aria-label="Snapshot date">
+          <div id="timeline-marks" aria-hidden="true"></div>
+        </div>
         <button id="timeline-next" class="timeline-btn" type="button" aria-label="Next snapshot" title="Next snapshot">&#8250;</button>
         <div id="timeline-readout">
           <span id="timeline-spinner" class="timeline-spinner hidden" aria-hidden="true"></span>
           <span id="timeline-label">Latest</span>
           <span id="timeline-latest-badge" class="timeline-badge">LATEST</span>
+          <span id="timeline-status" class="visually-hidden" aria-live="polite"></span>
         </div>
       </div>
 
