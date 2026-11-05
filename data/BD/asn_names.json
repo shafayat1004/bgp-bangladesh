@@ -19911,6 +19911,14 @@
           "city": "",
           "percentage": 0.0,
           "prefixes": [
+            "2001:df4:8440::/48"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 0.0,
+          "prefixes": [
             "2001:df5:f9c0::/48"
           ]
         }
