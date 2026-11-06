@@ -1892,7 +1892,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.1,
           "prefixes": [
@@ -1908,7 +1908,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.1,
           "prefixes": [
@@ -1916,7 +1916,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.1,
           "prefixes": [
@@ -1964,7 +1964,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.1,
           "prefixes": [
@@ -1996,7 +1996,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.1,
           "prefixes": [
@@ -2052,7 +2052,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.1,
           "prefixes": [
@@ -2436,7 +2436,7 @@
           ]
         }
       ],
-      "bd_percentage": 58.3
+      "bd_percentage": 64.9
     }
   },
   "199524": {
@@ -3411,14 +3411,6 @@
         {
           "country": "BD",
           "city": "",
-          "percentage": 13.33,
-          "prefixes": [
-            "163.227.238.0/23"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
           "percentage": 6.67,
           "prefixes": [
             "49.143.249.0/24"
@@ -3469,6 +3461,14 @@
           "city": "",
           "percentage": 6.67,
           "prefixes": [
+            "163.227.238.0/24"
+          ]
+        },
+        {
+          "country": "BD",
+          "city": "",
+          "percentage": 6.67,
+          "prefixes": [
             "165.99.219.0/24"
           ]
         },
@@ -3489,7 +3489,7 @@
           ]
         }
       ],
-      "bd_percentage": 86.68
+      "bd_percentage": 80.02
     }
   },
   "132169": {
@@ -4783,7 +4783,7 @@
           ]
         },
         {
-          "country": "HK",
+          "country": "US",
           "city": "",
           "percentage": 1.64,
           "prefixes": [
@@ -10902,9 +10902,9 @@
     "holder": "LINK4COMMUNICATION-AS-AP LINK4 COMMUNICATION",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "SC",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "SC",
       "breakdown": [
         {
           "country": "HK",
@@ -11235,7 +11235,7 @@
           ]
         },
         {
-          "country": "UA",
+          "country": "BD",
           "city": "",
           "percentage": 0.92,
           "prefixes": [
@@ -11451,7 +11451,7 @@
           ]
         },
         {
-          "country": "CZ",
+          "country": "SC",
           "city": "",
           "percentage": 0.92,
           "prefixes": [
@@ -11459,7 +11459,7 @@
           ]
         },
         {
-          "country": "CZ",
+          "country": "SC",
           "city": "",
           "percentage": 0.92,
           "prefixes": [
@@ -11675,7 +11675,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 0.92,
           "prefixes": [
@@ -11763,7 +11763,7 @@
           ]
         }
       ],
-      "bd_percentage": 57.03
+      "bd_percentage": 58.87
     }
   },
   "18230": {
@@ -19203,9 +19203,9 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "SC",
+    "geo_country": "HK",
     "geo_country_data": {
-      "dominant_country": "SC",
+      "dominant_country": "HK",
       "breakdown": [
         {
           "country": "HK",
@@ -19240,7 +19240,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 2.11,
           "prefixes": [
@@ -19352,7 +19352,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19360,7 +19360,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19376,7 +19376,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19504,7 +19504,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19584,7 +19584,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19600,7 +19600,7 @@
           ]
         },
         {
-          "country": "MD",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19608,7 +19608,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19648,7 +19648,7 @@
           ]
         },
         {
-          "country": "SC",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19712,7 +19712,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19720,7 +19720,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19728,7 +19728,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19752,7 +19752,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19760,7 +19760,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19768,7 +19768,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19784,7 +19784,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19840,7 +19840,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19848,7 +19848,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 1.05,
           "prefixes": [
@@ -19888,7 +19888,7 @@
           ]
         }
       ],
-      "bd_percentage": 56.74
+      "bd_percentage": 76.7
     }
   },
   "401322": {
@@ -21754,5 +21754,31 @@
     "holder": "QBIFY-AS-AP - Qbify Technologies Ltd",
     "announced": false,
     "country": "BD"
+  },
+  "155037": {
+    "asn": "155037",
+    "name": "TECHMOVED-AS-AP - TECHMOVED",
+    "holder": "TECHMOVED-AS-AP - TECHMOVED",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
+  },
+  "155051": {
+    "asn": "155051",
+    "name": "GROWTHLASH-AS-AP - Growthlash",
+    "holder": "GROWTHLASH-AS-AP - Growthlash",
+    "announced": true,
+    "country": "BD",
+    "geo_country": "BD",
+    "geo_country_data": {
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
+    }
   }
 }
