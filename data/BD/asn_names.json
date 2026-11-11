@@ -22229,5 +22229,13 @@
     "holder": "FASTCOMMUNICATION-AS-AP - Fast Communication",
     "announced": true,
     "country": "BD"
+  },
+  "216265": {
+    "asn": "216265",
+    "name": "ARISTO-NET ARISTO NETWORKS LTD",
+    "holder": "ARISTO-NET ARISTO NETWORKS LTD",
+    "announced": true,
+    "country": "GB",
+    "country_source": "rir"
   }
 }
