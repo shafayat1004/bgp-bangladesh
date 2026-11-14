@@ -1836,7 +1836,7 @@
           ]
         },
         {
-          "country": "UA",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -1860,7 +1860,7 @@
           ]
         },
         {
-          "country": "ZA",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -1868,7 +1868,7 @@
           ]
         },
         {
-          "country": "DE",
+          "country": "BD",
           "city": "",
           "percentage": 3.23,
           "prefixes": [
@@ -2028,7 +2028,7 @@
           ]
         },
         {
-          "country": "UA",
+          "country": "BD",
           "city": "",
           "percentage": 1.61,
           "prefixes": [
@@ -2116,7 +2116,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.61,
           "prefixes": [
@@ -2124,7 +2124,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.61,
           "prefixes": [
@@ -2132,7 +2132,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.61,
           "prefixes": [
@@ -2140,7 +2140,7 @@
           ]
         },
         {
-          "country": "ZA",
+          "country": "BD",
           "city": "",
           "percentage": 1.61,
           "prefixes": [
@@ -2188,7 +2188,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 1.61,
           "prefixes": [
@@ -2196,7 +2196,7 @@
           ]
         }
       ],
-      "bd_percentage": 53.16
+      "bd_percentage": 72.51
     }
   },
   "199524": {
@@ -3194,7 +3194,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Khulna",
           "percentage": 6.25,
           "prefixes": [
             "144.79.249.0/24"
@@ -3234,7 +3234,7 @@
         },
         {
           "country": "BD",
-          "city": "",
+          "city": "Khulna",
           "percentage": 6.25,
           "prefixes": [
             "165.99.219.0/24"
@@ -4465,7 +4465,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "UA",
           "city": "",
           "percentage": 0.86,
           "prefixes": [
@@ -4873,7 +4873,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "HK",
           "city": "",
           "percentage": 0.86,
           "prefixes": [
@@ -11182,7 +11182,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 0.85,
           "prefixes": [
@@ -11206,7 +11206,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 0.85,
           "prefixes": [
@@ -11406,7 +11406,7 @@
           ]
         },
         {
-          "country": "AE",
+          "country": "BD",
           "city": "",
           "percentage": 0.85,
           "prefixes": [
@@ -11430,7 +11430,7 @@
           ]
         },
         {
-          "country": "NL",
+          "country": "BD",
           "city": "",
           "percentage": 0.85,
           "prefixes": [
@@ -11734,7 +11734,7 @@
           ]
         },
         {
-          "country": "NL",
+          "country": "BD",
           "city": "",
           "percentage": 0.85,
           "prefixes": [
@@ -11758,7 +11758,7 @@
           ]
         },
         {
-          "country": "NL",
+          "country": "BD",
           "city": "",
           "percentage": 0.85,
           "prefixes": [
@@ -11830,7 +11830,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 0.85,
           "prefixes": [
@@ -11982,7 +11982,7 @@
           ]
         }
       ],
-      "bd_percentage": 64.61
+      "bd_percentage": 70.56
     }
   },
   "18230": {
@@ -18658,7 +18658,7 @@
       "breakdown": [
         {
           "country": "BD",
-          "city": "",
+          "city": "Khulna",
           "percentage": 50.0,
           "prefixes": [
             "165.99.218.0/24"
@@ -19114,14 +19114,6 @@
           ]
         },
         {
-          "country": "SC",
-          "city": "",
-          "percentage": 12.5,
-          "prefixes": [
-            "154.196.92.0/22"
-          ]
-        },
-        {
           "country": "VN",
           "city": "",
           "percentage": 10.0,
@@ -19199,6 +19191,15 @@
           "percentage": 10.0,
           "prefixes": [
             "2407:bb40::/48"
+          ]
+        },
+        {
+          "country": "HK",
+          "city": "Hong Kong",
+          "percentage": 9.38,
+          "prefixes": [
+            "154.196.92.0/24",
+            "154.196.94.0/23"
           ]
         },
         {
@@ -19295,6 +19296,14 @@
           "percentage": 6.25,
           "prefixes": [
             "157.10.46.0/23"
+          ]
+        },
+        {
+          "country": "SC",
+          "city": "",
+          "percentage": 3.12,
+          "prefixes": [
+            "154.196.93.0/24"
           ]
         }
       ],
@@ -19502,9 +19511,9 @@
     "holder": "CFHIL-AS-AP - Code For Host Inc Ltd",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "HK",
     "geo_country_data": {
-      "dominant_country": "US",
+      "dominant_country": "HK",
       "breakdown": [
         {
           "country": "HK",
@@ -19523,7 +19532,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.0,
           "prefixes": [
@@ -19635,7 +19644,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.0,
           "prefixes": [
@@ -19691,7 +19700,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 1.0,
           "prefixes": [
@@ -19963,7 +19972,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.0,
           "prefixes": [
@@ -20003,7 +20012,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.0,
           "prefixes": [
@@ -20259,7 +20268,7 @@
           ]
         },
         {
-          "country": "GB",
+          "country": "BD",
           "city": "",
           "percentage": 1.0,
           "prefixes": [
@@ -20283,7 +20292,7 @@
           ]
         },
         {
-          "country": "US",
+          "country": "BD",
           "city": "",
           "percentage": 1.0,
           "prefixes": [
@@ -20291,7 +20300,7 @@
           ]
         }
       ],
-      "bd_percentage": 68.0
+      "bd_percentage": 75.0
     }
   },
   "401322": {
@@ -20398,7 +20407,7 @@
         },
         {
           "country": "BD",
-          "city": "Dhaka",
+          "city": "Khulna",
           "percentage": 20.0,
           "prefixes": [
             "163.128.216.0/24"
