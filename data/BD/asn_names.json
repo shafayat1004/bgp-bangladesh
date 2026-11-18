@@ -19278,23 +19278,15 @@
       "dominant_country": "TR",
       "breakdown": [
         {
-          "country": "BD",
-          "city": "Khulna",
-          "percentage": 50.0,
-          "prefixes": [
-            "165.99.218.0/24"
-          ]
-        },
-        {
           "country": "TR",
           "city": "",
-          "percentage": 50.0,
+          "percentage": 100.0,
           "prefixes": [
             "193.187.110.0/24"
           ]
         }
       ],
-      "bd_percentage": 50.0
+      "bd_percentage": 0
     }
   },
   "41095": {
