@@ -21886,5 +21886,12 @@
     "holder": "AS155130",
     "announced": true,
     "country": "BD"
+  },
+  "154996": {
+    "asn": "154996",
+    "name": "IDLCFINANCEPLC-AS-AP - IDLC Finance PLC.",
+    "holder": "IDLCFINANCEPLC-AS-AP - IDLC Finance PLC.",
+    "announced": true,
+    "country": "BD"
   }
 }
