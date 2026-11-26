@@ -1,23 +1,23 @@
 {
   "country": "BD",
   "country_name": "Bangladesh",
-  "last_updated": "2026-11-26T09:07:28Z",
+  "last_updated": "2026-11-26T22:07:36Z",
   "schema_version": 3,
   "model": "license-aware",
   "raw_format": "jsonl",
   "json_engine": "stdlib json",
   "stats": {
-    "total_outside": 252,
+    "total_outside": 254,
     "total_iig": 34,
     "total_detected_iig": 3,
     "total_offshore_enterprise": 23,
     "total_offshore_gateway": 2,
-    "total_local_company": 1378,
-    "total_edges": 3207,
-    "total_intl_edges": 1207,
+    "total_local_company": 1381,
+    "total_edges": 3212,
+    "total_intl_edges": 1212,
     "total_domestic_edges": 2000,
-    "total_traffic": 3288929,
-    "valid_observations": 3304692
+    "total_traffic": 3287919,
+    "valid_observations": 3302683
   },
   "source": "RIPEstat BGP State API",
   "source_url": "https://stat.ripe.net/data/bgp-state/data.json",
@@ -28,9 +28,9 @@
       "batches_failed_first_try": 0,
       "retry_requests": 0,
       "retry_requests_failed": 0,
-      "prefixes": 15754,
+      "prefixes": 15757,
       "prefixes_missing": 0,
-      "seconds": 752.7
+      "seconds": 783.1
     },
     "announced_prefixes": {
       "asns": 2032,
@@ -41,7 +41,7 @@
       "used_cache": false,
       "timed_out": false,
       "budget_seconds": 720,
-      "seconds": 190.8
+      "seconds": 177.9
     }
   }
 }
