@@ -4668,6 +4668,14 @@
           "city": "",
           "percentage": 0.83,
           "prefixes": [
+            "83.147.0.0/24"
+          ]
+        },
+        {
+          "country": "ES",
+          "city": "",
+          "percentage": 0.83,
+          "prefixes": [
             "83.147.34.0/24"
           ]
         },
@@ -4781,14 +4789,6 @@
           "percentage": 0.83,
           "prefixes": [
             "107.148.97.0/24"
-          ]
-        },
-        {
-          "country": "JP",
-          "city": "",
-          "percentage": 0.83,
-          "prefixes": [
-            "107.148.109.0/24"
           ]
         },
         {
@@ -4988,14 +4988,6 @@
           "city": "",
           "percentage": 0.83,
           "prefixes": [
-            "162.141.13.0/24"
-          ]
-        },
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 0.83,
-          "prefixes": [
             "162.141.26.0/24"
           ]
         },
@@ -5032,14 +5024,6 @@
           ]
         },
         {
-          "country": "ZA",
-          "city": "",
-          "percentage": 0.83,
-          "prefixes": [
-            "165.49.227.0/24"
-          ]
-        },
-        {
           "country": "JP",
           "city": "",
           "percentage": 0.83,
@@ -5069,6 +5053,14 @@
           "percentage": 0.83,
           "prefixes": [
             "177.122.97.0/24"
+          ]
+        },
+        {
+          "country": "VG",
+          "city": "",
+          "percentage": 0.83,
+          "prefixes": [
+            "177.122.163.0/24"
           ]
         },
         {
@@ -5197,6 +5189,14 @@
           "percentage": 0.83,
           "prefixes": [
             "185.211.151.0/24"
+          ]
+        },
+        {
+          "country": "DE",
+          "city": "",
+          "percentage": 0.83,
+          "prefixes": [
+            "185.212.68.0/24"
           ]
         },
         {
@@ -19427,6 +19427,14 @@
           ]
         },
         {
+          "country": "US",
+          "city": "Los Angeles",
+          "percentage": 1.43,
+          "prefixes": [
+            "104.166.89.0/24"
+          ]
+        },
+        {
           "country": "BD",
           "city": "",
           "percentage": 1.43,
@@ -19631,14 +19639,6 @@
           "city": "",
           "percentage": 1.43,
           "prefixes": [
-            "189.31.16.0/24"
-          ]
-        },
-        {
-          "country": "BD",
-          "city": "",
-          "percentage": 1.43,
-          "prefixes": [
             "189.31.18.0/24"
           ]
         },
@@ -19747,7 +19747,7 @@
           ]
         }
       ],
-      "bd_percentage": 67.2
+      "bd_percentage": 65.77
     }
   },
   "401322": {
@@ -20186,28 +20186,11 @@
     "holder": "VPSGY-AS-AP - V.P.S GY",
     "announced": true,
     "country": "BD",
-    "geo_country": "GB",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "GB",
-      "breakdown": [
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "87.82.254.0/24"
-          ]
-        },
-        {
-          "country": "GB",
-          "city": "",
-          "percentage": 50.0,
-          "prefixes": [
-            "87.83.13.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "59315": {
@@ -21295,20 +21278,11 @@
     "holder": "CUBICHOSTING-AS-AP - Cubic Hosting",
     "announced": true,
     "country": "BD",
-    "geo_country": "US",
+    "geo_country": "BD",
     "geo_country_data": {
-      "dominant_country": "US",
-      "breakdown": [
-        {
-          "country": "US",
-          "city": "",
-          "percentage": 100.0,
-          "prefixes": [
-            "69.42.211.0/24"
-          ]
-        }
-      ],
-      "bd_percentage": 0
+      "dominant_country": "BD",
+      "breakdown": [],
+      "bd_percentage": 100.0
     }
   },
   "211588": {
@@ -21670,5 +21644,28 @@
     "holder": "UFTB-AS-AP - University of Frontier Technology",
     "announced": true,
     "country": "BD"
+  },
+  "268624": {
+    "asn": "268624",
+    "name": "AS268624 - Gamers Club Ltda",
+    "holder": "AS268624 - Gamers Club Ltda",
+    "announced": true,
+    "country": "BR",
+    "country_source": "rir"
+  },
+  "139303": {
+    "asn": "139303",
+    "name": "IPDCFINANCEPLC-AS-AP - IPDC FINANCE PLC",
+    "holder": "IPDCFINANCEPLC-AS-AP - IPDC FINANCE PLC",
+    "announced": true,
+    "country": "BD"
+  },
+  "204092": {
+    "asn": "204092",
+    "name": "GRIFON Association GRIFON",
+    "holder": "GRIFON Association GRIFON",
+    "announced": true,
+    "country": "FR",
+    "country_source": "rir"
   }
 }
